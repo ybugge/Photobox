@@ -16,15 +16,10 @@ browser: localhost:631
 - Drucker und Klassen hinzufügen
 - Drucker hinzufügen
 - Eingabe: Benutzername und Passwort
-- Drucker auswählen: Canon SELPHY CP1300...  
+- Drucker auswählen: (Netzwerkdrucker) Canon SELPHY CP1300...  
 - Weiter
 - Weiter
-
-
-- Model: Canon SELPHY CP900
+- PPD-Datei: Datei auswählen 
 - Drucker hinzufügen
-- Standardeinstellungen festlegen 
-
-https://cloud.voss.earth/index.php/s/SAi2M2na5KtR3gm
-- 
+- Standardeinstellungen festlegen  
 
