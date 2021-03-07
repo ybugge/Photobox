@@ -8,13 +8,15 @@ from PyQt5.QtWidgets import QVBoxLayout, QLabel, QWidget
 from Camera.CV2CapturePhoto import CV2CapturePhoto
 from Pages.AllPages import AllPages
 from Pages.Page import Page
+from Services.FileNameService import FileNameService
 from config.Config import cfgValue, CfgKey
 
 
 class PageCapturePhoto(Page):
-    def __init__(self, pages : AllPages, windowsize:QSize):
+    def __init__(self, pages : AllPages, windowsize:QSize, fileNameService:FileNameService):
         super().__init__(pages)
         self.windowsize = windowsize
+        self.fileNameService = fileNameService
         mainLayout = QVBoxLayout()
         mainLayout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(mainLayout)
@@ -41,6 +43,7 @@ class PageCapturePhoto(Page):
         self.timer.start(cfgValue[CfgKey.PAGE_CAPTUREPHOTO_TIMER_PERIOD_LENGTH])
 
     def executeAfter(self):
+        self.fileNameService.setFileName("eineAndereDatei.png")
         self.timer.stop()
         self.capturePhotoThread.stop()
 

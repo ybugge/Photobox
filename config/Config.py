@@ -5,6 +5,7 @@ class CfgKey(enum.Enum):
 
     APPLICATION_CURSOR_HINT = 10
     IS_PI = 11
+    USED_CAMERA_INDEX = 12
 
     MAIN_WINDOW_BACKGROUND_COLOR = 50
     MAIN_WINDOW_BUTTON_BACKGROUND_COLOR = 51
@@ -38,6 +39,7 @@ cfgValue = {}
 
 cfgValue[CfgKey.IS_PI] = False                      #Changeable -> True when RasPi
 cfgValue[CfgKey.APPLICATION_CURSOR_HINT] = False    #Changeable -> True when RasPi
+cfgValue[CfgKey.USED_CAMERA_INDEX] = 0
 
 cfgValue[CfgKey.DIR_PICTURE] = "picture"
 
@@ -71,11 +73,17 @@ cfgValue[CfgKey.PAGE_CAPTUREPHOTO_TIMER_START_VALUE] = 2
 
 ###########################################################
 class TextKey(enum.Enum):
+
+    #PageHints.py
+    PAGE_HINTS_TITLE=40
+    PAGE_HINTS_ESCAPE_HINT=41
+    PAGE_HINTS_NO_CAMERA_WARN=42
+    PAGE_HINTS_NEXTBUTTON = 43
+
     #PageConfig.py
     PAGE_CONFIG_TITLE=20
     PAGE_CONFIG_NEXTBUTTON=21
-    PAGE_CONFIG_HINT_TITLE=23
-    PAGE_CONFIG_ESCAPE_HINT=22
+    PAGE_CONFIG_BACKBUTTON=22
 
     #PageCloseConfirm.py
     PAGE_CLOSECONFIRM_TITLE = 30
@@ -88,8 +96,13 @@ textValue={}
 #PageConfig
 textValue[TextKey.PAGE_CONFIG_TITLE] = "Konfigurationen"
 textValue[TextKey.PAGE_CONFIG_NEXTBUTTON] = "Fotobox starten"
-textValue[TextKey.PAGE_CONFIG_HINT_TITLE] = "Hinweise:"
-textValue[TextKey.PAGE_CONFIG_ESCAPE_HINT] = "- Um das Programm verlassen zu können, muss ESC gedrückt werden."
+textValue[TextKey.PAGE_CONFIG_BACKBUTTON] = "Zurück"
+
+#PageHints
+textValue[TextKey.PAGE_HINTS_TITLE] = "Hinweise:"
+textValue[TextKey.PAGE_HINTS_ESCAPE_HINT] = "- Um das Programm verlassen zu können, muss ESC gedrückt werden."
+textValue[TextKey.PAGE_HINTS_NO_CAMERA_WARN] = "- Es wurde keine Kammera gefunden! Bitte schließen Sie das Programm."
+textValue[TextKey.PAGE_HINTS_NEXTBUTTON] = "Weiter"
 
 #PageCloseConfirm
 textValue[TextKey.PAGE_CLOSECONFIRM_TITLE] = "Anwendung schließen?"

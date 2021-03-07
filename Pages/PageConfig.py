@@ -1,5 +1,6 @@
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QLabel
+from PyQt5.QtMultimedia import QCameraInfo
+from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QLabel, QHBoxLayout
 
 from Pages.AllPages import AllPages
 from Pages.Page import Page
@@ -16,15 +17,14 @@ class PageConfig(Page):
         vbox.addWidget(self.getTitleAsQLabel(TextKey.PAGE_CONFIG_TITLE))
         vbox.addStretch()
 
-        #Hinweise
-        vbox.addWidget(QLabel(textValue[TextKey.PAGE_CONFIG_HINT_TITLE]))
+        #Navigation
+        navigationLayout = QHBoxLayout()
+        vbox.addLayout(navigationLayout)
 
-        escapeHintLabel = QLabel(textValue[TextKey.PAGE_CONFIG_ESCAPE_HINT])
-        escapeHintLabel.setAlignment(Qt.AlignCenter)
-        vbox.addWidget(escapeHintLabel)
-        vbox.addStretch()
+        backButton = QPushButton(textValue[TextKey.PAGE_CONFIG_BACKBUTTON])
+        backButton.clicked.connect(self.backPageEvent)
+        navigationLayout.addWidget(backButton)
 
-        #Nextbutton
         nextButton = QPushButton(textValue[TextKey.PAGE_CONFIG_NEXTBUTTON])
         nextButton.clicked.connect(self.nextPageEvent)
-        vbox.addWidget(nextButton)
+        navigationLayout.addWidget(nextButton)

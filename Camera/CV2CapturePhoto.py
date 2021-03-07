@@ -1,6 +1,8 @@
 import cv2
 from PyQt5.QtCore import QThread, QSize
 
+from config.Config import CfgKey, cfgValue
+
 
 class CV2CapturePhoto(QThread):
 
@@ -11,7 +13,7 @@ class CV2CapturePhoto(QThread):
         self.returnValue = True
 
     def run(self):
-        cap = cv2.VideoCapture(0)
+        cap = cv2.VideoCapture(cfgValue[CfgKey.USED_CAMERA_INDEX])
         cap.set(cv2.CAP_PROP_FRAME_WIDTH, self.img_dimensions.width())
         cap.set(cv2.CAP_PROP_FRAME_HEIGHT, self.img_dimensions.height())
 

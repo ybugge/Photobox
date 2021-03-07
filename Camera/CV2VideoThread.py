@@ -2,6 +2,8 @@ import cv2
 from PyQt5.QtCore import QThread, pyqtSignal, Qt, QSize
 from PyQt5.QtGui import QImage
 
+from config.Config import CfgKey, cfgValue
+
 
 class CV2VideoThread(QThread):
     changePixmap = pyqtSignal(QImage)
@@ -12,7 +14,7 @@ class CV2VideoThread(QThread):
         self.img_dimensions = img_dimensions
 
     def run(self):
-        cap = cv2.VideoCapture(0)
+        cap = cv2.VideoCapture(cfgValue[CfgKey.USED_CAMERA_INDEX])
         cap.set(cv2.CAP_PROP_FRAME_WIDTH, self.img_dimensions.width())
         cap.set(cv2.CAP_PROP_FRAME_HEIGHT, self.img_dimensions.height())
         while self.run:

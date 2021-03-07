@@ -7,9 +7,11 @@ from Pages.PageCapturePhoto import PageCapturePhoto
 from Pages.PageCloseConfirm import PageCloseConfirm
 from Pages.PageConfig import PageConfig
 from Pages.PageCameraPreview import PageCameraPreview
+from Pages.PageHints import PageHints
 from Pages.PageTitlePicture import PageTitlePicture
 from Pages.PageTest import PageTest
 from Pages.PageTest2 import PageTest2
+from Services.FileNameService import FileNameService
 from config.Config import cfgValue, CfgKey, textValue, TextKey
 
 #Ist das Hauptfenster
@@ -17,6 +19,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, windowsize:QSize):
         super().__init__()
         self.windowsize = windowsize
+        self.fileNameService = FileNameService()
 
         #Sytling
         self.setStyleSheet("QWidget {background-color: "+cfgValue[CfgKey.MAIN_WINDOW_BACKGROUND_COLOR]+";"
@@ -32,33 +35,40 @@ class MainWindow(QtWidgets.QMainWindow):
         #Verschiedene inhalten -> Stacked Widget
         self.setCentralWidget(self.pages.getStackedWidgets())
 
+
         #ClosePage
         pageCloseConfirm = PageCloseConfirm(self.pages, self)
         pageCloseConfirm.setNextPage(PageConfig)
         self.pages.addPage(pageCloseConfirm)
 
-        #Seite 1 Configuration
+        #Seite 1 Hinweise
+        pageHints = PageHints(self.pages)
+        pageHints.setNextPage(PageConfig)
+        self.pages.addPage(pageHints)
+
+        #Seite 2 Configuration
         pageConfig = PageConfig(self.pages)
+        pageConfig.setBackPage(PageHints)
         pageConfig.setNextPage(PageTitlePicture)
         self.pages.addPage(pageConfig)
 
-        #Seite 2 Title
+        #Seite 3 Title
         pageTitlePicture = PageTitlePicture(self.pages)
         pageTitlePicture.setNextPage(PageCameraPreview)
         self.pages.addPage(pageTitlePicture)
 
-        #Seite 3 Camera Preview
+        #Seite 4 Camera Preview
         pageCameraPreview = PageCameraPreview(self.pages,self.windowsize)
         pageCameraPreview.setNextPage(PageCapturePhoto)
         self.pages.addPage(pageCameraPreview)
 
-        #Seite 4 Capture Photo
-        pageCapturePhoto = PageCapturePhoto(self.pages, self.windowsize)
-        pageCapturePhoto.setNextPage(PageTitlePicture)
+        #Seite 5 Capture Photo
+        pageCapturePhoto = PageCapturePhoto(self.pages, self.windowsize, self.fileNameService)
+        pageCapturePhoto.setNextPage(PageTest)
         self.pages.addPage(pageCapturePhoto)
 
         #TestSeite 1
-        pageTest = PageTest(self.pages)
+        pageTest = PageTest(self.pages,self.fileNameService)
         pageTest.setNextPage(PageTest2)
         self.pages.addPage(pageTest)
 
@@ -68,7 +78,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pages.addPage(pageTest2)
 
         #Set first visible Page
-        self.pages.showPage(PageConfig)
+        self.pages.showPage(PageHints)
 
         #Fullscreen
         self.showFullScreen()
