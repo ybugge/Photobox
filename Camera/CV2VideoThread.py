@@ -18,7 +18,6 @@ class CV2VideoThread(QThread):
         while self.run:
             ret, frame = cap.read()
             if ret:
-                # https://stackoverflow.com/a/55468544/6622587
                 rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 h, w, ch = rgbImage.shape
                 bytesPerLine = ch * w
@@ -27,6 +26,7 @@ class CV2VideoThread(QThread):
                 self.changePixmap.emit(p)
         self.changePixmap.emit(QImage())
         cap.release()
+        cv2.destroyAllWindows()
 
     def stop(self):
         self.run = False

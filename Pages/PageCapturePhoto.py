@@ -5,6 +5,7 @@ from PyQt5.QtCore import Qt, QSize, QTimer
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QVBoxLayout, QLabel, QWidget
 
+from Camera.CV2CapturePhoto import CV2CapturePhoto
 from Pages.AllPages import AllPages
 from Pages.Page import Page
 from config.Config import cfgValue, CfgKey
@@ -30,6 +31,8 @@ class PageCapturePhoto(Page):
         self.timer = QTimer()
         self.timer.timeout.connect(self.timerUpdate)
 
+        self.capturePhotoThread=CV2CapturePhoto(self.windowsize,"test.png")
+
     def executeBefore(self):
         randomPicture = self.getRandomPicture()
         randomPicture.scaledToHeight(self.windowsize.height())
@@ -39,6 +42,7 @@ class PageCapturePhoto(Page):
 
     def executeAfter(self):
         self.timer.stop()
+        self.capturePhotoThread.stop()
 
     def timerUpdate(self):
         if self.countdown == 1:
@@ -50,10 +54,15 @@ class PageCapturePhoto(Page):
 
     def capturePhoto(self):
         print("FOTO GESCHOSSEN !")
+        self.capturePhotoThread.start()
 
     def getRandomPicture(self):
         directories = os.listdir(cfgValue[CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER])
         numberPictures = len(directories)
         pictureIndex = random.randint(0,numberPictures-1)
         return QPixmap(cfgValue[CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER] + "/" + directories[pictureIndex])
+
+    def initialCapturePhotoThread(self,windowSize):
+        t_capturePhotoThread = CV2CapturePhoto(windowSize)
+        t_capturePhotoThread.start()
 
