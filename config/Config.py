@@ -66,7 +66,7 @@ cfgValue[CfgKey.PAGE_CAMERAPREVIEW_COUNTER_PERIOD_LENGTH] = 1000
 cfgValue[CfgKey.PAGE_CAMERAPREVIEW_COUNTER_START_VALUE] = 6
 
 #PageCaoturePhoto.py
-cfgValue[CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER] = 'Pages/Resources/PageCapturePhoto/LastImage'
+cfgValue[CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER] = 'Pages/Resources/PageCapturePhoto/LastPicture'
 cfgValue[CfgKey.PAGE_CAPTUREPHOTO_TIMER_PERIOD_LENGTH] = 500
 cfgValue[CfgKey.PAGE_CAPTUREPHOTO_TIMER_START_VALUE] = 2
 
@@ -78,6 +78,9 @@ class TextKey(enum.Enum):
     PAGE_HINTS_TITLE=40
     PAGE_HINTS_ESCAPE_HINT=41
     PAGE_HINTS_NO_CAMERA_WARN=42
+    PAGE_HINTS_NO_SELECTED_CAMERA_WARN=44
+    PAGE_HINTS_SELECTED_CAMERA_HINT=45
+    PAGE_HINTS_NO_PICTURES_FOUND_WARN=46
     PAGE_HINTS_NEXTBUTTON = 43
 
     #PageConfig.py
@@ -93,16 +96,19 @@ class TextKey(enum.Enum):
 
 textValue={}
 
+#PageHints
+textValue[TextKey.PAGE_HINTS_TITLE] = "Hinweise:"
+textValue[TextKey.PAGE_HINTS_ESCAPE_HINT] = "- Um das Programm verlassen zu können, muss ESC gedrückt werden."
+textValue[TextKey.PAGE_HINTS_NO_CAMERA_WARN] = "- Fehler: Es wurde keine Kamera gefunden! Bitte schließen sie eine Kamera an und starten Sie die Anwendung neu!"
+textValue[TextKey.PAGE_HINTS_NO_SELECTED_CAMERA_WARN] = "- Fehler: Die ausgewählte Kamera ist nicht verfügbar. Schließen Sie bitte die Kammera an oder korrigieren Sie den Index in Config.py->"+CfgKey.USED_CAMERA_INDEX.name+". Bitte schließen Sie die Software!"
+textValue[TextKey.PAGE_HINTS_SELECTED_CAMERA_HINT] = "- Die Kamera kann über den Index 0-n in Config.py->"+CfgKey.USED_CAMERA_INDEX.name+" ausgewählt werden. Folgende Kamera wird verwendet: Index=%s | Name=%s | Beschreibung=%s."
+textValue[TextKey.PAGE_HINTS_NO_PICTURES_FOUND_WARN]= "- Fehler: Bitte erstellen sie folgenden Ordner und hinterlegen Sie mindestens ein Bild: '%s' ! Bitte schließen Sie die Software!"
+textValue[TextKey.PAGE_HINTS_NEXTBUTTON] = "Weiter"
+
 #PageConfig
 textValue[TextKey.PAGE_CONFIG_TITLE] = "Konfigurationen"
 textValue[TextKey.PAGE_CONFIG_NEXTBUTTON] = "Fotobox starten"
 textValue[TextKey.PAGE_CONFIG_BACKBUTTON] = "Zurück"
-
-#PageHints
-textValue[TextKey.PAGE_HINTS_TITLE] = "Hinweise:"
-textValue[TextKey.PAGE_HINTS_ESCAPE_HINT] = "- Um das Programm verlassen zu können, muss ESC gedrückt werden."
-textValue[TextKey.PAGE_HINTS_NO_CAMERA_WARN] = "- Es wurde keine Kammera gefunden! Bitte schließen Sie das Programm."
-textValue[TextKey.PAGE_HINTS_NEXTBUTTON] = "Weiter"
 
 #PageCloseConfirm
 textValue[TextKey.PAGE_CLOSECONFIRM_TITLE] = "Anwendung schließen?"

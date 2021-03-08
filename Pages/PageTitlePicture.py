@@ -17,7 +17,6 @@ class PageTitlePicture(Page):
         #Startbutton
         self.startButton = QPushButton(self)
         self.startButton.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        self.setStartButtonStyle()
         self.startButton.clicked.connect(self.nextPageEvent)
         vbox.addWidget(self.startButton)
 
