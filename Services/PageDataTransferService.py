@@ -1,7 +1,7 @@
 from config.Config import cfgValue, CfgKey
 
 
-class FileNameService():
+class PageDataTransferService():
 
     def __init__(self):
         self.currentFileName = ""

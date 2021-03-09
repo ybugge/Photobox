@@ -3,17 +3,17 @@ import random
 
 from PyQt5.QtCore import Qt, QSize, QTimer
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QVBoxLayout, QLabel, QWidget
+from PyQt5.QtWidgets import QVBoxLayout, QLabel
 
-from Camera.CV2CapturePhoto import CV2CapturePhoto
+from Services.CV2CapturePhoto import CV2CapturePhoto
 from Pages.AllPages import AllPages
 from Pages.Page import Page
-from Services.FileNameService import FileNameService
+from Services.PageDataTransferService import PageDataTransferService
 from config.Config import cfgValue, CfgKey
 
 
 class PageCapturePhoto(Page):
-    def __init__(self, pages : AllPages, windowsize:QSize, fileNameService:FileNameService):
+    def __init__(self, pages : AllPages, windowsize:QSize, fileNameService:PageDataTransferService):
         super().__init__(pages)
         self.windowsize = windowsize
         self.fileNameService = fileNameService

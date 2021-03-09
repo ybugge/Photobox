@@ -3,10 +3,11 @@ from pathlib import Path
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtMultimedia import QCameraInfo
-from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QLabel, QScrollArea, QWidget, QTextEdit
+from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QLabel, QScrollArea, QWidget, QTextEdit, QHBoxLayout
 
 from Pages.AllPages import AllPages
 from Pages.Page import Page
+from Services.FileFolderService import FileFolderService
 from config.Config import textValue, TextKey, cfgValue, CfgKey
 
 
@@ -21,41 +22,63 @@ class PageHints(Page):
         vbox.addWidget(self.getTitleAsQLabel(TextKey.PAGE_HINTS_TITLE))
 
         #Hinweise
-        textArea = QTextEdit()
-        vbox.addWidget(textArea)
-        textArea.setReadOnly(True)
-        textArea.append(textValue[TextKey.PAGE_HINTS_ESCAPE_HINT])
-        textArea.append("")
-        if not self.getExistCameras():
-            textArea.append(textValue[TextKey.PAGE_HINTS_NO_CAMERA_WARN])
-            textArea.append("")
-        elif not self.getExistSelectedCamera():
-            textArea.append(textValue[TextKey.PAGE_HINTS_NO_SELECTED_CAMERA_WARN])
-            textArea.append("")
-        else:
-            cameraInfoText = textValue[TextKey.PAGE_HINTS_SELECTED_CAMERA_HINT] % (str(self.getCameraIndex()),self.getCameraName(), self.getCameraDescription())
-            textArea.append(cameraInfoText)
-            textArea.append("")
+        self.textArea = QTextEdit()
+        vbox.addWidget(self.textArea)
+        self.textArea.setReadOnly(True)
+        self.setHints()
 
-        if not self.hasFolderContent(cfgValue[CfgKey.PAGE_TITLEPICTURE_BUTTON_IMAGE_FOLDER]):
-            warn = textValue[TextKey.PAGE_HINTS_NO_PICTURES_FOUND_WARN] % (cfgValue[CfgKey.PAGE_TITLEPICTURE_BUTTON_IMAGE_FOLDER])
-            textArea.append(warn)
-            textArea.append("")
+        #Navigationbuttons
+        navigationBox = QHBoxLayout()
+        vbox.addLayout(navigationBox)
 
-        if not self.hasFolderContent(cfgValue[CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER]):
-            warn = textValue[TextKey.PAGE_HINTS_NO_PICTURES_FOUND_WARN] % (cfgValue[CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER])
-            textArea.append(warn)
-            textArea.append("")
+        pictureManagerButton = QPushButton(textValue[TextKey.PAGE_HINTS_PICTURE_MANAGER_BUTTON])
+        pictureManagerButton.clicked.connect(self.backPageEvent)
+        navigationBox.addWidget(pictureManagerButton)
 
-        #Nextbutton
+        self.nextButton = QPushButton(textValue[TextKey.PAGE_HINTS_NEXTBUTTON])
+        self.nextButton.clicked.connect(self.nextPageEvent)
+        navigationBox.addWidget(self.nextButton)
+        self.disableNextButton()
+
+
+
+    def executeBefore(self):
+        self.setHints()
+        self.disableNextButton()
+
+    def disableNextButton(self):
         if(self.getExistCameras()
                 and self.getExistCameras()
                 and self.hasPageTitlePicturePictures()
                 and self.hasPageCapturePhotoLastPicture()):
-            nextButton = QPushButton(textValue[TextKey.PAGE_HINTS_NEXTBUTTON])
-            nextButton.clicked.connect(self.nextPageEvent)
-            vbox.addWidget(nextButton)
+            self.nextButton.setDisabled(False)
+        else:
+            self.nextButton.setDisabled(True)
 
+    def setHints(self):
+        self.textArea.clear()
+        self.textArea.append(textValue[TextKey.PAGE_HINTS_ESCAPE_HINT])
+        self.textArea.append("")
+        if not self.getExistCameras():
+            self.textArea.append(textValue[TextKey.PAGE_HINTS_NO_CAMERA_WARN])
+            self.textArea.append("")
+        elif not self.getExistSelectedCamera():
+            self.textArea.append(textValue[TextKey.PAGE_HINTS_NO_SELECTED_CAMERA_WARN])
+            self.textArea.append("")
+        else:
+            cameraInfoText = textValue[TextKey.PAGE_HINTS_SELECTED_CAMERA_HINT] % (str(self.getCameraIndex()),self.getCameraName(), self.getCameraDescription())
+            self.textArea.append(cameraInfoText)
+            self.textArea.append("")
+
+        if not FileFolderService.hasFolderContent(cfgValue[CfgKey.PAGE_TITLEPICTURE_BUTTON_IMAGE_FOLDER]):
+            warn = textValue[TextKey.PAGE_HINTS_NO_PICTURES_FOUND_WARN] % (cfgValue[CfgKey.PAGE_TITLEPICTURE_BUTTON_IMAGE_FOLDER])
+            self.textArea.append(warn)
+            self.textArea.append("")
+
+        if not FileFolderService.hasFolderContent(cfgValue[CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER]):
+            warn = textValue[TextKey.PAGE_HINTS_NO_PICTURES_FOUND_WARN] % (cfgValue[CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER])
+            self.textArea.append(warn)
+            self.textArea.append("")
 
     #https://www.geeksforgeeks.org/creating-a-camera-application-using-pyqt5/
     def getExistCameras(self):
@@ -74,13 +97,8 @@ class PageHints(Page):
         return self.camerasInfos[self.getCameraIndex()].description()
 
     def hasPageTitlePicturePictures(self):
-        return self.hasFolderContent(cfgValue[CfgKey.PAGE_TITLEPICTURE_BUTTON_IMAGE_FOLDER])
+        return FileFolderService.hasFolderContent(cfgValue[CfgKey.PAGE_TITLEPICTURE_BUTTON_IMAGE_FOLDER])
 
     def hasPageCapturePhotoLastPicture(self):
-        return self.hasFolderContent(cfgValue[CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER])
+        return FileFolderService.hasFolderContent(cfgValue[CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER])
 
-    def hasFolderContent(self,path:str):
-        existFolder = os.path.isdir(path)
-        if(not existFolder):
-             return False
-        return  os.listdir(path) != []

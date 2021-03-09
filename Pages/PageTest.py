@@ -3,11 +3,11 @@ from PyQt5.QtWidgets import QPushButton
 
 from Pages import AllPages
 from Pages.Page import Page
-from Services.FileNameService import FileNameService
+from Services.PageDataTransferService import PageDataTransferService
 
 
 class PageTest(Page):
-    def __init__(self, pages : AllPages, fileNameService:FileNameService):
+    def __init__(self, pages : AllPages, fileNameService:PageDataTransferService):
         super().__init__(pages)
         self.fileNameService = fileNameService
         color_1 = 'red'

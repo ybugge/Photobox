@@ -8,10 +8,11 @@ from Pages.PageCloseConfirm import PageCloseConfirm
 from Pages.PageConfig import PageConfig
 from Pages.PageCameraPreview import PageCameraPreview
 from Pages.PageHints import PageHints
+from Pages.PageSystemPictureManager import PageSystemPictureManager
 from Pages.PageTitlePicture import PageTitlePicture
 from Pages.PageTest import PageTest
 from Pages.PageTest2 import PageTest2
-from Services.FileNameService import FileNameService
+from Services.PageDataTransferService import PageDataTransferService
 from config.Config import cfgValue, CfgKey, textValue, TextKey
 
 #Ist das Hauptfenster
@@ -19,16 +20,22 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, windowsize:QSize):
         super().__init__()
         self.windowsize = windowsize
-        self.fileNameService = FileNameService()
+        self.fileNameService = PageDataTransferService()
 
         #Sytling
         self.setStyleSheet("QWidget {background-color: "+cfgValue[CfgKey.MAIN_WINDOW_BACKGROUND_COLOR]+";"
                                 "color: "+cfgValue[CfgKey.TEXT_COLOR]+";"
                                 "font-size: "+cfgValue[CfgKey.MAIN_WINDOW_TEXT_SIZE]+";"
                                 "font-family:"+cfgValue[CfgKey.MAIN_WINDOW_TEXT_FONT]+"}"
-                           "QPushButton {"
+                            "QPushButton {"
                                 "background-color: "+cfgValue[CfgKey.MAIN_WINDOW_BUTTON_BACKGROUND_COLOR]+";"
-                                "height: "+cfgValue[CfgKey.MAIN_WINDOW_BUTTON_HEIGHT]+";}")
+                                "height: "+cfgValue[CfgKey.MAIN_WINDOW_BUTTON_HEIGHT]+";}"
+                            "QPushButton:disabled {"
+                                "color: "+cfgValue[CfgKey.BUTTON_DISABLED_TEXT_COLOR]+";"
+                                "opacity: 0.6;}"
+                            "QProgressBar {text-align: center;}"
+                            "QProgressBar::chunk {"
+                                "background-color:"+cfgValue[CfgKey.PROGRESSBAR_CHUNK_BACKGROUND_COLOR]+";}")
 
         #Initialisieren
         self.pages = AllPages()
@@ -43,8 +50,14 @@ class MainWindow(QtWidgets.QMainWindow):
 
         #Seite 1 Hinweise
         pageHints = PageHints(self.pages)
+        pageHints.setBackPage(PageSystemPictureManager)
         pageHints.setNextPage(PageConfig)
         self.pages.addPage(pageHints)
+
+        #Seite 1-1 Picture Manager
+        pagePictureManager = PageSystemPictureManager(self.pages)
+        pagePictureManager.setNextPage(PageHints)
+        self.pages.addPage(pagePictureManager)
 
         #Seite 2 Configuration
         pageConfig = PageConfig(self.pages)
@@ -84,7 +97,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.showFullScreen()
 
     def exitNotAllowedInThisPages(self):
-        return [PageCameraPreview, PageCapturePhoto]
+        return [PageCameraPreview, PageCapturePhoto, PageSystemPictureManager]
 
     #Alle Keyevents
     def keyPressEvent(self, event):

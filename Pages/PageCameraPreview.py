@@ -3,9 +3,8 @@ import os
 from PyQt5.QtCore import pyqtSlot, Qt, QSize, QTimer
 from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.QtWidgets import QVBoxLayout, QLabel, QHBoxLayout, QWidget
-from PyQt5.uic.properties import QtCore
 
-from Camera.CV2VideoThread import CV2VideoThread
+from Services.CV2VideoThread import CV2VideoThread
 from Pages.AllPages import AllPages
 from Pages.Page import Page
 from config.Config import cfgValue, CfgKey

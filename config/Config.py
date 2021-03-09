@@ -18,8 +18,14 @@ class CfgKey(enum.Enum):
     TITLE_BACKGROUND_COLOR=102
     TITLE_COLOR=103
     TEXT_COLOR=110
+    BUTTON_DISABLED_TEXT_COLOR=111
+    PROGRESSBAR_CHUNK_BACKGROUND_COLOR=112
 
     DIR_PICTURE = 1
+
+    #PageSystemPictureManager.py
+    PAGE_SYSTEMPICTUREMANAGER_FUNNY_PICTURE_SOURCE = 200
+    PAGE_SYSTEMPICTUREMANAGER_FUNNY_PICTURE_SUCCESS_DOWNLOAD_SOURCE = 201
 
     #PageTitlePicture.py
     PAGE_TITLEPICTURE_BUTTON_BACKGROUND_COLOR = 130
@@ -54,6 +60,11 @@ cfgValue[CfgKey.TITLE_FONT] = 'Arial Black'
 cfgValue[CfgKey.TITLE_BACKGROUND_COLOR] = 'grey'
 cfgValue[CfgKey.TITLE_COLOR] = 'white'
 cfgValue[CfgKey.TEXT_COLOR] = 'white'
+cfgValue[CfgKey.BUTTON_DISABLED_TEXT_COLOR] = 'rgb(80,80,80)'
+cfgValue[CfgKey.PROGRESSBAR_CHUNK_BACKGROUND_COLOR] = 'grey'
+
+#PageSystemPictureManager.py
+cfgValue[CfgKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_PICTURE_SOURCE] = "Resources/funnyPicturesUrl.txt"
 
 #PageTitlePicture.py
 cfgValue[CfgKey.PAGE_TITLEPICTURE_BUTTON_BACKGROUND_COLOR] = 'yellow'
@@ -66,13 +77,22 @@ cfgValue[CfgKey.PAGE_CAMERAPREVIEW_COUNTER_PERIOD_LENGTH] = 1000
 cfgValue[CfgKey.PAGE_CAMERAPREVIEW_COUNTER_START_VALUE] = 6
 
 #PageCaoturePhoto.py
-cfgValue[CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER] = 'Resources/PageCapturePhoto/LastPicture'
+cfgValue[CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER] = 'Resources/PageCapturePhoto/FunnyPictures'
 cfgValue[CfgKey.PAGE_CAPTUREPHOTO_TIMER_PERIOD_LENGTH] = 500
 cfgValue[CfgKey.PAGE_CAPTUREPHOTO_TIMER_START_VALUE] = 2
 
 
 ###########################################################
 class TextKey(enum.Enum):
+
+    #PageSystemPictureManager.py
+    PAGE_SYSTEMPICTUREMANAGER_TITLE = 60
+    PAGE_SYSTEMPICTUREMANAGER_NEXTBUTTON = 61
+    PAGE_SYSTEMPICTUREMANAGER_FUNNY_TITEL = 66
+    PAGE_SYSTEMPICTUREMANAGER_FUNNY_SOURCELABEL = 64
+    PAGE_SYSTEMPICTUREMANAGER_FUNNY_TARGETLABEL = 65
+    PAGE_SYSTEMPICTUREMANAGER_FUNNY_DELETEBUTTON = 62
+    PAGE_SYSTEMPICTUREMANAGER_FUNNY_UPDATEBUTTON = 63
 
     #PageHints.py
     PAGE_HINTS_TITLE=40
@@ -82,6 +102,7 @@ class TextKey(enum.Enum):
     PAGE_HINTS_SELECTED_CAMERA_HINT=45
     PAGE_HINTS_NO_PICTURES_FOUND_WARN=46
     PAGE_HINTS_NEXTBUTTON = 43
+    PAGE_HINTS_PICTURE_MANAGER_BUTTON = 50
 
     #PageConfig.py
     PAGE_CONFIG_TITLE=20
@@ -96,14 +117,24 @@ class TextKey(enum.Enum):
 
 textValue={}
 
+#PageSystemPictureManager.py
+textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_TITLE] = "Systembilder Bearbeiten"
+textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_NEXTBUTTON] = "Zurück zu den Hinweisen"
+textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_TITEL] = "Lustige Bilder"
+textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_SOURCELABEL] = "Quell-URLs:"
+textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_TARGETLABEL] = "Ziel-Ordner:"
+textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_DELETEBUTTON] = "Ziel-Ordner löschen"
+textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_UPDATEBUTTON] = "Bilder aktualisieren"
+
 #PageHints
+textValue[TextKey.PAGE_HINTS_NEXTBUTTON] = "Weiter"
+textValue[TextKey.PAGE_HINTS_PICTURE_MANAGER_BUTTON] = "Systembilder bearbeiten"
 textValue[TextKey.PAGE_HINTS_TITLE] = "Hinweise:"
 textValue[TextKey.PAGE_HINTS_ESCAPE_HINT] = "- Um das Programm verlassen zu können, muss ESC gedrückt werden."
 textValue[TextKey.PAGE_HINTS_NO_CAMERA_WARN] = "- Fehler: Es wurde keine Kamera gefunden! Bitte schließen sie eine Kamera an und starten Sie die Anwendung neu!"
 textValue[TextKey.PAGE_HINTS_NO_SELECTED_CAMERA_WARN] = "- Fehler: Die ausgewählte Kamera ist nicht verfügbar. Schließen Sie bitte die Kammera an oder korrigieren Sie den Index in Config.py->"+CfgKey.USED_CAMERA_INDEX.name+". Bitte schließen Sie die Software!"
 textValue[TextKey.PAGE_HINTS_SELECTED_CAMERA_HINT] = "- Die Kamera kann über den Index 0-n in Config.py->"+CfgKey.USED_CAMERA_INDEX.name+" ausgewählt werden. Folgende Kamera wird verwendet: Index=%s | Name=%s | Beschreibung=%s."
-textValue[TextKey.PAGE_HINTS_NO_PICTURES_FOUND_WARN]= "- Fehler: Bitte erstellen sie folgenden Ordner und hinterlegen Sie mindestens ein Bild: '%s' ! Bitte schließen Sie die Software!"
-textValue[TextKey.PAGE_HINTS_NEXTBUTTON] = "Weiter"
+textValue[TextKey.PAGE_HINTS_NO_PICTURES_FOUND_WARN]= "- Fehler: Bitte erstellen sie folgenden Ordner und hinterlegen Sie mindestens ein Bild: '%s' ! Bitte schließen Sie die Software oder laden sie die Bilder über den Button '"+textValue[TextKey.PAGE_HINTS_PICTURE_MANAGER_BUTTON]+"' herunter!"
 
 #PageConfig
 textValue[TextKey.PAGE_CONFIG_TITLE] = "Konfigurationen"
