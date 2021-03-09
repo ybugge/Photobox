@@ -25,21 +25,27 @@ class PageHints(Page):
         vbox.addWidget(textArea)
         textArea.setReadOnly(True)
         textArea.append(textValue[TextKey.PAGE_HINTS_ESCAPE_HINT])
+        textArea.append("")
         if not self.getExistCameras():
             textArea.append(textValue[TextKey.PAGE_HINTS_NO_CAMERA_WARN])
+            textArea.append("")
         elif not self.getExistSelectedCamera():
             textArea.append(textValue[TextKey.PAGE_HINTS_NO_SELECTED_CAMERA_WARN])
+            textArea.append("")
         else:
             cameraInfoText = textValue[TextKey.PAGE_HINTS_SELECTED_CAMERA_HINT] % (str(self.getCameraIndex()),self.getCameraName(), self.getCameraDescription())
             textArea.append(cameraInfoText)
+            textArea.append("")
 
         if not self.hasFolderContent(cfgValue[CfgKey.PAGE_TITLEPICTURE_BUTTON_IMAGE_FOLDER]):
             warn = textValue[TextKey.PAGE_HINTS_NO_PICTURES_FOUND_WARN] % (cfgValue[CfgKey.PAGE_TITLEPICTURE_BUTTON_IMAGE_FOLDER])
             textArea.append(warn)
+            textArea.append("")
 
         if not self.hasFolderContent(cfgValue[CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER]):
             warn = textValue[TextKey.PAGE_HINTS_NO_PICTURES_FOUND_WARN] % (cfgValue[CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER])
             textArea.append(warn)
+            textArea.append("")
 
         #Nextbutton
         if(self.getExistCameras()

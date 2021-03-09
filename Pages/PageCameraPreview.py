@@ -55,7 +55,7 @@ class PageCameraPreview(Page):
         if pixmap == None:
             self.counterLabel.setPixmap(QPixmap())
         else:
-            self.counterLabel.setPixmap(pixmap)
+            self.counterLabel.setPixmap(pixmap.scaledToHeight(self.windowsize.height()/2))
         self.countdown -=1
 
     def getCounterImage(self,number:int):

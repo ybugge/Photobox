@@ -83,11 +83,17 @@ class MainWindow(QtWidgets.QMainWindow):
         #Fullscreen
         self.showFullScreen()
 
+    def exitNotAllowedInThisPages(self):
+        return [PageCameraPreview, PageCapturePhoto]
+
     #Alle Keyevents
     def keyPressEvent(self, event):
         # close the window
         if event.key() == QtCore.Qt.Key_Escape:
             currentPage = self.pages.getCurrentPage()
+            if currentPage.__class__ in self.exitNotAllowedInThisPages():
+                print("Auf dieser Seite kann das Programm nicht geschlossen werden!")
+                return
             pageCloseConfirmInstance = self.pages.getPageInstance(PageCloseConfirm)
             pageCloseConfirmInstance.setNextPage(currentPage.__class__)
             self.pages.showPage(PageCloseConfirm)

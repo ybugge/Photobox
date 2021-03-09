@@ -58,15 +58,15 @@ cfgValue[CfgKey.TEXT_COLOR] = 'white'
 #PageTitlePicture.py
 cfgValue[CfgKey.PAGE_TITLEPICTURE_BUTTON_BACKGROUND_COLOR] = 'yellow'
         #Quellen: mouth smile
-cfgValue[CfgKey.PAGE_TITLEPICTURE_BUTTON_IMAGE_FOLDER] = 'Pages/Resources/PageTitlePicture'
+cfgValue[CfgKey.PAGE_TITLEPICTURE_BUTTON_IMAGE_FOLDER] = 'Resources/PageTitlePicture'
 
 #PageCameraPreview.py
-cfgValue[CfgKey.PAGE_CAMERAPREVIEW_COUNDOWN_IMAGE_FOLDER] = 'Pages/Resources/PageCameraPreview/CountDown'
+cfgValue[CfgKey.PAGE_CAMERAPREVIEW_COUNDOWN_IMAGE_FOLDER] = 'Resources/PageCameraPreview/CountDown'
 cfgValue[CfgKey.PAGE_CAMERAPREVIEW_COUNTER_PERIOD_LENGTH] = 1000
 cfgValue[CfgKey.PAGE_CAMERAPREVIEW_COUNTER_START_VALUE] = 6
 
 #PageCaoturePhoto.py
-cfgValue[CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER] = 'Pages/Resources/PageCapturePhoto/LastPicture'
+cfgValue[CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER] = 'Resources/PageCapturePhoto/LastPicture'
 cfgValue[CfgKey.PAGE_CAPTUREPHOTO_TIMER_PERIOD_LENGTH] = 500
 cfgValue[CfgKey.PAGE_CAPTUREPHOTO_TIMER_START_VALUE] = 2
 
