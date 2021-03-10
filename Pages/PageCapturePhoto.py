@@ -31,11 +31,10 @@ class PageCapturePhoto(Page):
         self.timer = QTimer()
         self.timer.timeout.connect(self.timerUpdate)
 
-        self.capturePhotoThread=CV2CapturePhoto(self.windowsize)
-
     def executeBefore(self):
         randomPicture = self.getRandomPicture()
         randomPicture.scaledToHeight(self.windowsize.height())
+        self.capturePhotoThread=CV2CapturePhoto(self.windowsize)
         self.counterLabel.setPixmap(randomPicture.scaledToHeight(self.windowsize.height()))
         self.countdown = cfgValue[CfgKey.PAGE_CAPTUREPHOTO_TIMER_START_VALUE]
         self.timer.start(cfgValue[CfgKey.PAGE_CAPTUREPHOTO_TIMER_PERIOD_LENGTH])
@@ -61,8 +60,4 @@ class PageCapturePhoto(Page):
         numberPictures = len(directories)
         pictureIndex = random.randint(0,numberPictures-1)
         return QPixmap(cfgValue[CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER] + "/" + directories[pictureIndex])
-
-    def initialCapturePhotoThread(self,windowSize):
-        t_capturePhotoThread = CV2CapturePhoto(windowSize)
-        t_capturePhotoThread.start()
 
