@@ -1,15 +1,15 @@
 import cv2
 from PyQt5.QtCore import QThread, QSize
 
+from Services.FileFolderService import FileFolderService
 from config.Config import CfgKey, cfgValue
 
 
 class CV2CapturePhoto(QThread):
 
-    def __init__(self,img_dimensions : QSize, fileName:str):
+    def __init__(self,img_dimensions : QSize):
         super().__init__()
         self.img_dimensions = img_dimensions
-        self.fileName = fileName
         self.returnValue = True
 
     def run(self):
@@ -20,8 +20,7 @@ class CV2CapturePhoto(QThread):
         while self.returnValue:
             ret, frame = cap.read()
             if ret:
-                cv2.imwrite(self.fileName, frame)
-                print("Bild gespeichert: "+self.fileName)
+                cv2.imwrite(FileFolderService.getTempPicturePath(), frame)
                 self.returnValue = False
 
         cap.release()

@@ -13,7 +13,6 @@ from Pages.PageSystemPictureManager import PageSystemPictureManager
 from Pages.PageTitlePicture import PageTitlePicture
 from Pages.PageTest import PageTest
 from Pages.PageTest2 import PageTest2
-from Services.PageDataTransferService import PageDataTransferService
 from config.Config import cfgValue, CfgKey, textValue, TextKey
 
 #Ist das Hauptfenster
@@ -21,7 +20,6 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, windowsize:QSize):
         super().__init__()
         self.windowsize = windowsize
-        self.fileNameService = PageDataTransferService()
 
         #Sytling
         self.setStyleSheet("QWidget {background-color: "+cfgValue[CfgKey.MAIN_WINDOW_BACKGROUND_COLOR]+";"
@@ -86,12 +84,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pages.addPage(pageCameraPreview)
 
         #Seite 5 Capture Photo
-        pageCapturePhoto = PageCapturePhoto(self.pages, self.windowsize, self.fileNameService)
+        pageCapturePhoto = PageCapturePhoto(self.pages, self.windowsize)
         pageCapturePhoto.setNextPage(PageTest)
         self.pages.addPage(pageCapturePhoto)
 
         #TestSeite 1
-        pageTest = PageTest(self.pages,self.fileNameService)
+        pageTest = PageTest(self.pages)
         pageTest.setNextPage(PageTest2)
         self.pages.addPage(pageTest)
 

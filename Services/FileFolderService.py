@@ -7,8 +7,14 @@ from config.Config import CfgKey, cfgValue
 class FileFolderService():
 
     @staticmethod
+    def getTempPicturePath():
+        folder = os.path.join(FileFolderService.getSaveFolder(),cfgValue[CfgKey.RAW_PICTURE_SUB_DIR])
+        FileFolderService.createFolderIfNotExist(folder)
+        return os.path.join(folder,"temp.png")
+
+    @staticmethod
     def getSaveFolder():
-        return os.path.join(cfgValue[CfgKey.MAIN_SAVE_DIR], cfgValue[CfgKey.PRIJECTNAME])
+        return os.path.join(cfgValue[CfgKey.MAIN_SAVE_DIR], cfgValue[CfgKey.PROJECTNAME])
 
     @staticmethod
     def removeIfExist(fileOrFolderDir:str):

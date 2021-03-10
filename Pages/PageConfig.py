@@ -43,7 +43,7 @@ class PageConfig(Page):
         vbox.addWidget(projectNameTitle)
 
         self.projectNameValue = QLineEdit()
-        self.projectNameValue.setText(cfgValue[CfgKey.PRIJECTNAME])
+        self.projectNameValue.setText(cfgValue[CfgKey.PROJECTNAME])
         vbox.addWidget(self.projectNameValue)
 
             #Camera calibration
@@ -65,7 +65,7 @@ class PageConfig(Page):
         navigationLayout.addWidget(nextButton)
 
     def executeAfter(self):
-        cfgValue[CfgKey.PRIJECTNAME] = self.projectNameValue.text()
+        cfgValue[CfgKey.PROJECTNAME] = self.projectNameValue.text()
 
     def open_file_dialog(self):
         cfgValue[CfgKey.MAIN_SAVE_DIR] = str(QFileDialog.getExistingDirectory())

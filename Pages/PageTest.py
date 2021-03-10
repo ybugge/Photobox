@@ -3,13 +3,11 @@ from PyQt5.QtWidgets import QPushButton
 
 from Pages import AllPages
 from Pages.Page import Page
-from Services.PageDataTransferService import PageDataTransferService
 
 
 class PageTest(Page):
-    def __init__(self, pages : AllPages, fileNameService:PageDataTransferService):
+    def __init__(self, pages : AllPages):
         super().__init__(pages)
-        self.fileNameService = fileNameService
         color_1 = 'red'
         self.setStyleSheet('QWidget {background-color: %s}' % color_1)
 
@@ -29,4 +27,4 @@ class PageTest(Page):
         vbox.addWidget(self.nextButton)
 
     def executeBefore(self):
-        self.fileNameLabel.setText(self.fileNameService.getFilePath())
+        pass

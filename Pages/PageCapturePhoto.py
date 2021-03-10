@@ -8,15 +8,13 @@ from PyQt5.QtWidgets import QVBoxLayout, QLabel
 from Services.CV2CapturePhoto import CV2CapturePhoto
 from Pages.AllPages import AllPages
 from Pages.Page import Page
-from Services.PageDataTransferService import PageDataTransferService
 from config.Config import cfgValue, CfgKey
 
 
 class PageCapturePhoto(Page):
-    def __init__(self, pages : AllPages, windowsize:QSize, fileNameService:PageDataTransferService):
+    def __init__(self, pages : AllPages, windowsize:QSize):
         super().__init__(pages)
         self.windowsize = windowsize
-        self.fileNameService = fileNameService
         mainLayout = QVBoxLayout()
         mainLayout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(mainLayout)
@@ -33,7 +31,7 @@ class PageCapturePhoto(Page):
         self.timer = QTimer()
         self.timer.timeout.connect(self.timerUpdate)
 
-        self.capturePhotoThread=CV2CapturePhoto(self.windowsize,"test.png")
+        self.capturePhotoThread=CV2CapturePhoto(self.windowsize)
 
     def executeBefore(self):
         randomPicture = self.getRandomPicture()
@@ -43,12 +41,11 @@ class PageCapturePhoto(Page):
         self.timer.start(cfgValue[CfgKey.PAGE_CAPTUREPHOTO_TIMER_PERIOD_LENGTH])
 
     def executeAfter(self):
-        self.fileNameService.setFileName("eineAndereDatei.png")
         self.timer.stop()
         self.capturePhotoThread.stop()
 
     def timerUpdate(self):
-        if self.countdown == 1:
+        if self.countdown == cfgValue[CfgKey.PAGE_CAPTUREPHOTO_TIMER_CAPTUREPHOTO_VALUE]:
             self.capturePhoto()
         elif self.countdown <= 0:
             self.nextPageEvent()

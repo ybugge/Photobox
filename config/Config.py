@@ -24,7 +24,8 @@ class CfgKey(enum.Enum):
     PROGRESSBAR_CHUNK_BACKGROUND_COLOR=112
 
     MAIN_SAVE_DIR = 1
-    PRIJECTNAME = 2
+    PROJECTNAME = 2
+    RAW_PICTURE_SUB_DIR=3
 
     #PageSystemPictureManager.py
     PAGE_SYSTEMPICTUREMANAGER_FUNNY_PICTURE_SOURCE = 200
@@ -43,6 +44,7 @@ class CfgKey(enum.Enum):
     PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER=150
     PAGE_CAPTUREPHOTO_TIMER_PERIOD_LENGTH=151
     PAGE_CAPTUREPHOTO_TIMER_START_VALUE=152
+    PAGE_CAPTUREPHOTO_TIMER_CAPTUREPHOTO_VALUE=153
 
 cfgValue = {}
 
@@ -51,7 +53,8 @@ cfgValue[CfgKey.APPLICATION_CURSOR_HINT] = False    #Changeable -> True when Ras
 cfgValue[CfgKey.USED_CAMERA_INDEX] = 0
 
 cfgValue[CfgKey.MAIN_SAVE_DIR] = "FotoboxData/"
-cfgValue[CfgKey.PRIJECTNAME] = "Party"
+cfgValue[CfgKey.PROJECTNAME] = "Party"
+cfgValue[CfgKey.RAW_PICTURE_SUB_DIR] = "raw"
 
 #Styling
 cfgValue[CfgKey.MAIN_WINDOW_BACKGROUND_COLOR] = "black"
@@ -85,7 +88,8 @@ cfgValue[CfgKey.PAGE_CAMERAPREVIEW_COUNTER_START_VALUE] = 6
 #PageCaoturePhoto.py
 cfgValue[CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER] = 'Resources/PageCapturePhoto/FunnyPictures'
 cfgValue[CfgKey.PAGE_CAPTUREPHOTO_TIMER_PERIOD_LENGTH] = 500
-cfgValue[CfgKey.PAGE_CAPTUREPHOTO_TIMER_START_VALUE] = 2
+cfgValue[CfgKey.PAGE_CAPTUREPHOTO_TIMER_START_VALUE] = 3
+cfgValue[CfgKey.PAGE_CAPTUREPHOTO_TIMER_CAPTUREPHOTO_VALUE] = 2
 
 
 ###########################################################
