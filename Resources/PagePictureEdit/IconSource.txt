@@ -1,0 +1,4 @@
+print_icon.png = https://icon-icons.com/de/symbol/Drucker/50058
+download_icon.png = https://icon-icons.com/de/symbol/download-Postfach-downloads/61498
+newPhoto_icon.png = https://icon-icons.com/de/symbol/%C3%A4ndern-Sie-die-Kamera-voll-ist-arrow/4637
+finish_icon.png = https://icon-icons.com/de/symbol/Zielflagge-Acabado/12582

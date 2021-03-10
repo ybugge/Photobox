@@ -9,6 +9,7 @@ from Pages.PageCloseConfirm import PageCloseConfirm
 from Pages.PageConfig import PageConfig
 from Pages.PageCameraPreview import PageCameraPreview
 from Pages.PageHints import PageHints
+from Pages.PagePictureEdit import PagePictureEdit
 from Pages.PageSystemPictureManager import PageSystemPictureManager
 from Pages.PageTitlePicture import PageTitlePicture
 from Pages.PageTest import PageTest
@@ -85,18 +86,26 @@ class MainWindow(QtWidgets.QMainWindow):
 
         #Seite 5 Capture Photo
         pageCapturePhoto = PageCapturePhoto(self.pages, self.windowsize)
-        pageCapturePhoto.setNextPage(PageTest)
+        pageCapturePhoto.setNextPage(PagePictureEdit)
         self.pages.addPage(pageCapturePhoto)
 
-        #TestSeite 1
-        pageTest = PageTest(self.pages)
-        pageTest.setNextPage(PageTest2)
-        self.pages.addPage(pageTest)
+        #Seite 6 Picture Edit
+        pagePictureEdit = PagePictureEdit(self.pages, self.windowsize)
+        pagePictureEdit.setPrinterPage(PageTitlePicture)
+        pagePictureEdit.setDownloadPage(PageTitlePicture)
+        pagePictureEdit.setNewPicturePage(PageCameraPreview)
+        pagePictureEdit.setFinishedPage(PageTitlePicture)
+        self.pages.addPage(pagePictureEdit)
 
-        #TestseiteSeite2
-        pageTest2 = PageTest2(self.pages)
-        pageTest2.setNextPage(PageTest)
-        self.pages.addPage(pageTest2)
+        #TestSeite 1
+        # pageTest = PageTest(self.pages)
+        # pageTest.setNextPage(PageTest2)
+        # self.pages.addPage(pageTest)
+        #
+        # #TestseiteSeite2
+        # pageTest2 = PageTest2(self.pages)
+        # pageTest2.setNextPage(PageTest)
+        # self.pages.addPage(pageTest2)
 
         #Set first visible Page
         self.pages.showPage(PageHints)

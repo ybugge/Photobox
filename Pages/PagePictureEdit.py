@@ -1,0 +1,95 @@
+from PyQt5.QtCore import QSize, Qt
+from PyQt5.QtGui import QPixmap, QIcon
+from PyQt5.QtWidgets import QVBoxLayout, QPushButton, QHBoxLayout, QLabel
+
+from Pages.AllPages import AllPages
+from Pages.Page import Page
+from Services.FileFolderService import FileFolderService
+from config.Config import CfgKey, cfgValue
+
+
+class PagePictureEdit(Page):
+    def __init__(self, pages : AllPages, windowsize:QSize):
+        super().__init__(pages)
+        self.windowsize = windowsize
+        self.heightDevider = 8;
+
+        mainLayout = QVBoxLayout()
+        self.setLayout(mainLayout)
+
+        #Picture
+        self.picture = QLabel(self)
+        self.picture.setAlignment(Qt.AlignCenter)
+        mainLayout.addWidget(self.picture)
+
+        #Navigation
+        mainLayout.addStretch()
+        navigationLayout=QHBoxLayout()
+        mainLayout.addLayout(navigationLayout)
+
+        printButton = QPushButton()
+        printButton.clicked.connect(self.printPageEvent)
+        printButton.setStyleSheet("qproperty-icon: url(" + cfgValue[CfgKey.PAGE_PICTUREEDIT_PRINT_BUTTON_ICON_DIR] + ");")
+        printButton.setIconSize(self.getButtonSize())
+        printButton.setFixedSize(self.getButtonSize())
+        navigationLayout.addWidget(printButton)
+
+        downloadButton = QPushButton()
+        downloadButton.clicked.connect(self.downloadPageEvent)
+        downloadButton.setStyleSheet("qproperty-icon: url(" + cfgValue[CfgKey.PAGE_PICTUREEDIT_DOWNLOAD_BUTTON_ICON_DIR] + ");")
+        downloadButton.setIconSize(self.getButtonSize())
+        downloadButton.setFixedSize(self.getButtonSize())
+        navigationLayout.addWidget(downloadButton)
+
+        navigationLayout.addStretch()
+
+        nextPictureButton = QPushButton()
+        nextPictureButton.clicked.connect(self.newPicturePageEvent)
+        nextPictureButton.setStyleSheet("qproperty-icon: url(" + cfgValue[CfgKey.PAGE_PICTUREEDIT_NEWPICTURE_BUTTON_ICON_DIR] + ");")
+        nextPictureButton.setIconSize(self.getButtonSize())
+        nextPictureButton.setFixedSize(self.getButtonSize())
+        navigationLayout.addWidget(nextPictureButton)
+
+        finishedButton = QPushButton()
+        finishedButton.clicked.connect(self.finishedPageEvent)
+        finishedButton.setStyleSheet("qproperty-icon: url(" + cfgValue[CfgKey.PAGE_PICTUREEDIT_FINISHED_BUTTON_ICON_DIR] + ");")
+        finishedButton.setIconSize(self.getButtonSize())
+        finishedButton.setFixedSize(self.getButtonSize())
+        navigationLayout.addWidget(finishedButton)
+
+    def executeBefore(self):
+        self.updatePicture()
+
+    def updatePicture(self):
+        picturePixelMap = QPixmap(FileFolderService.getTempPicturePath())
+        self.picture.setPixmap(picturePixelMap.scaled(self.getPictureSize(),Qt.KeepAspectRatio))
+
+    def getButtonSize(self):
+        return QSize(self.windowsize.height()/self.heightDevider,self.windowsize.height()/self.heightDevider)
+
+    def getPictureSize(self):
+        return QSize(self.windowsize.width(), (self.windowsize.height()/self.heightDevider)*(self.heightDevider-1))
+
+    def setFinishedPage(self,page):
+        self.finishedPage=page
+
+    def finishedPageEvent(self):
+        self.setPageEvent(self.finishedPage)
+
+    def setNewPicturePage(self,page):
+        self.newPicturePage = page
+
+    def newPicturePageEvent(self):
+        self.setPageEvent(self.newPicturePage)
+
+    def setPrinterPage(self,page):
+        self.picturePage = page
+
+    def printPageEvent(self):
+        self.setPageEvent(self.picturePage)
+
+    def setDownloadPage(self,page):
+        self.downloadPage = page
+
+    def downloadPageEvent(self):
+        self.setPageEvent(self.downloadPage)

@@ -46,6 +46,13 @@ class CfgKey(enum.Enum):
     PAGE_CAPTUREPHOTO_TIMER_START_VALUE=152
     PAGE_CAPTUREPHOTO_TIMER_CAPTUREPHOTO_VALUE=153
 
+    #PagePictureEdit.py
+    PAGE_PICTUREEDIT_FINISHED_BUTTON_ICON_DIR = 600
+    PAGE_PICTUREEDIT_NEWPICTURE_BUTTON_ICON_DIR = 601
+    PAGE_PICTUREEDIT_PRINT_BUTTON_ICON_DIR = 602
+    PAGE_PICTUREEDIT_DOWNLOAD_BUTTON_ICON_DIR = 603
+
+
 cfgValue = {}
 
 cfgValue[CfgKey.IS_PI] = False                      #Changeable -> True when RasPi
@@ -91,6 +98,11 @@ cfgValue[CfgKey.PAGE_CAPTUREPHOTO_TIMER_PERIOD_LENGTH] = 500
 cfgValue[CfgKey.PAGE_CAPTUREPHOTO_TIMER_START_VALUE] = 3
 cfgValue[CfgKey.PAGE_CAPTUREPHOTO_TIMER_CAPTUREPHOTO_VALUE] = 2
 
+#PagePictureEdit.py
+cfgValue[CfgKey.PAGE_PICTUREEDIT_FINISHED_BUTTON_ICON_DIR] = "Resources/PagePictureEdit/Icon/finish_icon.png"
+cfgValue[CfgKey.PAGE_PICTUREEDIT_NEWPICTURE_BUTTON_ICON_DIR] = "Resources/PagePictureEdit/Icon/newPhoto_icon.png"
+cfgValue[CfgKey.PAGE_PICTUREEDIT_PRINT_BUTTON_ICON_DIR] = "Resources/PagePictureEdit/Icon/print_icon.png"
+cfgValue[CfgKey.PAGE_PICTUREEDIT_DOWNLOAD_BUTTON_ICON_DIR] = "Resources/PagePictureEdit/Icon/download_icon.png"
 
 ###########################################################
 class TextKey(enum.Enum):
