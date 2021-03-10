@@ -3,6 +3,7 @@ from PyQt5 import QtCore
 from PyQt5.QtCore import QSize
 
 from Pages.AllPages import AllPages
+from Pages.PageCameraCalibrationView import PageCameraCalibrationView
 from Pages.PageCapturePhoto import PageCapturePhoto
 from Pages.PageCloseConfirm import PageCloseConfirm
 from Pages.PageConfig import PageConfig
@@ -35,7 +36,10 @@ class MainWindow(QtWidgets.QMainWindow):
                                 "opacity: 0.6;}"
                             "QProgressBar {text-align: center;}"
                             "QProgressBar::chunk {"
-                                "background-color:"+cfgValue[CfgKey.PROGRESSBAR_CHUNK_BACKGROUND_COLOR]+";}")
+                                "background-color:"+cfgValue[CfgKey.PROGRESSBAR_CHUNK_BACKGROUND_COLOR]+";}"
+                           "QLineEdit {"
+                                "border: 1px solid "+cfgValue[CfgKey.MAIN_WINDOW_LABEL_EDIT_BORDER_COLOR]+";"
+                                "background-color: "+cfgValue[CfgKey.MAIN_WINDOW_LABEL_EDIT_BACKGROUND_COLOR]+";}")
 
         #Initialisieren
         self.pages = AllPages()
@@ -63,7 +67,13 @@ class MainWindow(QtWidgets.QMainWindow):
         pageConfig = PageConfig(self.pages)
         pageConfig.setBackPage(PageHints)
         pageConfig.setNextPage(PageTitlePicture)
+        pageConfig.setCameraCalibrationEventPage(PageCameraCalibrationView)
         self.pages.addPage(pageConfig)
+
+        #Seite 2-2 Camera configuration view
+        pageCameraConfig = PageCameraCalibrationView(self.pages, self.windowsize)
+        pageCameraConfig.setBackPage(PageConfig)
+        self.pages.addPage(pageCameraConfig)
 
         #Seite 3 Title
         pageTitlePicture = PageTitlePicture(self.pages)

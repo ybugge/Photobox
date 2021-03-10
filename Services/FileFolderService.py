@@ -1,8 +1,14 @@
 import os
 import shutil
 
+from config.Config import CfgKey, cfgValue
+
 
 class FileFolderService():
+
+    @staticmethod
+    def getSaveFolder():
+        return os.path.join(cfgValue[CfgKey.MAIN_SAVE_DIR], cfgValue[CfgKey.PRIJECTNAME])
 
     @staticmethod
     def removeIfExist(fileOrFolderDir:str):

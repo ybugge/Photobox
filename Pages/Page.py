@@ -17,15 +17,15 @@ class Page(QtWidgets.QWidget):
         self.backPage = backPage
 
     def nextPageEvent(self):
-        self.__setPageEvent(self.nextPage)
+        self.setPageEvent(self.nextPage)
 
     def setNextPage(self,nextPage):
         self.nextPage = nextPage
 
     def backPageEvent(self):
-        self.__setPageEvent(self.backPage)
+        self.setPageEvent(self.backPage)
 
-    def __setPageEvent(self,type):
+    def setPageEvent(self, type):
         isFound = False
         for page in self.allPages.getPages():
             if isinstance(page, type):

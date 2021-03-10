@@ -12,6 +12,8 @@ class CfgKey(enum.Enum):
     MAIN_WINDOW_BUTTON_HEIGHT = 54
     MAIN_WINDOW_TEXT_SIZE=52
     MAIN_WINDOW_TEXT_FONT=53
+    MAIN_WINDOW_LABEL_EDIT_BORDER_COLOR=55
+    MAIN_WINDOW_LABEL_EDIT_BACKGROUND_COLOR=56
 
     TITLE_SIZE = 100
     TITLE_FONT = 101
@@ -21,7 +23,8 @@ class CfgKey(enum.Enum):
     BUTTON_DISABLED_TEXT_COLOR=111
     PROGRESSBAR_CHUNK_BACKGROUND_COLOR=112
 
-    DIR_PICTURE = 1
+    MAIN_SAVE_DIR = 1
+    PRIJECTNAME = 2
 
     #PageSystemPictureManager.py
     PAGE_SYSTEMPICTUREMANAGER_FUNNY_PICTURE_SOURCE = 200
@@ -47,7 +50,8 @@ cfgValue[CfgKey.IS_PI] = False                      #Changeable -> True when Ras
 cfgValue[CfgKey.APPLICATION_CURSOR_HINT] = False    #Changeable -> True when RasPi
 cfgValue[CfgKey.USED_CAMERA_INDEX] = 0
 
-cfgValue[CfgKey.DIR_PICTURE] = "picture"
+cfgValue[CfgKey.MAIN_SAVE_DIR] = "FotoboxData/"
+cfgValue[CfgKey.PRIJECTNAME] = "Party"
 
 #Styling
 cfgValue[CfgKey.MAIN_WINDOW_BACKGROUND_COLOR] = "black"
@@ -62,6 +66,8 @@ cfgValue[CfgKey.TITLE_COLOR] = 'white'
 cfgValue[CfgKey.TEXT_COLOR] = 'white'
 cfgValue[CfgKey.BUTTON_DISABLED_TEXT_COLOR] = 'rgb(80,80,80)'
 cfgValue[CfgKey.PROGRESSBAR_CHUNK_BACKGROUND_COLOR] = 'grey'
+cfgValue[CfgKey.MAIN_WINDOW_LABEL_EDIT_BORDER_COLOR] = 'rgb(80,80,80)'
+cfgValue[CfgKey.MAIN_WINDOW_LABEL_EDIT_BACKGROUND_COLOR] = 'rgb(30,30,30)'
 
 #PageSystemPictureManager.py
 cfgValue[CfgKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_PICTURE_SOURCE] = "Resources/funnyPicturesUrl.txt"
@@ -108,6 +114,9 @@ class TextKey(enum.Enum):
     PAGE_CONFIG_TITLE=20
     PAGE_CONFIG_NEXTBUTTON=21
     PAGE_CONFIG_BACKBUTTON=22
+    PAGE_CONFIG_MAIN_SAVE_DIR_TITLE=23
+    PAGE_CONFIG_PROJECT_NAME_TITLE=24
+    PAGE_CONFIG_CAMERA_CALIBRATION_BUTTON=25
 
     #PageCloseConfirm.py
     PAGE_CLOSECONFIRM_TITLE = 30
@@ -123,8 +132,8 @@ textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_NEXTBUTTON] = "Zurück zu den Hinwei
 textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_TITEL] = "Lustige Bilder"
 textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_SOURCELABEL] = "Quell-URLs:"
 textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_TARGETLABEL] = "Ziel-Ordner:"
-textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_DELETEBUTTON] = "Ziel-Ordner löschen"
-textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_UPDATEBUTTON] = "Bilder aktualisieren"
+textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_DELETEBUTTON] = "Bilder löschen"
+textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_UPDATEBUTTON] = "Bilder herunterladen"
 
 #PageHints
 textValue[TextKey.PAGE_HINTS_NEXTBUTTON] = "Weiter"
@@ -140,6 +149,9 @@ textValue[TextKey.PAGE_HINTS_NO_PICTURES_FOUND_WARN]= "- Fehler: Bitte erstellen
 textValue[TextKey.PAGE_CONFIG_TITLE] = "Konfigurationen"
 textValue[TextKey.PAGE_CONFIG_NEXTBUTTON] = "Fotobox starten"
 textValue[TextKey.PAGE_CONFIG_BACKBUTTON] = "Zurück"
+textValue[TextKey.PAGE_CONFIG_MAIN_SAVE_DIR_TITLE] = "Speicherort:"
+textValue[TextKey.PAGE_CONFIG_PROJECT_NAME_TITLE] = "Projektname:"
+textValue[TextKey.PAGE_CONFIG_CAMERA_CALIBRATION_BUTTON] = "Kamera kalibrieren"
 
 #PageCloseConfirm
 textValue[TextKey.PAGE_CLOSECONFIRM_TITLE] = "Anwendung schließen?"

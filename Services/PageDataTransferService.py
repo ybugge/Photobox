@@ -10,4 +10,4 @@ class PageDataTransferService():
         self.currentFileName = fileName
 
     def getFilePath(self):
-        return cfgValue[CfgKey.DIR_PICTURE]+"/"+self.currentFileName
+        return cfgValue[CfgKey.MAIN_SAVE_DIR] + "/" + self.currentFileName

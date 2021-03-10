@@ -1,10 +1,11 @@
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QFont
 from PyQt5.QtMultimedia import QCameraInfo
-from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QLabel, QHBoxLayout, QFileDialog
+from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QLabel, QHBoxLayout, QFileDialog, QGridLayout, QLineEdit
 
 from Pages.AllPages import AllPages
 from Pages.Page import Page
-from config.Config import textValue, TextKey
+from config.Config import textValue, TextKey, cfgValue, CfgKey
 
 
 class PageConfig(Page):
@@ -16,13 +17,39 @@ class PageConfig(Page):
         #Titel
         vbox.addWidget(self.getTitleAsQLabel(TextKey.PAGE_CONFIG_TITLE))
 
+        #Configs ############################################################
+            #mainSaveDir
+        titleFont = QFont()
+        titleFont.setUnderline(True)
+        mainSaveDirTitle = QLabel(textValue[TextKey.PAGE_CONFIG_MAIN_SAVE_DIR_TITLE])
+        mainSaveDirTitle.setFont(titleFont)
+        vbox.addWidget(mainSaveDirTitle)
 
-        #Configs
+        mainSaveDirLayout= QGridLayout()
+        vbox.addLayout(mainSaveDirLayout)
+
+        self.mainSaveDirLabel = QLineEdit()
+        self.mainSaveDirLabel.setText(cfgValue[CfgKey.MAIN_SAVE_DIR])
+        self.mainSaveDirLabel.setReadOnly(True)
+        mainSaveDirLayout.addWidget(self.mainSaveDirLabel,0,0)
+
         dirButton = QPushButton("...")
         dirButton.clicked.connect(self.open_file_dialog)
-        vbox.addWidget(dirButton)
+        mainSaveDirLayout.addWidget(dirButton,0,3)
 
+            #ProjectName
+        projectNameTitle = QLabel(textValue[TextKey.PAGE_CONFIG_PROJECT_NAME_TITLE])
+        projectNameTitle.setFont(titleFont)
+        vbox.addWidget(projectNameTitle)
 
+        self.projectNameValue = QLineEdit()
+        self.projectNameValue.setText(cfgValue[CfgKey.PRIJECTNAME])
+        vbox.addWidget(self.projectNameValue)
+
+            #Camera calibration
+        cameraCalibration = QPushButton(textValue[TextKey.PAGE_CONFIG_CAMERA_CALIBRATION_BUTTON])
+        cameraCalibration.clicked.connect(self.cameraCalibrationEvent)
+        vbox.addWidget(cameraCalibration)
 
         vbox.addStretch()
         #Navigation
@@ -37,7 +64,15 @@ class PageConfig(Page):
         nextButton.clicked.connect(self.nextPageEvent)
         navigationLayout.addWidget(nextButton)
 
+    def executeAfter(self):
+        cfgValue[CfgKey.PRIJECTNAME] = self.projectNameValue.text()
+
     def open_file_dialog(self):
-        directory = str(QFileDialog.getExistingDirectory())
-        print(directory)
-        #self.lineEdit.setText('{}'.format(directory))
+        cfgValue[CfgKey.MAIN_SAVE_DIR] = str(QFileDialog.getExistingDirectory())
+        self.mainSaveDirLabel.setText(cfgValue[CfgKey.MAIN_SAVE_DIR])
+
+    def setCameraCalibrationEventPage(self,page):
+        self.cameraCalibrationPage = page
+
+    def cameraCalibrationEvent(self):
+        self.setPageEvent(self.cameraCalibrationPage)
