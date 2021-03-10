@@ -7,10 +7,38 @@ from config.Config import CfgKey, cfgValue
 class FileFolderService():
 
     @staticmethod
+    def saveUsedPicture():
+        folderName = os.path.join(FileFolderService.getSaveFolder(),cfgValue[CfgKey.USED_PICTURE_SUB_DIR])
+        FileFolderService.savePicture(folderName)
+
+    @staticmethod
+    def saveUnusedPicture():
+        folderName = os.path.join(FileFolderService.getSaveFolder(),cfgValue[CfgKey.UNUSED_PICTURE_SUB_DIR])
+        FileFolderService.savePicture(folderName)
+
+    @staticmethod
+    def savePicture(targetFolder):
+        fileName = str(FileFolderService.getShottedPictureNumber())
+        sourceFile = FileFolderService.getTempPicturePath()
+        if not os.path.exists(sourceFile):
+            print("Quellfoto wurde nicht gefunden!")
+            return
+        FileFolderService.createFolderIfNotExist(targetFolder)
+        fileTargetPath = os.path.join(targetFolder,fileName+cfgValue[CfgKey.PICTURE_FORMAT])
+        shutil.move(sourceFile,fileTargetPath)
+
+    @staticmethod
+    def getShottedPictureNumber():
+        unUsedPath = os.path.join(FileFolderService.getSaveFolder(),cfgValue[CfgKey.UNUSED_PICTURE_SUB_DIR])
+        usedPath = os.path.join(FileFolderService.getSaveFolder(),cfgValue[CfgKey.USED_PICTURE_SUB_DIR])
+        numberContent = FileFolderService.getFolderContentNumber(unUsedPath) + FileFolderService.getFolderContentNumber(usedPath)
+        return numberContent
+
+    @staticmethod
     def getTempPicturePath():
         folder = os.path.join(FileFolderService.getSaveFolder(),cfgValue[CfgKey.RAW_PICTURE_SUB_DIR])
         FileFolderService.createFolderIfNotExist(folder)
-        return os.path.join(folder,"temp.png")
+        return os.path.join(folder,"temp"+cfgValue[CfgKey.PICTURE_FORMAT])
 
     @staticmethod
     def getSaveFolder():
@@ -59,7 +87,15 @@ class FileFolderService():
 
     @staticmethod
     def hasFolderContent(path:str):
+        return FileFolderService.getFolderContentNumber(path) != 0
+
+    @staticmethod
+    def getFolderContentNumber(path:str):
+        return len(FileFolderService.getFolderContent(path) )
+
+    @staticmethod
+    def getFolderContent(path:str):
         if os.path.exists(path):
             if(os.path.isdir(path)):
-                return len(os.listdir(path) ) != 0
-        return False
+                return os.listdir(path)
+        return []

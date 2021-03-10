@@ -91,16 +91,16 @@ class MainWindow(QtWidgets.QMainWindow):
 
         #Seite 6 Picture Edit
         pagePictureEdit = PagePictureEdit(self.pages, self.windowsize)
-        pagePictureEdit.setPrinterPage(PageTitlePicture)
-        pagePictureEdit.setDownloadPage(PageTitlePicture)
+        pagePictureEdit.setPrinterPage(PageTest)
+        pagePictureEdit.setDownloadPage(PageTest)
         pagePictureEdit.setNewPicturePage(PageCameraPreview)
         pagePictureEdit.setFinishedPage(PageTitlePicture)
         self.pages.addPage(pagePictureEdit)
 
         #TestSeite 1
-        # pageTest = PageTest(self.pages)
-        # pageTest.setNextPage(PageTest2)
-        # self.pages.addPage(pageTest)
+        pageTest = PageTest(self.pages)
+        pageTest.setNextPage(PagePictureEdit)
+        self.pages.addPage(pageTest)
         #
         # #TestseiteSeite2
         # pageTest2 = PageTest2(self.pages)

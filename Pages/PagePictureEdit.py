@@ -12,7 +12,8 @@ class PagePictureEdit(Page):
     def __init__(self, pages : AllPages, windowsize:QSize):
         super().__init__(pages)
         self.windowsize = windowsize
-        self.heightDevider = 8;
+        self.heightDevider = 8
+        self.resetPictureIdUsed()
 
         mainLayout = QVBoxLayout()
         self.setLayout(mainLayout)
@@ -74,22 +75,39 @@ class PagePictureEdit(Page):
         self.finishedPage=page
 
     def finishedPageEvent(self):
+        self.savePicture()
         self.setPageEvent(self.finishedPage)
 
     def setNewPicturePage(self,page):
         self.newPicturePage = page
 
     def newPicturePageEvent(self):
+        self.savePicture()
         self.setPageEvent(self.newPicturePage)
 
     def setPrinterPage(self,page):
         self.picturePage = page
 
     def printPageEvent(self):
+        self.setPictureIsUsed()
         self.setPageEvent(self.picturePage)
 
     def setDownloadPage(self,page):
         self.downloadPage = page
 
     def downloadPageEvent(self):
+        self.setPictureIsUsed()
         self.setPageEvent(self.downloadPage)
+
+    def setPictureIsUsed(self):
+        self.pictureIsUsed=True
+
+    def resetPictureIdUsed(self):
+        self.pictureIsUsed=False
+
+    def savePicture(self):
+        if self.pictureIsUsed:
+            FileFolderService.saveUsedPicture()
+        else:
+            FileFolderService.saveUnusedPicture()
+        self.resetPictureIdUsed()

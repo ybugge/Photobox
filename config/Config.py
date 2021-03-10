@@ -26,6 +26,9 @@ class CfgKey(enum.Enum):
     MAIN_SAVE_DIR = 1
     PROJECTNAME = 2
     RAW_PICTURE_SUB_DIR=3
+    USED_PICTURE_SUB_DIR = 4
+    UNUSED_PICTURE_SUB_DIR = 5
+    PICTURE_FORMAT=6
 
     #PageSystemPictureManager.py
     PAGE_SYSTEMPICTUREMANAGER_FUNNY_PICTURE_SOURCE = 200
@@ -62,6 +65,9 @@ cfgValue[CfgKey.USED_CAMERA_INDEX] = 0
 cfgValue[CfgKey.MAIN_SAVE_DIR] = "FotoboxData/"
 cfgValue[CfgKey.PROJECTNAME] = "Party"
 cfgValue[CfgKey.RAW_PICTURE_SUB_DIR] = "raw"
+cfgValue[CfgKey.USED_PICTURE_SUB_DIR] = "used"
+cfgValue[CfgKey.UNUSED_PICTURE_SUB_DIR] = "unused"
+cfgValue[CfgKey.PICTURE_FORMAT] = ".png"
 
 #Styling
 cfgValue[CfgKey.MAIN_WINDOW_BACKGROUND_COLOR] = "black"
