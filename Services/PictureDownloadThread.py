@@ -18,6 +18,8 @@ class PictureDownloadThread(QThread):
         numberUrls = len(self.urls)
         FileFolderService.createFolderIfNotExist(folderPath)
         for index, url in enumerate(self.urls):
+            if(FileFolderService.containsLineInFile(url,cfgValue[CfgKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_PICTURE_SOURCE_SUCCESS_DOWNLOAD])):
+                continue
             request = self.getRequest(url)
             if request == None:
                 self.setProgress(index,numberUrls)
@@ -25,6 +27,7 @@ class PictureDownloadThread(QThread):
 
             self.savePicture(request,url,index,folderPath)
             self.setProgress(index,numberUrls)
+            FileFolderService.writeLineInFile(True,cfgValue[CfgKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_PICTURE_SOURCE_SUCCESS_DOWNLOAD],url)
 
         self.setProgress(numberUrls,numberUrls)
 

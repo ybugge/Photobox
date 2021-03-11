@@ -8,6 +8,7 @@ from Pages.PageCapturePhoto import PageCapturePhoto
 from Pages.PageCloseConfirm import PageCloseConfirm
 from Pages.PageConfig import PageConfig
 from Pages.PageCameraPreview import PageCameraPreview
+from Pages.PageDownloadPicture import PageDownloadPicture
 from Pages.PageHints import PageHints
 from Pages.PagePictureEdit import PagePictureEdit
 from Pages.PageSystemPictureManager import PageSystemPictureManager
@@ -92,10 +93,15 @@ class MainWindow(QtWidgets.QMainWindow):
         #Seite 6 Picture Edit
         pagePictureEdit = PagePictureEdit(self.pages, self.windowsize)
         pagePictureEdit.setPrinterPage(PageTest)
-        pagePictureEdit.setDownloadPage(PageTest)
+        pagePictureEdit.setDownloadPage(PageDownloadPicture)
         pagePictureEdit.setNewPicturePage(PageCameraPreview)
         pagePictureEdit.setFinishedPage(PageTitlePicture)
         self.pages.addPage(pagePictureEdit)
+
+        #Seite 6.1 Download Picture
+        pageDownloadPicture = PageDownloadPicture(self.pages, self.windowsize)
+        pageDownloadPicture.setBackPage(PagePictureEdit)
+        self.pages.addPage(pageDownloadPicture)
 
         #TestSeite 1
         pageTest = PageTest(self.pages)

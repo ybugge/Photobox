@@ -1,5 +1,6 @@
 import os
 
+from PyQt5.QtCore import QTimer
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit, QLabel, QProgressBar
 
@@ -63,10 +64,21 @@ class PageSystemPictureManager(Page):
         self.pictureManagerButton.clicked.connect(self.nextPageEvent)
         navigationBox.addWidget(self.pictureManagerButton)
 
+        #timer
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.timerUpdate)
+
+
+    def timerUpdate(self):
+        self.funnyDeleteButton.setText(textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_DELETEBUTTON])
+        self.funnyUpdateButton.setText(textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_UPDATEBUTTON])
+
     def deleteFunnyPictureFolder(self):
         self.disableAllButtons()
         FileFolderService.removeIfExist(cfgValue[CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER])
+        FileFolderService.removeIfExist(cfgValue[CfgKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_PICTURE_SOURCE_SUCCESS_DOWNLOAD])
         self.enableAllButtons()
+        self.funnyDeleteButton.setText(textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_SUCCESSFULL])
 
     def updateFunnyPictures(self):
         self.disableAllButtons()
@@ -77,13 +89,16 @@ class PageSystemPictureManager(Page):
             self.thread.start()
         else:
             self.enableAllButtons()
+            self.funnyUpdateButton.setText(textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_SUCCESSFULL])
 
     def disableAllButtons(self):
+        self.startTime()
         self.pictureManagerButton.setDisabled(True)
         self.funnyUpdateButton.setDisabled(True)
         self.funnyDeleteButton.setDisabled(True)
 
     def enableAllButtons(self):
+        self.startTime()
         self.pictureManagerButton.setDisabled(False)
         self.funnyUpdateButton.setDisabled(False)
         self.funnyDeleteButton.setDisabled(False)
@@ -93,3 +108,10 @@ class PageSystemPictureManager(Page):
         if self.progressbar.value() >= 99:
             self.progressbar.setValue(0)
             self.enableAllButtons()
+            self.funnyUpdateButton.setText(textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_SUCCESSFULL])
+
+    def stopTimer(self):
+        self.timer.stop()
+
+    def startTime(self):
+        self.timer.start(1000)

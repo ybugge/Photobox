@@ -7,6 +7,13 @@ from config.Config import CfgKey, cfgValue
 class FileFolderService():
 
     @staticmethod
+    def containsLineInFile(line:str,filePath:str):
+        for fileLine in FileFolderService.readFile(filePath):
+            if fileLine in line:
+                return True
+        return False
+
+    @staticmethod
     def saveUsedPicture():
         folderName = os.path.join(FileFolderService.getSaveFolder(),cfgValue[CfgKey.USED_PICTURE_SUB_DIR])
         FileFolderService.savePicture(folderName)
@@ -55,7 +62,7 @@ class FileFolderService():
 
     @staticmethod
     def readFile(fileDir:str):
-        if os.path.exists(fileDir):
+        if os.path.exists(fileDir) and os.path.isfile(fileDir):
             result = []
             file = open(fileDir, 'r')
             for line in file.readlines():
@@ -76,13 +83,13 @@ class FileFolderService():
 
     @staticmethod
     def writeLineInFile(append:bool,fileDir:str,line:str):
-        if os.path.exists(fileDir) and not append:
+        if os.path.exists(fileDir) and append:
             with open(fileDir, "a") as file:
-                file.write(line)
+                file.write(line+"\n")
             file.close()
         else:
-            with open(fileDir,'wb') as file:
-                file.write(line)
+            with open(fileDir,'w') as file:
+                file.write(line+"\n")
             file.close()
 
     @staticmethod
