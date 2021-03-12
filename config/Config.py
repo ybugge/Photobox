@@ -54,6 +54,7 @@ class CfgKey(enum.Enum):
     PAGE_PICTUREEDIT_NEWPICTURE_BUTTON_ICON_DIR = 601
     PAGE_PICTUREEDIT_PRINT_BUTTON_ICON_DIR = 602
     PAGE_PICTUREEDIT_DOWNLOAD_BUTTON_ICON_DIR = 603
+    PAGE_PICTUREEDIT_SPACE_AUTO_FORWARD_WAIT_TIME = 604
 
 
 cfgValue = {}
@@ -110,6 +111,8 @@ cfgValue[CfgKey.PAGE_PICTUREEDIT_FINISHED_BUTTON_ICON_DIR] = "Resources/PagePict
 cfgValue[CfgKey.PAGE_PICTUREEDIT_NEWPICTURE_BUTTON_ICON_DIR] = "Resources/PagePictureEdit/Icon/newPhoto_icon.png"
 cfgValue[CfgKey.PAGE_PICTUREEDIT_PRINT_BUTTON_ICON_DIR] = "Resources/PagePictureEdit/Icon/print_icon.png"
 cfgValue[CfgKey.PAGE_PICTUREEDIT_DOWNLOAD_BUTTON_ICON_DIR] = "Resources/PagePictureEdit/Icon/download_icon.png"
+# 300000 = 5 minutes
+cfgValue[CfgKey.PAGE_PICTUREEDIT_SPACE_AUTO_FORWARD_WAIT_TIME] = 300000
 
 ###########################################################
 class TextKey(enum.Enum):

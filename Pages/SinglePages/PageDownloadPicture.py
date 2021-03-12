@@ -7,13 +7,16 @@ from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QPushButton, QLabel
 
 from Pages.AllPages import AllPages
 from Pages.Page import Page
+from Services.FileFolderService import FileFolderService
+from Services.GlobalPagesVariableService import GlobalPagesVariableService
 from config.Config import TextKey, textValue
 
 
 class PageDownloadPicture(Page):
-    def __init__(self, pages : AllPages, windowsize:QSize):
+    def __init__(self, pages : AllPages, windowsize:QSize, globalVariable:GlobalPagesVariableService):
         super().__init__(pages)
         self.windowsize = windowsize
+        self.globalVariable = globalVariable
 
         mainLayout = QVBoxLayout()
         self.setLayout(mainLayout)
@@ -40,6 +43,9 @@ class PageDownloadPicture(Page):
 
     def executeBefore(self):
         self.updateQrCodePicture()
+
+    def executeAfterStopAutoForwardTimer(self):
+        FileFolderService.saveUsedPicture(self.globalVariable.getPictureSubName())
 
     def updateQrCodePicture(self):
         #QRCode

@@ -1,3 +1,4 @@
+
 from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtWidgets import QVBoxLayout, QPushButton, QHBoxLayout, QLabel
@@ -5,15 +6,18 @@ from PyQt5.QtWidgets import QVBoxLayout, QPushButton, QHBoxLayout, QLabel
 from Pages.AllPages import AllPages
 from Pages.Page import Page
 from Services.FileFolderService import FileFolderService
+from Services.GlobalPagesVariableService import GlobalPagesVariableService
 from config.Config import CfgKey, cfgValue
 
 
 class PagePictureEdit(Page):
-    def __init__(self, pages : AllPages, windowsize:QSize):
+    def __init__(self, pages : AllPages, windowsize:QSize, globalVariable:GlobalPagesVariableService):
         super().__init__(pages)
         self.windowsize = windowsize
+        self.globalVariable = globalVariable
         self.heightDevider = 8
         self.resetPictureIdUsed()
+
 
         mainLayout = QVBoxLayout()
         self.setLayout(mainLayout)
@@ -59,6 +63,7 @@ class PagePictureEdit(Page):
         navigationLayout.addWidget(finishedButton)
 
     def executeBefore(self):
+        self.globalVariable.updatePictureName()
         self.updatePicture()
 
     def updatePicture(self):
@@ -105,9 +110,12 @@ class PagePictureEdit(Page):
     def resetPictureIdUsed(self):
         self.pictureIsUsed=False
 
+    def executeAfterStopAutoForwardTimer(self):
+        self.savePicture()
+
     def savePicture(self):
         if self.pictureIsUsed:
-            FileFolderService.saveUsedPicture()
+            FileFolderService.saveUsedPicture(self.globalVariable.getPictureSubName())
         else:
-            FileFolderService.saveUnusedPicture()
+            FileFolderService.saveUnusedPicture(self.globalVariable.getPictureSubName())
         self.resetPictureIdUsed()

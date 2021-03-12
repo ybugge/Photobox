@@ -1,4 +1,6 @@
+import ntpath
 import os
+import random
 import shutil
 
 from config.Config import CfgKey, cfgValue
@@ -14,25 +16,42 @@ class FileFolderService():
         return False
 
     @staticmethod
-    def saveUsedPicture():
+    def saveUsedPicture(fileName):
         folderName = os.path.join(FileFolderService.getSaveFolder(),cfgValue[CfgKey.USED_PICTURE_SUB_DIR])
-        FileFolderService.savePicture(folderName)
+        FileFolderService.savePicture(folderName, fileName)
 
     @staticmethod
-    def saveUnusedPicture():
+    def saveUnusedPicture(fileName):
         folderName = os.path.join(FileFolderService.getSaveFolder(),cfgValue[CfgKey.UNUSED_PICTURE_SUB_DIR])
-        FileFolderService.savePicture(folderName)
+        FileFolderService.savePicture(folderName, fileName)
 
     @staticmethod
-    def savePicture(targetFolder):
-        fileName = str(FileFolderService.getShottedPictureNumber())
+    def savePicture(targetFolder, fileName):
         sourceFile = FileFolderService.getTempPicturePath()
         if not os.path.exists(sourceFile):
             print("Quellfoto wurde nicht gefunden!")
             return
         FileFolderService.createFolderIfNotExist(targetFolder)
-        fileTargetPath = os.path.join(targetFolder,fileName+cfgValue[CfgKey.PICTURE_FORMAT])
-        shutil.move(sourceFile,fileTargetPath)
+        targetPath = os.path.join(targetFolder,fileName+cfgValue[CfgKey.PICTURE_FORMAT])
+        unicTargetPath = FileFolderService.getUnicFileName(targetPath)
+        shutil.move(sourceFile,unicTargetPath)
+
+    @staticmethod
+    def getUnicFileName(filePath:str):
+        nameWithExtension = os.path.basename(filePath)
+        name = os.path.splitext(nameWithExtension)[0]
+        extension = os.path.splitext(nameWithExtension)[1]
+        dir = ntpath.dirname(filePath)
+
+        while True:
+            randomNumber = random.randint(1000, 9999)
+            newFilePath = os.path.join(dir, name+"_"+str(randomNumber)+extension)
+            if not FileFolderService.existFile(newFilePath):
+                return newFilePath
+
+    @staticmethod
+    def existFile(filePath:str):
+        return os.path.exists(filePath) and os.path.isfile(filePath)
 
     @staticmethod
     def getShottedPictureNumber():

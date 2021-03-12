@@ -3,25 +3,27 @@ from PyQt5 import QtCore
 from PyQt5.QtCore import QSize
 
 from Pages.AllPages import AllPages
-from Pages.PageCameraCalibrationView import PageCameraCalibrationView
-from Pages.PageCapturePhoto import PageCapturePhoto
-from Pages.PageCloseConfirm import PageCloseConfirm
-from Pages.PageConfig import PageConfig
-from Pages.PageCameraPreview import PageCameraPreview
-from Pages.PageDownloadPicture import PageDownloadPicture
-from Pages.PageHints import PageHints
-from Pages.PagePictureEdit import PagePictureEdit
-from Pages.PageSystemPictureManager import PageSystemPictureManager
-from Pages.PageTitlePicture import PageTitlePicture
-from Pages.PageTest import PageTest
-from Pages.PageTest2 import PageTest2
-from config.Config import cfgValue, CfgKey, textValue, TextKey
+from Pages.SinglePages.PageCameraCalibrationView import PageCameraCalibrationView
+from Pages.SinglePages.PageCapturePhoto import PageCapturePhoto
+from Pages.SinglePages.PageCloseConfirm import PageCloseConfirm
+from Pages.SinglePages.PageConfig import PageConfig
+from Pages.SinglePages.PageCameraPreview import PageCameraPreview
+from Pages.SinglePages.PageDownloadPicture import PageDownloadPicture
+from Pages.SinglePages.PageHints import PageHints
+from Pages.SinglePages.PagePictureEdit import PagePictureEdit
+from Pages.SinglePages.PageSystemPictureManager import PageSystemPictureManager
+from Pages.SinglePages.PageTitlePicture import PageTitlePicture
+from Pages.SinglePages.PageTest import PageTest
+from Services.GlobalPagesVariableService import GlobalPagesVariableService
+from config.Config import cfgValue, CfgKey
+
 
 #Ist das Hauptfenster
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, windowsize:QSize):
         super().__init__()
         self.windowsize = windowsize
+        self.globalVariable = GlobalPagesVariableService()
 
         #Sytling
         self.setStyleSheet("QWidget {background-color: "+cfgValue[CfgKey.MAIN_WINDOW_BACKGROUND_COLOR]+";"
@@ -91,7 +93,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pages.addPage(pageCapturePhoto)
 
         #Seite 6 Picture Edit
-        pagePictureEdit = PagePictureEdit(self.pages, self.windowsize)
+        pagePictureEdit = PagePictureEdit(self.pages, self.windowsize, self.globalVariable)
+        pagePictureEdit.activateAutoForward(PageTitlePicture,CfgKey.PAGE_PICTUREEDIT_SPACE_AUTO_FORWARD_WAIT_TIME)
         pagePictureEdit.setPrinterPage(PageTest)
         pagePictureEdit.setDownloadPage(PageDownloadPicture)
         pagePictureEdit.setNewPicturePage(PageCameraPreview)
@@ -99,7 +102,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pages.addPage(pagePictureEdit)
 
         #Seite 6.1 Download Picture
-        pageDownloadPicture = PageDownloadPicture(self.pages, self.windowsize)
+        pageDownloadPicture = PageDownloadPicture(self.pages, self.windowsize,self.globalVariable)
+        pageDownloadPicture.activateAutoForward(PageTitlePicture,CfgKey.PAGE_PICTUREEDIT_SPACE_AUTO_FORWARD_WAIT_TIME)
         pageDownloadPicture.setBackPage(PagePictureEdit)
         self.pages.addPage(pageDownloadPicture)
 

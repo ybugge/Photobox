@@ -1,5 +1,5 @@
 from PyQt5 import QtWidgets
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtWidgets import QLabel
 
 from Pages import AllPages
@@ -12,6 +12,36 @@ class Page(QtWidgets.QWidget):
         super().__init__()
         self.allPages = allPages
         self.stackedWidgets=allPages.getStackedWidgets()
+        self.autoForwardActive = False
+        self.autoForwardTimer = QTimer()
+        self.autoForwardTimer.timeout.connect(self.autoFowardEvent)
+
+    # AUTO FORWARD start
+    def activateAutoForward(self,page, waitTime:CfgKey):
+        self.autoForwardPageType = page
+        self.autoForwardWaitTime = waitTime
+        self.autoForwardActive = True
+
+    def isAutoForwardActive(self):
+        return self.autoForwardActive
+
+    def startAutoForwardTimer(self):
+        self.autoForwardTimer.start(cfgValue[self.autoForwardWaitTime])
+
+    def stopAutoForwardTimer(self):
+        self.autoForwardTimer.stop()
+
+    def resetAutoForwardTimer(self):
+        self.stopAutoForwardTimer()
+        self.startAutoForwardTimer()
+
+    def autoFowardEvent(self):
+        self.setPageEvent(self.autoForwardPageType)
+
+    def executeAfterStopAutoForwardTimer(self):
+        pass
+
+    # AUTO FORWARD stop
 
     def setBackPage(self,backPage):
         self.backPage = backPage
@@ -29,11 +59,17 @@ class Page(QtWidgets.QWidget):
         isFound = False
         for page in self.allPages.getPages():
             if isinstance(page, type):
+
+                if self.isAutoForwardActive():
+                    self.stopAutoForwardTimer()
+                    self.executeAfterStopAutoForwardTimer()
                 self.allPages.getCurrentPage().executeAfter()
 
                 index = self.allPages.getPages().index(page)
                 self.allPages.setCurrentIndex(index)
                 page.executeBefore()
+                if page.isAutoForwardActive():
+                    page.startAutoForwardTimer()
                 isFound = True
         if(not isFound):
             print("Index wurde nicht gefunden!")
