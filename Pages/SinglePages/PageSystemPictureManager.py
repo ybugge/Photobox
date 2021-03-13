@@ -6,9 +6,10 @@ from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit, QL
 
 from Pages.AllPages import AllPages
 from Pages.Page import Page
+from Services.CfgService import CfgService
 from Services.FileFolderService import FileFolderService
 from Services.PictureDownloadThread import PictureDownloadThread
-from config.Config import TextKey, textValue, CfgKey, cfgValue
+from config.Config import TextKey, textValue, CfgKey
 
 
 class PageSystemPictureManager(Page):
@@ -30,13 +31,13 @@ class PageSystemPictureManager(Page):
         vbox.addWidget(QLabel(textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_SOURCELABEL]))
         funnySource = QLineEdit()
         funnySource.setEnabled(False)
-        funnySource.setText(cfgValue[CfgKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_PICTURE_SOURCE])
+        funnySource.setText(CfgService.get(CfgKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_PICTURE_SOURCE))
         vbox.addWidget(funnySource)
 
         vbox.addWidget(QLabel(textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_TARGETLABEL]))
         funnyTarget = QLineEdit()
         funnyTarget.setEnabled(False)
-        funnyTarget.setText(cfgValue[CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER])
+        funnyTarget.setText(CfgService.get(CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER))
         vbox.addWidget(funnyTarget)
 
         funnyPictureNavigation = QHBoxLayout()
@@ -75,14 +76,14 @@ class PageSystemPictureManager(Page):
 
     def deleteFunnyPictureFolder(self):
         self.disableAllButtons()
-        FileFolderService.removeIfExist(cfgValue[CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER])
-        FileFolderService.removeIfExist(cfgValue[CfgKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_PICTURE_SOURCE_SUCCESS_DOWNLOAD])
+        FileFolderService.removeIfExist(CfgService.get(CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER))
+        FileFolderService.removeIfExist(CfgService.get(CfgKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_PICTURE_SOURCE_SUCCESS_DOWNLOAD))
         self.enableAllButtons()
         self.funnyDeleteButton.setText(textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_SUCCESSFULL])
 
     def updateFunnyPictures(self):
         self.disableAllButtons()
-        urls = FileFolderService.readFile(cfgValue[CfgKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_PICTURE_SOURCE])
+        urls = FileFolderService.readFile(CfgService.get(CfgKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_PICTURE_SOURCE))
         if(len(urls) > 0):
             self.thread = PictureDownloadThread(urls)
             self.thread._signal.connect(self.signal_accept)

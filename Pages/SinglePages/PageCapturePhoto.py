@@ -8,7 +8,8 @@ from PyQt5.QtWidgets import QVBoxLayout, QLabel
 from Services.CV2CapturePhoto import CV2CapturePhoto
 from Pages.AllPages import AllPages
 from Pages.Page import Page
-from config.Config import cfgValue, CfgKey
+from Services.CfgService import CfgService
+from config.Config import CfgKey
 
 
 class PageCapturePhoto(Page):
@@ -36,15 +37,15 @@ class PageCapturePhoto(Page):
         randomPicture.scaledToHeight(self.windowsize.height())
         self.capturePhotoThread=CV2CapturePhoto(self.windowsize)
         self.counterLabel.setPixmap(randomPicture.scaledToHeight(self.windowsize.height()))
-        self.countdown = cfgValue[CfgKey.PAGE_CAPTUREPHOTO_TIMER_START_VALUE]
-        self.timer.start(cfgValue[CfgKey.PAGE_CAPTUREPHOTO_TIMER_PERIOD_LENGTH])
+        self.countdown = CfgService.get(CfgKey.PAGE_CAPTUREPHOTO_TIMER_START_VALUE)
+        self.timer.start(CfgService.get(CfgKey.PAGE_CAPTUREPHOTO_TIMER_PERIOD_LENGTH))
 
     def executeAfter(self):
         self.timer.stop()
         self.capturePhotoThread.stop()
 
     def timerUpdate(self):
-        if self.countdown == cfgValue[CfgKey.PAGE_CAPTUREPHOTO_TIMER_CAPTUREPHOTO_VALUE]:
+        if self.countdown == CfgService.get(CfgKey.PAGE_CAPTUREPHOTO_TIMER_CAPTUREPHOTO_VALUE):
             self.capturePhoto()
         elif self.countdown <= 0:
             self.nextPageEvent()
@@ -56,8 +57,8 @@ class PageCapturePhoto(Page):
         self.capturePhotoThread.start()
 
     def getRandomPicture(self):
-        directories = os.listdir(cfgValue[CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER])
+        directories = os.listdir(CfgService.get(CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER))
         numberPictures = len(directories)
         pictureIndex = random.randint(0,numberPictures-1)
-        return QPixmap(cfgValue[CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER] + "/" + directories[pictureIndex])
+        return QPixmap(CfgService.get(CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER) + "/" + directories[pictureIndex])
 

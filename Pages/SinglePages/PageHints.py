@@ -1,14 +1,11 @@
-import os
-from pathlib import Path
-
-from PyQt5.QtCore import Qt
 from PyQt5.QtMultimedia import QCameraInfo
-from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QLabel, QScrollArea, QWidget, QTextEdit, QHBoxLayout
+from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QTextEdit, QHBoxLayout
 
 from Pages.AllPages import AllPages
 from Pages.Page import Page
+from Services.CfgService import CfgService
 from Services.FileFolderService import FileFolderService
-from config.Config import textValue, TextKey, cfgValue, CfgKey
+from config.Config import textValue, TextKey, CfgKey
 
 
 class PageHints(Page):
@@ -70,13 +67,13 @@ class PageHints(Page):
             self.textArea.append(cameraInfoText)
             self.textArea.append("")
 
-        if not FileFolderService.hasFolderContent(cfgValue[CfgKey.PAGE_TITLEPICTURE_BUTTON_IMAGE_FOLDER]):
-            warn = textValue[TextKey.PAGE_HINTS_NO_PICTURES_FOUND_WARN] % (cfgValue[CfgKey.PAGE_TITLEPICTURE_BUTTON_IMAGE_FOLDER])
+        if not FileFolderService.hasFolderContent(CfgService.get(CfgKey.PAGE_TITLEPICTURE_BUTTON_IMAGE_FOLDER)):
+            warn = textValue[TextKey.PAGE_HINTS_NO_PICTURES_FOUND_WARN] % (CfgService.get(CfgKey.PAGE_TITLEPICTURE_BUTTON_IMAGE_FOLDER))
             self.textArea.append(warn)
             self.textArea.append("")
 
-        if not FileFolderService.hasFolderContent(cfgValue[CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER]):
-            warn = textValue[TextKey.PAGE_HINTS_NO_PICTURES_FOUND_WARN] % (cfgValue[CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER])
+        if not FileFolderService.hasFolderContent(CfgService.get(CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER)):
+            warn = textValue[TextKey.PAGE_HINTS_NO_PICTURES_FOUND_WARN] % (CfgService.get(CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER))
             self.textArea.append(warn)
             self.textArea.append("")
 
@@ -85,10 +82,10 @@ class PageHints(Page):
         return len(self.camerasInfos) > 0
 
     def getExistSelectedCamera(self):
-        return len(self.camerasInfos) > cfgValue[CfgKey.USED_CAMERA_INDEX]
+        return len(self.camerasInfos) > CfgService.get(CfgKey.USED_CAMERA_INDEX)
 
     def getCameraIndex(self):
-        return cfgValue[CfgKey.USED_CAMERA_INDEX]
+        return CfgService.get(CfgKey.USED_CAMERA_INDEX)
 
     def getCameraName(self):
         return self.camerasInfos[self.getCameraIndex()].deviceName()
@@ -97,8 +94,8 @@ class PageHints(Page):
         return self.camerasInfos[self.getCameraIndex()].description()
 
     def hasPageTitlePicturePictures(self):
-        return FileFolderService.hasFolderContent(cfgValue[CfgKey.PAGE_TITLEPICTURE_BUTTON_IMAGE_FOLDER])
+        return FileFolderService.hasFolderContent(CfgService.get(CfgKey.PAGE_TITLEPICTURE_BUTTON_IMAGE_FOLDER))
 
     def hasPageCapturePhotoLastPicture(self):
-        return FileFolderService.hasFolderContent(cfgValue[CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER])
+        return FileFolderService.hasFolderContent(CfgService.get(CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER))
 

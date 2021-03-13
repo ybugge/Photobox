@@ -2,32 +2,33 @@ import os
 import random
 import ntpath
 
+from Services.CfgService import CfgService
 from Services.FileFolderService import FileFolderService
-from config.Config import CfgKey, cfgValue
+from config.Config import CfgKey
 
 
 class ShottedPictureService():
 
     @staticmethod
     def saveUsedPicture(fileName):
-        folderName = os.path.join(ShottedPictureService._getSaveFolder(),cfgValue[CfgKey.USED_PICTURE_SUB_DIR])
+        folderName = os.path.join(ShottedPictureService._getSaveFolder(),CfgService.get(CfgKey.USED_PICTURE_SUB_DIR))
         ShottedPictureService._savePicture(folderName, fileName)
 
     @staticmethod
     def saveUnusedPicture(fileName):
-        folderName = os.path.join(ShottedPictureService._getSaveFolder(),cfgValue[CfgKey.UNUSED_PICTURE_SUB_DIR])
+        folderName = os.path.join(ShottedPictureService._getSaveFolder(),CfgService.get(CfgKey.UNUSED_PICTURE_SUB_DIR))
         ShottedPictureService._savePicture(folderName, fileName)
 
     @staticmethod
     def getTempPicturePath():
-        folder = os.path.join(ShottedPictureService._getSaveFolder(),cfgValue[CfgKey.RAW_PICTURE_SUB_DIR])
+        folder = os.path.join(ShottedPictureService._getSaveFolder(),CfgService.get(CfgKey.RAW_PICTURE_SUB_DIR))
         FileFolderService.createFolderIfNotExist(folder)
-        return os.path.join(folder,"temp"+cfgValue[CfgKey.PICTURE_FORMAT])
+        return os.path.join(folder,"temp"+CfgService.get(CfgKey.PICTURE_FORMAT))
 
     @staticmethod
     def _savePicture(targetFolder, fileName):
         sourceFile = ShottedPictureService.getTempPicturePath()
-        targetPath = os.path.join(targetFolder,fileName+cfgValue[CfgKey.PICTURE_FORMAT])
+        targetPath = os.path.join(targetFolder,fileName+CfgService.get(CfgKey.PICTURE_FORMAT))
         unicTargetPath = ShottedPictureService._getUnicFileName(targetPath)
         FileFolderService.moveFile(sourceFile,unicTargetPath)
 
@@ -47,4 +48,4 @@ class ShottedPictureService():
 
     @staticmethod
     def _getSaveFolder():
-        return os.path.join(cfgValue[CfgKey.MAIN_SAVE_DIR], cfgValue[CfgKey.PROJECTNAME])
+        return os.path.join(CfgService.get(CfgKey.MAIN_SAVE_DIR), CfgService.get(CfgKey.PROJECTNAME))

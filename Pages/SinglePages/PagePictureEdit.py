@@ -5,9 +5,10 @@ from PyQt5.QtWidgets import QVBoxLayout, QPushButton, QHBoxLayout, QLabel
 
 from Pages.AllPages import AllPages
 from Pages.Page import Page
+from Services.CfgService import CfgService
 from Services.GlobalPagesVariableService import GlobalPagesVariableService
 from Services.ShottedPictureService import ShottedPictureService
-from config.Config import CfgKey, cfgValue
+from config.Config import CfgKey
 
 
 class PagePictureEdit(Page):
@@ -34,14 +35,14 @@ class PagePictureEdit(Page):
 
         printButton = QPushButton()
         printButton.clicked.connect(self.printPageEvent)
-        printButton.setStyleSheet("qproperty-icon: url(" + cfgValue[CfgKey.PAGE_PICTUREEDIT_PRINT_BUTTON_ICON_DIR] + ");")
+        printButton.setStyleSheet("qproperty-icon: url(" + CfgService.get(CfgKey.PAGE_PICTUREEDIT_PRINT_BUTTON_ICON_DIR) + ");")
         printButton.setIconSize(self.getButtonSize())
         printButton.setFixedSize(self.getButtonSize())
         navigationLayout.addWidget(printButton)
 
         downloadButton = QPushButton()
         downloadButton.clicked.connect(self.downloadPageEvent)
-        downloadButton.setStyleSheet("qproperty-icon: url(" + cfgValue[CfgKey.PAGE_PICTUREEDIT_DOWNLOAD_BUTTON_ICON_DIR] + ");")
+        downloadButton.setStyleSheet("qproperty-icon: url(" + CfgService.get(CfgKey.PAGE_PICTUREEDIT_DOWNLOAD_BUTTON_ICON_DIR) + ");")
         downloadButton.setIconSize(self.getButtonSize())
         downloadButton.setFixedSize(self.getButtonSize())
         navigationLayout.addWidget(downloadButton)
@@ -50,14 +51,14 @@ class PagePictureEdit(Page):
 
         nextPictureButton = QPushButton()
         nextPictureButton.clicked.connect(self.newPicturePageEvent)
-        nextPictureButton.setStyleSheet("qproperty-icon: url(" + cfgValue[CfgKey.PAGE_PICTUREEDIT_NEWPICTURE_BUTTON_ICON_DIR] + ");")
+        nextPictureButton.setStyleSheet("qproperty-icon: url(" + CfgService.get(CfgKey.PAGE_PICTUREEDIT_NEWPICTURE_BUTTON_ICON_DIR) + ");")
         nextPictureButton.setIconSize(self.getButtonSize())
         nextPictureButton.setFixedSize(self.getButtonSize())
         navigationLayout.addWidget(nextPictureButton)
 
         finishedButton = QPushButton()
         finishedButton.clicked.connect(self.finishedPageEvent)
-        finishedButton.setStyleSheet("qproperty-icon: url(" + cfgValue[CfgKey.PAGE_PICTUREEDIT_FINISHED_BUTTON_ICON_DIR] + ");")
+        finishedButton.setStyleSheet("qproperty-icon: url(" + CfgService.get(CfgKey.PAGE_PICTUREEDIT_FINISHED_BUTTON_ICON_DIR) + ");")
         finishedButton.setIconSize(self.getButtonSize())
         finishedButton.setFixedSize(self.getButtonSize())
         navigationLayout.addWidget(finishedButton)

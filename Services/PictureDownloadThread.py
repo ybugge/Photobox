@@ -1,5 +1,4 @@
 import math
-import time
 from PyQt5.QtCore import QThread, pyqtSignal
 from pip._vendor import requests
 

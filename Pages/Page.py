@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QLabel
 
 from Pages import AllPages
 from Services.CfgService import CfgService
-from config.Config import cfgValue, CfgKey, textValue, TextKey
+from config.Config import CfgKey, textValue, TextKey
 
 
 class Page(QtWidgets.QWidget):
@@ -27,7 +27,7 @@ class Page(QtWidgets.QWidget):
         return self.autoForwardActive
 
     def startAutoForwardTimer(self):
-        self.autoForwardTimer.start(cfgValue[self.autoForwardWaitTime])
+        self.autoForwardTimer.start(CfgService.get(self.autoForwardWaitTime))
 
     def stopAutoForwardTimer(self):
         self.autoForwardTimer.stop()

@@ -5,7 +5,8 @@ from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QSizePolicy
 
 from Pages.AllPages import AllPages
 from Pages.Page import Page
-from config.Config import cfgValue, CfgKey
+from Services.CfgService import CfgService
+from config.Config import CfgKey
 
 
 class PageTitlePicture(Page):
@@ -25,9 +26,9 @@ class PageTitlePicture(Page):
 
     def setStartButtonStyle(self):
         self.startButton.setStyleSheet("border-image : url(" + self.__getBackgroundPicturePath() + ");"
-                                        " background-color:" + cfgValue[CfgKey.PAGE_TITLEPICTURE_BUTTON_BACKGROUND_COLOR] + ";")
+                                        " background-color:" + CfgService.get(CfgKey.PAGE_TITLEPICTURE_BUTTON_BACKGROUND_COLOR) + ";")
     def __getBackgroundPicturePath(self):
-        directories = os.listdir(cfgValue[CfgKey.PAGE_TITLEPICTURE_BUTTON_IMAGE_FOLDER])
+        directories = os.listdir(CfgService.get(CfgKey.PAGE_TITLEPICTURE_BUTTON_IMAGE_FOLDER))
         numberPictures = len(directories)
         pictureIndex = random.randint(0,numberPictures-1)
-        return cfgValue[CfgKey.PAGE_TITLEPICTURE_BUTTON_IMAGE_FOLDER] + "/" + directories[pictureIndex]
+        return CfgService.get(CfgKey.PAGE_TITLEPICTURE_BUTTON_IMAGE_FOLDER) + "/" + directories[pictureIndex]

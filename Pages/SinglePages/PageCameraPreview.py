@@ -7,7 +7,8 @@ from PyQt5.QtWidgets import QVBoxLayout, QLabel, QHBoxLayout, QWidget
 from Services.CV2VideoThread import CV2VideoThread
 from Pages.AllPages import AllPages
 from Pages.Page import Page
-from config.Config import cfgValue, CfgKey
+from Services.CfgService import CfgService
+from config.Config import CfgKey
 
 
 class PageCameraPreview(Page):
@@ -58,18 +59,18 @@ class PageCameraPreview(Page):
         self.countdown -=1
 
     def getCounterImage(self,number:int):
-        directories = os.listdir(cfgValue[CfgKey.PAGE_CAMERAPREVIEW_COUNDOWN_IMAGE_FOLDER])
+        directories = os.listdir(CfgService.get(CfgKey.PAGE_CAMERAPREVIEW_COUNDOWN_IMAGE_FOLDER))
         for file in directories:
             if file.endswith(str(number)+".png"):
-                return QPixmap(cfgValue[CfgKey.PAGE_CAMERAPREVIEW_COUNDOWN_IMAGE_FOLDER]+"/"+file)
+                return QPixmap(CfgService.get(CfgKey.PAGE_CAMERAPREVIEW_COUNDOWN_IMAGE_FOLDER)+"/"+file)
         return None
 
     def executeBefore(self):
         print("Start Video")
         self.videoThread = self.initialVideoThread(self.windowsize)
         self.videoThread.start()
-        self.countdown = cfgValue[CfgKey.PAGE_CAMERAPREVIEW_COUNTER_START_VALUE]
-        self.timer.start(cfgValue[CfgKey.PAGE_CAMERAPREVIEW_COUNTER_PERIOD_LENGTH])
+        self.countdown = CfgService.get(CfgKey.PAGE_CAMERAPREVIEW_COUNTER_START_VALUE)
+        self.timer.start(CfgService.get(CfgKey.PAGE_CAMERAPREVIEW_COUNTER_PERIOD_LENGTH))
 
     def executeAfter(self):
         print("Stop Video")

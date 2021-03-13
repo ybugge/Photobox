@@ -5,7 +5,8 @@ from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QLabel, QHBoxLayout, QFile
 
 from Pages.AllPages import AllPages
 from Pages.Page import Page
-from config.Config import textValue, TextKey, cfgValue, CfgKey
+from Services.CfgService import CfgService
+from config.Config import textValue, TextKey, CfgKey
 
 
 class PageConfig(Page):
@@ -29,7 +30,7 @@ class PageConfig(Page):
         vbox.addLayout(mainSaveDirLayout)
 
         self.mainSaveDirLabel = QLineEdit()
-        self.mainSaveDirLabel.setText(cfgValue[CfgKey.MAIN_SAVE_DIR])
+        self.mainSaveDirLabel.setText(CfgService.get(CfgKey.MAIN_SAVE_DIR))
         self.mainSaveDirLabel.setReadOnly(True)
         mainSaveDirLayout.addWidget(self.mainSaveDirLabel,0,0)
 
@@ -43,7 +44,7 @@ class PageConfig(Page):
         vbox.addWidget(projectNameTitle)
 
         self.projectNameValue = QLineEdit()
-        self.projectNameValue.setText(cfgValue[CfgKey.PROJECTNAME])
+        self.projectNameValue.setText(CfgService.get(CfgKey.PROJECTNAME))
         vbox.addWidget(self.projectNameValue)
 
             #Camera calibration
@@ -65,11 +66,11 @@ class PageConfig(Page):
         navigationLayout.addWidget(nextButton)
 
     def executeAfter(self):
-        cfgValue[CfgKey.PROJECTNAME] = self.projectNameValue.text()
+        CfgService.set(CfgKey.PROJECTNAME, self.projectNameValue.text())
 
     def open_file_dialog(self):
-        cfgValue[CfgKey.MAIN_SAVE_DIR] = str(QFileDialog.getExistingDirectory())
-        self.mainSaveDirLabel.setText(cfgValue[CfgKey.MAIN_SAVE_DIR])
+        CfgService.set(CfgKey.MAIN_SAVE_DIR, str(QFileDialog.getExistingDirectory()))
+        self.mainSaveDirLabel.setText(CfgService.get(CfgKey.MAIN_SAVE_DIR))
 
     def setCameraCalibrationEventPage(self,page):
         self.cameraCalibrationPage = page
