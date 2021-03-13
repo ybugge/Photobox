@@ -1,9 +1,5 @@
-import ntpath
 import os
-import random
 import shutil
-
-from config.Config import CfgKey, cfgValue
 
 
 class FileFolderService():
@@ -16,59 +12,16 @@ class FileFolderService():
         return False
 
     @staticmethod
-    def saveUsedPicture(fileName):
-        folderName = os.path.join(FileFolderService.getSaveFolder(),cfgValue[CfgKey.USED_PICTURE_SUB_DIR])
-        FileFolderService.savePicture(folderName, fileName)
-
-    @staticmethod
-    def saveUnusedPicture(fileName):
-        folderName = os.path.join(FileFolderService.getSaveFolder(),cfgValue[CfgKey.UNUSED_PICTURE_SUB_DIR])
-        FileFolderService.savePicture(folderName, fileName)
-
-    @staticmethod
-    def savePicture(targetFolder, fileName):
-        sourceFile = FileFolderService.getTempPicturePath()
-        if not os.path.exists(sourceFile):
+    def moveFile(sourceFile:str, targetFile:str):
+        if not os.path.exists(sourceFile) or not os.path.isfile(sourceFile):
             print("Quellfoto wurde nicht gefunden!")
             return
-        FileFolderService.createFolderIfNotExist(targetFolder)
-        targetPath = os.path.join(targetFolder,fileName+cfgValue[CfgKey.PICTURE_FORMAT])
-        unicTargetPath = FileFolderService.getUnicFileName(targetPath)
-        shutil.move(sourceFile,unicTargetPath)
-
-    @staticmethod
-    def getUnicFileName(filePath:str):
-        nameWithExtension = os.path.basename(filePath)
-        name = os.path.splitext(nameWithExtension)[0]
-        extension = os.path.splitext(nameWithExtension)[1]
-        dir = ntpath.dirname(filePath)
-
-        while True:
-            randomNumber = random.randint(1000, 9999)
-            newFilePath = os.path.join(dir, name+"_"+str(randomNumber)+extension)
-            if not FileFolderService.existFile(newFilePath):
-                return newFilePath
+        FileFolderService.creatFolderByFileIfNotExist(targetFile)
+        shutil.move(sourceFile,targetFile)
 
     @staticmethod
     def existFile(filePath:str):
         return os.path.exists(filePath) and os.path.isfile(filePath)
-
-    @staticmethod
-    def getShottedPictureNumber():
-        unUsedPath = os.path.join(FileFolderService.getSaveFolder(),cfgValue[CfgKey.UNUSED_PICTURE_SUB_DIR])
-        usedPath = os.path.join(FileFolderService.getSaveFolder(),cfgValue[CfgKey.USED_PICTURE_SUB_DIR])
-        numberContent = FileFolderService.getFolderContentNumber(unUsedPath) + FileFolderService.getFolderContentNumber(usedPath)
-        return numberContent
-
-    @staticmethod
-    def getTempPicturePath():
-        folder = os.path.join(FileFolderService.getSaveFolder(),cfgValue[CfgKey.RAW_PICTURE_SUB_DIR])
-        FileFolderService.createFolderIfNotExist(folder)
-        return os.path.join(folder,"temp"+cfgValue[CfgKey.PICTURE_FORMAT])
-
-    @staticmethod
-    def getSaveFolder():
-        return os.path.join(cfgValue[CfgKey.MAIN_SAVE_DIR], cfgValue[CfgKey.PROJECTNAME])
 
     @staticmethod
     def removeIfExist(fileOrFolderDir:str):
@@ -96,9 +49,12 @@ class FileFolderService():
         return file_extension
 
     @staticmethod
+    def creatFolderByFileIfNotExist(file:str):
+        FileFolderService.createFolderIfNotExist(os.path.dirname(file))
+
+    @staticmethod
     def createFolderIfNotExist(folder:str):
-        if not os.path.exists(folder):
-            os.makedirs(folder)
+        os.makedirs(folder,exist_ok=True)
 
     @staticmethod
     def writeLineInFile(append:bool,fileDir:str,line:str):
@@ -109,6 +65,17 @@ class FileFolderService():
         else:
             with open(fileDir,'w') as file:
                 file.write(line+"\n")
+            file.close()
+
+    @staticmethod
+    def writeLinesInFile(append:bool,fileDir:str,lines:list):
+        if os.path.exists(fileDir) and append:
+            with open(fileDir, "a") as file:
+                file.writelines(lines)
+            file.close()
+        else:
+            with open(fileDir,'w') as file:
+                file.writelines(lines)
             file.close()
 
     @staticmethod

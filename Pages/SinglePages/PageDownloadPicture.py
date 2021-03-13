@@ -7,8 +7,8 @@ from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QPushButton, QLabel
 
 from Pages.AllPages import AllPages
 from Pages.Page import Page
-from Services.FileFolderService import FileFolderService
 from Services.GlobalPagesVariableService import GlobalPagesVariableService
+from Services.ShottedPictureService import ShottedPictureService
 from config.Config import TextKey, textValue
 
 
@@ -36,7 +36,6 @@ class PageDownloadPicture(Page):
         navigationLayout=QHBoxLayout()
         mainLayout.addLayout(navigationLayout)
 
-        backButton = QPushButton()
         backButton = QPushButton(textValue[TextKey.PAGE_DOWNLOADPICTURE_BACKBUTTON])
         backButton.clicked.connect(self.backPageEvent)
         navigationLayout.addWidget(backButton)
@@ -44,8 +43,8 @@ class PageDownloadPicture(Page):
     def executeBefore(self):
         self.updateQrCodePicture()
 
-    def executeAfterStopAutoForwardTimer(self):
-        FileFolderService.saveUsedPicture(self.globalVariable.getPictureSubName())
+    def executeInAutoForwardTimerEvent(self):
+        ShottedPictureService.saveUsedPicture(self.globalVariable.getPictureSubName())
 
     def updateQrCodePicture(self):
         #QRCode

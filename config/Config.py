@@ -29,6 +29,7 @@ class CfgKey(enum.Enum):
     USED_PICTURE_SUB_DIR = 4
     UNUSED_PICTURE_SUB_DIR = 5
     PICTURE_FORMAT=6
+    PROPERTIES_PATH = 7
 
     #PageSystemPictureManager.py
     PAGE_SYSTEMPICTUREMANAGER_FUNNY_PICTURE_SOURCE = 200
@@ -62,6 +63,7 @@ cfgValue = {}
 cfgValue[CfgKey.IS_PI] = False                      #Changeable -> True when RasPi
 cfgValue[CfgKey.APPLICATION_CURSOR_HINT] = False    #Changeable -> True when RasPi
 cfgValue[CfgKey.USED_CAMERA_INDEX] = 0
+cfgValue[CfgKey.PROPERTIES_PATH] = "Resources/config.properties"
 
 cfgValue[CfgKey.MAIN_SAVE_DIR] = "FotoboxData/"
 cfgValue[CfgKey.PROJECTNAME] = "Party"

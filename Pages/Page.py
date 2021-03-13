@@ -3,6 +3,7 @@ from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtWidgets import QLabel
 
 from Pages import AllPages
+from Services.CfgService import CfgService
 from config.Config import cfgValue, CfgKey, textValue, TextKey
 
 
@@ -36,9 +37,10 @@ class Page(QtWidgets.QWidget):
         self.startAutoForwardTimer()
 
     def autoFowardEvent(self):
+        self.executeInAutoForwardTimerEvent()
         self.setPageEvent(self.autoForwardPageType)
 
-    def executeAfterStopAutoForwardTimer(self):
+    def executeInAutoForwardTimerEvent(self):
         pass
 
     # AUTO FORWARD stop
@@ -62,7 +64,6 @@ class Page(QtWidgets.QWidget):
 
                 if self.isAutoForwardActive():
                     self.stopAutoForwardTimer()
-                    self.executeAfterStopAutoForwardTimer()
                 self.allPages.getCurrentPage().executeAfter()
 
                 index = self.allPages.getPages().index(page)
@@ -88,7 +89,7 @@ class Page(QtWidgets.QWidget):
         return title
 
     def __getTitleStyle(self):
-        return  ("background-color:"+cfgValue[CfgKey.TITLE_BACKGROUND_COLOR]+";"
-            "color:"+cfgValue[CfgKey.TITLE_COLOR]+";"
-            "font-size: "+cfgValue[CfgKey.TITLE_SIZE]+";"
-            "font-family: "+cfgValue[CfgKey.TITLE_FONT]+", serif;")
+        return  ("background-color:" + CfgService.get(CfgKey.TITLE_BACKGROUND_COLOR) + ";"
+            "color:" + CfgService.get(CfgKey.TITLE_COLOR) +";"
+            "font-size: " + CfgService.get(CfgKey.TITLE_SIZE) +";"
+            "font-family: " + CfgService.get(CfgKey.TITLE_FONT) +", serif;")

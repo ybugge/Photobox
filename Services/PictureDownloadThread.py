@@ -3,8 +3,9 @@ import time
 from PyQt5.QtCore import QThread, pyqtSignal
 from pip._vendor import requests
 
+from Services.CfgService import CfgService
 from Services.FileFolderService import FileFolderService
-from config.Config import CfgKey, cfgValue
+from config.Config import CfgKey
 
 
 class PictureDownloadThread(QThread):
@@ -14,11 +15,11 @@ class PictureDownloadThread(QThread):
         self.urls = urls
 
     def run(self):
-        folderPath = cfgValue[CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER]
+        folderPath = CfgService.get(CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER)
         numberUrls = len(self.urls)
         FileFolderService.createFolderIfNotExist(folderPath)
         for index, url in enumerate(self.urls):
-            if(FileFolderService.containsLineInFile(url,cfgValue[CfgKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_PICTURE_SOURCE_SUCCESS_DOWNLOAD])):
+            if(FileFolderService.containsLineInFile(url,CfgService.get(CfgKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_PICTURE_SOURCE_SUCCESS_DOWNLOAD))):
                 continue
             request = self.getRequest(url)
             if request == None:
@@ -27,7 +28,7 @@ class PictureDownloadThread(QThread):
 
             self.savePicture(request,url,index,folderPath)
             self.setProgress(index,numberUrls)
-            FileFolderService.writeLineInFile(True,cfgValue[CfgKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_PICTURE_SOURCE_SUCCESS_DOWNLOAD],url)
+            FileFolderService.writeLineInFile(True,CfgService.get(CfgKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_PICTURE_SOURCE_SUCCESS_DOWNLOAD),url)
 
         self.setProgress(numberUrls,numberUrls)
 

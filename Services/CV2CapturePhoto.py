@@ -1,8 +1,9 @@
 import cv2
 from PyQt5.QtCore import QThread, QSize
 
-from Services.FileFolderService import FileFolderService
-from config.Config import CfgKey, cfgValue
+from Services.CfgService import CfgService
+from Services.ShottedPictureService import ShottedPictureService
+from config.Config import CfgKey
 
 
 class CV2CapturePhoto(QThread):
@@ -13,14 +14,14 @@ class CV2CapturePhoto(QThread):
         self.returnValue = True
 
     def run(self):
-        cap = cv2.VideoCapture(cfgValue[CfgKey.USED_CAMERA_INDEX])
+        cap = cv2.VideoCapture(CfgService.get(CfgKey.USED_CAMERA_INDEX))
         cap.set(cv2.CAP_PROP_FRAME_WIDTH, self.img_dimensions.width())
         cap.set(cv2.CAP_PROP_FRAME_HEIGHT, self.img_dimensions.height())
 
         while self.returnValue:
             ret, frame = cap.read()
             if ret:
-                cv2.imwrite(FileFolderService.getTempPicturePath(), frame)
+                cv2.imwrite(ShottedPictureService.getTempPicturePath(), frame)
                 self.returnValue = False
 
         cap.release()
