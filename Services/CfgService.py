@@ -16,7 +16,10 @@ class CfgService():
 
     @staticmethod
     def set(key:CfgKey,value):
-        cfgValue[key] = value
+        if cfgValue[key] != value:
+            cfgValue[key] = value
+            propertiesService = PropertiesService()
+            propertiesService.set(key, value)
 
     @staticmethod
     def _convertString(value:str, key:CfgKey):
