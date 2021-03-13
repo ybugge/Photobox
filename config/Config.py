@@ -3,6 +3,18 @@ from PyQt5 import QtCore
 
 class CfgKey(enum.Enum):
 
+    #DATABASE #######################################################################################
+    DB_NAME = 2001
+
+    #SERVER #########################################################################################
+    SERVER_INDEX_PAGE = 1000
+    SERVER_DOWNLOAD_PICTURE_PAGE = 1001
+    SERVER_DB_PATH = 2003
+    SERVER_IP=2004
+    SERVER_PORT=2005
+
+    #FOTOBOX #########################################################################################
+    APPLICATION_DB_PATH = 13
     APPLICATION_CURSOR_HINT = 10
     IS_PI = 11
     USED_CAMERA_INDEX = 12
@@ -59,6 +71,19 @@ class CfgKey(enum.Enum):
 
 
 cfgValue = {}
+
+#DB #############################################################################
+cfgValue[CfgKey.DB_NAME] = "fotobox.db"
+cfgValue[CfgKey.SERVER_DB_PATH] = "Server/db"
+cfgValue[CfgKey.APPLICATION_DB_PATH] = "Server/db"
+
+#SERVER #########################################################################
+cfgValue[CfgKey.SERVER_INDEX_PAGE] = "/"
+cfgValue[CfgKey.SERVER_DOWNLOAD_PICTURE_PAGE] = "/download"
+cfgValue[CfgKey.SERVER_IP] = "localhost"
+cfgValue[CfgKey.SERVER_PORT] = "5000"
+
+# FOTOBOX #######################################################################
 
 cfgValue[CfgKey.IS_PI] = False                      #Changeable -> True when RasPi
 cfgValue[CfgKey.APPLICATION_CURSOR_HINT] = False    #Changeable -> True when RasPi
@@ -146,6 +171,7 @@ class TextKey(enum.Enum):
     PAGE_CONFIG_MAIN_SAVE_DIR_TITLE=23
     PAGE_CONFIG_PROJECT_NAME_TITLE=24
     PAGE_CONFIG_CAMERA_CALIBRATION_BUTTON=25
+    PAGE_CONFIG_SERVER_IPANDPORT_TITLE=26
 
     #PageCloseConfirm.py
     PAGE_CLOSECONFIRM_TITLE = 30
@@ -186,6 +212,7 @@ textValue[TextKey.PAGE_CONFIG_BACKBUTTON] = "Zurück"
 textValue[TextKey.PAGE_CONFIG_MAIN_SAVE_DIR_TITLE] = "Speicherort:"
 textValue[TextKey.PAGE_CONFIG_PROJECT_NAME_TITLE] = "Projektname:"
 textValue[TextKey.PAGE_CONFIG_CAMERA_CALIBRATION_BUTTON] = "Kamera kalibrieren"
+textValue[TextKey.PAGE_CONFIG_SERVER_IPANDPORT_TITLE] = "Server IP und Port"
 
 #PageCloseConfirm
 textValue[TextKey.PAGE_CLOSECONFIRM_TITLE] = "Anwendung schließen?"

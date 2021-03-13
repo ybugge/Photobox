@@ -15,6 +15,7 @@ from Pages.SinglePages.PageSystemPictureManager import PageSystemPictureManager
 from Pages.SinglePages.PageTitlePicture import PageTitlePicture
 from Pages.SinglePages.PageTest import PageTest
 from Services.GlobalPagesVariableService import GlobalPagesVariableService
+from Services.WebServerExecThread import WebServerExecThread
 from config.Config import cfgValue, CfgKey
 
 
@@ -24,6 +25,8 @@ class MainWindow(QtWidgets.QMainWindow):
         super().__init__()
         self.windowsize = windowsize
         self.globalVariable = GlobalPagesVariableService()
+        self.server=WebServerExecThread()
+
 
         #Sytling
         self.setStyleSheet("QWidget {background-color: "+cfgValue[CfgKey.MAIN_WINDOW_BACKGROUND_COLOR]+";"
@@ -50,7 +53,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
         #ClosePage
-        pageCloseConfirm = PageCloseConfirm(self.pages, self)
+        pageCloseConfirm = PageCloseConfirm(self.pages, self, self.server)
         pageCloseConfirm.setNextPage(PageConfig)
         self.pages.addPage(pageCloseConfirm)
 
@@ -66,7 +69,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pages.addPage(pagePictureManager)
 
         #Seite 2 Configuration
-        pageConfig = PageConfig(self.pages)
+        pageConfig = PageConfig(self.pages, self.server)
         pageConfig.setBackPage(PageHints)
         pageConfig.setNextPage(PageTitlePicture)
         pageConfig.setCameraCalibrationEventPage(PageCameraCalibrationView)
@@ -142,3 +145,7 @@ class MainWindow(QtWidgets.QMainWindow):
     #Schliest die Anwendung
     def close(self):
         self.deleteLater()
+
+    def __del__(self):
+        if self.server != None:
+            self.server.stop()

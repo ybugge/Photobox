@@ -7,6 +7,7 @@ from Pages.AllPages import AllPages
 from Pages.Page import Page
 from Services.CfgService import CfgService
 from Services.GlobalPagesVariableService import GlobalPagesVariableService
+from Services.PageDbService import PageDbSevice
 from Services.ShottedPictureService import ShottedPictureService
 from config.Config import CfgKey
 
@@ -65,6 +66,7 @@ class PagePictureEdit(Page):
 
     def executeBefore(self):
         self.globalVariable.updatePictureName()
+        PageDbSevice.setInitialPicture(self.globalVariable)
         self.updatePicture()
 
     def updatePicture(self):
@@ -116,7 +118,9 @@ class PagePictureEdit(Page):
 
     def savePicture(self):
         if self.pictureIsUsed:
-            ShottedPictureService.saveUsedPicture(self.globalVariable.getPictureSubName())
+            pictureTargetPath = ShottedPictureService.saveUsedPicture(self.globalVariable.getPictureSubName())
+            PageDbSevice.updatePicture(self.globalVariable,pictureTargetPath)
         else:
-            ShottedPictureService.saveUnusedPicture(self.globalVariable.getPictureSubName())
+            pictureTargetPath = ShottedPictureService.saveUnusedPicture(self.globalVariable.getPictureSubName())
+            PageDbSevice.updatePicture(self.globalVariable,pictureTargetPath)
         self.resetPictureIdUsed()

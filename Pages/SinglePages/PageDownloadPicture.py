@@ -7,9 +7,11 @@ from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QPushButton, QLabel
 
 from Pages.AllPages import AllPages
 from Pages.Page import Page
+from Services.CfgService import CfgService
 from Services.GlobalPagesVariableService import GlobalPagesVariableService
+from Services.PageDbService import PageDbSevice
 from Services.ShottedPictureService import ShottedPictureService
-from config.Config import TextKey, textValue
+from config.Config import TextKey, textValue, CfgKey
 
 
 class PageDownloadPicture(Page):
@@ -44,12 +46,12 @@ class PageDownloadPicture(Page):
         self.updateQrCodePicture()
 
     def executeInAutoForwardTimerEvent(self):
-        ShottedPictureService.saveUsedPicture(self.globalVariable.getPictureSubName())
+        pictureTargetPath = ShottedPictureService.saveUsedPicture(self.globalVariable.getPictureSubName())
+        PageDbSevice.updatePicture(self.globalVariable,pictureTargetPath)
 
     def updateQrCodePicture(self):
         #QRCode
-        data = "https://www.wikipedia.com"
-
+        data = "http://"+CfgService.get(CfgKey.SERVER_IP)+":"+CfgService.get(CfgKey.SERVER_PORT)+CfgService.get(CfgKey.SERVER_DOWNLOAD_PICTURE_PAGE)+"/"+self.globalVariable.getPictureSubName()
         buf = io.BytesIO()
         img = qrcode.make(data)
         img.save(buf, "PNG")

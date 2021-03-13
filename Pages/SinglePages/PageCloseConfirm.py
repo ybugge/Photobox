@@ -4,12 +4,14 @@ from PyQt5.QtWidgets import QVBoxLayout, QLabel, QHBoxLayout, QPushButton
 import MainWindow
 from Pages.AllPages import AllPages
 from Pages.Page import Page
+from Services.WebServerExecThread import WebServerExecThread
 from config.Config import textValue, TextKey
 
 
 class PageCloseConfirm(Page):
-    def __init__(self, pages : AllPages, mainWindow: MainWindow):
+    def __init__(self, pages : AllPages, mainWindow: MainWindow,server:WebServerExecThread):
         super().__init__(pages)
+        self.server = server
 
         self.mainWindow = mainWindow
 
@@ -33,6 +35,7 @@ class PageCloseConfirm(Page):
         self.setLayout(vbox)
 
     def closeApplication(self):
+        self.server.stop()
         print("Close Application")
         self.mainWindow.close()
 

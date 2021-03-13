@@ -57,6 +57,10 @@ class FileFolderService():
         os.makedirs(folder,exist_ok=True)
 
     @staticmethod
+    def getAbsoltPath(file:str):
+        return os.path.abspath(file)
+
+    @staticmethod
     def writeLineInFile(append:bool,fileDir:str,line:str):
         if os.path.exists(fileDir) and append:
             with open(fileDir, "a") as file:

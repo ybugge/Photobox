@@ -6,12 +6,14 @@ from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QLabel, QHBoxLayout, QFile
 from Pages.AllPages import AllPages
 from Pages.Page import Page
 from Services.CfgService import CfgService
+from Services.WebServerExecThread import WebServerExecThread
 from config.Config import textValue, TextKey, CfgKey
 
 
 class PageConfig(Page):
-    def __init__(self, pages : AllPages):
+    def __init__(self, pages : AllPages, server:WebServerExecThread):
         super().__init__(pages)
+        self.server = server
         vbox = QVBoxLayout()
         self.setLayout(vbox)
 
@@ -52,6 +54,21 @@ class PageConfig(Page):
         cameraCalibration.clicked.connect(self.cameraCalibrationEvent)
         vbox.addWidget(cameraCalibration)
 
+            #Server
+        serverTitle = QLabel(textValue[TextKey.PAGE_CONFIG_SERVER_IPANDPORT_TITLE])
+        serverTitle.setFont(titleFont)
+        vbox.addWidget(serverTitle)
+
+        serverLayout = QHBoxLayout()
+        vbox.addLayout(serverLayout)
+        self.serverIpValue = QLineEdit()
+        self.serverIpValue.setText(CfgService.get(CfgKey.SERVER_IP))
+        serverLayout.addWidget(self.serverIpValue)
+
+        self.serverPortValue = QLineEdit()
+        self.serverPortValue.setText(CfgService.get(CfgKey.SERVER_PORT))
+        serverLayout.addWidget(self.serverPortValue)
+
         vbox.addStretch()
         #Navigation
         navigationLayout = QHBoxLayout()
@@ -67,6 +84,9 @@ class PageConfig(Page):
 
     def executeAfter(self):
         CfgService.set(CfgKey.PROJECTNAME, self.projectNameValue.text())
+        CfgService.set(CfgKey.SERVER_IP, self.serverIpValue.text())
+        CfgService.set(CfgKey.SERVER_PORT,self.serverPortValue.text())
+        self.server.start()
 
     def open_file_dialog(self):
         CfgService.set(CfgKey.MAIN_SAVE_DIR, str(QFileDialog.getExistingDirectory()))

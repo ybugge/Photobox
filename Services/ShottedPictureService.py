@@ -12,18 +12,19 @@ class ShottedPictureService():
     @staticmethod
     def saveUsedPicture(fileName):
         folderName = os.path.join(ShottedPictureService._getSaveFolder(),CfgService.get(CfgKey.USED_PICTURE_SUB_DIR))
-        ShottedPictureService._savePicture(folderName, fileName)
+        return ShottedPictureService._savePicture(folderName, fileName)
 
     @staticmethod
     def saveUnusedPicture(fileName):
         folderName = os.path.join(ShottedPictureService._getSaveFolder(),CfgService.get(CfgKey.UNUSED_PICTURE_SUB_DIR))
-        ShottedPictureService._savePicture(folderName, fileName)
+        return ShottedPictureService._savePicture(folderName, fileName)
 
     @staticmethod
     def getTempPicturePath():
         folder = os.path.join(ShottedPictureService._getSaveFolder(),CfgService.get(CfgKey.RAW_PICTURE_SUB_DIR))
         FileFolderService.createFolderIfNotExist(folder)
-        return os.path.join(folder,"temp"+CfgService.get(CfgKey.PICTURE_FORMAT))
+        relativPath = os.path.join(folder,"temp"+CfgService.get(CfgKey.PICTURE_FORMAT))
+        return FileFolderService.getAbsoltPath(relativPath)
 
     @staticmethod
     def _savePicture(targetFolder, fileName):
@@ -31,6 +32,7 @@ class ShottedPictureService():
         targetPath = os.path.join(targetFolder,fileName+CfgService.get(CfgKey.PICTURE_FORMAT))
         unicTargetPath = ShottedPictureService._getUnicFileName(targetPath)
         FileFolderService.moveFile(sourceFile,unicTargetPath)
+        return FileFolderService.getAbsoltPath(unicTargetPath)
 
 
     @staticmethod
