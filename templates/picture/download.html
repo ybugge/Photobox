@@ -2,9 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Download</title>
 </head>
 <body>
     <h1> Download Bild {{ name }}</h1>
+
+    {%for i in range(0, len)%}
+        <a href="{{ pictureUrls[i] }}" download>
+            <img src="{{ pictureUrls[i] }}">
+        </a>
+        <a href="{{ pictureUrls[i] }}" download>Download: {{ pictureUrls[i] }}</a>
+    {%endfor%}
 </body>
 </html>

@@ -117,10 +117,14 @@ class PagePictureEdit(Page):
         self.savePicture()
 
     def savePicture(self):
+
+        isUsed = False
         if self.pictureIsUsed:
             pictureTargetPath = ShottedPictureService.saveUsedPicture(self.globalVariable.getPictureSubName())
-            PageDbSevice.updatePicture(self.globalVariable,pictureTargetPath)
+            isUsed=True
         else:
             pictureTargetPath = ShottedPictureService.saveUnusedPicture(self.globalVariable.getPictureSubName())
-            PageDbSevice.updatePicture(self.globalVariable,pictureTargetPath)
+
+        PageDbSevice.updatePicture(self.globalVariable,pictureTargetPath,isUsed)
+        self.globalVariable.unlockPictureName()
         self.resetPictureIdUsed()

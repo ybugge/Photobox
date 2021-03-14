@@ -10,22 +10,19 @@ class PageDbSevice():
     @staticmethod
     def setInitialPicture(pageName:GlobalPagesVariableService):
         db = DbService(CfgService.get(CfgKey.APPLICATION_DB_PATH))
-        db.setPicture(pageName.getPictureSubName(),ShottedPictureService.getTempPicturePath())
+        db.setPicture(pageName.getPictureSubName(),ShottedPictureService.getTempPicturePath(),False)
         db.close()
 
     @staticmethod
-    def updatePicture(pageName:GlobalPagesVariableService, path:str):
-        PageDbSevice._deletInitialPicture(pageName)
-        PageDbSevice._setTargetPicture(pageName,path)
-
-    @staticmethod
-    def _deletInitialPicture(pageName:GlobalPagesVariableService):
+    def updatePicture(pageName:GlobalPagesVariableService, path:str,isUsed:bool):
         db = DbService(CfgService.get(CfgKey.APPLICATION_DB_PATH))
-        db.deletePicture(pageName.getPictureSubName())
+        db.deletePictureByName(pageName.getPictureSubName())
+        db.setPicture(pageName.getPictureSubName(),path, isUsed)
         db.close()
 
+
     @staticmethod
-    def _setTargetPicture(pageName:GlobalPagesVariableService, path:str):
+    def printAll():
         db = DbService(CfgService.get(CfgKey.APPLICATION_DB_PATH))
-        db.setPicture(pageName.getPictureSubName(),path)
+        db.printAllDEBUG()
         db.close()

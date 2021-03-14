@@ -44,6 +44,16 @@ class FileFolderService():
             return []
 
     @staticmethod
+    def readImage(fileDir:str):
+        resultAsByte = None
+        if os.path.exists(fileDir) and os.path.isfile(fileDir):
+            file = open(fileDir, 'rb')
+            resultAsByte = file.read()
+            file.close()
+        return resultAsByte
+
+
+    @staticmethod
     def getFileType(file:str):
         _, file_extension = os.path.splitext(file)
         return file_extension

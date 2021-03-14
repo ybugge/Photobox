@@ -2,11 +2,19 @@
 <html>
 <head>
     <title>Fotobox</title>
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
 </head>
 <body>
 
 <h1>This is a Heading</h1>
-<p>This is a paragraph.</p>
+<p>This is a paragraph.1</p>
+
+{%for i in range(0, len)%}
+    <p>
+        <a href="{{ picturePageUrl[i] }}">Download: {{ picturePageUrl[i] }}</a>
+    </p>
+{%endfor%}
+
 
 </body>
 </html>

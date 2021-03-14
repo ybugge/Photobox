@@ -47,7 +47,8 @@ class PageDownloadPicture(Page):
 
     def executeInAutoForwardTimerEvent(self):
         pictureTargetPath = ShottedPictureService.saveUsedPicture(self.globalVariable.getPictureSubName())
-        PageDbSevice.updatePicture(self.globalVariable,pictureTargetPath)
+        PageDbSevice.updatePicture(self.globalVariable,pictureTargetPath,True)
+        self.globalVariable.unlockPictureName()
 
     def updateQrCodePicture(self):
         #QRCode

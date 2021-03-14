@@ -9,9 +9,12 @@ class CfgKey(enum.Enum):
     #SERVER #########################################################################################
     SERVER_INDEX_PAGE = 1000
     SERVER_DOWNLOAD_PICTURE_PAGE = 1001
+    SERVER_DOWNLOAD_PICTURE = 1002
+    SERVER_RANDOM_URLIDS = 1003
     SERVER_DB_PATH = 2003
     SERVER_IP=2004
     SERVER_PORT=2005
+    SERVER_GETPICTUREURLIDS_NUMBER = 2006
 
     #FOTOBOX #########################################################################################
     APPLICATION_DB_PATH = 13
@@ -79,9 +82,12 @@ cfgValue[CfgKey.APPLICATION_DB_PATH] = "Server/db"
 
 #SERVER #########################################################################
 cfgValue[CfgKey.SERVER_INDEX_PAGE] = "/"
-cfgValue[CfgKey.SERVER_DOWNLOAD_PICTURE_PAGE] = "/download"
+cfgValue[CfgKey.SERVER_DOWNLOAD_PICTURE_PAGE] = "/downloadpage"
+cfgValue[CfgKey.SERVER_DOWNLOAD_PICTURE] = "/downloadimage"
+cfgValue[CfgKey.SERVER_RANDOM_URLIDS] = "/pictureuris"
 cfgValue[CfgKey.SERVER_IP] = "localhost"
 cfgValue[CfgKey.SERVER_PORT] = "5000"
+cfgValue[CfgKey.SERVER_GETPICTUREURLIDS_NUMBER] = 20
 
 # FOTOBOX #######################################################################
 
