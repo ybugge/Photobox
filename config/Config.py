@@ -3,6 +3,12 @@ from PyQt5 import QtCore
 
 class CfgKey(enum.Enum):
 
+    #WIFI ##########################################################################################
+    WIFI_SSID = 3000
+    WIFI_PROTOCOL = 3001
+    WIFI_PASSWORD = 3002
+    WIFI_PICTURE_NAME = 3003
+
     #DATABASE #######################################################################################
     DB_NAME = 2001
 
@@ -74,6 +80,12 @@ class CfgKey(enum.Enum):
 
 
 cfgValue = {}
+
+#WIFI ##########################################################################################
+cfgValue[CfgKey.WIFI_SSID] = "Phoenix-Photobox"
+cfgValue[CfgKey.WIFI_PROTOCOL] = "WPA/WPA2"
+cfgValue[CfgKey.WIFI_PASSWORD] = "09059528003481556247"
+cfgValue[CfgKey.WIFI_PICTURE_NAME] = "wifi.png"
 
 #DB #############################################################################
 cfgValue[CfgKey.DB_NAME] = "fotobox.db"
@@ -178,6 +190,8 @@ class TextKey(enum.Enum):
     PAGE_CONFIG_PROJECT_NAME_TITLE=24
     PAGE_CONFIG_CAMERA_CALIBRATION_BUTTON=25
     PAGE_CONFIG_SERVER_IPANDPORT_TITLE=26
+    PAGE_CONFIG_WIFI_TITLE=27
+    PAGE_CONFIG_WIFI_PICTURE_BUTTON=28
 
     #PageCloseConfirm.py
     PAGE_CLOSECONFIRM_TITLE = 30
@@ -188,6 +202,7 @@ class TextKey(enum.Enum):
     #PageDownloadPicture.py
     PAGE_DOWNLOADPICTURE_TITLE = 100
     PAGE_DOWNLOADPICTURE_BACKBUTTON = 101
+    PAGE_DOWNLOADPICTURE_WIFI_TITLE = 102
 
 textValue={}
 
@@ -219,6 +234,8 @@ textValue[TextKey.PAGE_CONFIG_MAIN_SAVE_DIR_TITLE] = "Speicherort:"
 textValue[TextKey.PAGE_CONFIG_PROJECT_NAME_TITLE] = "Projektname:"
 textValue[TextKey.PAGE_CONFIG_CAMERA_CALIBRATION_BUTTON] = "Kamera kalibrieren"
 textValue[TextKey.PAGE_CONFIG_SERVER_IPANDPORT_TITLE] = "Server IP und Port"
+textValue[TextKey.PAGE_CONFIG_WIFI_TITLE] = "WIFI"
+textValue[TextKey.PAGE_CONFIG_WIFI_PICTURE_BUTTON] = "QR-Code speichern"
 
 #PageCloseConfirm
 textValue[TextKey.PAGE_CLOSECONFIRM_TITLE] = "Anwendung schließen?"
@@ -227,5 +244,6 @@ textValue[TextKey.PAGE_CLOSECONFIRM_YES] = "Ja"
 textValue[TextKey.PAGE_CLOSECONFIRM_NO] = "Nein"
 
 #PageDownloadPicture.py
-textValue[TextKey.PAGE_DOWNLOADPICTURE_TITLE] = "Bild herunterladen"
+textValue[TextKey.PAGE_DOWNLOADPICTURE_TITLE] = "Bild transferieren"
+textValue[TextKey.PAGE_DOWNLOADPICTURE_WIFI_TITLE] = "Mit der Fotobox verbinden"
 textValue[TextKey.PAGE_DOWNLOADPICTURE_BACKBUTTON] = "Zurück"

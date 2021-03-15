@@ -13,18 +13,19 @@ from Services.PageDbService import PageDbSevice
 from Services.ShottedPictureService import ShottedPictureService
 from config.Config import TextKey, textValue, CfgKey
 
-
 class PageDownloadPicture(Page):
     def __init__(self, pages : AllPages, windowsize:QSize, globalVariable:GlobalPagesVariableService):
         super().__init__(pages)
         self.windowsize = windowsize
         self.globalVariable = globalVariable
+        self.switch = False
 
         mainLayout = QVBoxLayout()
         self.setLayout(mainLayout)
 
         #Titel
-        mainLayout.addWidget(self.getTitleAsQLabel(TextKey.PAGE_DOWNLOADPICTURE_TITLE))
+        self.title = self.getTitleAsQLabel(TextKey.PAGE_DOWNLOADPICTURE_TITLE)
+        mainLayout.addWidget(self.title)
         mainLayout.addStretch()
 
         #Picture
@@ -42,6 +43,21 @@ class PageDownloadPicture(Page):
         backButton.clicked.connect(self.backPageEvent)
         navigationLayout.addWidget(backButton)
 
+        self.switchButton = QPushButton(textValue[TextKey.PAGE_DOWNLOADPICTURE_WIFI_TITLE])
+        self.switchButton.clicked.connect(self.switchEvent)
+        navigationLayout.addWidget(self.switchButton)
+
+    def switchEvent(self):
+        self.switch = not self.switch
+        if self.switch:
+            self.switchButton.setText(textValue[TextKey.PAGE_DOWNLOADPICTURE_TITLE])
+            self.title.setText(textValue[TextKey.PAGE_DOWNLOADPICTURE_WIFI_TITLE])
+            self.updateQrCodePicture()
+        else:
+            self.switchButton.setText(textValue[TextKey.PAGE_DOWNLOADPICTURE_WIFI_TITLE])
+            self.title.setText(textValue[TextKey.PAGE_DOWNLOADPICTURE_TITLE])
+            self.updateQrCodePicture()
+
     def executeBefore(self):
         self.updateQrCodePicture()
 
@@ -52,7 +68,11 @@ class PageDownloadPicture(Page):
 
     def updateQrCodePicture(self):
         #QRCode
-        data = "http://"+CfgService.get(CfgKey.SERVER_IP)+":"+CfgService.get(CfgKey.SERVER_PORT)+CfgService.get(CfgKey.SERVER_DOWNLOAD_PICTURE_PAGE)+"/"+self.globalVariable.getPictureSubName()
+        if self.switch:
+            data = 'WIFI:S:{};T:{};P:{};;'.format(CfgService.get(CfgKey.WIFI_SSID),CfgService.get(CfgKey.WIFI_PROTOCOL),CfgService.get(CfgKey.WIFI_PASSWORD))
+        else:
+            data = "http://"+CfgService.get(CfgKey.SERVER_IP)+":"+CfgService.get(CfgKey.SERVER_PORT)+CfgService.get(CfgKey.SERVER_DOWNLOAD_PICTURE_PAGE)+"/"+self.globalVariable.getPictureSubName()
+
         buf = io.BytesIO()
         img = qrcode.make(data)
         img.save(buf, "PNG")

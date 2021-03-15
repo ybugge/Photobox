@@ -1,3 +1,4 @@
+import qrcode
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
 from PyQt5.QtMultimedia import QCameraInfo
@@ -69,6 +70,29 @@ class PageConfig(Page):
         self.serverPortValue.setText(CfgService.get(CfgKey.SERVER_PORT))
         serverLayout.addWidget(self.serverPortValue)
 
+            #WIFI
+        wifiTitle = QLabel(textValue[TextKey.PAGE_CONFIG_WIFI_TITLE])
+        wifiTitle.setFont(titleFont)
+        vbox.addWidget(wifiTitle)
+
+        serverLayout = QHBoxLayout()
+        vbox.addLayout(serverLayout)
+        self.wifiSSIDValue = QLineEdit()
+        self.wifiSSIDValue.setText(CfgService.get(CfgKey.WIFI_SSID))
+        serverLayout.addWidget(self.wifiSSIDValue)
+
+        self.wifiPasswordValue = QLineEdit()
+        self.wifiPasswordValue.setText(CfgService.get(CfgKey.WIFI_PASSWORD))
+        serverLayout.addWidget(self.wifiPasswordValue)
+
+        self.wifiProtocolValue = QLineEdit()
+        self.wifiProtocolValue.setText(CfgService.get(CfgKey.WIFI_PROTOCOL))
+        serverLayout.addWidget(self.wifiProtocolValue)
+
+        wifiPicture = QPushButton(textValue[TextKey.PAGE_CONFIG_WIFI_PICTURE_BUTTON])
+        wifiPicture.clicked.connect(self.saveWifiPicture)
+        vbox.addWidget(wifiPicture)
+
         vbox.addStretch()
         #Navigation
         navigationLayout = QHBoxLayout()
@@ -83,9 +107,14 @@ class PageConfig(Page):
         navigationLayout.addWidget(nextButton)
 
     def executeAfter(self):
+        CfgService.set(CfgKey.MAIN_SAVE_DIR, self.mainSaveDirLabel.text())
         CfgService.set(CfgKey.PROJECTNAME, self.projectNameValue.text())
         CfgService.set(CfgKey.SERVER_IP, self.serverIpValue.text())
         CfgService.set(CfgKey.SERVER_PORT,self.serverPortValue.text())
+        CfgService.set(CfgKey.WIFI_SSID,self.wifiSSIDValue.text())
+        CfgService.set(CfgKey.WIFI_PROTOCOL,self.wifiProtocolValue.text())
+        CfgService.set(CfgKey.WIFI_PASSWORD,self.wifiPasswordValue.text())
+
         self.server.start()
 
     def open_file_dialog(self):
@@ -97,3 +126,8 @@ class PageConfig(Page):
 
     def cameraCalibrationEvent(self):
         self.setPageEvent(self.cameraCalibrationPage)
+
+    def saveWifiPicture(self):
+        qrCodeValue = 'WIFI:S:{};T:{};P:{};;'.format(self.wifiSSIDValue.text(),self.wifiProtocolValue.text(),self.wifiPasswordValue.text())
+        img = qrcode.make(qrCodeValue)
+        img.save(self.mainSaveDirLabel.text()+"/"+CfgService.get(CfgKey.WIFI_PICTURE_NAME))
