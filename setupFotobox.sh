@@ -8,15 +8,10 @@ sudo apt update
 yes | sudo apt dist-upgrade
 
 echo "Installing prerequirements"
-yes | sudo apt install python3 python3-picamera git python3-pip libcblas-dev libhdf5-dev libhdf5-serial-dev libatlas-base-dev libjasper-dev libqtgui4 libqt4-test
+yes | sudo apt install python3 python3-picamera python3-pyqt5 python3-pyqt5.qtwebkit git python3-pip python3-opencv
 
-sudo python3 -m pip install -U pip
-sudo python3 -m pip install -U setuptools
-pip3 install PyQt5
-pip3 install opencv-python==4.1.0.25
 pip3 install qrcode
 pip3 install numpy
 pip3 install flask
 pip3 install pysqlite3
 pip3 install image
-pip3 install opencv-python

@@ -1,4 +1,4 @@
-# Photobox
+# Fotobox
 
 ## Hardware
 - Raspberry Pi 3 Model B+ -> https://www.raspberrypi.org/products/raspberry-pi-3-model-b-plus/
@@ -38,9 +38,11 @@ Auf Raspberry Pi:
   - Updates -> Next 
   - Pi neustarten 
  - Starten: "Raspberry-Pi-Konfiguration" unter "Start > Einstellungen"
-   - "Schnittstellen"
+   - Tab -> "Schnittstellen"
    - Aktivieren: "Kamera"
    - Aktivieren: "SSH"
+   - Tab -> "Display"
+   - Deaktivieren: "Screen Blanking"
    - "OK"
    - Restart? -> "Ja"
   
