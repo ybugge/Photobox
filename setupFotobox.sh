@@ -9,6 +9,8 @@ yes | sudo apt dist-upgrade
 
 echo "Installing prerequirements"
 yes | sudo apt install python3 python3-picamera git python3-pip
+sudo python3 -m pip install -U pip
+sudo python3 -m pip install -U setuptools
 pip3 install PyQt5
 pip3 install opencv-python==4.1.0.25
 pip3 install qrcode

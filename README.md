@@ -59,6 +59,18 @@ Auf LinuxMint:
 $ ssh pi@photobox.fritz.box
 $ yes
 $ -> Passwort eingeben 
+$ sudo apt update
+$ yes | sudo apt upgrade 
+$ sudo nano /etc/lightdm/lightdm.conf
+    # don't sleep the screen
+    xserver-command=X -s 0 dpms
+    "str"+"x" -> "Y" -> "Enter"
+$ yes | sudo apt install git
+$ git clone https://github.com/ybugge/Photobox.git
+$ cd Photobox
+$ chmod +x setupFotobox.sh
+$ ./setupFotobox.sh
+$ python3 main.py
 ````
 
 

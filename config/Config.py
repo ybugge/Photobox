@@ -97,7 +97,7 @@ cfgValue[CfgKey.SERVER_INDEX_PAGE] = "/"
 cfgValue[CfgKey.SERVER_DOWNLOAD_PICTURE_PAGE] = "/downloadpage"
 cfgValue[CfgKey.SERVER_DOWNLOAD_PICTURE] = "/downloadimage"
 cfgValue[CfgKey.SERVER_RANDOM_URLIDS] = "/pictureuris"
-cfgValue[CfgKey.SERVER_IP] = "localhost"
+cfgValue[CfgKey.SERVER_IP] = "photobox.fritz.box"
 cfgValue[CfgKey.SERVER_PORT] = "5000"
 cfgValue[CfgKey.SERVER_GETPICTUREURLIDS_NUMBER] = 20
 
