@@ -63,10 +63,6 @@ $ yes
 $ -> Passwort eingeben 
 $ sudo apt update
 $ yes | sudo apt upgrade 
-$ sudo nano /etc/lightdm/lightdm.conf
-    # don't sleep the screen
-    xserver-command=X -s 0 dpms
-    "str"+"x" -> "Y" -> "Enter"
 $ yes | sudo apt install git
 $ git clone https://github.com/ybugge/Photobox.git
 $ cd Photobox
