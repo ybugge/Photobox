@@ -14,7 +14,6 @@ app = Flask(__name__)
 
 @app.errorhandler(404)
 def page_not_found(e):
-    #snip
     return render_template('404.html'), 404
 
 @app.route(CfgService.get(CfgKey.SERVER_INDEX_PAGE))
@@ -22,7 +21,7 @@ def indexPage():
     dbResults = ServerDbSevice.getPictureNames()
     picturePageUrl = []
     for dbResult in dbResults:
-        picturePageUrl.append(CfgService.get(CfgKey.SERVER_DOWNLOAD_PICTURE_PAGE)+"/"+dbResult[1])
+        picturePageUrl.append(CfgService.get(CfgKey.SERVER_DOWNLOAD_PICTURE_PAGE)+"/"+dbResult)
     return render_template('index/index.html',len = len(picturePageUrl), picturePageUrl = picturePageUrl)
 
 
@@ -30,8 +29,6 @@ def indexPage():
 @app.route(CfgService.get(CfgKey.SERVER_DOWNLOAD_PICTURE_PAGE)+"/<pictureName>")
 def downloadPicturePage(pictureName):
     ids = ServerDbSevice.getPictureUrlIds(pictureName)
-    print("downloadPicturePage ")
-    ServerDbSevice.printAll()
     if not ids:
         abort(404)
     else:
@@ -50,7 +47,7 @@ def downloadPicture(urlId):
         imageAsByte = FileFolderService.readImage(picturePathAndName[1])
         return send_file(io.BytesIO(imageAsByte),
                          as_attachment=True,
-                         attachment_filename=picturePathAndName[0]+'.png',
+                         attachment_filename=CfgService.get(CfgKey.PROJECTNAME)+"_"+picturePathAndName[0]+'.png',
                          mimetype='image/png')
 
 @app.route(CfgService.get(CfgKey.SERVER_RANDOM_URLIDS))
