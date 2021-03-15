@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
     <title>Fotobox</title>
-    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
 </head>
 <body>
+    <div class="main">
+        <h1>Fotobox</h1>
+        <p> Bitte nutze den QR-Code an der Fotobox, um dein Bilder herunter zu laden. </p>
 
-<h1>This is a Heading</h1>
-<p>This is a paragraph.1</p>
-
-{%for i in range(0, len)%}
-    <p>
-        <a href="{{ picturePageUrl[i] }}">Download: {{ picturePageUrl[i] }}</a>
-    </p>
-{%endfor%}
-
-
+        {%for i in range(0, len)%}
+            <p>
+                <a href="{{ picturePageUrl[i] }}">Download: {{ picturePageUrl[i] }}</a>
+            </p>
+        {%endfor%}
+    </div>
 </body>
 </html>

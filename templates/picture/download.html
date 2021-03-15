@@ -2,16 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Download</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <title>Download - Fotobox</title>
 </head>
 <body>
-    <h1> Download Bild {{ name }}</h1>
+    <div class="main">
 
-    {%for i in range(0, len)%}
-        <a href="{{ pictureUrls[i] }}" download>
-            <img src="{{ pictureUrls[i] }}">
-        </a>
-        <a href="{{ pictureUrls[i] }}" download>Download: {{ pictureUrls[i] }}</a>
-    {%endfor%}
+            <h1>Dein Bild</h1>
+
+            {%for i in range(0, len)%}
+                <div>
+                    <a class="picture" href="{{ pictureUrls[i] }}" download>
+                        <img src="{{ pictureUrls[i] }}">
+                    </a>
+                </div>
+                <div>
+                    <a href="{{ pictureUrls[i] }}" download>Download</a>
+                </div>
+            {%endfor%}
+
+    </div>
 </body>
 </html>
