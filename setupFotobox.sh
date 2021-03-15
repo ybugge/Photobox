@@ -8,7 +8,8 @@ sudo apt update
 yes | sudo apt dist-upgrade
 
 echo "Installing prerequirements"
-yes | sudo apt install python3 python3-picamera git python3-pip
+yes | sudo apt install python3 python3-picamera git python3-pip libcblas-dev libhdf5-dev libhdf5-serial-dev libatlas-base-dev libjasper-dev libqtgui4 libqt4-test
+
 sudo python3 -m pip install -U pip
 sudo python3 -m pip install -U setuptools
 pip3 install PyQt5
