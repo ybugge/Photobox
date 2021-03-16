@@ -21,7 +21,8 @@ class PiCamVideoThread(QThread):
 
     def run(self):
         camera = PiCamera()
-        camera.resolution = (640, 480)
+        #camera.resolution = (640, 480)
+        camera.resolution = (self.img_dimensions.width(),self.img_dimensions.height())
         camera.framerate = 32
         rawCapture = PiRGBArray(camera, size=(640, 480))
         time.sleep(0.1)
@@ -29,7 +30,7 @@ class PiCamVideoThread(QThread):
         for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
             if(self.run == False):
                 break
-            
+
 
             rgbImage = cv2.cvtColor(frame.array, cv2.COLOR_BGR2RGB)
             h, w, ch = rgbImage.shape
