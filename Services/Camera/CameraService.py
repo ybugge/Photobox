@@ -28,6 +28,7 @@ class CameraService():
                     print("Erfolgreich 2")
                     cfgValue[CfgKey.USE_PI_CAMERA] = True
                 except Exception as e:
+                    print(e)
                     print("FEHLER")
                     cfgValue[CfgKey.USE_PI_CAMERA] =  False
             cfgValue[CfgKey.USE_PI_CAMERA] =  False
