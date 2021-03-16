@@ -8,9 +8,7 @@ from Services.CfgService import CfgService
 from config.Config import cfgValue, CfgKey
 
 try:
-    print("Import Pi Camaer")
     from picamera import PiCamera
-    print("Import Pi Camaer Success")
 except ImportError:
     print("CameraService: PiCamera not found")
 
@@ -21,18 +19,14 @@ class CameraService():
         if cfgValue[CfgKey.USE_PI_CAMERA] == None:
             if cfgValue[CfgKey.IS_PI]:
                 try:
-                    print("Start")
                     camera = PiCamera()
-                    print("Erfolgreich 1")
                     camera.close()
-                    print("Erfolgreich 2")
                     cfgValue[CfgKey.USE_PI_CAMERA] = True
                 except Exception as e:
                     print(e)
-                    print("FEHLER")
                     cfgValue[CfgKey.USE_PI_CAMERA] =  False
-            cfgValue[CfgKey.USE_PI_CAMERA] =  False
-        print("WERT:" + str(cfgValue[CfgKey.USE_PI_CAMERA]))
+            else:
+                cfgValue[CfgKey.USE_PI_CAMERA] =  False
         return cfgValue[CfgKey.USE_PI_CAMERA]
 
     #https://www.geeksforgeeks.org/creating-a-camera-application-using-pyqt5/

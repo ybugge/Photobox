@@ -5,12 +5,11 @@ import cv2
 
 from config.Config import cfgValue, CfgKey
 
-if cfgValue[CfgKey.IS_PI]:
-    try:
-        from picamera import PiCamera
-        from picamera.array import PiRGBArray
-    except ImportError:
-        print("PiCamVideoThread: PiCamera not found")
+try:
+    from picamera import PiCamera
+    from picamera.array import PiRGBArray
+except ImportError:
+    print("PiCamVideoThread: PiCamera not found")
 
 class PiCamVideoThread(QThread):
     changePixmap = pyqtSignal(QImage)
