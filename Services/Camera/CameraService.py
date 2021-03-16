@@ -21,12 +21,16 @@ class CameraService():
         if cfgValue[CfgKey.USE_PI_CAMERA] == None:
             if cfgValue[CfgKey.IS_PI]:
                 try:
+                    print("Start")
                     test = PiCamera()
-                    #test.clos()
+                    test.close()
+                    print("Erfolgreich")
                     cfgValue[CfgKey.USE_PI_CAMERA] = True
                 except Exception as e:
+                    print("FEHLER")
                     cfgValue[CfgKey.USE_PI_CAMERA] =  False
             cfgValue[CfgKey.USE_PI_CAMERA] =  False
+        print("WERT:" + str(cfgValue[CfgKey.USE_PI_CAMERA]))
         return cfgValue[CfgKey.USE_PI_CAMERA]
 
     #https://www.geeksforgeeks.org/creating-a-camera-application-using-pyqt5/
