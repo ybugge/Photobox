@@ -9,6 +9,7 @@ import os
 
 if __name__ == '__main__':
 
+    cfgValue[CfgKey.IS_PI] = False
     #Check: OS = RasPi
     if(os.uname()[4].startswith("arm")):
         cfgValue[CfgKey.IS_PI] = True
@@ -17,7 +18,6 @@ if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     screensize = app.desktop().availableGeometry().size()
 
-    cfgValue[CfgKey.IS_PI] = False
     if(cfgValue[CfgKey.APPLICATION_CURSOR_HINT]):
         app.setOverrideCursor(QCursor(Qt.BlankCursor))
     main_window = MainWindow(screensize)

@@ -5,9 +5,9 @@ from PyQt5.QtCore import Qt, QSize, QTimer
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QVBoxLayout, QLabel
 
-from Services.CV2CapturePhoto import CV2CapturePhoto
 from Pages.AllPages import AllPages
 from Pages.Page import Page
+from Services.Camera.CameraService import CameraService
 from Services.CfgService import CfgService
 from config.Config import CfgKey
 
@@ -35,7 +35,7 @@ class PageCapturePhoto(Page):
     def executeBefore(self):
         randomPicture = self.getRandomPicture()
         randomPicture.scaledToHeight(self.windowsize.height())
-        self.capturePhotoThread=CV2CapturePhoto(self.windowsize)
+        self.capturePhotoThread= CameraService.initialPhoto(self.windowsize)
         self.counterLabel.setPixmap(randomPicture.scaledToHeight(self.windowsize.height()))
         self.countdown = CfgService.get(CfgKey.PAGE_CAPTUREPHOTO_TIMER_START_VALUE)
         self.timer.start(CfgService.get(CfgKey.PAGE_CAPTUREPHOTO_TIMER_PERIOD_LENGTH))

@@ -3,9 +3,10 @@ from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QTextEdit, QHBoxLayout
 
 from Pages.AllPages import AllPages
 from Pages.Page import Page
+from Services.Camera.CameraService import CameraService
 from Services.CfgService import CfgService
 from Services.FileFolderService import FileFolderService
-from config.Config import textValue, TextKey, CfgKey
+from config.Config import textValue, TextKey, CfgKey, cfgValue
 
 
 class PageHints(Page):
@@ -13,7 +14,6 @@ class PageHints(Page):
         super().__init__(pages)
         vbox = QVBoxLayout()
         self.setLayout(vbox)
-        self.camerasInfos = QCameraInfo.availableCameras()
 
         #Titel
         vbox.addWidget(self.getTitleAsQLabel(TextKey.PAGE_HINTS_TITLE))
@@ -44,8 +44,7 @@ class PageHints(Page):
         self.disableNextButton()
 
     def disableNextButton(self):
-        if(self.getExistCameras()
-                and self.getExistCameras()
+        if((CameraService.existPiCamera() or CameraService.existCameras())
                 and self.hasPageTitlePicturePictures()
                 and self.hasPageCapturePhotoLastPicture()):
             self.nextButton.setDisabled(False)
@@ -56,14 +55,21 @@ class PageHints(Page):
         self.textArea.clear()
         self.textArea.append(textValue[TextKey.PAGE_HINTS_ESCAPE_HINT])
         self.textArea.append("")
-        if not self.getExistCameras():
+        if not CameraService.existPiCamera():
+            pass
+        if not CameraService.existCameras():
             self.textArea.append(textValue[TextKey.PAGE_HINTS_NO_CAMERA_WARN])
             self.textArea.append("")
-        elif not self.getExistSelectedCamera():
+        elif not CameraService.existSelectedCamera():
             self.textArea.append(textValue[TextKey.PAGE_HINTS_NO_SELECTED_CAMERA_WARN])
             self.textArea.append("")
+            #Erfolgsfaelle###########################################################################
+        elif CameraService.existPiCamera():
+            cameraInfoText = textValue[TextKey.PAGE_HINTS_SELECTED_PICAMERA_HINT]
+            self.textArea.append(cameraInfoText)
+            self.textArea.append("")
         else:
-            cameraInfoText = textValue[TextKey.PAGE_HINTS_SELECTED_CAMERA_HINT] % (str(self.getCameraIndex()),self.getCameraName(), self.getCameraDescription())
+            cameraInfoText = textValue[TextKey.PAGE_HINTS_SELECTED_CAMERA_HINT] % (str(CameraService.getCameraIndex()),CameraService.getCameraName(), CameraService.getCameraDescription())
             self.textArea.append(cameraInfoText)
             self.textArea.append("")
 
@@ -77,21 +83,7 @@ class PageHints(Page):
             self.textArea.append(warn)
             self.textArea.append("")
 
-    #https://www.geeksforgeeks.org/creating-a-camera-application-using-pyqt5/
-    def getExistCameras(self):
-        return len(self.camerasInfos) > 0
 
-    def getExistSelectedCamera(self):
-        return len(self.camerasInfos) > CfgService.get(CfgKey.USED_CAMERA_INDEX)
-
-    def getCameraIndex(self):
-        return CfgService.get(CfgKey.USED_CAMERA_INDEX)
-
-    def getCameraName(self):
-        return self.camerasInfos[self.getCameraIndex()].deviceName()
-
-    def getCameraDescription(self):
-        return self.camerasInfos[self.getCameraIndex()].description()
 
     def hasPageTitlePicturePictures(self):
         return FileFolderService.hasFolderContent(CfgService.get(CfgKey.PAGE_TITLEPICTURE_BUTTON_IMAGE_FOLDER))

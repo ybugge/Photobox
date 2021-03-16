@@ -26,6 +26,7 @@ class CfgKey(enum.Enum):
     APPLICATION_DB_PATH = 13
     APPLICATION_CURSOR_HINT = 10
     IS_PI = 11
+    USE_PI_CAMERA = 14
     USED_CAMERA_INDEX = 12
 
     MAIN_WINDOW_BACKGROUND_COLOR = 50
@@ -104,6 +105,7 @@ cfgValue[CfgKey.SERVER_GETPICTUREURLIDS_NUMBER] = 20
 # FOTOBOX #######################################################################
 
 cfgValue[CfgKey.IS_PI] = False                      #Changeable -> True when RasPi
+cfgValue[CfgKey.USE_PI_CAMERA] = None               #Changeable -> True or False
 cfgValue[CfgKey.APPLICATION_CURSOR_HINT] = False    #Changeable -> True when RasPi
 cfgValue[CfgKey.USED_CAMERA_INDEX] = 0
 cfgValue[CfgKey.PROPERTIES_PATH] = "Resources/config.properties"
@@ -178,6 +180,7 @@ class TextKey(enum.Enum):
     PAGE_HINTS_NO_CAMERA_WARN=42
     PAGE_HINTS_NO_SELECTED_CAMERA_WARN=44
     PAGE_HINTS_SELECTED_CAMERA_HINT=45
+    PAGE_HINTS_SELECTED_PICAMERA_HINT=51
     PAGE_HINTS_NO_PICTURES_FOUND_WARN=46
     PAGE_HINTS_NEXTBUTTON = 43
     PAGE_HINTS_PICTURE_MANAGER_BUTTON = 50
@@ -224,6 +227,7 @@ textValue[TextKey.PAGE_HINTS_ESCAPE_HINT] = "- Um das Programm verlassen zu kön
 textValue[TextKey.PAGE_HINTS_NO_CAMERA_WARN] = "- Fehler: Es wurde keine Kamera gefunden! Bitte schließen sie eine Kamera an und starten Sie die Anwendung neu!"
 textValue[TextKey.PAGE_HINTS_NO_SELECTED_CAMERA_WARN] = "- Fehler: Die ausgewählte Kamera ist nicht verfügbar. Schließen Sie bitte die Kammera an oder korrigieren Sie den Index in Config.py->"+CfgKey.USED_CAMERA_INDEX.name+". Bitte schließen Sie die Software!"
 textValue[TextKey.PAGE_HINTS_SELECTED_CAMERA_HINT] = "- Die Kamera kann über den Index 0-n in Config.py->"+CfgKey.USED_CAMERA_INDEX.name+" ausgewählt werden. Folgende Kamera wird verwendet: Index=%s | Name=%s | Beschreibung=%s."
+textValue[TextKey.PAGE_HINTS_SELECTED_PICAMERA_HINT] = "- Verwendet wird die Kamera: Pi-Camera"
 textValue[TextKey.PAGE_HINTS_NO_PICTURES_FOUND_WARN]= "- Fehler: Bitte erstellen sie folgenden Ordner und hinterlegen Sie mindestens ein Bild: '%s' ! Bitte schließen Sie die Software oder laden sie die Bilder über den Button '"+textValue[TextKey.PAGE_HINTS_PICTURE_MANAGER_BUTTON]+"' herunter!"
 
 #PageConfig

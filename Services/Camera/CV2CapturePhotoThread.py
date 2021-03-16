@@ -6,7 +6,7 @@ from Services.ShottedPictureService import ShottedPictureService
 from config.Config import CfgKey
 
 
-class CV2CapturePhoto(QThread):
+class CV2CapturePhotoThread(QThread):
 
     def __init__(self,img_dimensions : QSize):
         super().__init__()
