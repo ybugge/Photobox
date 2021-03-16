@@ -20,7 +20,7 @@ class PiCamVideoThread(QThread):
         self.img_dimensions = img_dimensions
 
     def run(self):
-        resolution = (1296,730)
+        resolution = (self.img_dimensions.width, self.img_dimensions.height)
         camera = PiCamera()
         #camera.resolution = (640, 480)
         camera.resolution =  resolution
