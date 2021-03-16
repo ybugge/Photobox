@@ -109,7 +109,8 @@ cfgValue[CfgKey.IS_PI] = False                      #Changeable -> True when Ras
 cfgValue[CfgKey.USE_PI_CAMERA] = None               #Changeable -> True or False
 cfgValue[CfgKey.APPLICATION_CURSOR_HINT] = False    #Changeable -> True when RasPi
 cfgValue[CfgKey.USED_CAMERA_INDEX] = 0
-cfgValue[CfgKey.PI_CAMERA_VIDEO_RESOLUTION] = (640,480)
+#(1296,730) / (640,480)
+cfgValue[CfgKey.PI_CAMERA_VIDEO_RESOLUTION] = (1296,730)
 cfgValue[CfgKey.PROPERTIES_PATH] = "Resources/config.properties"
 
 cfgValue[CfgKey.MAIN_SAVE_DIR] = "FotoboxData/"
