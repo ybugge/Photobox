@@ -7,12 +7,12 @@ from Services.Camera.PiCamVideoThread import PiCamVideoThread
 from Services.CfgService import CfgService
 from config.Config import cfgValue, CfgKey
 
-
-try:
-    from picamera import PiCamera
-except ImportError:
-    print("PiCamera not found - operating in simulation mode")
-
+if cfgValue[CfgKey.IS_PI]:
+    try:
+        from picamera import PiCamera
+    except ImportError:
+        print("CameraService: PiCamera not found")
+        cfgValue[CfgKey.IS_PI]  = False
 
 class CameraService():
 
