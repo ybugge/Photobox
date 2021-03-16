@@ -29,7 +29,9 @@ class PiCamVideoThread(QThread):
         for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
             if(self.run == False):
                 break
-            rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            
+
+            rgbImage = cv2.cvtColor(frame.array, cv2.COLOR_BGR2RGB)
             h, w, ch = rgbImage.shape
             bytesPerLine = ch * w
             convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
