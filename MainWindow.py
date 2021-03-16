@@ -31,11 +31,11 @@ class MainWindow(QtWidgets.QMainWindow):
         #Sytling
         self.setStyleSheet("QWidget {background-color: "+cfgValue[CfgKey.MAIN_WINDOW_BACKGROUND_COLOR]+";"
                                 "color: "+cfgValue[CfgKey.TEXT_COLOR]+";"
-                                "font-size: "+cfgValue[CfgKey.MAIN_WINDOW_TEXT_SIZE]+";"
+                                #"font-size: "+cfgValue[CfgKey.MAIN_WINDOW_TEXT_SIZE]+";"
                                 "font-family:"+cfgValue[CfgKey.MAIN_WINDOW_TEXT_FONT]+"}"
                             "QPushButton {"
                                 "background-color: "+cfgValue[CfgKey.MAIN_WINDOW_BUTTON_BACKGROUND_COLOR]+";"
-                                "height: "+cfgValue[CfgKey.MAIN_WINDOW_BUTTON_HEIGHT]+";}"
+                                #"height: "+cfgValue[CfgKey.MAIN_WINDOW_BUTTON_HEIGHT]+";}"
                             "QPushButton:disabled {"
                                 "color: "+cfgValue[CfgKey.BUTTON_DISABLED_TEXT_COLOR]+";"
                                 "opacity: 0.6;}"

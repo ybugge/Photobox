@@ -91,5 +91,5 @@ class Page(QtWidgets.QWidget):
     def __getTitleStyle(self):
         return  ("background-color:" + CfgService.get(CfgKey.TITLE_BACKGROUND_COLOR) + ";"
             "color:" + CfgService.get(CfgKey.TITLE_COLOR) +";"
-            "font-size: " + CfgService.get(CfgKey.TITLE_SIZE) +";"
+            #"font-size: " + CfgService.get(CfgKey.TITLE_SIZE) +";"
             "font-family: " + CfgService.get(CfgKey.TITLE_FONT) +", serif;")
