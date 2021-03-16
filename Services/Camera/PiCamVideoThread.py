@@ -22,7 +22,7 @@ class PiCamVideoThread(QThread):
     def run(self):
         camera = PiCamera()
         #camera.resolution = (640, 480)
-        camera.resolution = (self.img_dimensions.width(),self.img_dimensions.height())
+        camera.resolution =  (1296,730)
         camera.framerate = 32
         rawCapture = PiRGBArray(camera, size=(640, 480))
         time.sleep(0.1)
