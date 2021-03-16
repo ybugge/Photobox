@@ -7,14 +7,12 @@ from Services.Camera.PiCamVideoThread import PiCamVideoThread
 from Services.CfgService import CfgService
 from config.Config import cfgValue, CfgKey
 
-if cfgValue[CfgKey.IS_PI]:
-    try:
-        print("Import Pi Camaer")
-        from picamera import PiCamera
-        print("Import Pi Camaer Success")
-    except ImportError:
-        print("CameraService: PiCamera not found")
-        cfgValue[CfgKey.IS_PI]  = False
+try:
+    print("Import Pi Camaer")
+    from picamera import PiCamera
+    print("Import Pi Camaer Success")
+except ImportError:
+    print("CameraService: PiCamera not found")
 
 class CameraService():
 
