@@ -23,8 +23,9 @@ class CameraService():
                 try:
                     print("Start")
                     test = PiCamera()
+                    print("Erfolgreich 1")
                     test.close()
-                    print("Erfolgreich")
+                    print("Erfolgreich 2")
                     cfgValue[CfgKey.USE_PI_CAMERA] = True
                 except Exception as e:
                     print("FEHLER")
