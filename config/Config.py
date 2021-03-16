@@ -29,6 +29,7 @@ class CfgKey(enum.Enum):
     USE_PI_CAMERA = 14
     USED_CAMERA_INDEX = 12
     PI_CAMERA_VIDEO_RESOLUTION = 15
+    PI_CAMERA_VIDEO_FPS = 16
 
     MAIN_WINDOW_BACKGROUND_COLOR = 50
     MAIN_WINDOW_BUTTON_BACKGROUND_COLOR = 51
@@ -109,8 +110,10 @@ cfgValue[CfgKey.IS_PI] = False                      #Changeable -> True when Ras
 cfgValue[CfgKey.USE_PI_CAMERA] = None               #Changeable -> True or False
 cfgValue[CfgKey.APPLICATION_CURSOR_HINT] = False    #Changeable -> True when RasPi
 cfgValue[CfgKey.USED_CAMERA_INDEX] = 0
+#https://picamera.readthedocs.io/en/release-1.10/fov.html
 #(1296,730) / (640,480)
 cfgValue[CfgKey.PI_CAMERA_VIDEO_RESOLUTION] = (1296,730)
+cfgValue[CfgKey.PI_CAMERA_VIDEO_FPS] = 25
 cfgValue[CfgKey.PROPERTIES_PATH] = "Resources/config.properties"
 
 cfgValue[CfgKey.MAIN_SAVE_DIR] = "FotoboxData/"
