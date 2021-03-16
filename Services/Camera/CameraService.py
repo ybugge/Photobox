@@ -22,9 +22,9 @@ class CameraService():
             if cfgValue[CfgKey.IS_PI]:
                 try:
                     print("Start")
-                    test = PiCamera()
+                    camera = PiCamera()
                     print("Erfolgreich 1")
-                    test.close()
+                    camera.close()
                     print("Erfolgreich 2")
                     cfgValue[CfgKey.USE_PI_CAMERA] = True
                 except Exception as e:
