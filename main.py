@@ -22,5 +22,4 @@ if __name__ == '__main__':
         app.setOverrideCursor(QCursor(Qt.BlankCursor))
     main_window = MainWindow(screensize)
     main_window.show()
-    print("IsPI: "+str(cfgValue[CfgKey.IS_PI]))
     sys.exit(app.exec_())
