@@ -59,7 +59,7 @@ class PageHints(Page):
         if not CameraService.existCameras() and not CameraService.existPiCamera():
             self.textArea.append(textValue[TextKey.PAGE_HINTS_NO_CAMERA_WARN])
             self.textArea.append("")
-        elif not CameraService.existSelectedCamera():
+        elif not CameraService.existSelectedCamera() and not CameraService.existPiCamera():
             self.textArea.append(textValue[TextKey.PAGE_HINTS_NO_SELECTED_CAMERA_WARN])
             self.textArea.append("")
             #Erfolgsfaelle###########################################################################
