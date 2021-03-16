@@ -3,6 +3,7 @@ from PyQt5.QtGui import QImage
 import time
 import cv2
 
+from Services.CfgService import CfgService
 from config.Config import cfgValue, CfgKey
 
 try:
@@ -20,9 +21,8 @@ class PiCamVideoThread(QThread):
         self.img_dimensions = img_dimensions
 
     def run(self):
-        resolution = (self.img_dimensions.width, self.img_dimensions.height)
+        resolution = CfgService.get(CfgKey.PI_CAMERA_VIDEO_RESOLUTION)
         camera = PiCamera()
-        #camera.resolution = (640, 480)
         camera.resolution =  resolution
         camera.framerate = 32
         rawCapture = PiRGBArray(camera, size=resolution)
@@ -31,7 +31,6 @@ class PiCamVideoThread(QThread):
         for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
             if(self.run == False):
                 break
-
 
             rgbImage = cv2.cvtColor(frame.array, cv2.COLOR_BGR2RGB)
             h, w, ch = rgbImage.shape

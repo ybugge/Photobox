@@ -11,6 +11,7 @@ from Pages.SinglePages.PageCameraPreview import PageCameraPreview
 from Pages.SinglePages.PageDownloadPicture import PageDownloadPicture
 from Pages.SinglePages.PageHints import PageHints
 from Pages.SinglePages.PagePictureEdit import PagePictureEdit
+from Pages.SinglePages.PageStartServer import PageStartServer
 from Pages.SinglePages.PageSystemPictureManager import PageSystemPictureManager
 from Pages.SinglePages.PageTitlePicture import PageTitlePicture
 from Pages.SinglePages.PageTest import PageTest
@@ -69,9 +70,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pages.addPage(pagePictureManager)
 
         #Seite 2 Configuration
-        pageConfig = PageConfig(self.pages, self.server)
+        pageConfig = PageConfig(self.pages)
         pageConfig.setBackPage(PageHints)
-        pageConfig.setNextPage(PageTitlePicture)
+        pageConfig.setNextPage(PageStartServer)
         pageConfig.setCameraCalibrationEventPage(PageCameraCalibrationView)
         self.pages.addPage(pageConfig)
 
@@ -79,6 +80,11 @@ class MainWindow(QtWidgets.QMainWindow):
         pageCameraConfig = PageCameraCalibrationView(self.pages, self.windowsize)
         pageCameraConfig.setBackPage(PageConfig)
         self.pages.addPage(pageCameraConfig)
+
+        # Zwischenseite Start Server
+        pageStartServer = PageStartServer(self.pages, self.server)
+        pageStartServer.setNextPage(PageTitlePicture)
+        self.pages.addPage(pageStartServer)
 
         #Seite 3 Title
         pageTitlePicture = PageTitlePicture(self.pages)

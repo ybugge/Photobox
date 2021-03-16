@@ -1,20 +1,16 @@
 import qrcode
-from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
-from PyQt5.QtMultimedia import QCameraInfo
 from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QLabel, QHBoxLayout, QFileDialog, QGridLayout, QLineEdit
 
 from Pages.AllPages import AllPages
 from Pages.Page import Page
 from Services.CfgService import CfgService
-from Services.WebServerExecThread import WebServerExecThread
 from config.Config import textValue, TextKey, CfgKey
 
 
 class PageConfig(Page):
-    def __init__(self, pages : AllPages, server:WebServerExecThread):
+    def __init__(self, pages : AllPages):
         super().__init__(pages)
-        self.server = server
         vbox = QVBoxLayout()
         self.setLayout(vbox)
 
@@ -114,8 +110,6 @@ class PageConfig(Page):
         CfgService.set(CfgKey.WIFI_SSID,self.wifiSSIDValue.text())
         CfgService.set(CfgKey.WIFI_PROTOCOL,self.wifiProtocolValue.text())
         CfgService.set(CfgKey.WIFI_PASSWORD,self.wifiPasswordValue.text())
-
-        self.server.start()
 
     def open_file_dialog(self):
         CfgService.set(CfgKey.MAIN_SAVE_DIR, str(QFileDialog.getExistingDirectory()))
