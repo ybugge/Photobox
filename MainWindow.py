@@ -81,7 +81,7 @@ class MainWindow(QtWidgets.QMainWindow):
         pageCameraConfig.setBackPage(PageConfig)
         self.pages.addPage(pageCameraConfig)
 
-        # Zwischenseite Start Server
+        # Intermediate page:  Start Server
         pageStartServer = PageStartServer(self.pages, self.server)
         pageStartServer.setNextPage(PageTitlePicture)
         self.pages.addPage(pageStartServer)

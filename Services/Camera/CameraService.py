@@ -3,6 +3,7 @@ from PyQt5.QtMultimedia import QCameraInfo
 
 from Services.Camera.CV2CapturePhotoThread import CV2CapturePhotoThread
 from Services.Camera.CV2VideoThread import CV2VideoThread
+from Services.Camera.PiCamPhotoThread import PiCamPhotoThread
 from Services.Camera.PiCamVideoThread import PiCamVideoThread
 from Services.CfgService import CfgService
 from config.Config import cfgValue, CfgKey
@@ -10,7 +11,8 @@ from config.Config import cfgValue, CfgKey
 try:
     from picamera import PiCamera
 except ImportError:
-    print("CameraService: PiCamera not found")
+    if cfgValue[CfgKey.IS_PI]:
+        print("CameraService: PiCamera not found")
 
 class CameraService():
 
@@ -72,6 +74,6 @@ class CameraService():
     @staticmethod
     def initialPhoto(windowSize:QSize):
         if CameraService.existPiCamera():
-            pass
+            return PiCamPhotoThread(windowSize)
         else:
             return CV2CapturePhotoThread(windowSize)

@@ -10,7 +10,8 @@ try:
     from picamera import PiCamera
     from picamera.array import PiRGBArray
 except ImportError:
-    print("PiCamVideoThread: PiCamera not found")
+    if cfgValue[CfgKey.IS_PI]:
+        print("PiCamVideoThread: PiCamera not found")
 
 class PiCamVideoThread(QThread):
     changePixmap = pyqtSignal(QImage)
@@ -39,7 +40,8 @@ class PiCamVideoThread(QThread):
             p = convertToQtFormat.scaled(self.img_dimensions.width(), self.img_dimensions.height(), Qt.KeepAspectRatio)
             self.changePixmap.emit(p)
             rawCapture.truncate(0)
-
+        camera.close()
+        cv2.destroyAllWindows()
 
     def stop(self):
         self.run = False
