@@ -26,7 +26,7 @@ class PiCamPhotoThread(QThread):
         camera = PiCamera()
         camera.resolution =  resolution
         rawCapture = PiRGBArray(camera, size=resolution)
-        time.sleep(0.1)
+        time.sleep(0.4)
         camera.capture(rawCapture, format="bgr")
         image = rawCapture.array
         cv2.imwrite(ShottedPictureService.getTempPicturePath(), image)

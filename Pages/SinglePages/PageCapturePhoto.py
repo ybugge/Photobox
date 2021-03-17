@@ -42,7 +42,8 @@ class PageCapturePhoto(Page):
 
     def executeAfter(self):
         self.timer.stop()
-        self.capturePhotoThread.stop()
+        while not self.capturePhotoThread.isFinished():
+            pass
 
     def timerUpdate(self):
         if self.countdown == CfgService.get(CfgKey.PAGE_CAPTUREPHOTO_TIMER_CAPTUREPHOTO_VALUE):
