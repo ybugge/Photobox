@@ -22,17 +22,18 @@ class PiCamPhotoThread(QThread):
         self.returnValue = True
 
     def run(self):
-        resolution = (4056,3040)#CfgService.get(CfgKey.PI_CAMERA_PHOTO_RESOLUTION)
+        resolution = CfgService.get(CfgKey.PI_CAMERA_PHOTO_RESOLUTION)
         camera = PiCamera()
         camera.resolution = resolution
-        rawCapture = PiRGBArray(camera, size=resolution)
+        #rawCapture = PiRGBArray(camera, size=resolution)
         time.sleep(2)
-        camera.capture(rawCapture, format="bgr")
-        image = rawCapture.array
-        cv2.imwrite(ShottedPictureService.getTempPicturePath(), image)
+        camera.capture(ShottedPictureService.getTempPicturePath())
+        #camera.capture(rawCapture, format="bgr")
+        #image = rawCapture.array
+        #cv2.imwrite(ShottedPictureService.getTempPicturePath(), image)
 
         camera.close()
-        cv2.destroyAllWindows()
+        #cv2.destroyAllWindows()
         self.returnValue = False
 
     def stop(self):
