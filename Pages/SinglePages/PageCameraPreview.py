@@ -62,6 +62,7 @@ class PageCameraPreview(Page):
 
     def executeBefore(self):
         print("Start Video")
+        self.videoLabel.setPixmap(QPixmap())
         self.videoThread = CameraService.initialAndStartVideo(self.windowsize,self.setVideoStreamToLabel)
         self.countdown = CfgService.get(CfgKey.PAGE_CAMERAPREVIEW_COUNTER_START_VALUE)
         self.timer.start(CfgService.get(CfgKey.PAGE_CAMERAPREVIEW_COUNTER_PERIOD_LENGTH))

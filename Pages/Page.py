@@ -88,7 +88,6 @@ class Page(QtWidgets.QWidget):
         title.setText(textValue[text])
         title.setFixedHeight(self.__getTitleAndNavigationButtonHeight())
         title.setAlignment(Qt.AlignCenter)
-        print(self.__getTitleStyle())
         title.setStyleSheet(self.__getTitleStyle())
         return title
 
