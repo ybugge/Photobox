@@ -1,3 +1,4 @@
+from PyQt5.QtCore import QSize
 from PyQt5.QtMultimedia import QCameraInfo
 from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QTextEdit, QHBoxLayout
 
@@ -10,8 +11,8 @@ from config.Config import textValue, TextKey, CfgKey, cfgValue
 
 
 class PageHints(Page):
-    def __init__(self, pages : AllPages):
-        super().__init__(pages)
+    def __init__(self, pages : AllPages,windowSize:QSize):
+        super().__init__(pages,windowSize)
         vbox = QVBoxLayout()
         self.setLayout(vbox)
 
@@ -30,10 +31,12 @@ class PageHints(Page):
 
         pictureManagerButton = QPushButton(textValue[TextKey.PAGE_HINTS_PICTURE_MANAGER_BUTTON])
         pictureManagerButton.clicked.connect(self.backPageEvent)
+        self.setNavigationbuttonStyle(pictureManagerButton)
         navigationBox.addWidget(pictureManagerButton)
 
         self.nextButton = QPushButton(textValue[TextKey.PAGE_HINTS_NEXTBUTTON])
         self.nextButton.clicked.connect(self.nextPageEvent)
+        self.setNavigationbuttonStyle(self.nextButton)
         navigationBox.addWidget(self.nextButton)
         self.disableNextButton()
 

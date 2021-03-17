@@ -9,7 +9,7 @@ from Services.Camera.CameraService import CameraService
 
 class PageCameraCalibrationView(Page):
     def __init__(self, pages : AllPages, windowsize:QSize):
-        super().__init__(pages)
+        super().__init__(pages,windowsize)
 
         self.windowsize = windowsize
         mainLayout = QVBoxLayout()

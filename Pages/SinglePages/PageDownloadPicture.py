@@ -15,7 +15,7 @@ from config.Config import TextKey, textValue, CfgKey
 
 class PageDownloadPicture(Page):
     def __init__(self, pages : AllPages, windowsize:QSize, globalVariable:GlobalPagesVariableService):
-        super().__init__(pages)
+        super().__init__(pages,windowsize)
         self.windowsize = windowsize
         self.globalVariable = globalVariable
         self.switch = False
@@ -41,10 +41,12 @@ class PageDownloadPicture(Page):
 
         backButton = QPushButton(textValue[TextKey.PAGE_DOWNLOADPICTURE_BACKBUTTON])
         backButton.clicked.connect(self.backPageEvent)
+        self.setNavigationbuttonStyle(backButton)
         navigationLayout.addWidget(backButton)
 
         self.switchButton = QPushButton(textValue[TextKey.PAGE_DOWNLOADPICTURE_WIFI_TITLE])
         self.switchButton.clicked.connect(self.switchEvent)
+        self.setNavigationbuttonStyle(self.switchButton)
         navigationLayout.addWidget(self.switchButton)
 
     def switchEvent(self):

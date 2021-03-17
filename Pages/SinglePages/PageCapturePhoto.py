@@ -14,7 +14,7 @@ from config.Config import CfgKey
 
 class PageCapturePhoto(Page):
     def __init__(self, pages : AllPages, windowsize:QSize):
-        super().__init__(pages)
+        super().__init__(pages,windowsize)
         self.windowsize = windowsize
         mainLayout = QVBoxLayout()
         mainLayout.setContentsMargins(0, 0, 0, 0)

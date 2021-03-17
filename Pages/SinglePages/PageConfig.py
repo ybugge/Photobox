@@ -1,4 +1,5 @@
 import qrcode
+from PyQt5.QtCore import QSize
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QLabel, QHBoxLayout, QFileDialog, QGridLayout, QLineEdit
 
@@ -9,8 +10,8 @@ from config.Config import textValue, TextKey, CfgKey
 
 
 class PageConfig(Page):
-    def __init__(self, pages : AllPages):
-        super().__init__(pages)
+    def __init__(self, pages : AllPages, windowSize:QSize):
+        super().__init__(pages,windowSize)
         vbox = QVBoxLayout()
         self.setLayout(vbox)
 
@@ -49,6 +50,7 @@ class PageConfig(Page):
             #Camera calibration
         cameraCalibration = QPushButton(textValue[TextKey.PAGE_CONFIG_CAMERA_CALIBRATION_BUTTON])
         cameraCalibration.clicked.connect(self.cameraCalibrationEvent)
+        self.setContentButtonStyle(cameraCalibration)
         vbox.addWidget(cameraCalibration)
 
             #Server
@@ -87,6 +89,7 @@ class PageConfig(Page):
 
         wifiPicture = QPushButton(textValue[TextKey.PAGE_CONFIG_WIFI_PICTURE_BUTTON])
         wifiPicture.clicked.connect(self.saveWifiPicture)
+        self.setContentButtonStyle(wifiPicture)
         vbox.addWidget(wifiPicture)
 
         vbox.addStretch()
@@ -96,10 +99,12 @@ class PageConfig(Page):
 
         backButton = QPushButton(textValue[TextKey.PAGE_CONFIG_BACKBUTTON])
         backButton.clicked.connect(self.backPageEvent)
+        self.setNavigationbuttonStyle(backButton)
         navigationLayout.addWidget(backButton)
 
         nextButton = QPushButton(textValue[TextKey.PAGE_CONFIG_NEXTBUTTON])
         nextButton.clicked.connect(self.nextPageEvent)
+        self.setNavigationbuttonStyle(nextButton)
         navigationLayout.addWidget(nextButton)
 
     def executeAfter(self):

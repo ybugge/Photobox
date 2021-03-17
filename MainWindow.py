@@ -14,7 +14,6 @@ from Pages.SinglePages.PagePictureEdit import PagePictureEdit
 from Pages.SinglePages.PageStartServer import PageStartServer
 from Pages.SinglePages.PageSystemPictureManager import PageSystemPictureManager
 from Pages.SinglePages.PageTitlePicture import PageTitlePicture
-from Pages.SinglePages.PageTest import PageTest
 from Services.GlobalPagesVariableService import GlobalPagesVariableService
 from Services.WebServerExecThread import WebServerExecThread
 from config.Config import cfgValue, CfgKey
@@ -30,21 +29,19 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
         #Sytling
-        self.setStyleSheet("QWidget {background-color: "+cfgValue[CfgKey.MAIN_WINDOW_BACKGROUND_COLOR]+";"
-                                "color: "+cfgValue[CfgKey.TEXT_COLOR]+";"
-                                #"font-size: "+cfgValue[CfgKey.MAIN_WINDOW_TEXT_SIZE]+";"
-                                "font-family:"+cfgValue[CfgKey.MAIN_WINDOW_TEXT_FONT]+"}"
-                            "QPushButton {"
-                                "background-color: "+cfgValue[CfgKey.MAIN_WINDOW_BUTTON_BACKGROUND_COLOR]+";"
-                                #"height: "+cfgValue[CfgKey.MAIN_WINDOW_BUTTON_HEIGHT]+";}"
-                            "QPushButton:disabled {"
-                                "color: "+cfgValue[CfgKey.BUTTON_DISABLED_TEXT_COLOR]+";"
-                                "opacity: 0.6;}"
-                            "QProgressBar {text-align: center;}"
-                            "QProgressBar::chunk {"
-                                "background-color:"+cfgValue[CfgKey.PROGRESSBAR_CHUNK_BACKGROUND_COLOR]+";}"
-                           "QLineEdit {"
-                                "border: 1px solid "+cfgValue[CfgKey.MAIN_WINDOW_LABEL_EDIT_BORDER_COLOR]+";"
+        self.setStyleSheet("QWidget {background-color: "+cfgValue[CfgKey.MAIN_WINDOW_BACKGROUND_COLOR]+";"\
+                                "color: "+cfgValue[CfgKey.TEXT_COLOR]+";"\
+                                "font-family:"+cfgValue[CfgKey.MAIN_WINDOW_TEXT_FONT]+";}"\
+                            "QPushButton {"\
+                                "background-color: "+cfgValue[CfgKey.MAIN_WINDOW_BUTTON_BACKGROUND_COLOR]+";}"\
+                            "QPushButton:disabled {"\
+                                "color: "+cfgValue[CfgKey.BUTTON_DISABLED_TEXT_COLOR]+";"\
+                                "opacity: 0.6;}"\
+                            "QProgressBar {text-align: center;}"\
+                            "QProgressBar::chunk {"\
+                                "background-color:"+cfgValue[CfgKey.PROGRESSBAR_CHUNK_BACKGROUND_COLOR]+";}"\
+                           "QLineEdit {"\
+                                "border: 1px solid "+cfgValue[CfgKey.MAIN_WINDOW_LABEL_EDIT_BORDER_COLOR]+";"\
                                 "background-color: "+cfgValue[CfgKey.MAIN_WINDOW_LABEL_EDIT_BACKGROUND_COLOR]+";}")
 
         #Initialisieren
@@ -54,23 +51,23 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
         #ClosePage
-        pageCloseConfirm = PageCloseConfirm(self.pages, self, self.server)
+        pageCloseConfirm = PageCloseConfirm(self.pages,self.windowsize, self, self.server)
         pageCloseConfirm.setNextPage(PageConfig)
         self.pages.addPage(pageCloseConfirm)
 
         #Seite 1 Hinweise
-        pageHints = PageHints(self.pages)
+        pageHints = PageHints(self.pages, self.windowsize)
         pageHints.setBackPage(PageSystemPictureManager)
         pageHints.setNextPage(PageConfig)
         self.pages.addPage(pageHints)
 
         #Seite 1-1 Picture Manager
-        pagePictureManager = PageSystemPictureManager(self.pages)
+        pagePictureManager = PageSystemPictureManager(self.pages, self.windowsize)
         pagePictureManager.setNextPage(PageHints)
         self.pages.addPage(pagePictureManager)
 
         #Seite 2 Configuration
-        pageConfig = PageConfig(self.pages)
+        pageConfig = PageConfig(self.pages, self.windowsize)
         pageConfig.setBackPage(PageHints)
         pageConfig.setNextPage(PageStartServer)
         pageConfig.setCameraCalibrationEventPage(PageCameraCalibrationView)
@@ -82,12 +79,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pages.addPage(pageCameraConfig)
 
         # Intermediate page:  Start Server
-        pageStartServer = PageStartServer(self.pages, self.server)
+        pageStartServer = PageStartServer(self.pages,self.windowsize,  self.server)
         pageStartServer.setNextPage(PageTitlePicture)
         self.pages.addPage(pageStartServer)
 
         #Seite 3 Title
-        pageTitlePicture = PageTitlePicture(self.pages)
+        pageTitlePicture = PageTitlePicture(self.pages, self.windowsize)
         pageTitlePicture.setNextPage(PageCameraPreview)
         self.pages.addPage(pageTitlePicture)
 
@@ -104,7 +101,7 @@ class MainWindow(QtWidgets.QMainWindow):
         #Seite 6 Picture Edit
         pagePictureEdit = PagePictureEdit(self.pages, self.windowsize, self.globalVariable)
         pagePictureEdit.activateAutoForward(PageTitlePicture,CfgKey.PAGE_PICTUREEDIT_SPACE_AUTO_FORWARD_WAIT_TIME)
-        pagePictureEdit.setPrinterPage(PageTest)
+        pagePictureEdit.setPrinterPage(PagePictureEdit) #Anpassen
         pagePictureEdit.setDownloadPage(PageDownloadPicture)
         pagePictureEdit.setNewPicturePage(PageCameraPreview)
         pagePictureEdit.setFinishedPage(PageTitlePicture)
@@ -115,16 +112,6 @@ class MainWindow(QtWidgets.QMainWindow):
         pageDownloadPicture.activateAutoForward(PageTitlePicture,CfgKey.PAGE_PICTUREEDIT_SPACE_AUTO_FORWARD_WAIT_TIME)
         pageDownloadPicture.setBackPage(PagePictureEdit)
         self.pages.addPage(pageDownloadPicture)
-
-        #TestSeite 1
-        pageTest = PageTest(self.pages)
-        pageTest.setNextPage(PagePictureEdit)
-        self.pages.addPage(pageTest)
-        #
-        # #TestseiteSeite2
-        # pageTest2 = PageTest2(self.pages)
-        # pageTest2.setNextPage(PageTest)
-        # self.pages.addPage(pageTest2)
 
         #Set first visible Page
         self.pages.showPage(PageHints)

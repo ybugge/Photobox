@@ -1,6 +1,6 @@
 import os
 
-from PyQt5.QtCore import QTimer
+from PyQt5.QtCore import QTimer, QSize
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit, QLabel, QProgressBar
 
@@ -13,8 +13,8 @@ from config.Config import TextKey, textValue, CfgKey
 
 
 class PageSystemPictureManager(Page):
-    def __init__(self, pages : AllPages):
-        super().__init__(pages)
+    def __init__(self, pages : AllPages,windowSize:QSize):
+        super().__init__(pages,windowSize)
         vbox = QVBoxLayout()
         self.setLayout(vbox)
 
@@ -63,6 +63,7 @@ class PageSystemPictureManager(Page):
 
         self.pictureManagerButton = QPushButton(textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_NEXTBUTTON])
         self.pictureManagerButton.clicked.connect(self.nextPageEvent)
+        self.setNavigationbuttonStyle(self.pictureManagerButton)
         navigationBox.addWidget(self.pictureManagerButton)
 
         #timer

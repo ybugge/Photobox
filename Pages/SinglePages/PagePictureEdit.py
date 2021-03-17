@@ -14,7 +14,7 @@ from config.Config import CfgKey
 
 class PagePictureEdit(Page):
     def __init__(self, pages : AllPages, windowsize:QSize, globalVariable:GlobalPagesVariableService):
-        super().__init__(pages)
+        super().__init__(pages,windowsize)
         self.windowsize = windowsize
         self.globalVariable = globalVariable
         self.heightDevider = 8

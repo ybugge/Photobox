@@ -1,6 +1,7 @@
 import os
 import random
 
+from PyQt5.QtCore import QSize
 from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QSizePolicy
 
 from Pages.AllPages import AllPages
@@ -10,8 +11,8 @@ from config.Config import CfgKey
 
 
 class PageTitlePicture(Page):
-    def __init__(self, pages : AllPages):
-        super().__init__(pages)
+    def __init__(self, pages : AllPages,windowSize:QSize):
+        super().__init__(pages,windowSize)
         vbox = QVBoxLayout()
         self.setLayout(vbox)
 
