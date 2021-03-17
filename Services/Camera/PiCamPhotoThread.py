@@ -28,13 +28,13 @@ class PiCamPhotoThread(QThread):
         camera.framerate = 30
         rawCapture = PiRGBArray(camera, size=resolution)
         #time.sleep(0.1)
-        #camera.capture(ShottedPictureService.getTempPicturePath())
-        camera.capture(rawCapture, format="bgr")
-        image = rawCapture.array
-        cv2.imwrite(ShottedPictureService.getTempPicturePath(), image)
+        camera.capture(ShottedPictureService.getTempPicturePath())
+        #camera.capture(rawCapture, format="bgr")
+        #image = rawCapture.array
+        #cv2.imwrite(ShottedPictureService.getTempPicturePath(), image)
 
         camera.close()
-        cv2.destroyAllWindows()
+        #cv2.destroyAllWindows()
         self.returnValue = False
 
     def stop(self):
