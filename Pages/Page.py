@@ -99,7 +99,8 @@ class Page(QtWidgets.QWidget):
 
     def setNavigationbuttonStyle(self, button:QPushButton):
         button.setFixedHeight(self.__getTitleAndNavigationButtonHeight())
-        button.setStyleSheet("font-size: " + str(self.__getTitelAndNavigationButtonTextSize()) +"px ;" \
+        button.setStyleSheet("background-color: "+CfgService.get(CfgKey.MAIN_WINDOW_BUTTON_BACKGROUND_COLOR)+";"\
+                            "font-size: " + str(self.__getTitelAndNavigationButtonTextSize()) +"px ;" \
                             "font-family: " + CfgService.get(CfgKey.MAIN_WINDOW_TEXT_FONT) +", serif;")
 
     def setContentButtonStyle(self,button:QPushButton):

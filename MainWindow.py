@@ -32,13 +32,13 @@ class MainWindow(QtWidgets.QMainWindow):
         mainStyle = "QWidget {background-color: "+cfgValue[CfgKey.MAIN_WINDOW_BACKGROUND_COLOR]+";" \
                             "color: "+cfgValue[CfgKey.TEXT_COLOR]+";" \
                             "font-family:"+cfgValue[CfgKey.MAIN_WINDOW_TEXT_FONT]+";}" \
-                    "QPushButton { background-color: "+cfgValue[CfgKey.MAIN_WINDOW_BUTTON_BACKGROUND_COLOR]+";}" \
-                    "QPushButton:disabled {" \
+                    " QPushButton { background-color: "+cfgValue[CfgKey.MAIN_WINDOW_BUTTON_BACKGROUND_COLOR]+";}" \
+                    " QPushButton:disabled {" \
                             "color: "+cfgValue[CfgKey.BUTTON_DISABLED_TEXT_COLOR]+";}" \
-                    "QProgressBar {text-align: center;}" \
-                    "QProgressBar::chunk {" \
+                    " QProgressBar {text-align: center;}" \
+                    " QProgressBar::chunk {" \
                             "background-color:"+cfgValue[CfgKey.PROGRESSBAR_CHUNK_BACKGROUND_COLOR]+";}" \
-                    "QLineEdit {" \
+                    " QLineEdit {" \
                             "border: 1px solid "+cfgValue[CfgKey.MAIN_WINDOW_LABEL_EDIT_BORDER_COLOR]+";" \
                             "background-color: "+cfgValue[CfgKey.MAIN_WINDOW_LABEL_EDIT_BACKGROUND_COLOR]+";}"
 
