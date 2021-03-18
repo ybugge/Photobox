@@ -1,5 +1,4 @@
-import time
-from datetime import datetime
+import datetime
 
 import cv2
 from PyQt5.QtCore import QThread, QSize

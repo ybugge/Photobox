@@ -1,6 +1,6 @@
 import os
 import random
-from datetime import datetime
+import datetime
 
 from PyQt5.QtCore import Qt, QSize, QTimer
 from PyQt5.QtGui import QPixmap
