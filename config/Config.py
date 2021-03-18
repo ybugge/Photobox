@@ -128,7 +128,7 @@ cfgValue[CfgKey.PICTURE_FORMAT] = ".png"
 
 #Styling
 cfgValue[CfgKey.MAIN_WINDOW_BACKGROUND_COLOR] = "black"
-cfgValue[CfgKey.MAIN_WINDOW_BUTTON_BACKGROUND_COLOR] = "rgb(30,30,30)"
+cfgValue[CfgKey.MAIN_WINDOW_BUTTON_BACKGROUND_COLOR] = "grey"
 cfgValue[CfgKey.MAIN_WINDOW_BUTTON_HEIGHT] = "80px"
 cfgValue[CfgKey.MAIN_WINDOW_TEXT_SIZE] = "35px"
 cfgValue[CfgKey.MAIN_WINDOW_TEXT_FONT] = 'Arial Black'
@@ -150,7 +150,7 @@ cfgValue[CfgKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_PICTURE_SOURCE_SUCCESS_DOWNLOAD]
 cfgValue[CfgKey.PAGE_TITLEPICTURE_BUTTON_BACKGROUND_COLOR] = 'yellow'
         #Quellen: mouth smile
 cfgValue[CfgKey.PAGE_TITLEPICTURE_BUTTON_IMAGE_FOLDER] = 'Resources/PageTitlePicture/Smiley'
-cfgValue[CfgKey.PAGE_TITLEPICTURE_BACKGROUND_IMAGE] = 'Resources/PageTitlePicture/background.jpg'
+cfgValue[CfgKey.PAGE_TITLEPICTURE_BACKGROUND_IMAGE] = 'Resources/PageTitlePicture/background.png'
 
 #PageCameraPreview.py
 cfgValue[CfgKey.PAGE_CAMERAPREVIEW_COUNDOWN_IMAGE_FOLDER] = 'Resources/PageCameraPreview/CountDown'
