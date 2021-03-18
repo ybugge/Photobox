@@ -36,6 +36,7 @@ class MainWindow(QtWidgets.QMainWindow):
                             "color: "+cfgValue[CfgKey.TEXT_COLOR]+";" \
                             "font-family:"+cfgValue[CfgKey.MAIN_WINDOW_TEXT_FONT]+";}" \
                     " QPushButton { background-color:white; color: black;}"\
+                    " QPushButton:disabled { color: grey;}"\
                     " QProgressBar {text-align: center;}" \
                     " QProgressBar::chunk {" \
                             "background-color:"+cfgValue[CfgKey.PROGRESSBAR_CHUNK_BACKGROUND_COLOR]+";}" \

@@ -28,13 +28,13 @@ class PageSystemPictureManager(Page):
         funnyTitle.setFont(funnyTitleFont)
         vbox.addWidget(funnyTitle)
 
-        vbox.addWidget(QLabel(textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_SOURCELABEL]))
+        vbox.addWidget(QLabel(textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_SOURCELABEL]))
         funnySource = QLineEdit()
         funnySource.setEnabled(False)
         funnySource.setText(CfgService.get(CfgKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_PICTURE_SOURCE))
         vbox.addWidget(funnySource)
 
-        vbox.addWidget(QLabel(textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_TARGETLABEL]))
+        vbox.addWidget(QLabel(textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_TARGETLABEL]))
         funnyTarget = QLineEdit()
         funnyTarget.setEnabled(False)
         funnyTarget.setText(CfgService.get(CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER))
@@ -43,13 +43,43 @@ class PageSystemPictureManager(Page):
         funnyPictureNavigation = QHBoxLayout()
         vbox.addLayout(funnyPictureNavigation)
 
-        self.funnyDeleteButton = QPushButton(textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_DELETEBUTTON])
+        self.funnyDeleteButton = QPushButton(textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_DELETEBUTTON])
         self.funnyDeleteButton.clicked.connect(self.deleteFunnyPictureFolder)
         funnyPictureNavigation.addWidget(self.funnyDeleteButton)
 
-        self.funnyUpdateButton = QPushButton(textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_UPDATEBUTTON])
+        self.funnyUpdateButton = QPushButton(textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_UPDATEBUTTON])
         self.funnyUpdateButton.clicked.connect(self.updateFunnyPictures)
         funnyPictureNavigation.addWidget(self.funnyUpdateButton)
+
+        #Loading Gifs
+        loadingGifTitle = QLabel(textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_LOADINGGIFS_TITEL])
+        loadingGifFont = QFont()
+        loadingGifFont.setUnderline(True)
+        loadingGifTitle.setFont(funnyTitleFont)
+        vbox.addWidget(loadingGifTitle)
+
+        vbox.addWidget(QLabel(textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_SOURCELABEL]))
+        loadingGifSource = QLineEdit()
+        loadingGifSource.setEnabled(False)
+        loadingGifSource.setText(CfgService.get(CfgKey.PAGE_SYSTEMPICTUREMANAGER_LOADINGGIFS_PICTURE_SOURCE))
+        vbox.addWidget(loadingGifSource)
+
+        vbox.addWidget(QLabel(textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_TARGETLABEL]))
+        loadingGifTarget = QLineEdit()
+        loadingGifTarget.setEnabled(False)
+        loadingGifTarget.setText(CfgService.get(CfgKey.PAGE_CAPTUREPHOTO_LOADING_GIF_FOLDER))
+        vbox.addWidget(loadingGifTarget)
+
+        loadingGifNavigation = QHBoxLayout()
+        vbox.addLayout(loadingGifNavigation)
+
+        self.loadingGifDeleteButton = QPushButton(textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_DELETEBUTTON])
+        self.loadingGifDeleteButton.clicked.connect(self.deleteLoadingGifFolder)
+        loadingGifNavigation.addWidget(self.loadingGifDeleteButton)
+
+        self.loadingGifUpdateButton = QPushButton(textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_UPDATEBUTTON])
+        self.loadingGifUpdateButton.clicked.connect(self.updateLoadingGifs)
+        loadingGifNavigation.addWidget(self.loadingGifUpdateButton)
 
 
         vbox.addStretch()
@@ -72,8 +102,10 @@ class PageSystemPictureManager(Page):
 
 
     def timerUpdate(self):
-        self.funnyDeleteButton.setText(textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_DELETEBUTTON])
-        self.funnyUpdateButton.setText(textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_UPDATEBUTTON])
+        self.funnyDeleteButton.setText(textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_DELETEBUTTON])
+        self.funnyUpdateButton.setText(textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_UPDATEBUTTON])
+        self.loadingGifDeleteButton.setText(textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_DELETEBUTTON])
+        self.loadingGifUpdateButton.setText(textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_UPDATEBUTTON])
 
     def deleteFunnyPictureFolder(self):
         self.disableAllButtons()
@@ -82,11 +114,30 @@ class PageSystemPictureManager(Page):
         self.enableAllButtons()
         self.funnyDeleteButton.setText(textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_SUCCESSFULL])
 
+
+    def deleteLoadingGifFolder(self):
+        self.disableAllButtons()
+        FileFolderService.removeIfExist(CfgService.get(CfgKey.PAGE_CAPTUREPHOTO_LOADING_GIF_FOLDER))
+        FileFolderService.removeIfExist(CfgService.get(CfgKey.PAGE_SYSTEMPICTUREMANAGER_LOADINGGIFS_PICTURE_SOURCE_SUCCESS_DOWNLOAD))
+        self.enableAllButtons()
+        self.loadingGifDeleteButton.setText(textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_SUCCESSFULL])
+
+    def updateLoadingGifs(self):
+        self.disableAllButtons()
+        urls = FileFolderService.readFile(CfgService.get(CfgKey.PAGE_SYSTEMPICTUREMANAGER_LOADINGGIFS_PICTURE_SOURCE))
+        if(len(urls) > 0):
+            self.thread = PictureDownloadThread(urls,CfgService.get(CfgKey.PAGE_CAPTUREPHOTO_LOADING_GIF_FOLDER),CfgService.get(CfgKey.PAGE_SYSTEMPICTUREMANAGER_LOADINGGIFS_PICTURE_SOURCE_SUCCESS_DOWNLOAD))
+            self.thread._signal.connect(self.signal_accept)
+            self.thread.start()
+        else:
+            self.enableAllButtons()
+            self.loadingGifUpdateButton.setText(textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_SUCCESSFULL])
+
     def updateFunnyPictures(self):
         self.disableAllButtons()
         urls = FileFolderService.readFile(CfgService.get(CfgKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_PICTURE_SOURCE))
         if(len(urls) > 0):
-            self.thread = PictureDownloadThread(urls)
+            self.thread = PictureDownloadThread(urls,CfgService.get(CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER),CfgService.get(CfgKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_PICTURE_SOURCE_SUCCESS_DOWNLOAD))
             self.thread._signal.connect(self.signal_accept)
             self.thread.start()
         else:
@@ -98,12 +149,14 @@ class PageSystemPictureManager(Page):
         self.pictureManagerButton.setDisabled(True)
         self.funnyUpdateButton.setDisabled(True)
         self.funnyDeleteButton.setDisabled(True)
+        self.loadingGifDeleteButton.setDisabled(True)
 
     def enableAllButtons(self):
         self.startTime()
         self.pictureManagerButton.setDisabled(False)
         self.funnyUpdateButton.setDisabled(False)
         self.funnyDeleteButton.setDisabled(False)
+        self.loadingGifDeleteButton.setDisabled(False)
 
     def signal_accept(self, msg):
         self.progressbar.setValue(int(msg))
@@ -111,6 +164,7 @@ class PageSystemPictureManager(Page):
             self.progressbar.setValue(0)
             self.enableAllButtons()
             self.funnyUpdateButton.setText(textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_SUCCESSFULL])
+            self.loadingGifUpdateButton.setText(textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_SUCCESSFULL])
 
     def stopTimer(self):
         self.timer.stop()

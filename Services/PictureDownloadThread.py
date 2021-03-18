@@ -9,25 +9,26 @@ from config.Config import CfgKey
 
 class PictureDownloadThread(QThread):
     _signal = pyqtSignal(int)
-    def __init__(self, urls:list):
+    def __init__(self, urls:list, targetFolder:str, downloadSuccessFile:str):
         super(PictureDownloadThread, self).__init__()
         self.urls = urls
+        self.targetFolder = targetFolder
+        self.downloadSuccessFile = downloadSuccessFile
 
     def run(self):
-        folderPath = CfgService.get(CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER)
         numberUrls = len(self.urls)
-        FileFolderService.createFolderIfNotExist(folderPath)
+        FileFolderService.createFolderIfNotExist(self.targetFolder)
         for index, url in enumerate(self.urls):
-            if(FileFolderService.containsLineInFile(url,CfgService.get(CfgKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_PICTURE_SOURCE_SUCCESS_DOWNLOAD))):
+            if(FileFolderService.containsLineInFile(url,self.downloadSuccessFile)):
                 continue
             request = self.getRequest(url)
             if request == None:
                 self.setProgress(index,numberUrls)
                 continue
 
-            self.savePicture(request,url,index,folderPath)
+            self.savePicture(request,url,index,self.targetFolder)
             self.setProgress(index,numberUrls)
-            FileFolderService.writeLineInFile(True,CfgService.get(CfgKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_PICTURE_SOURCE_SUCCESS_DOWNLOAD),url)
+            FileFolderService.writeLineInFile(True,self.downloadSuccessFile,url)
 
         self.setProgress(numberUrls,numberUrls)
 

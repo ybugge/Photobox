@@ -49,7 +49,8 @@ class PageHints(Page):
     def disableNextButton(self):
         if((CameraService.existPiCamera() or CameraService.existCameras())
                 and self.hasPageTitlePicturePictures()
-                and self.hasPageCapturePhotoLastPicture()):
+                and self.hasPageCapturePhotoLastPicture()
+                and self.hasPageCapturePhotoLoadungGifs()):
             self.nextButton.setDisabled(False)
         else:
             self.nextButton.setDisabled(True)
@@ -85,6 +86,11 @@ class PageHints(Page):
             self.textArea.append(warn)
             self.textArea.append("")
 
+        if not FileFolderService.hasFolderContent(CfgService.get(CfgKey.PAGE_CAPTUREPHOTO_LOADING_GIF_FOLDER)):
+            warn = textValue[TextKey.PAGE_HINTS_NO_PICTURES_FOUND_WARN] % (CfgService.get(CfgKey.PAGE_CAPTUREPHOTO_LOADING_GIF_FOLDER))
+            self.textArea.append(warn)
+            self.textArea.append("")
+
 
 
     def hasPageTitlePicturePictures(self):
@@ -92,4 +98,7 @@ class PageHints(Page):
 
     def hasPageCapturePhotoLastPicture(self):
         return FileFolderService.hasFolderContent(CfgService.get(CfgKey.PAGE_CAPTUREPHOTO_LAST_IMAGE_FOLDER))
+
+    def hasPageCapturePhotoLoadungGifs(self):
+        return FileFolderService.hasFolderContent(CfgService.get(CfgKey.PAGE_CAPTUREPHOTO_LOADING_GIF_FOLDER))
 
