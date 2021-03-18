@@ -1,5 +1,3 @@
-import time
-
 import cv2
 from PyQt5.QtCore import QThread, QSize
 
@@ -31,7 +29,6 @@ class CV2CapturePhotoThread(QThread):
 
         cap.release()
         cv2.destroyAllWindows()
-        time.sleep(5)
 
     def shootPicture(self):
         self.shoot = True

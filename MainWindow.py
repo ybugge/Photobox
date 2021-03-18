@@ -29,12 +29,13 @@ class MainWindow(QtWidgets.QMainWindow):
 
         #Background-color on Pi not work: https://stackoverflow.com/questions/57637541/pyqt5-on-raspbian-background-color-of-qwidgets-is-not-displayed
         #https://raspberrypi.stackexchange.com/questions/93900/opengl-desktop-driver
-        # " QPushButton { background-color: "+cfgValue[CfgKey.MAIN_WINDOW_BUTTON_BACKGROUND_COLOR]+";}" \
+        # " QPushButton { background-color: "+cfgValue[CfgKey.MAIN_WINDOW_BUTTON_BACKGROUND_COLOR]+";}"
+        #" QPushButton {background-image: url('"+cfgValue[CfgKey.PAGE_TITLEPICTURE_BACKGROUND_IMAGE]+"');}"
+        #" QPushButton:disabled { color: "+cfgValue[CfgKey.BUTTON_DISABLED_TEXT_COLOR]+";}"
         mainStyle = "QWidget {background-color: "+cfgValue[CfgKey.MAIN_WINDOW_BACKGROUND_COLOR]+";" \
                             "color: "+cfgValue[CfgKey.TEXT_COLOR]+";" \
                             "font-family:"+cfgValue[CfgKey.MAIN_WINDOW_TEXT_FONT]+";}" \
-                    " QPushButton {background-image: url('"+cfgValue[CfgKey.PAGE_TITLEPICTURE_BACKGROUND_IMAGE]+"');}"\
-                    " QPushButton:disabled { color: "+cfgValue[CfgKey.BUTTON_DISABLED_TEXT_COLOR]+";}" \
+                    " QPushButton { background-color:white; color: black;}"\
                     " QProgressBar {text-align: center;}" \
                     " QProgressBar::chunk {" \
                             "background-color:"+cfgValue[CfgKey.PROGRESSBAR_CHUNK_BACKGROUND_COLOR]+";}" \

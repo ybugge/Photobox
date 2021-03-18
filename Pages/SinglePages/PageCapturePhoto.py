@@ -28,6 +28,9 @@ class PageCapturePhoto(Page):
         self.counterLabel.setFixedSize(windowsize)
         mainLayout.addWidget(self.counterLabel)
 
+        #gif
+        self.gif = None
+
         #Timer starten
         self.isLoading = False
         self.countdown = -1
