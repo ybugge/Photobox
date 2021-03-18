@@ -22,7 +22,7 @@ class PiCamPhotoThread(QThread):
         self.returnValue = True
 
     def run(self):
-        self.piCamWithCv2()
+        self.plainPiCam()
         self.returnValue = False
 
     def plainPiCam(self):

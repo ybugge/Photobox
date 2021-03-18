@@ -2,6 +2,7 @@ import os
 import random
 
 from PyQt5.QtCore import QSize
+from PyQt5.QtGui import QImage, QBrush, QPalette
 from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QSizePolicy
 
 from Pages.AllPages import AllPages
@@ -15,9 +16,11 @@ class PageTitlePicture(Page):
         super().__init__(pages,windowSize)
         vbox = QVBoxLayout()
         self.setLayout(vbox)
+        self.setStyleSheet("background-image: url('"+CfgService.get(CfgKey.PAGE_TITLEPICTURE_BACKGROUND_IMAGE)+"');")
+
 
         #Startbutton
-        self.startButton = QPushButton(self)
+        self.startButton = QPushButton()
         self.startButton.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.startButton.clicked.connect(self.nextPageEvent)
         vbox.addWidget(self.startButton)
@@ -26,8 +29,9 @@ class PageTitlePicture(Page):
         self.setStartButtonStyle()
 
     def setStartButtonStyle(self):
-        self.startButton.setStyleSheet("border-image : url(" + self.__getBackgroundPicturePath() + ");"
-                                        " background-color:" + CfgService.get(CfgKey.PAGE_TITLEPICTURE_BUTTON_BACKGROUND_COLOR) + ";")
+        self.startButton.setStyleSheet("border-image : url(" + self.__getBackgroundPicturePath() + ");" \
+                                        " background-color: transparent;")
+                                        #" background-color:" + CfgService.get(CfgKey.PAGE_TITLEPICTURE_BUTTON_BACKGROUND_COLOR) + ";")
     def __getBackgroundPicturePath(self):
         directories = os.listdir(CfgService.get(CfgKey.PAGE_TITLEPICTURE_BUTTON_IMAGE_FOLDER))
         numberPictures = len(directories)

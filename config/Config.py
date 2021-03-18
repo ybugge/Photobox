@@ -63,6 +63,7 @@ class CfgKey(enum.Enum):
     #PageTitlePicture.py
     PAGE_TITLEPICTURE_BUTTON_BACKGROUND_COLOR = 130
     PAGE_TITLEPICTURE_BUTTON_IMAGE_FOLDER=131
+    PAGE_TITLEPICTURE_BACKGROUND_IMAGE=132
 
     #PageCameraPreview
     PAGE_CAMERAPREVIEW_COUNDOWN_IMAGE_FOLDER=140
@@ -148,7 +149,8 @@ cfgValue[CfgKey.PAGE_SYSTEMPICTUREMANAGER_FUNNY_PICTURE_SOURCE_SUCCESS_DOWNLOAD]
 #PageTitlePicture.py
 cfgValue[CfgKey.PAGE_TITLEPICTURE_BUTTON_BACKGROUND_COLOR] = 'yellow'
         #Quellen: mouth smile
-cfgValue[CfgKey.PAGE_TITLEPICTURE_BUTTON_IMAGE_FOLDER] = 'Resources/PageTitlePicture'
+cfgValue[CfgKey.PAGE_TITLEPICTURE_BUTTON_IMAGE_FOLDER] = 'Resources/PageTitlePicture/Smiley'
+cfgValue[CfgKey.PAGE_TITLEPICTURE_BACKGROUND_IMAGE] = 'Resources/PageTitlePicture/background.jpg'
 
 #PageCameraPreview.py
 cfgValue[CfgKey.PAGE_CAMERAPREVIEW_COUNDOWN_IMAGE_FOLDER] = 'Resources/PageCameraPreview/CountDown'
