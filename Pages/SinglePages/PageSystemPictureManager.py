@@ -150,6 +150,7 @@ class PageSystemPictureManager(Page):
         self.funnyUpdateButton.setDisabled(True)
         self.funnyDeleteButton.setDisabled(True)
         self.loadingGifDeleteButton.setDisabled(True)
+        self.pictureManagerButton.setDisabled(True)
 
     def enableAllButtons(self):
         self.startTime()
@@ -157,6 +158,7 @@ class PageSystemPictureManager(Page):
         self.funnyUpdateButton.setDisabled(False)
         self.funnyDeleteButton.setDisabled(False)
         self.loadingGifDeleteButton.setDisabled(False)
+        self.pictureManagerButton.setDisabled(False)
 
     def signal_accept(self, msg):
         self.progressbar.setValue(int(msg))
