@@ -44,6 +44,7 @@ class MainWindow(QtWidgets.QMainWindow):
                             "border: 1px solid "+cfgValue[CfgKey.MAIN_WINDOW_LABEL_EDIT_BORDER_COLOR]+";" \
                             "background-color: "+cfgValue[CfgKey.MAIN_WINDOW_LABEL_EDIT_BACKGROUND_COLOR]+";}"
         print(mainStyle)
+        print(self.windowsize)
         self.setStyleSheet(mainStyle)
 
         #Initialisieren
