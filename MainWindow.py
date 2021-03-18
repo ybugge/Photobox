@@ -27,13 +27,14 @@ class MainWindow(QtWidgets.QMainWindow):
         self.globalVariable = GlobalPagesVariableService()
         self.server=WebServerExecThread()
 
-#" QPushButton { background-color: "+cfgValue[CfgKey.MAIN_WINDOW_BUTTON_BACKGROUND_COLOR]+";}" \
- #                                                                                        " QPushButton:disabled {" \
-  #                                                                                       "color: "+cfgValue[CfgKey.BUTTON_DISABLED_TEXT_COLOR]+";}" \
-    #Sytling #
+        #Background-color on Pi not work: https://stackoverflow.com/questions/57637541/pyqt5-on-raspbian-background-color-of-qwidgets-is-not-displayed
+        #https://raspberrypi.stackexchange.com/questions/93900/opengl-desktop-driver
+        # " QPushButton { background-color: "+cfgValue[CfgKey.MAIN_WINDOW_BUTTON_BACKGROUND_COLOR]+";}" \
         mainStyle = "QWidget {background-color: "+cfgValue[CfgKey.MAIN_WINDOW_BACKGROUND_COLOR]+";" \
                             "color: "+cfgValue[CfgKey.TEXT_COLOR]+";" \
                             "font-family:"+cfgValue[CfgKey.MAIN_WINDOW_TEXT_FONT]+";}" \
+                    " QPushButton {background-image: url('"+cfgValue[CfgKey.PAGE_TITLEPICTURE_BACKGROUND_IMAGE]+"');}"\
+                    " QPushButton:disabled { color: "+cfgValue[CfgKey.BUTTON_DISABLED_TEXT_COLOR]+";}" \
                     " QProgressBar {text-align: center;}" \
                     " QProgressBar::chunk {" \
                             "background-color:"+cfgValue[CfgKey.PROGRESSBAR_CHUNK_BACKGROUND_COLOR]+";}" \
@@ -41,9 +42,7 @@ class MainWindow(QtWidgets.QMainWindow):
                             "border: 1px solid "+cfgValue[CfgKey.MAIN_WINDOW_LABEL_EDIT_BORDER_COLOR]+";" \
                             "background-color: "+cfgValue[CfgKey.MAIN_WINDOW_LABEL_EDIT_BACKGROUND_COLOR]+";}"
 
-        print(mainStyle)
-
-        #self.setStyleSheet(mainStyle)
+        self.setStyleSheet(mainStyle)
 
         #Initialisieren
         self.pages = AllPages()
