@@ -43,7 +43,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         print(mainStyle)
 
-        self.setStyleSheet(mainStyle)
+        #self.setStyleSheet(mainStyle)
 
         #Initialisieren
         self.pages = AllPages()
