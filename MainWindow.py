@@ -32,8 +32,7 @@ class MainWindow(QtWidgets.QMainWindow):
         mainStyle = "QWidget {background-color: "+cfgValue[CfgKey.MAIN_WINDOW_BACKGROUND_COLOR]+";" \
                             "color: "+cfgValue[CfgKey.TEXT_COLOR]+";" \
                             "font-family:"+cfgValue[CfgKey.MAIN_WINDOW_TEXT_FONT]+";}" \
-                    "QPushButton {" \
-                            "background-color: "+cfgValue[CfgKey.MAIN_WINDOW_BUTTON_BACKGROUND_COLOR]+";}" \
+                    "QPushButton { background-color: "+cfgValue[CfgKey.MAIN_WINDOW_BUTTON_BACKGROUND_COLOR]+";}" \
                     "QPushButton:disabled {" \
                             "color: "+cfgValue[CfgKey.BUTTON_DISABLED_TEXT_COLOR]+";}" \
                     "QProgressBar {text-align: center;}" \
@@ -42,6 +41,8 @@ class MainWindow(QtWidgets.QMainWindow):
                     "QLineEdit {" \
                             "border: 1px solid "+cfgValue[CfgKey.MAIN_WINDOW_LABEL_EDIT_BORDER_COLOR]+";" \
                             "background-color: "+cfgValue[CfgKey.MAIN_WINDOW_LABEL_EDIT_BACKGROUND_COLOR]+";}"
+
+        print(mainStyle)
 
         self.setStyleSheet(mainStyle)
 

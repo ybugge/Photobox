@@ -128,7 +128,7 @@ cfgValue[CfgKey.PICTURE_FORMAT] = ".png"
 
 #Styling
 cfgValue[CfgKey.MAIN_WINDOW_BACKGROUND_COLOR] = "black"
-cfgValue[CfgKey.MAIN_WINDOW_BUTTON_BACKGROUND_COLOR] = "black"
+cfgValue[CfgKey.MAIN_WINDOW_BUTTON_BACKGROUND_COLOR] = "red"
 cfgValue[CfgKey.MAIN_WINDOW_BUTTON_HEIGHT] = "80px"
 cfgValue[CfgKey.MAIN_WINDOW_TEXT_SIZE] = "35px"
 cfgValue[CfgKey.MAIN_WINDOW_TEXT_FONT] = 'Arial Black'
