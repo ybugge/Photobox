@@ -27,14 +27,13 @@ class MainWindow(QtWidgets.QMainWindow):
         self.globalVariable = GlobalPagesVariableService()
         self.server=WebServerExecThread()
 
-
-        #Sytling #
+#" QPushButton { background-color: "+cfgValue[CfgKey.MAIN_WINDOW_BUTTON_BACKGROUND_COLOR]+";}" \
+ #                                                                                        " QPushButton:disabled {" \
+  #                                                                                       "color: "+cfgValue[CfgKey.BUTTON_DISABLED_TEXT_COLOR]+";}" \
+    #Sytling #
         mainStyle = "QWidget {background-color: "+cfgValue[CfgKey.MAIN_WINDOW_BACKGROUND_COLOR]+";" \
                             "color: "+cfgValue[CfgKey.TEXT_COLOR]+";" \
                             "font-family:"+cfgValue[CfgKey.MAIN_WINDOW_TEXT_FONT]+";}" \
-                    " QPushButton { background-color: "+cfgValue[CfgKey.MAIN_WINDOW_BUTTON_BACKGROUND_COLOR]+";}" \
-                    " QPushButton:disabled {" \
-                            "color: "+cfgValue[CfgKey.BUTTON_DISABLED_TEXT_COLOR]+";}" \
                     " QProgressBar {text-align: center;}" \
                     " QProgressBar::chunk {" \
                             "background-color:"+cfgValue[CfgKey.PROGRESSBAR_CHUNK_BACKGROUND_COLOR]+";}" \
