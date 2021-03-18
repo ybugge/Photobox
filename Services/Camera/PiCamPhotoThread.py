@@ -20,6 +20,7 @@ class PiCamPhotoThread(QThread):
         super().__init__()
         self.img_dimensions = img_dimensions
         self.returnValue = True
+        self.shoot = False
 
     def run(self):
         self.plainPiCam()
@@ -30,6 +31,8 @@ class PiCamPhotoThread(QThread):
         camera = PiCamera()
         camera.resolution = resolution
         camera.framerate = 30
+        while not self.shoot:
+            pass
         print("Befor capture: "+str(datetime.datetime.now()))
         camera.capture(ShottedPictureService.getTempPicturePath(),'png')
         print("After capture: "+str(datetime.datetime.now()))
@@ -50,5 +53,5 @@ class PiCamPhotoThread(QThread):
         cv2.destroyAllWindows()
 
 
-    def stop(self):
-        pass
+    def shootPicture(self):
+        self.shoot = True
