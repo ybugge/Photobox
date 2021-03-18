@@ -16,7 +16,8 @@ class PageTitlePicture(Page):
         super().__init__(pages,windowSize)
         vbox = QVBoxLayout()
         self.setLayout(vbox)
-        self.setStyleSheet("background-image: url('"+CfgService.get(CfgKey.PAGE_TITLEPICTURE_BACKGROUND_IMAGE)+"');")
+        if CfgService.get(CfgKey.PAGE_TITLEPICTURE_BACKGROUND_IMAGE) != None:
+            self.setStyleSheet("background-image: url('"+CfgService.get(CfgKey.PAGE_TITLEPICTURE_BACKGROUND_IMAGE)+"');")
 
 
         #Startbutton
@@ -29,8 +30,13 @@ class PageTitlePicture(Page):
         self.setStartButtonStyle()
 
     def setStartButtonStyle(self):
-        self.startButton.setStyleSheet("border-image : url(" + self.__getBackgroundPicturePath() + ");" \
-                                        " background-color: transparent;")
+        styling = "border-image : url(" + self.__getBackgroundPicturePath() + ");"
+        if CfgService.get(CfgKey.PAGE_TITLEPICTURE_BACKGROUND_IMAGE) != None:
+            styling += " background-color: transparent;"
+        else:
+            styling += "background-color: "+CfgService.get(CfgKey.PAGE_TITLEPICTURE_BUTTON_BACKGROUND_COLOR)+";"
+        self.startButton.setStyleSheet(styling)
+
     def __getBackgroundPicturePath(self):
         directories = os.listdir(CfgService.get(CfgKey.PAGE_TITLEPICTURE_BUTTON_IMAGE_FOLDER))
         numberPictures = len(directories)

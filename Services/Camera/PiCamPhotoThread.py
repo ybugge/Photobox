@@ -1,4 +1,5 @@
 import time
+from datetime import datetime
 
 import cv2
 from PyQt5.QtCore import QThread, QSize
@@ -30,7 +31,9 @@ class PiCamPhotoThread(QThread):
         camera = PiCamera()
         camera.resolution = resolution
         camera.framerate = 30
+        print("Befor capture: "+str(datetime.datetime.now()))
         camera.capture(ShottedPictureService.getTempPicturePath(),'png')
+        print("After capture: "+str(datetime.datetime.now()))
         camera.close()
 
     def piCamWithCv2(self):

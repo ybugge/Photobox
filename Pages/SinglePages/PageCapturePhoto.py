@@ -1,5 +1,6 @@
 import os
 import random
+from datetime import datetime
 
 from PyQt5.QtCore import Qt, QSize, QTimer
 from PyQt5.QtGui import QPixmap
@@ -44,6 +45,7 @@ class PageCapturePhoto(Page):
         self.timer.stop()
         while not self.capturePhotoThread.isFinished():
             pass
+        print("Foto Finished: "+str(datetime.datetime.now()))
 
     def timerUpdate(self):
         if self.countdown == CfgService.get(CfgKey.PAGE_CAPTUREPHOTO_TIMER_CAPTUREPHOTO_VALUE):
@@ -55,6 +57,7 @@ class PageCapturePhoto(Page):
 
     def capturePhoto(self):
         print("FOTO GESCHOSSEN !")
+        print("Foto Start: "+str(datetime.datetime.now()))
         self.capturePhotoThread.start()
 
     def getRandomPicture(self):
