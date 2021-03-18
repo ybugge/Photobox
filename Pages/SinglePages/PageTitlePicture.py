@@ -31,7 +31,6 @@ class PageTitlePicture(Page):
     def setStartButtonStyle(self):
         self.startButton.setStyleSheet("border-image : url(" + self.__getBackgroundPicturePath() + ");" \
                                         " background-color: transparent;")
-                                        #" background-color:" + CfgService.get(CfgKey.PAGE_TITLEPICTURE_BUTTON_BACKGROUND_COLOR) + ";")
     def __getBackgroundPicturePath(self):
         directories = os.listdir(CfgService.get(CfgKey.PAGE_TITLEPICTURE_BUTTON_IMAGE_FOLDER))
         numberPictures = len(directories)
