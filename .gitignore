@@ -136,3 +136,5 @@ Resources/PageCapturePhoto/FunnyPictures/
 Resources/PageCapturePhoto/LoadingGif/
 Resources/PageCapturePhoto/LoadingGifUrlDownload.txt
 Resources/PageCapturePhoto/funnyPicturesUrlDownloaded.txt
+Resources/config.properties
+Server/
