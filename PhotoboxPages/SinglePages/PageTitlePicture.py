@@ -5,8 +5,8 @@ from PyQt5.QtCore import QSize
 from PyQt5.QtGui import QImage, QBrush, QPalette
 from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QSizePolicy
 
-from Pages.AllPages import AllPages
-from Pages.Page import Page
+from PhotoboxPages.AllPages import AllPages
+from PhotoboxPages.Page import Page
 from Services.CfgService import CfgService
 from config.Config import CfgKey
 

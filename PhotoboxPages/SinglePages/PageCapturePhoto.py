@@ -6,8 +6,8 @@ from PyQt5.QtCore import Qt, QSize, QTimer
 from PyQt5.QtGui import QPixmap, QMovie
 from PyQt5.QtWidgets import QVBoxLayout, QLabel
 
-from Pages.AllPages import AllPages
-from Pages.Page import Page
+from PhotoboxPages.AllPages import AllPages
+from PhotoboxPages.Page import Page
 from Services.Camera.CameraService import CameraService
 from Services.CfgService import CfgService
 from config.Config import CfgKey

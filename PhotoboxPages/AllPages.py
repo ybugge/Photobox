@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets
 
-from Pages import Page
+from PhotoboxPages import Page
 
 
 class AllPages():

@@ -3,7 +3,7 @@ from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QCursor
 
-from MainWindow import MainWindow
+from PhotoboxPages.MainWindow import MainWindow
 from config.Config import cfgValue, CfgKey
 import os
 

@@ -2,7 +2,7 @@ from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt, QTimer, QSize
 from PyQt5.QtWidgets import QLabel, QPushButton
 
-from Pages import AllPages
+from PhotoboxPages import AllPages
 from Services.CfgService import CfgService
 from config.Config import CfgKey, textValue, TextKey
 

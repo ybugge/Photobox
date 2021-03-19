@@ -1,7 +1,7 @@
 from PyQt5.QtCore import QSize
 
-from Pages.AllPages import AllPages
-from Pages.Page import Page
+from PhotoboxPages.AllPages import AllPages
+from PhotoboxPages.Page import Page
 from Services.WebServerExecThread import WebServerExecThread
 
 

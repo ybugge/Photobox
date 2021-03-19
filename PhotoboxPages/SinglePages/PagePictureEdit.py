@@ -3,8 +3,8 @@ from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QVBoxLayout, QPushButton, QHBoxLayout, QLabel
 
-from Pages.AllPages import AllPages
-from Pages.Page import Page
+from PhotoboxPages.AllPages import AllPages
+from PhotoboxPages.Page import Page
 from Services.CfgService import CfgService
 from Services.GlobalPagesVariableService import GlobalPagesVariableService
 from Services.PageDbService import PageDbSevice

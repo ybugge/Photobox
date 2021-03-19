@@ -4,8 +4,8 @@ from PyQt5.QtCore import QTimer, QSize
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit, QLabel, QProgressBar
 
-from Pages.AllPages import AllPages
-from Pages.Page import Page
+from PhotoboxPages.AllPages import AllPages
+from PhotoboxPages.Page import Page
 from Services.CfgService import CfgService
 from Services.FileFolderService import FileFolderService
 from Services.PictureDownloadThread import PictureDownloadThread

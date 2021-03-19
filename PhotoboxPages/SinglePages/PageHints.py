@@ -2,8 +2,8 @@ from PyQt5.QtCore import QSize
 from PyQt5.QtMultimedia import QCameraInfo
 from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QTextEdit, QHBoxLayout
 
-from Pages.AllPages import AllPages
-from Pages.Page import Page
+from PhotoboxPages.AllPages import AllPages
+from PhotoboxPages.Page import Page
 from Services.Camera.CameraService import CameraService
 from Services.CfgService import CfgService
 from Services.FileFolderService import FileFolderService

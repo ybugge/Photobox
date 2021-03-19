@@ -2,8 +2,8 @@ from PyQt5.QtCore import QSize, pyqtSlot, Qt
 from PyQt5.QtGui import QImage, QPixmap
 from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QPushButton, QWidget, QLabel
 
-from Pages.AllPages import AllPages
-from Pages.Page import Page
+from PhotoboxPages.AllPages import AllPages
+from PhotoboxPages.Page import Page
 from Services.Camera.CameraService import CameraService
 
 

@@ -1,15 +1,15 @@
 from PyQt5.QtCore import Qt, QSize
 from PyQt5.QtWidgets import QVBoxLayout, QLabel, QHBoxLayout, QPushButton
 
-import MainWindow
-from Pages.AllPages import AllPages
-from Pages.Page import Page
+from PhotoboxPages import MainWindow
+from PhotoboxPages.AllPages import AllPages
+from PhotoboxPages.Page import Page
 from Services.WebServerExecThread import WebServerExecThread
 from config.Config import textValue, TextKey
 
 
 class PageCloseConfirm(Page):
-    def __init__(self, pages : AllPages,windowSize:QSize, mainWindow: MainWindow,server:WebServerExecThread):
+    def __init__(self, pages : AllPages, windowSize:QSize, mainWindow: MainWindow, server:WebServerExecThread):
         super().__init__(pages,windowSize)
         self.server = server
 

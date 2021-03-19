@@ -2,19 +2,19 @@ from PyQt5 import QtWidgets
 from PyQt5 import QtCore
 from PyQt5.QtCore import QSize
 
-from Pages.AllPages import AllPages
-from Pages.SinglePages.PageCameraCalibrationView import PageCameraCalibrationView
-from Pages.SinglePages.PageCapturePhoto import PageCapturePhoto
-from Pages.SinglePages.PageCloseConfirm import PageCloseConfirm
-from Pages.SinglePages.PageConfig import PageConfig
-from Pages.SinglePages.PageCameraPreview import PageCameraPreview
-from Pages.SinglePages.PageDownloadPicture import PageDownloadPicture
-from Pages.SinglePages.PageHints import PageHints
-from Pages.SinglePages.PagePictureEdit import PagePictureEdit
-from Pages.SinglePages.PagePrint import PagePrint
-from Pages.SinglePages.PageStartServer import PageStartServer
-from Pages.SinglePages.PageSystemPictureManager import PageSystemPictureManager
-from Pages.SinglePages.PageTitlePicture import PageTitlePicture
+from PhotoboxPages.AllPages import AllPages
+from PhotoboxPages.SinglePages.PageCameraCalibrationView import PageCameraCalibrationView
+from PhotoboxPages.SinglePages.PageCapturePhoto import PageCapturePhoto
+from PhotoboxPages.SinglePages.PageCloseConfirm import PageCloseConfirm
+from PhotoboxPages.SinglePages.PageConfig import PageConfig
+from PhotoboxPages.SinglePages.PageCameraPreview import PageCameraPreview
+from PhotoboxPages.SinglePages.PageDownloadPicture import PageDownloadPicture
+from PhotoboxPages.SinglePages.PageHints import PageHints
+from PhotoboxPages.SinglePages.PagePictureEdit import PagePictureEdit
+from PhotoboxPages.SinglePages.PagePrint import PagePrint
+from PhotoboxPages.SinglePages.PageStartServer import PageStartServer
+from PhotoboxPages.SinglePages.PageSystemPictureManager import PageSystemPictureManager
+from PhotoboxPages.SinglePages.PageTitlePicture import PageTitlePicture
 from Services.GlobalPagesVariableService import GlobalPagesVariableService
 from Services.WebServerExecThread import WebServerExecThread
 from config.Config import cfgValue, CfgKey
@@ -116,6 +116,7 @@ class MainWindow(QtWidgets.QMainWindow):
         pageDownloadPicture.setBackPage(PagePictureEdit)
         self.pages.addPage(pageDownloadPicture)
 
+        #Seite 6.2 Print
         pagePrint = PagePrint(self.pages, self.windowsize,self.globalVariable)
         pagePrint.activateAutoForward(PageTitlePicture,CfgKey.PAGE_PICTUREEDIT_SPACE_AUTO_FORWARD_WAIT_TIME)
         pagePrint.setBackPage(PagePictureEdit)
