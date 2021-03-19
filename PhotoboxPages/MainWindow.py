@@ -7,7 +7,7 @@ from PhotoboxPages.SinglePages.PageCameraCalibrationView import PageCameraCalibr
 from PhotoboxPages.SinglePages.PageCapturePhoto import PageCapturePhoto
 from PhotoboxPages.SinglePages.PageCloseConfirm import PageCloseConfirm
 from PhotoboxPages.SinglePages.PageConfig import PageConfig
-from PhotoboxPages.SinglePages.PageCameraPreview import PageCameraPreview
+from PhotoboxPages.SinglePages.PageCountdown import PageCameraPreview
 from PhotoboxPages.SinglePages.PageDownloadPicture import PageDownloadPicture
 from PhotoboxPages.SinglePages.PageHints import PageHints
 from PhotoboxPages.SinglePages.PagePictureEdit import PagePictureEdit

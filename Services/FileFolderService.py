@@ -24,6 +24,10 @@ class FileFolderService():
         return os.path.exists(filePath) and os.path.isfile(filePath)
 
     @staticmethod
+    def existFolder(filePath:str):
+        return os.path.exists(filePath) and os.path.isdir(filePath)
+
+    @staticmethod
     def removeIfExist(fileOrFolderDir:str):
         if os.path.exists(fileOrFolderDir):
             if os.path.isdir(fileOrFolderDir):
@@ -106,3 +110,35 @@ class FileFolderService():
             if(os.path.isdir(path)):
                 return os.listdir(path)
         return []
+
+    @staticmethod
+    def getFolderContentFolders(path:str):
+        folderContent = FileFolderService.getFolderContent(path)
+        foundedFolders = []
+        for folderOrFile in folderContent:
+            folderOrFileDir = os.path.join(path,folderOrFile)
+            if os.path.isdir(folderOrFileDir):
+                foundedFolders.append(folderOrFileDir)
+        return foundedFolders
+
+    @staticmethod
+    def getFolderContentFiles(path:str):
+        folderContent = FileFolderService.getFolderContent(path)
+        foundedFiles = []
+        for folderOrFile in folderContent:
+            folderOrFileDir = os.path.join(path,folderOrFile)
+            if os.path.isfile(folderOrFileDir):
+                foundedFiles.append(folderOrFileDir)
+        return foundedFiles
+
+    @staticmethod
+    def getFolderContentPictures(path:str):
+        posibleEnding=[".png",".jpg",".jpeg"]
+        fileUrls = FileFolderService.getFolderContentFiles(path)
+        pictureUrls = []
+        for fileUrl in fileUrls:
+            fileType = FileFolderService.getFileType(fileUrl)
+            if fileType in posibleEnding:
+                pictureUrls.append(fileUrl)
+
+        return pictureUrls

@@ -1,5 +1,4 @@
 import enum
-from PyQt5 import QtCore
 
 class CfgKey(enum.Enum):
 
@@ -21,6 +20,13 @@ class CfgKey(enum.Enum):
     SERVER_IP=2004
     SERVER_PORT=2005
     SERVER_GETPICTUREURLIDS_NUMBER = 2006
+
+    #DIASHOW CLIENT ##################################################################################
+    DIASHOW_CLIENT_PICTURE_MAIN_FOLDER = 1000
+    DIASHOW_CLIENT_PICTURE_CONFIG_FILE = 1001
+    DIASHOW_CLIENT_PICTURE_SOURCE_FOLDER = 1002
+    DIASHOW_CLIENT_PICTURE_SHOW_NEW_PICTURE_INTERVAL = 1003
+    DIASHOW_CLIENT_PICTURE_UPDATE_PICTURE_SOURCE_INTERVAL = 1004
 
     #FOTOBOX #########################################################################################
     APPLICATION_DB_PATH = 13
@@ -110,6 +116,13 @@ cfgValue[CfgKey.SERVER_IP] = "photobox.fritz.box"
 cfgValue[CfgKey.SERVER_PORT] = "5000"
 cfgValue[CfgKey.SERVER_GETPICTUREURLIDS_NUMBER] = 20
 
+#DIASHOW CLIENT #################################################################
+cfgValue[CfgKey.DIASHOW_CLIENT_PICTURE_MAIN_FOLDER] = "Diashow/"
+cfgValue[CfgKey.DIASHOW_CLIENT_PICTURE_CONFIG_FILE] = "config.txt"
+cfgValue[CfgKey.DIASHOW_CLIENT_PICTURE_SOURCE_FOLDER] = "pictures/"
+cfgValue[CfgKey.DIASHOW_CLIENT_PICTURE_SHOW_NEW_PICTURE_INTERVAL] =  int(1*60000)
+cfgValue[CfgKey.DIASHOW_CLIENT_PICTURE_UPDATE_PICTURE_SOURCE_INTERVAL] = int(10*60000)
+
 # FOTOBOX #######################################################################
 
 cfgValue[CfgKey.IS_PI] = False                      #Changeable -> True when RasPi
@@ -158,7 +171,7 @@ cfgValue[CfgKey.PAGE_TITLEPICTURE_BUTTON_BACKGROUND_COLOR] = 'yellow'
 cfgValue[CfgKey.PAGE_TITLEPICTURE_BUTTON_IMAGE_FOLDER] = 'Resources/PageTitlePicture/Smiley'
 cfgValue[CfgKey.PAGE_TITLEPICTURE_BACKGROUND_IMAGE] = 'Resources/PageTitlePicture/background.png'
 
-#PageCameraPreview.py
+#PageCountdown.py
 cfgValue[CfgKey.PAGE_CAMERAPREVIEW_COUNDOWN_IMAGE_FOLDER] = 'Resources/PageCameraPreview/CountDown'
 cfgValue[CfgKey.PAGE_CAMERAPREVIEW_COUNTER_PERIOD_LENGTH] = 1000
 cfgValue[CfgKey.PAGE_CAMERAPREVIEW_COUNTER_START_VALUE] = 6
