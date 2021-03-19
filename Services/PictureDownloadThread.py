@@ -2,9 +2,7 @@ import math
 from PyQt5.QtCore import QThread, pyqtSignal
 from pip._vendor import requests
 
-from Services.CfgService import CfgService
 from Services.FileFolderService import FileFolderService
-from config.Config import CfgKey
 
 
 class PictureDownloadThread(QThread):
@@ -19,7 +17,7 @@ class PictureDownloadThread(QThread):
         numberUrls = len(self.urls)
         FileFolderService.createFolderIfNotExist(self.targetFolder)
         for index, url in enumerate(self.urls):
-            if(FileFolderService.containsLineInFile(url,self.downloadSuccessFile)):
+            if( self.downloadSuccessFile != None and FileFolderService.containsLineInFile(url,self.downloadSuccessFile)):
                 continue
             request = self.getRequest(url)
             if request == None:
@@ -28,7 +26,8 @@ class PictureDownloadThread(QThread):
 
             self.savePicture(request,url,index,self.targetFolder)
             self.setProgress(index,numberUrls)
-            FileFolderService.writeLineInFile(True,self.downloadSuccessFile,url)
+            if self.downloadSuccessFile != None:
+                FileFolderService.writeLineInFile(True,self.downloadSuccessFile,url)
 
         self.setProgress(numberUrls,numberUrls)
 

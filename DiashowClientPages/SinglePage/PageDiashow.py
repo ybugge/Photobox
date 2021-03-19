@@ -9,7 +9,9 @@ from DiashowClientPages import MainWindow
 from PhotoboxPages.AllPages import AllPages
 from PhotoboxPages.Page import Page
 from Services.FileFolderService import FileFolderService
+from Services.PictureDownloadThread import PictureDownloadThread
 from config.Config import CfgKey, cfgValue
+from pip._vendor import requests
 
 
 class PageDiashow(Page):
@@ -17,6 +19,9 @@ class PageDiashow(Page):
         super().__init__(pages,windowSize)
         self.mainWindow = mainWindow
         self.usedPictureUrls = []
+        self.defaultPicturesUrls = []
+        self.showNewPictureTimer = QTimer()
+        self.updatePictureSourcesTimer = QTimer()
 
         mainLayout = QVBoxLayout()
         self.setLayout(mainLayout)
@@ -30,11 +35,10 @@ class PageDiashow(Page):
         if len(self.usedPictureUrls) > 0:
             self.showNewPicture()
 
-        self.showNewPictureTimer = QTimer()
+
         self.showNewPictureTimer.timeout.connect(self.showNewPicture)
         self.showNewPictureTimer.start(cfgValue[CfgKey.DIASHOW_CLIENT_PICTURE_SHOW_NEW_PICTURE_INTERVAL])
 
-        self.updatePictureSourcesTimer = QTimer()
         self.updatePictureSourcesTimer.timeout.connect(self.updatePictureSources)
         self.updatePictureSourcesTimer.start(cfgValue[CfgKey.DIASHOW_CLIENT_PICTURE_UPDATE_PICTURE_SOURCE_INTERVAL])
 
@@ -52,36 +56,91 @@ class PageDiashow(Page):
         return pictureUrls[pictureUrlIndex]
 
     def updatePictureSources(self):
+        self.showNewPictureTimer.stop()
         self.usedPictureUrls = []
+        self.defaultPicturesUrls = []
         subFolderDirs = FileFolderService.getFolderContentFolders(cfgValue[CfgKey.DIASHOW_CLIENT_PICTURE_MAIN_FOLDER])
         if len(subFolderDirs) <= 0:
             self.exit()
             return
-        numberPictures = 0
-        for subFolderDir in subFolderDirs:
-            numberPictures += self.updatePictureSource(subFolderDir)
 
-        if numberPictures <= 0:
+        for subFolderDir in subFolderDirs:
+            self.updatePictureSource(subFolderDir)
+
+        if len(self.usedPictureUrls) <= 0:
+            self.usedPictureUrls.extend(self.defaultPicturesUrls)
+        if len(self.usedPictureUrls) <= 0:
             self.exit()
+        self.showNewPictureTimer.start(cfgValue[CfgKey.DIASHOW_CLIENT_PICTURE_SHOW_NEW_PICTURE_INTERVAL])
 
 
     def updatePictureSource(self,subFolderDir:str):
         configFilePath = os.path.join(subFolderDir,cfgValue[CfgKey.DIASHOW_CLIENT_PICTURE_CONFIG_FILE])
         picturesPath = os.path.join(subFolderDir,cfgValue[CfgKey.DIASHOW_CLIENT_PICTURE_SOURCE_FOLDER])
         if FileFolderService.existFile(configFilePath):
-            return 0
-        elif FileFolderService.existFolder(picturesPath):
+            return self.updatePictureSourceWithConfig(picturesPath,configFilePath)
+        elif FileFolderService.existFolder(picturesPath) and not FileFolderService.existFile(configFilePath):
             return self.updatePictureSourceDefault(picturesPath)
+
+    def updatePictureSourceWithConfig(self,picturesPath:str, configFilePath:str):
+        fileLines = FileFolderService.readFile(configFilePath)
+        config = {}
+        for fileLine in fileLines:
+            fileLineParts = fileLine.split("=",1)
+            config[fileLineParts[0].replace('=', '').strip()] = fileLineParts[1].strip()
+
+        if "default" in config and config["default"] == "True":
+            print("JA")
+            self.updatePicturesNotFound(picturesPath)
+        elif "from_server" in config and config["from_server"] == "True":
+            print("JA")
+            self.updatePicturesFromServer(picturesPath)
         else:
-            return 0
+            print("NEIN")
+
+    def updatePicturesFromServer(self,picturesPath:str):
+        serverUrl = str(cfgValue[CfgKey.SERVER_IP])+":"+str(cfgValue[CfgKey.SERVER_PORT])+str(cfgValue[CfgKey.SERVER_RANDOM_URLIDS])
+        pictureRequest = self.getRequest(serverUrl)
+
+        if pictureRequest == None:
+            return
+
+        pictureUrls = str(pictureRequest.content).split(";")
+        pictureDownloadThread = PictureDownloadThread(pictureUrls,picturesPath,None)
+        pictureDownloadThread.start()
+        while not pictureDownloadThread.isFinished():
+            pass
+        picturePaths = FileFolderService.getFolderContentPictures(picturesPath)
+        self.usedPictureUrls.extend(picturePaths)
+
+
+
+    def getRequest(self,url:str):
+        try:
+            request = requests.get(url)
+            if request.status_code != 200:
+                return None
+            else:
+                return request
+        except requests.ConnectionError:
+            return None
+
+
+
+    def updatePicturesNotFound(self,picturesPath:str):
+        picturePaths = FileFolderService.getFolderContentPictures(picturesPath)
+        self.defaultPicturesUrls.extend(picturePaths)
+
 
     def updatePictureSourceDefault(self,picturesPath:str):
         picturePaths = FileFolderService.getFolderContentPictures(picturesPath)
         self.usedPictureUrls.extend(picturePaths)
-        return len(picturePaths)
 
 
     def exit(self):
         print("Keine Bilder gefunden. Bitte legen Sie folgende Ordner an: '"+cfgValue[CfgKey.DIASHOW_CLIENT_PICTURE_MAIN_FOLDER]+"' > 'default' > 'pictures'. In 'pictures' muss ein Bild hinterlegt werden!")
         self.showNewPictureTimer.stop()
         self.mainWindow.close()
+
+    def signal_accept(self, msg):
+        pass
