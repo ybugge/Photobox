@@ -11,6 +11,7 @@ from Pages.SinglePages.PageCameraPreview import PageCameraPreview
 from Pages.SinglePages.PageDownloadPicture import PageDownloadPicture
 from Pages.SinglePages.PageHints import PageHints
 from Pages.SinglePages.PagePictureEdit import PagePictureEdit
+from Pages.SinglePages.PagePrint import PagePrint
 from Pages.SinglePages.PageStartServer import PageStartServer
 from Pages.SinglePages.PageSystemPictureManager import PageSystemPictureManager
 from Pages.SinglePages.PageTitlePicture import PageTitlePicture
@@ -103,7 +104,7 @@ class MainWindow(QtWidgets.QMainWindow):
         #Seite 6 Picture Edit
         pagePictureEdit = PagePictureEdit(self.pages, self.windowsize, self.globalVariable)
         pagePictureEdit.activateAutoForward(PageTitlePicture,CfgKey.PAGE_PICTUREEDIT_SPACE_AUTO_FORWARD_WAIT_TIME)
-        pagePictureEdit.setPrinterPage(PagePictureEdit) #Anpassen
+        pagePictureEdit.setPrinterPage(PagePrint)
         pagePictureEdit.setDownloadPage(PageDownloadPicture)
         pagePictureEdit.setNewPicturePage(PageCameraPreview)
         pagePictureEdit.setFinishedPage(PageTitlePicture)
@@ -114,6 +115,11 @@ class MainWindow(QtWidgets.QMainWindow):
         pageDownloadPicture.activateAutoForward(PageTitlePicture,CfgKey.PAGE_PICTUREEDIT_SPACE_AUTO_FORWARD_WAIT_TIME)
         pageDownloadPicture.setBackPage(PagePictureEdit)
         self.pages.addPage(pageDownloadPicture)
+
+        pagePrint = PagePrint(self.pages, self.windowsize,self.globalVariable)
+        pagePrint.activateAutoForward(PageTitlePicture,CfgKey.PAGE_PICTUREEDIT_SPACE_AUTO_FORWARD_WAIT_TIME)
+        pagePrint.setBackPage(PagePictureEdit)
+        self.pages.addPage(pagePrint)
 
         #Set first visible Page
         self.pages.showPage(PageHints)

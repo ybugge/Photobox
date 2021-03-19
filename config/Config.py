@@ -225,6 +225,10 @@ class TextKey(enum.Enum):
     PAGE_DOWNLOADPICTURE_BACKBUTTON = 101
     PAGE_DOWNLOADPICTURE_WIFI_TITLE = 102
 
+    #PagePrint.py
+    PAGE_PRINT_TITLE = 150
+    PAGE_PRINT_BACKBUTTON=151
+
 textValue={}
 
 #PageSystemPictureManager.py
@@ -270,3 +274,7 @@ textValue[TextKey.PAGE_CLOSECONFIRM_NO] = "Nein"
 textValue[TextKey.PAGE_DOWNLOADPICTURE_TITLE] = "Bild transferieren"
 textValue[TextKey.PAGE_DOWNLOADPICTURE_WIFI_TITLE] = "Mit der Fotobox verbinden"
 textValue[TextKey.PAGE_DOWNLOADPICTURE_BACKBUTTON] = "Zurück"
+
+#PagePrint.py
+textValue[TextKey.PAGE_PRINT_TITLE] = "Bild Drucken"
+textValue[TextKey.PAGE_PRINT_BACKBUTTON] = "Zurück"
