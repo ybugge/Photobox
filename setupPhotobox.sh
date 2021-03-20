@@ -16,6 +16,10 @@ pip3 install flask
 pip3 install pysqlite3
 pip3 install image
 
-echo "Configuring autostart"
 echo "Start Configuration"
-echo "sh ~/Photobox/ShellScripts/autostartPhotobox.sh" >> ~/.bashrc
+AUTOSTART_DIR="/home/pi/.config/autostart"
+mkdir -p -- "$AUTOSTART_DIR"
+
+AUTOSTART_FILE_DESTINI="/home/pi/.config/autostart/autostartPhotobox.desktop"
+AUTOSTART_FILE_SOURCE="/home/pi/Photobox/ShellScripts/autostartPhotobox.desktop"
+mv -vn $AUTOSTART_FILE_SOURCE $AUTOSTART_FILE_SOURCE

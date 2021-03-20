@@ -8,4 +8,9 @@ echo "Installing prerequirements"
 yes | sudo apt install python3 python3-pyqt5 python3-pyqt5.qtwebkit python3-pip python3-opencv python3-pyqt5.qtmultimedia
 
 echo "Start Configuration"
-echo "sh ~/Photobox/ShellScripts/autostartDiashow.sh" >> ~/.bashrc
+AUTOSTART_DIR="/home/pi/.config/autostart"
+mkdir -p -- "$AUTOSTART_DIR"
+
+AUTOSTART_FILE_DESTINI="/home/pi/.config/autostart/autostartDiashow.desktop"
+AUTOSTART_FILE_SOURCE="/home/pi/Photobox/ShellScripts/autostartDiashow.desktop"
+mv -vn $AUTOSTART_FILE_SOURCE $AUTOSTART_FILE_SOURCE
