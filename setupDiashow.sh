@@ -11,6 +11,6 @@ echo "Start Configuration"
 AUTOSTART_DIR="/home/pi/.config/autostart"
 mkdir -p -- "$AUTOSTART_DIR"
 
-AUTOSTART_FILE_DESTINI="/home/pi/.config/autostart/autostartDiashow.desktop"
 AUTOSTART_FILE_SOURCE="/home/pi/Photobox/ShellScripts/autostartDiashow.desktop"
-mv -vn $AUTOSTART_FILE_SOURCE $AUTOSTART_FILE_SOURCE
+AUTOSTART_FILE_DESTINI="/home/pi/.config/autostart/autostartDiashow.desktop"
+mv -vn $AUTOSTART_FILE_SOURCE $AUTOSTART_FILE_DESTINI
