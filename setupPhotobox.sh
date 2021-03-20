@@ -18,4 +18,4 @@ pip3 install image
 
 echo "Configuring autostart"
 echo "Start Configuration"
-echo "sh ~/Photobox/ShellScipts/autostartPhotobox.sh" >> ~/.bashrc
+echo "sh ~/Photobox/ShellScripts/autostartPhotobox.sh" >> ~/.bashrc
