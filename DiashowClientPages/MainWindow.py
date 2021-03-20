@@ -106,12 +106,12 @@ class MainWindow(QtWidgets.QMainWindow):
         pictureUrls = list(filter(None,pictureRequest.content.decode("utf-8").split(";")))
 
         FileFolderService.removeIfExist(picturesPath)
-
-        pictureDownloadThread = PictureDownloadThread(pictureUrls,picturesPath,None)
-        pictureDownloadThread.start()
-        while not pictureDownloadThread.isFinished():
-            pass
-        self.updatePictureSourceDefault(picturesPath)
+        if len(pictureUrls) > 0:
+            pictureDownloadThread = PictureDownloadThread(pictureUrls,picturesPath,None)
+            pictureDownloadThread.start()
+            while not pictureDownloadThread.isFinished():
+                pass
+            self.updatePictureSourceDefault(picturesPath)
 
 
 
