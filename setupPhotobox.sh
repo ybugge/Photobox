@@ -17,3 +17,5 @@ pip3 install pysqlite3
 pip3 install image
 
 echo "Configuring autostart"
+echo "Start Configuration"
+echo "sh ~/Photobox/ShellScipts/autostartPhotobox.sh" >> ~/.bashrc

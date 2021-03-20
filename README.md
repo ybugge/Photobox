@@ -66,9 +66,7 @@ $ yes | sudo apt upgrade
 $ yes | sudo apt install git
 $ git clone https://github.com/ybugge/Photobox.git
 $ cd Photobox
-$ chmod +x setupFotobox.sh
 $ ./setupFotobox.sh
-$ python3 main.py
 ````
 
 # Diashow Client
@@ -76,6 +74,7 @@ $ python3 main.py
 ## Hardware
 - Raspberry Pi Zero W -> https://www.raspberrypi.org/products/raspberry-pi-zero-w/
 - 16GB SD-Karte
+- TV
 
 ## Install
 Die nachfolgende Instalation wurde mit LinuxMint durchgeführt.
@@ -91,5 +90,38 @@ $ rpi-image
 - SD Card = Die zu verwendete SD-Karte
 - "Write"
 - "Yes"
+- SD-Karte erneut in LinuxMint stecken
+  - Ordner "boot" öffnen 
+  - Datei "ssh" erstellen
+  - Datei "wpa_supplicant.conf" erstellen 
+  - folgendes eintragen: siehe https://www.raspberrypi.org/documentation/configuration/wireless/headless.md
+```
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+country=<Insert 2 letter ISO 3166-1 country code here>
+
+network={
+ ssid="<Name of your wireless LAN>"
+ psk="<Password for your wireless LAN>"
+}
+```
 - SD-Karte entnehmen und in den Pi stecken
 - Raspberry Pi einschalten
+
+Auf Linux Mint:
+- Terminal öffnen:
+````
+$ ssh pi@<ip-adresse>
+$ yes
+$ password = raspberry
+$ sudo raspi-config
+System Options > Password > "Durchführen"
+System Options > Network at Boot > Yes
+Display Options > Underscan > No 
+Display Options > Screen Blanking > No
+Finish
+Reboot > No 
+$ git clone https://github.com/ybugge/Photobox.git
+$ cd Photobox
+$ ./setupDiashow.sh
+````
