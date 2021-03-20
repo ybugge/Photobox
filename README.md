@@ -71,4 +71,25 @@ $ ./setupFotobox.sh
 $ python3 main.py
 ````
 
+# Diashow Client
 
+## Hardware
+- Raspberry Pi Zero W -> https://www.raspberrypi.org/products/raspberry-pi-zero-w/
+- 16GB SD-Karte
+
+## Install
+Die nachfolgende Instalation wurde mit LinuxMint durchgeführt.
+Der Raspberry Pi Zero W wird ab jetzt Pi genannt. 
+
+Auf LinuxMint:
+````
+$ sudo apt update
+$ yes | sudo apt install rpi-imager
+$ rpi-image
+````
+- Operation Systenm = Raspberry PI OS (32-bit) (Recommanded)
+- SD Card = Die zu verwendete SD-Karte
+- "Write"
+- "Yes"
+- SD-Karte entnehmen und in den Pi stecken
+- Raspberry Pi einschalten

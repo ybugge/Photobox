@@ -1,6 +1,7 @@
 import math
 from PyQt5.QtCore import QThread, pyqtSignal
 from pip._vendor import requests
+import re
 
 from Services.FileFolderService import FileFolderService
 
@@ -24,12 +25,17 @@ class PictureDownloadThread(QThread):
                 self.setProgress(index,numberUrls)
                 continue
 
-            self.savePicture(request,url,index,self.targetFolder)
+            self.savePicture(request, self.getContentFileType(request),index,self.targetFolder)
             self.setProgress(index,numberUrls)
             if self.downloadSuccessFile != None:
                 FileFolderService.writeLineInFile(True,self.downloadSuccessFile,url)
 
         self.setProgress(numberUrls,numberUrls)
+
+    def getContentFileType(self,request):
+        d = request.headers['content-disposition']
+        fileName = re.findall("filename=(.+)", d)[0]
+        return FileFolderService.getFileType(fileName)
 
     def getRequest(self,url:str):
         try:
@@ -41,8 +47,7 @@ class PictureDownloadThread(QThread):
         except requests.ConnectionError:
             return None
 
-    def savePicture(self,request,url,index, folderPath):
-        fileType = FileFolderService.getFileType(url)
+    def savePicture(self,request,fileType,index, folderPath):
         filePath = folderPath+"/"+str(index)+fileType
         with open(filePath, 'wb') as handler:
             handler.write(request.content)

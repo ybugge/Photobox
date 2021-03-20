@@ -50,7 +50,6 @@ class PageDiashow(Page):
 
     def getRandomPicture(self):
         pictureUrls = self.usedPictureUrls
-        print(pictureUrls)
         numberPictures = len(pictureUrls)
         pictureUrlIndex = random.randint(0,numberPictures-1)
         return pictureUrls[pictureUrlIndex]
@@ -90,28 +89,26 @@ class PageDiashow(Page):
             config[fileLineParts[0].replace('=', '').strip()] = fileLineParts[1].strip()
 
         if "default" in config and config["default"] == "True":
-            print("JA")
             self.updatePicturesNotFound(picturesPath)
         elif "from_server" in config and config["from_server"] == "True":
-            print("JA")
             self.updatePicturesFromServer(picturesPath)
-        else:
-            print("NEIN")
 
     def updatePicturesFromServer(self,picturesPath:str):
-        serverUrl = str(cfgValue[CfgKey.SERVER_IP])+":"+str(cfgValue[CfgKey.SERVER_PORT])+str(cfgValue[CfgKey.SERVER_RANDOM_URLIDS])
+        serverUrl = "http://"+str(cfgValue[CfgKey.SERVER_IP])+":"+str(cfgValue[CfgKey.SERVER_PORT])+str(cfgValue[CfgKey.SERVER_RANDOM_URLIDS])
         pictureRequest = self.getRequest(serverUrl)
 
         if pictureRequest == None:
             return
 
-        pictureUrls = str(pictureRequest.content).split(";")
+        pictureUrls = list(filter(None,pictureRequest.content.decode("utf-8").split(";")))
+
+        FileFolderService.removeIfExist(picturesPath)
+
         pictureDownloadThread = PictureDownloadThread(pictureUrls,picturesPath,None)
         pictureDownloadThread.start()
         while not pictureDownloadThread.isFinished():
             pass
-        picturePaths = FileFolderService.getFolderContentPictures(picturesPath)
-        self.usedPictureUrls.extend(picturePaths)
+        self.updatePictureSourceDefault(picturesPath)
 
 
 
