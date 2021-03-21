@@ -99,7 +99,7 @@ class PageSystemPictureManager(Page):
         #progressbar
         self.progressbar = QProgressBar()
         self.progressbar.setValue(0)
-        mainContentLabel.addWidget(self.progressbar)
+        mainLayout.addWidget(self.progressbar)
         #Navigationbuttons
         navigationBox = QHBoxLayout()
         mainLayout.addLayout(navigationBox)
