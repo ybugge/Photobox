@@ -13,13 +13,14 @@ class CfgKey(enum.Enum):
 
     #SERVER #########################################################################################
     SERVER_INDEX_PAGE = 1000
+    SERVER_INDEX_PAGE_SHOW_ALL_PICTURES = 1004
     SERVER_DOWNLOAD_PICTURE_PAGE = 1001
     SERVER_DOWNLOAD_PICTURE = 1002
     SERVER_RANDOM_URLIDS = 1003
-    SERVER_DB_PATH = 2003
     SERVER_IP=2004
     SERVER_PORT=2005
     SERVER_GETPICTUREURLIDS_NUMBER = 2006
+    SERVER_GETPICTUREURLIDS_THRASHOLD = 2007
 
     #DIASHOW CLIENT ##################################################################################
     DIASHOW_CLIENT_PICTURE_MAIN_FOLDER = 5000
@@ -29,7 +30,6 @@ class CfgKey(enum.Enum):
     DIASHOW_CLIENT_PICTURE_UPDATE_PICTURE_SOURCE_INTERVAL = 5004
 
     #FOTOBOX #########################################################################################
-    APPLICATION_DB_PATH = 13
     APPLICATION_CURSOR_HINT = 10
     IS_PI = 11
     USE_PI_CAMERA = 14
@@ -104,17 +104,17 @@ cfgValue[CfgKey.WIFI_PICTURE_NAME] = "wifi.png"
 
 #DB #############################################################################
 cfgValue[CfgKey.DB_NAME] = "fotobox.db"
-cfgValue[CfgKey.SERVER_DB_PATH] = "Server/db"
-cfgValue[CfgKey.APPLICATION_DB_PATH] = "Server/db"
 
 #SERVER #########################################################################
 cfgValue[CfgKey.SERVER_INDEX_PAGE] = "/"
+cfgValue[CfgKey.SERVER_INDEX_PAGE_SHOW_ALL_PICTURES] = False
 cfgValue[CfgKey.SERVER_DOWNLOAD_PICTURE_PAGE] = "/downloadpage"
 cfgValue[CfgKey.SERVER_DOWNLOAD_PICTURE] = "/downloadimage"
 cfgValue[CfgKey.SERVER_RANDOM_URLIDS] = "/pictureuris"
 cfgValue[CfgKey.SERVER_IP] = "photobox.fritz.box"
 cfgValue[CfgKey.SERVER_PORT] = "5000"
 cfgValue[CfgKey.SERVER_GETPICTUREURLIDS_NUMBER] = 20
+cfgValue[CfgKey.SERVER_GETPICTUREURLIDS_THRASHOLD] = 3
 
 #DIASHOW CLIENT #################################################################
 cfgValue[CfgKey.DIASHOW_CLIENT_PICTURE_MAIN_FOLDER] = "Diashow/"
@@ -285,7 +285,7 @@ textValue[TextKey.PAGE_CLOSECONFIRM_NO] = "Nein"
 
 #PageDownloadPicture.py
 textValue[TextKey.PAGE_DOWNLOADPICTURE_TITLE] = "Bild transferieren"
-textValue[TextKey.PAGE_DOWNLOADPICTURE_WIFI_TITLE] = "Mit der Fotobox verbinden"
+textValue[TextKey.PAGE_DOWNLOADPICTURE_WIFI_TITLE] = "Mit der Fotobox verbinden (W-LAN)"
 textValue[TextKey.PAGE_DOWNLOADPICTURE_BACKBUTTON] = "Zurück"
 
 #PagePrint.py

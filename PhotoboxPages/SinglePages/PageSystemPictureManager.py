@@ -86,9 +86,6 @@ class PageSystemPictureManager(Page):
         loadingGifNavigation = QHBoxLayout()
         mainContentLabel.addLayout(loadingGifNavigation)
 
-        #Test############################################################################################################
-        mainContentLabel.addWidget(self.getTitleAsQLabel(TextKey.PAGE_SYSTEMPICTUREMANAGER_TITLE))
-
         self.loadingGifDeleteButton = QPushButton(textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_DELETEBUTTON])
         self.loadingGifDeleteButton.clicked.connect(self.deleteLoadingGifFolder)
         loadingGifNavigation.addWidget(self.loadingGifDeleteButton)

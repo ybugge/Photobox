@@ -9,13 +9,13 @@ class PageDbSevice():
 
     @staticmethod
     def setInitialPicture(pageName:GlobalPagesVariableService):
-        db = DbService(CfgService.get(CfgKey.APPLICATION_DB_PATH))
+        db = DbService()
         db.setPicture(pageName.getPictureSubName(),ShottedPictureService.getTempPicturePath(),False)
         db.close()
 
     @staticmethod
     def updatePicture(pageName:GlobalPagesVariableService, path:str,isUsed:bool):
-        db = DbService(CfgService.get(CfgKey.APPLICATION_DB_PATH))
+        db = DbService()
         db.deletePictureByName(pageName.getPictureSubName())
         db.setPicture(pageName.getPictureSubName(),path, isUsed)
         db.close()
@@ -23,6 +23,6 @@ class PageDbSevice():
 
     @staticmethod
     def printAll():
-        db = DbService(CfgService.get(CfgKey.APPLICATION_DB_PATH))
+        db = DbService()
         db.printAllDEBUG()
         db.close()

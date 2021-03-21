@@ -9,28 +9,28 @@ class ServerDbSevice():
 
     @staticmethod
     def getPictureNames():
-        db = DbService(CfgService.get(CfgKey.SERVER_DB_PATH))
+        db = DbService()
         result = db.getPictureNames()
         db.close()
         return result
 
     @staticmethod
     def getPictureUrlIds(name:str):
-        db = DbService(CfgService.get(CfgKey.SERVER_DB_PATH))
+        db = DbService()
         result = db.getPictureUrlIds(name)
         db.close()
         return result
 
     @staticmethod
     def getPicturePathAndName(urlId:str):
-        db = DbService(CfgService.get(CfgKey.SERVER_DB_PATH))
+        db = DbService()
         result = db.getPicturePath(urlId)
         db.close()
         return result
 
     @staticmethod
     def getRendomPictureUrlIds(number:int):
-        db = DbService(CfgService.get(CfgKey.SERVER_DB_PATH))
+        db = DbService()
         result = db.getUsedPictureUrlIdsUnsecure()
         db.close()
         if len(result) > number:
@@ -39,7 +39,14 @@ class ServerDbSevice():
             return result
 
     @staticmethod
+    def getNumberUsedPictures():
+        db = DbService()
+        result = db.getNumberUsedPicture()
+        db.close()
+        return result
+
+    @staticmethod
     def printAll():
-        db = DbService(CfgService.get(CfgKey.SERVER_DB_PATH))
+        db = DbService()
         db.printAllDEBUG()
         db.close()

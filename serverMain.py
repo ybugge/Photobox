@@ -20,8 +20,9 @@ def page_not_found(e):
 def indexPage():
     dbResults = ServerDbSevice.getPictureNames()
     picturePageUrl = []
-    for dbResult in dbResults:
-        picturePageUrl.append(CfgService.get(CfgKey.SERVER_DOWNLOAD_PICTURE_PAGE)+"/"+dbResult)
+    if CfgService.get(CfgKey.SERVER_INDEX_PAGE_SHOW_ALL_PICTURES):
+        for dbResult in dbResults:
+            picturePageUrl.append(CfgService.get(CfgKey.SERVER_DOWNLOAD_PICTURE_PAGE)+"/"+dbResult)
     return render_template('index/index.html',len = len(picturePageUrl), picturePageUrl = picturePageUrl)
 
 
@@ -54,6 +55,10 @@ def downloadPicture(urlId):
 def getRandomPictureUris():
     #key = Fernet.generate_key()
     #cipher_suite = Fernet(key)
+    numberOfPictures = ServerDbSevice.getNumberUsedPictures()
+    if numberOfPictures <= CfgService.get(CfgKey.SERVER_GETPICTUREURLIDS_THRASHOLD):
+        return ""
+
     pictureUrlIds = ServerDbSevice.getRendomPictureUrlIds(CfgService.get(CfgKey.SERVER_GETPICTUREURLIDS_NUMBER))
     #pictureUrlsAsString = key.decode('utf-8')
 

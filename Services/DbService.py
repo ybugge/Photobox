@@ -1,3 +1,4 @@
+import os
 import sqlite3
 
 from Services.CfgService import CfgService
@@ -7,12 +8,10 @@ from config.Config import CfgKey
 
 class DbService():
 
-    def __init__(self, dbPath:str):
+    def __init__(self):
         self.dbConnection = None
-        if dbPath and not dbPath.isspace():
-            dbPathWithName = FileFolderService.getAbsoltPath(dbPath+"/"+CfgService.get(CfgKey.DB_NAME))
-        else:
-            dbPathWithName = FileFolderService.getAbsoltPath(CfgService.get(CfgKey.DB_NAME))
+
+        dbPathWithName = FileFolderService.getAbsoltPath(self._getDBPath())
 
         FileFolderService.creatFolderByFileIfNotExist(dbPathWithName)
 
@@ -103,6 +102,18 @@ class DbService():
             result.append(str(row[1])+"_"+str(row[0]))
         return result
 
+    def getNumberUsedPicture(self):
+        SELECT = '''SELECT COUNT(DISTINCT {}) FROM {} WHERE {} = {}''' \
+            .format(self.TABLE_COLUMN_NAME,self.TABLE_NAME, self.TABLE_COLUMN_ISUSED, 1)
+        cursor = self.dbConnection.execute(SELECT)
+        result = []
+        for row in cursor:
+            result.append(int(row[0]))
+
+        if len(result) <= 0:
+            return 0
+        else:
+            return result[0]
 
     def _checkImageExist(self,id:str,path:str):
         if(FileFolderService.existFile(path)):
@@ -120,4 +131,7 @@ class DbService():
 
     def close(self):
         self.dbConnection.close()
+
+    def _getDBPath(self):
+        return os.path.join(CfgService.get(CfgKey.MAIN_SAVE_DIR), CfgService.get(CfgKey.PROJECTNAME),CfgService.get(CfgKey.DB_NAME))
 
