@@ -120,7 +120,7 @@ System Options > Network at Boot > Yes
 Display Options > Underscan > No 
 Display Options > Screen Blanking > No
 Finish
-Reboot > No 
+Reboot > Yes
 $ git clone https://github.com/ybugge/Photobox.git
 $ cd Photobox
 $ ./setupDiashow.sh

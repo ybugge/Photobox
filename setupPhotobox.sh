@@ -16,6 +16,7 @@ pip3 install flask
 pip3 install pysqlite3
 pip3 install image
 
+#https://webnist.de/autostart-eines-python-programm-auf-dem-raspberry-pi/
 echo "Start Configuration"
 AUTOSTART_DIR="/home/pi/.config/autostart"
 mkdir -p -- "$AUTOSTART_DIR"
