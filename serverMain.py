@@ -2,7 +2,6 @@ import base64
 import io
 
 from flask import Flask, render_template, send_file, abort
-from cryptography.fernet import Fernet
 
 from Services.CfgService import CfgService
 from Services.FileFolderService import FileFolderService
@@ -18,6 +17,7 @@ def page_not_found(e):
 
 @app.route(CfgService.get(CfgKey.SERVER_INDEX_PAGE))
 def indexPage():
+
     dbResults = ServerDbSevice.getPictureNames()
     picturePageUrl = []
     if CfgService.get(CfgKey.SERVER_INDEX_PAGE_SHOW_ALL_PICTURES):
@@ -53,30 +53,17 @@ def downloadPicture(urlId):
 
 @app.route(CfgService.get(CfgKey.SERVER_RANDOM_URLIDS))
 def getRandomPictureUris():
-    #key = Fernet.generate_key()
-    #cipher_suite = Fernet(key)
     numberOfPictures = ServerDbSevice.getNumberUsedPictures()
     if numberOfPictures <= CfgService.get(CfgKey.SERVER_GETPICTUREURLIDS_THRASHOLD):
-        return ""
+        return base64.b64encode("".encode('utf-8'))
 
     pictureUrlIds = ServerDbSevice.getRendomPictureUrlIds(CfgService.get(CfgKey.SERVER_GETPICTUREURLIDS_NUMBER))
-    #pictureUrlsAsString = key.decode('utf-8')
-
     pictureUrlsAsString = ""
 
     for urlId in pictureUrlIds:
         url = "http://"+CfgService.get(CfgKey.SERVER_IP)+":"+CfgService.get(CfgKey.SERVER_PORT)+CfgService.get(CfgKey.SERVER_DOWNLOAD_PICTURE)+"/"+urlId
         pictureUrlsAsString += url +";"
-    #     pictureUrlsAsString += cipher_suite.encrypt(url).decode('uft-8')+";"
-    #
-    # testSplitted = pictureUrlsAsString.split(";")
-    # testKey = bytes(testSplitted[0],'utf-8')
-    # test_cipher_suite = Fernet(testKey)
-    # for testResultRaw in testSplitted[1:]:
-    #     testResult = bytes(testResultRaw[-1],'utf-8')
-    #     print(test_cipher_suite.decrypt(testResult))
-    # return pictureUrlsAsString
-    return pictureUrlsAsString
+    return base64.b64encode(pictureUrlsAsString.encode('utf-8'))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(CfgService.get(CfgKey.SERVER_PORT)))

@@ -1,3 +1,4 @@
+import base64
 import os
 import random
 
@@ -102,8 +103,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
         if pictureRequest == None:
             return
-
-        pictureUrls = list(filter(None,pictureRequest.content.decode("utf-8").split(";")))
+        pictureUrlsAsString = base64.b64decode(pictureRequest.content).decode('utf-8')
+        pictureUrls = list(filter(None,pictureUrlsAsString.split(";")))
 
         if len(pictureUrls) > 0:
             FileFolderService.removeIfExist(picturesPath)
