@@ -1,6 +1,6 @@
 import os
 
-from PyQt5.QtCore import QTimer, QSize
+from PyQt5.QtCore import QTimer, QSize, Qt
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit, QLabel, QProgressBar, QScrollArea
 
@@ -18,6 +18,8 @@ class PageSystemPictureManager(Page):
         self.scroll_area = QScrollArea(self)
         self.scroll_area.setGeometry(0, 0, windowSize.width(), windowSize.height())
         self.scroll_area.setWidgetResizable(True)
+        self.scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 
         mainLabel = QVBoxLayout()
         self.scroll_area.setLayout(mainLabel)
