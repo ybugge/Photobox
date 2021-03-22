@@ -135,6 +135,7 @@ $ cd Photobox
 $ ./setupDiashow.sh
 ````
 
+-> Auflösung: 1280x720
 # Zusätzliche Hinweise:
 
 ## Bluetoothe Geräte verbinden

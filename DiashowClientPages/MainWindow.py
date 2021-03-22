@@ -6,7 +6,7 @@ from PyQt5 import QtWidgets
 from PyQt5 import QtCore
 from PyQt5.QtCore import QSize, QTimer, Qt
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QLabel
+from PyQt5.QtWidgets import QLabel, QWidget, QVBoxLayout
 from pip._vendor import requests
 
 
@@ -27,18 +27,23 @@ class MainWindow(QtWidgets.QMainWindow):
         self.defaultPicturesUrls = []
         self.showNewPictureTimer = QTimer()
         self.updatePictureSourcesTimer = QTimer()
+        self.setStyleSheet("background-color:black;")
 
+        pictureWidget = QWidget()
+        self.setCentralWidget(pictureWidget)
 
+        self.backgroundPicture = QLabel(pictureWidget)
+        self.backgroundPicture.setContentsMargins(0, 0, 0, 0)
+        self.backgroundPicture.setAlignment(Qt.AlignCenter)
 
-        self.picture = QLabel(self)
-        self.picture.setContentsMargins(0,0,0,0)
-        self.picture.setAlignment(Qt.AlignCenter)
-        self.setCentralWidget(self.picture)
+        self.smalePicture = QLabel(pictureWidget)
+        self.smalePicture.setContentsMargins(0, 0, 0, 0)
+        self.smalePicture.setStyleSheet("background-color:transparent;")
+        self.smalePicture.move(self.windowSize.width() * 0.1, self.windowSize.height() * 0.1)
 
         self.updatePictureSources()
         if len(self.usedPictureUrls) > 0:
             self.showNewPicture()
-
 
         self.showNewPictureTimer.timeout.connect(self.showNewPicture)
         self.showNewPictureTimer.start(cfgValue[CfgKey.DIASHOW_CLIENT_PICTURE_SHOW_NEW_PICTURE_INTERVAL])
@@ -47,16 +52,30 @@ class MainWindow(QtWidgets.QMainWindow):
         self.updatePictureSourcesTimer.start(cfgValue[CfgKey.DIASHOW_CLIENT_PICTURE_UPDATE_PICTURE_SOURCE_INTERVAL])
 
 
-
     def showNewPicture(self):
-        picturePixelMap = QPixmap(self.getRandomPicture())
-        self.picture.setPixmap(picturePixelMap.scaled(self.windowSize,Qt.KeepAspectRatioByExpanding))
+        randomPictureAndFrame = self.getRandomPicture()
+        if FileFolderService.existFile(randomPictureAndFrame[1]):
+            self.showNewPictureWithFrame(randomPictureAndFrame)
+        else:
+            self.showNewPictureWithoutFrame(randomPictureAndFrame)
+
+    def showNewPictureWithoutFrame(self,randomPictureAndFrame):
+        picturePixelMap = QPixmap(randomPictureAndFrame[0])
+        self.backgroundPicture.setPixmap(picturePixelMap.scaled(self.windowSize, Qt.KeepAspectRatio))
+        self.smalePicture.setPixmap(QPixmap())
+
+    def showNewPictureWithFrame(self,randomPictureAndFrame):
+        framePixelMap = QPixmap(randomPictureAndFrame[1])
+        self.backgroundPicture.setPixmap(framePixelMap.scaled(self.windowSize, Qt.KeepAspectRatio))
+        picturePixelMap = QPixmap(randomPictureAndFrame[0])
+        self.smalePicture.setPixmap(picturePixelMap.scaled(self.windowSize.width() * 0.9, self.windowSize.height() * 0.9, Qt.KeepAspectRatio))
 
     def getRandomPicture(self):
         pictureUrls = self.usedPictureUrls
         numberPictures = len(pictureUrls)
         pictureUrlIndex = random.randint(0,numberPictures-1)
         return pictureUrls[pictureUrlIndex]
+
 
     def updatePictureSources(self):
         self.showNewPictureTimer.stop()
@@ -80,12 +99,14 @@ class MainWindow(QtWidgets.QMainWindow):
     def updatePictureSource(self,subFolderDir:str):
         configFilePath = os.path.join(subFolderDir,cfgValue[CfgKey.DIASHOW_CLIENT_PICTURE_CONFIG_FILE])
         picturesPath = os.path.join(subFolderDir,cfgValue[CfgKey.DIASHOW_CLIENT_PICTURE_SOURCE_FOLDER])
-        if FileFolderService.existFile(configFilePath):
-            return self.updatePictureSourceWithConfig(picturesPath,configFilePath)
-        elif FileFolderService.existFolder(picturesPath) and not FileFolderService.existFile(configFilePath):
-            return self.updatePictureSourceDefault(picturesPath)
+        framePath = os.path.join(subFolderDir,cfgValue[CfgKey.DIASHOW_CLIENT_PICTURE_FRAME_PICTURE])
 
-    def updatePictureSourceWithConfig(self,picturesPath:str, configFilePath:str):
+        if FileFolderService.existFile(configFilePath):
+            return self.updatePictureSourceWithConfig(picturesPath,configFilePath,framePath)
+        elif FileFolderService.existFolder(picturesPath) and not FileFolderService.existFile(configFilePath):
+            return self.updatePictureSourceDefault(picturesPath,framePath)
+
+    def updatePictureSourceWithConfig(self,picturesPath:str, configFilePath:str,framePath:str):
         fileLines = FileFolderService.readFile(configFilePath)
         config = {}
         for fileLine in fileLines:
@@ -93,11 +114,11 @@ class MainWindow(QtWidgets.QMainWindow):
             config[fileLineParts[0].replace('=', '').strip()] = fileLineParts[1].strip()
 
         if "default" in config and config["default"] == "True":
-            self.updatePicturesNotFound(picturesPath)
+            self.updatePicturesNotFound(picturesPath,framePath)
         elif "from_server" in config and config["from_server"] == "True":
-            self.updatePicturesFromServer(picturesPath)
+            self.updatePicturesFromServer(picturesPath,framePath)
 
-    def updatePicturesFromServer(self,picturesPath:str):
+    def updatePicturesFromServer(self,picturesPath:str,framePath:str):
         serverUrl = "http://"+str(cfgValue[CfgKey.SERVER_IP])+":"+str(cfgValue[CfgKey.SERVER_PORT])+str(cfgValue[CfgKey.SERVER_RANDOM_URLIDS])
         pictureRequest = self.getRequest(serverUrl)
 
@@ -112,9 +133,7 @@ class MainWindow(QtWidgets.QMainWindow):
             pictureDownloadThread.start()
             while not pictureDownloadThread.isFinished():
                 pass
-            self.updatePictureSourceDefault(picturesPath)
-
-
+            self.updatePictureSourceDefault(picturesPath,framePath)
 
     def getRequest(self,url:str):
         try:
@@ -126,16 +145,20 @@ class MainWindow(QtWidgets.QMainWindow):
         except requests.ConnectionError:
             return None
 
-
-
-    def updatePicturesNotFound(self,picturesPath:str):
+    def updatePicturesNotFound(self,picturesPath:str,framePath:str):
         picturePaths = FileFolderService.getFolderContentPictures(picturesPath)
-        self.defaultPicturesUrls.extend(picturePaths)
+        picturePathsWithFrame = []
+        for picturePath in picturePaths:
+            picturePathsWithFrame.append([picturePath,framePath])
+        self.defaultPicturesUrls.extend(picturePathsWithFrame)
 
 
-    def updatePictureSourceDefault(self,picturesPath:str):
+    def updatePictureSourceDefault(self,picturesPath:str,framePath:str):
         picturePaths = FileFolderService.getFolderContentPictures(picturesPath)
-        self.usedPictureUrls.extend(picturePaths)
+        picturePathsWithFrame = []
+        for picturePath in picturePaths:
+            picturePathsWithFrame.append([picturePath,framePath])
+        self.usedPictureUrls.extend(picturePathsWithFrame)
 
 
     def exit(self):
