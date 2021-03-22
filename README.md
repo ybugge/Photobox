@@ -38,6 +38,8 @@ Auf Raspberry Pi:
   - Updates -> Next 
   - Pi neustarten 
  - Starten: "Raspberry-Pi-Konfiguration" unter "Start > Einstellungen"
+   - Tab -> "System"
+   - Aktivieren: "Auf Netzwerk warten"
    - Tab -> "Schnittstellen"
    - Aktivieren: "Kamera"
    - Aktivieren: "SSH"
@@ -67,6 +69,13 @@ $ yes | sudo apt install git
 $ git clone https://github.com/ybugge/Photobox.git
 $ cd Photobox
 $ ./setupFotobox.sh
+````
+
+Auf Netzwerk neu starten:
+````
+$ sudo crontab -e
+@reboot /bin/sleep 60; /home/pi/Photobox/ShellScripts/restartNetwork.sh
+STR+X -> J -> ENTER 
 ````
 
 # Diashow Client
@@ -125,3 +134,8 @@ $ git clone https://github.com/ybugge/Photobox.git
 $ cd Photobox
 $ ./setupDiashow.sh
 ````
+
+# Zusätzliche Hinweise:
+
+## Bluetoothe Geräte verbinden
+https://raspberrydiy.com/connect-raspberry-pi-bluetooth-speaker/
