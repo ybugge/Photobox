@@ -4,13 +4,14 @@ import random
 
 from PyQt5 import QtWidgets
 from PyQt5 import QtCore
-from PyQt5.QtCore import QSize, QTimer, Qt
+from PyQt5.QtCore import QSize, QTimer, Qt, QPoint
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QLabel, QWidget, QVBoxLayout
 from pip._vendor import requests
 
 
 #Ist das Hauptfenster
+from DiashowClientPages.PicturesConfig import PicturesConfig
 from Services.FileFolderService import FileFolderService
 from Services.PictureDownloadThread import PictureDownloadThread
 from config.Config import cfgValue, CfgKey
@@ -35,11 +36,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.backgroundPicture = QLabel(pictureWidget)
         self.backgroundPicture.setContentsMargins(0, 0, 0, 0)
         self.backgroundPicture.setAlignment(Qt.AlignCenter)
+        self.backgroundPicture.setStyleSheet("background-color:transparent;")
 
-        self.smalePicture = QLabel(pictureWidget)
-        self.smalePicture.setContentsMargins(0, 0, 0, 0)
-        self.smalePicture.setStyleSheet("background-color:transparent;")
-        self.smalePicture.move(self.windowSize.width() * 0.1, self.windowSize.height() * 0.1)
+        self.frontPicture = QLabel(pictureWidget)
+        self.frontPicture.setContentsMargins(0, 0, 0, 0)
+        self.frontPicture.setStyleSheet("background-color:transparent;")
 
         self.updatePictureSources()
         if len(self.usedPictureUrls) > 0:
@@ -53,22 +54,43 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
     def showNewPicture(self):
-        randomPictureAndFrame = self.getRandomPicture()
-        if FileFolderService.existFile(randomPictureAndFrame[1]):
-            self.showNewPictureWithFrame(randomPictureAndFrame)
+        randomPictureAndFolderPath = self.getRandomPicture()
+        framePath = os.path.join(randomPictureAndFolderPath[1],cfgValue[CfgKey.DIASHOW_CLIENT_PICTURE_FRAME_PICTURE])
+
+        if FileFolderService.existFile(framePath):
+            self.showNewPictureWithFrame(randomPictureAndFolderPath,framePath)
         else:
-            self.showNewPictureWithoutFrame(randomPictureAndFrame)
+            self.showNewPictureWithoutFrame(randomPictureAndFolderPath)
 
-    def showNewPictureWithoutFrame(self,randomPictureAndFrame):
-        picturePixelMap = QPixmap(randomPictureAndFrame[0])
-        self.backgroundPicture.setPixmap(picturePixelMap.scaled(self.windowSize, Qt.KeepAspectRatio))
-        self.smalePicture.setPixmap(QPixmap())
+    def showNewPictureWithoutFrame(self,randomPictureAndFolderPath):
+        picturePixelMap = QPixmap(randomPictureAndFolderPath[0])
+        self.frontPicture.move(0,0)
+        self.backgroundPicture.move(0,0)
+        self.frontPicture.setPixmap(picturePixelMap.scaled(self.windowSize.width(),self.windowSize.height()))#, Qt.KeepAspectRatio))
+        self.backgroundPicture.setPixmap(picturePixelMap.scaled(self.windowSize.width()-1,self.windowSize.height()-1))#, Qt.KeepAspectRatio))
 
-    def showNewPictureWithFrame(self,randomPictureAndFrame):
-        framePixelMap = QPixmap(randomPictureAndFrame[1])
-        self.backgroundPicture.setPixmap(framePixelMap.scaled(self.windowSize, Qt.KeepAspectRatio))
-        picturePixelMap = QPixmap(randomPictureAndFrame[0])
-        self.smalePicture.setPixmap(picturePixelMap.scaled(self.windowSize.width() * 0.9, self.windowSize.height() * 0.9, Qt.KeepAspectRatio))
+    def showNewPictureWithFrame(self,randomPictureAndFolderPath,framePath):
+        config = PicturesConfig(randomPictureAndFolderPath[1])
+        if config.get(PicturesConfig.FRAME_FRONT) == "True":
+            frontPicturePixelMap = QPixmap(framePath)
+            backPicturePixelMap = QPixmap(randomPictureAndFolderPath[0])
+            frontMove = QPoint(0,0)
+            frontSize = QSize(self.windowSize.width()-1,self.windowSize.height()-1)
+            backMove = QPoint(0,0)
+            backSize = QSize(self.windowSize.width()-1,self.windowSize.height()-1)
+
+        else:
+            frontPicturePixelMap = QPixmap(randomPictureAndFolderPath[0])
+            backPicturePixelMap = QPixmap(framePath)
+            backMove = QPoint(0,0)
+            backSize = QSize(self.windowSize.width()-1,self.windowSize.height()-1)
+            frontMove = QPoint(self.windowSize.width() * 0.1, self.windowSize.height() * 0.1)
+            frontSize = QSize(self.windowSize.width()-1 * 0.9,self.windowSize.height()-1 * 0.9)
+
+        self.frontPicture.move(frontMove)
+        self.backgroundPicture.move(backMove)
+        self.frontPicture.setPixmap(frontPicturePixelMap.scaled(frontSize)) #, Qt.KeepAspectRatio))
+        self.backgroundPicture.setPixmap(backPicturePixelMap.scaled(backSize)) #, Qt.KeepAspectRatio))
 
     def getRandomPicture(self):
         pictureUrls = self.usedPictureUrls
@@ -97,28 +119,17 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
     def updatePictureSource(self,subFolderDir:str):
-        configFilePath = os.path.join(subFolderDir,cfgValue[CfgKey.DIASHOW_CLIENT_PICTURE_CONFIG_FILE])
         picturesPath = os.path.join(subFolderDir,cfgValue[CfgKey.DIASHOW_CLIENT_PICTURE_SOURCE_FOLDER])
-        framePath = os.path.join(subFolderDir,cfgValue[CfgKey.DIASHOW_CLIENT_PICTURE_FRAME_PICTURE])
+        pictureConfig = PicturesConfig(subFolderDir)
 
-        if FileFolderService.existFile(configFilePath):
-            return self.updatePictureSourceWithConfig(picturesPath,configFilePath,framePath)
-        elif FileFolderService.existFolder(picturesPath) and not FileFolderService.existFile(configFilePath):
-            return self.updatePictureSourceDefault(picturesPath,framePath)
+        if pictureConfig.get(PicturesConfig.DEFAULT) == "True":
+            self.updatePicturesNotFound(picturesPath,subFolderDir)
+        elif pictureConfig.get(PicturesConfig.FROM_SERVER) == "True":
+            self.updatePicturesFromServer(picturesPath,subFolderDir)
+        elif FileFolderService.existFolder(picturesPath):
+            self.updatePictureSourceDefault(picturesPath,subFolderDir)
 
-    def updatePictureSourceWithConfig(self,picturesPath:str, configFilePath:str,framePath:str):
-        fileLines = FileFolderService.readFile(configFilePath)
-        config = {}
-        for fileLine in fileLines:
-            fileLineParts = fileLine.split("=",1)
-            config[fileLineParts[0].replace('=', '').strip()] = fileLineParts[1].strip()
-
-        if "default" in config and config["default"] == "True":
-            self.updatePicturesNotFound(picturesPath,framePath)
-        elif "from_server" in config and config["from_server"] == "True":
-            self.updatePicturesFromServer(picturesPath,framePath)
-
-    def updatePicturesFromServer(self,picturesPath:str,framePath:str):
+    def updatePicturesFromServer(self,picturesPath:str,subFolderDir:str):
         serverUrl = "http://"+str(cfgValue[CfgKey.SERVER_IP])+":"+str(cfgValue[CfgKey.SERVER_PORT])+str(cfgValue[CfgKey.SERVER_RANDOM_URLIDS])
         pictureRequest = self.getRequest(serverUrl)
 
@@ -133,7 +144,7 @@ class MainWindow(QtWidgets.QMainWindow):
             pictureDownloadThread.start()
             while not pictureDownloadThread.isFinished():
                 pass
-            self.updatePictureSourceDefault(picturesPath,framePath)
+            self.updatePictureSourceDefault(picturesPath,subFolderDir)
 
     def getRequest(self,url:str):
         try:
@@ -145,19 +156,19 @@ class MainWindow(QtWidgets.QMainWindow):
         except requests.ConnectionError:
             return None
 
-    def updatePicturesNotFound(self,picturesPath:str,framePath:str):
+    def updatePicturesNotFound(self,picturesPath:str,subFolderDir:str):
         picturePaths = FileFolderService.getFolderContentPictures(picturesPath)
         picturePathsWithFrame = []
         for picturePath in picturePaths:
-            picturePathsWithFrame.append([picturePath,framePath])
+            picturePathsWithFrame.append([picturePath,subFolderDir])
         self.defaultPicturesUrls.extend(picturePathsWithFrame)
 
 
-    def updatePictureSourceDefault(self,picturesPath:str,framePath:str):
+    def updatePictureSourceDefault(self,picturesPath:str,subFolderDir:str):
         picturePaths = FileFolderService.getFolderContentPictures(picturesPath)
         picturePathsWithFrame = []
         for picturePath in picturePaths:
-            picturePathsWithFrame.append([picturePath,framePath])
+            picturePathsWithFrame.append([picturePath,subFolderDir])
         self.usedPictureUrls.extend(picturePathsWithFrame)
 
 
