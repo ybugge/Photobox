@@ -8,13 +8,14 @@ sudo apt update
 yes | sudo apt dist-upgrade
 
 echo "Installing prerequirements"
-yes | sudo apt install python3 python3-picamera python3-pyqt5 python3-pyqt5.qtwebkit git python3-pip python3-opencv python3-pyqt5.qtmultimedia
+yes | sudo apt install python3 python3-picamera python3-pyqt5 python3-pyqt5.qtwebkit git python3-pip python3-opencv python3-pyqt5.qtmultimedia cups
 
 pip3 install qrcode
 pip3 install numpy
 pip3 install flask
 pip3 install pysqlite3
 pip3 install image
+pip3 install pycups
 
 #https://webnist.de/autostart-eines-python-programm-auf-dem-raspberry-pi/
 echo "Start Configuration"

@@ -78,6 +78,25 @@ $ sudo crontab -e
 STR+X -> J -> ENTER 
 ````
 
+##Drucker einrichten: Canon SELPHY CP1300 (W-LAN)
+Quelle: 
+- https://raspberrytips.com/install-printer-raspberry-pi/
+- https://youtu.be/Gd0RKYRNJmo?t=570
+- PPT-Datei: https://cloud.voss.earth/index.php/s/SAi2M2na5KtR3gm
+
+Browser->Pi: localhost:631
+
+- Drucker und Klassen hinzufügen
+- Drucker hinzufügen
+- Eingabe: Benutzername und Passwort
+- Drucker auswählen: (Netzwerkdrucker) Canon SELPHY CP1300...  
+- Weiter
+- Weiter
+- PPD-Datei: Datei auswählen 
+- Drucker hinzufügen
+- Standardeinstellungen festlegen  
+
+
 # Diashow Client
 
 ## Hardware
