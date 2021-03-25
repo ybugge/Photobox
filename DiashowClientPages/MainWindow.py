@@ -11,6 +11,7 @@ from pip._vendor import requests
 
 
 #Ist das Hauptfenster
+from DiashowClientPages.PictureScaleAndMove import PictureScaleAndMove
 from DiashowClientPages.PicturesConfig import PicturesConfig
 from Services.FileFolderService import FileFolderService
 from Services.PictureDownloadThread import PictureDownloadThread
@@ -71,21 +72,22 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def showNewPictureWithFrame(self,randomPictureAndFolderPath,framePath):
         config = PicturesConfig(randomPictureAndFolderPath[1])
+        pictureScaleAndMove = PictureScaleAndMove(self.windowSize,randomPictureAndFolderPath[1])
         if config.get(PicturesConfig.FRAME_FRONT) == "True":
             frontPicturePixelMap = QPixmap(framePath)
             backPicturePixelMap = QPixmap(randomPictureAndFolderPath[0])
             frontMove = QPoint(0,0)
             frontSize = QSize(self.windowSize.width()-1,self.windowSize.height()-1)
-            backMove = QPoint(0,0)
-            backSize = QSize(self.windowSize.width()-1,self.windowSize.height()-1)
+            backMove = pictureScaleAndMove.getMove()
+            backSize = pictureScaleAndMove.getSize()
 
         else:
             frontPicturePixelMap = QPixmap(randomPictureAndFolderPath[0])
             backPicturePixelMap = QPixmap(framePath)
             backMove = QPoint(0,0)
             backSize = QSize(self.windowSize.width()-1,self.windowSize.height()-1)
-            frontMove = QPoint(self.windowSize.width() * 0.1, self.windowSize.height() * 0.1)
-            frontSize = QSize(self.windowSize.width()-1 * 0.9,self.windowSize.height()-1 * 0.9)
+            frontMove = pictureScaleAndMove.getMove()
+            frontSize = pictureScaleAndMove.getSize()
 
         self.frontPicture.move(frontMove)
         self.backgroundPicture.move(backMove)

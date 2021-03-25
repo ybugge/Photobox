@@ -1,1 +1,5 @@
 from_server=True
+frame_front=True
+picture_size_percent_xy=80
+picture_move_percent_x=50
+picture_move_percent_y=48
