@@ -22,6 +22,9 @@ class CfgKey(enum.Enum):
     SERVER_GETPICTUREURLIDS_NUMBER = 2006
     SERVER_GETPICTUREURLIDS_THRASHOLD = 2007
 
+    #Printer #########################################################################################
+    PRINTER_IS_ACTIVE = 6000
+
     #DIASHOW CLIENT ##################################################################################
     DIASHOW_CLIENT_PICTURE_MAIN_FOLDER = 5000
     DIASHOW_CLIENT_PICTURE_CONFIG_FILE = 5001
@@ -116,6 +119,9 @@ cfgValue[CfgKey.SERVER_IP] = "photobox.fritz.box"
 cfgValue[CfgKey.SERVER_PORT] = "5000"
 cfgValue[CfgKey.SERVER_GETPICTUREURLIDS_NUMBER] = 20
 cfgValue[CfgKey.SERVER_GETPICTUREURLIDS_THRASHOLD] = 3
+
+#Printer #########################################################################################
+cfgValue[CfgKey.PRINTER_IS_ACTIVE] = True
 
 #DIASHOW CLIENT #################################################################
 cfgValue[CfgKey.DIASHOW_CLIENT_PICTURE_MAIN_FOLDER] = "Diashow/"
@@ -219,15 +225,19 @@ class TextKey(enum.Enum):
     PAGE_HINTS_PICTURE_MANAGER_BUTTON = 50
 
     #PageConfig.py
-    PAGE_CONFIG_TITLE=20
-    PAGE_CONFIG_NEXTBUTTON=21
-    PAGE_CONFIG_BACKBUTTON=22
-    PAGE_CONFIG_MAIN_SAVE_DIR_TITLE=23
-    PAGE_CONFIG_PROJECT_NAME_TITLE=24
-    PAGE_CONFIG_CAMERA_CALIBRATION_BUTTON=25
-    PAGE_CONFIG_SERVER_IPANDPORT_TITLE=26
-    PAGE_CONFIG_WIFI_TITLE=27
-    PAGE_CONFIG_WIFI_PICTURE_BUTTON=28
+    PAGE_CONFIG_TITLE=1020
+    PAGE_CONFIG_NEXTBUTTON=1021
+    PAGE_CONFIG_BACKBUTTON=1022
+    PAGE_CONFIG_MAIN_SAVE_DIR_TITLE=1023
+    PAGE_CONFIG_PROJECT_NAME_TITLE=1024
+    PAGE_CONFIG_CAMERA_CALIBRATION_BUTTON=1025
+    PAGE_CONFIG_SERVER_IPANDPORT_TITLE=1026
+    PAGE_CONFIG_WIFI_TITLE=1027
+    PAGE_CONFIG_WIFI_PICTURE_BUTTON=1028
+    PAGE_CONFIG_PRINTER_TITLE=1029
+    PAGE_CONFIG_SERVICE_STATUS=1030
+    PAGE_CONFIG_AKTIVATE=1031
+    PAGE_CONFIG_INAKTIVATE=1032
 
     #PageCloseConfirm.py
     PAGE_CLOSECONFIRM_TITLE = 30
@@ -278,6 +288,10 @@ textValue[TextKey.PAGE_CONFIG_CAMERA_CALIBRATION_BUTTON] = "Kamera kalibrieren"
 textValue[TextKey.PAGE_CONFIG_SERVER_IPANDPORT_TITLE] = "Server IP und Port"
 textValue[TextKey.PAGE_CONFIG_WIFI_TITLE] = "WIFI"
 textValue[TextKey.PAGE_CONFIG_WIFI_PICTURE_BUTTON] = "QR-Code speichern"
+textValue[TextKey.PAGE_CONFIG_PRINTER_TITLE] = "Drucker"
+textValue[TextKey.PAGE_CONFIG_SERVICE_STATUS] = "Aktiviert: "
+textValue[TextKey.PAGE_CONFIG_AKTIVATE] = "Ja"
+textValue[TextKey.PAGE_CONFIG_INAKTIVATE] = "Nein"
 
 #PageCloseConfirm
 textValue[TextKey.PAGE_CLOSECONFIRM_TITLE] = "Anwendung schließen?"

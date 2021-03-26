@@ -89,10 +89,12 @@ Browser->Pi: localhost:631
 - Drucker und Klassen hinzufügen
 - Drucker hinzufügen
 - Eingabe: Benutzername und Passwort
-- Drucker auswählen: (Netzwerkdrucker) Canon SELPHY CP1300...  
+- Drucker auswählen: (Netzwerkdrucker) Canon SELPHY CP1300 (Canon SELPHY CP1300)  
 - Weiter
 - Weiter
-- PPD-Datei: Datei auswählen 
+- PPD-Datei: Datei auswählen
+- Photobox/PrinterPPD/Canon_SELPHY_CP1300.ppd
+- Öffnen
 - Drucker hinzufügen
 - Standardeinstellungen festlegen  
 

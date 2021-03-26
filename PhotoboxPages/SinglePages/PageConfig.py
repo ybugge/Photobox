@@ -1,7 +1,8 @@
 import qrcode
-from PyQt5.QtCore import QSize
+from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QFont
-from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QLabel, QHBoxLayout, QFileDialog, QGridLayout, QLineEdit
+from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QLabel, QHBoxLayout, QFileDialog, QGridLayout, QLineEdit, QWidget, \
+    QScrollArea
 
 from PhotoboxPages.AllPages import AllPages
 from PhotoboxPages.Page import Page
@@ -12,22 +13,35 @@ from config.Config import textValue, TextKey, CfgKey
 class PageConfig(Page):
     def __init__(self, pages : AllPages, windowSize:QSize):
         super().__init__(pages,windowSize)
-        vbox = QVBoxLayout()
-        self.setLayout(vbox)
+        mainLayout = QVBoxLayout()
+        self.setLayout(mainLayout)
 
         #Titel
-        vbox.addWidget(self.getTitleAsQLabel(TextKey.PAGE_CONFIG_TITLE))
+        mainLayout.addWidget(self.getTitleAsQLabel(TextKey.PAGE_CONFIG_TITLE))
 
-        #Configs ############################################################
+        #Configs #######################################################################################################
+        #Layout
+        scroll_area_content_widget = QWidget()
+        self.scroll_area = QScrollArea(self)
+        self.scroll_area.setGeometry(0, 0, windowSize.width(), windowSize.height())
+        self.scroll_area.setWidgetResizable(True)
+        self.scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.scroll_area.setWidget(scroll_area_content_widget)
+
+        mainContentLabel = QVBoxLayout()
+        scroll_area_content_widget.setLayout(mainContentLabel)
+        mainLayout.addWidget(self.scroll_area)
+
             #mainSaveDir
         titleFont = QFont()
         titleFont.setUnderline(True)
         mainSaveDirTitle = QLabel(textValue[TextKey.PAGE_CONFIG_MAIN_SAVE_DIR_TITLE])
         mainSaveDirTitle.setFont(titleFont)
-        vbox.addWidget(mainSaveDirTitle)
+        mainContentLabel.addWidget(mainSaveDirTitle)
 
         mainSaveDirLayout= QGridLayout()
-        vbox.addLayout(mainSaveDirLayout)
+        mainContentLabel.addLayout(mainSaveDirLayout)
 
         self.mainSaveDirLabel = QLineEdit()
         self.mainSaveDirLabel.setText(CfgService.get(CfgKey.MAIN_SAVE_DIR))
@@ -41,25 +55,25 @@ class PageConfig(Page):
             #ProjectName
         projectNameTitle = QLabel(textValue[TextKey.PAGE_CONFIG_PROJECT_NAME_TITLE])
         projectNameTitle.setFont(titleFont)
-        vbox.addWidget(projectNameTitle)
+        mainContentLabel.addWidget(projectNameTitle)
 
         self.projectNameValue = QLineEdit()
         self.projectNameValue.setText(CfgService.get(CfgKey.PROJECTNAME))
-        vbox.addWidget(self.projectNameValue)
+        mainContentLabel.addWidget(self.projectNameValue)
 
             #Camera calibration
         cameraCalibration = QPushButton(textValue[TextKey.PAGE_CONFIG_CAMERA_CALIBRATION_BUTTON])
         cameraCalibration.clicked.connect(self.cameraCalibrationEvent)
         self.setContentButtonStyle(cameraCalibration)
-        vbox.addWidget(cameraCalibration)
+        mainContentLabel.addWidget(cameraCalibration)
 
             #Server
         serverTitle = QLabel(textValue[TextKey.PAGE_CONFIG_SERVER_IPANDPORT_TITLE])
         serverTitle.setFont(titleFont)
-        vbox.addWidget(serverTitle)
+        mainContentLabel.addWidget(serverTitle)
 
         serverLayout = QHBoxLayout()
-        vbox.addLayout(serverLayout)
+        mainContentLabel.addLayout(serverLayout)
         self.serverIpValue = QLineEdit()
         self.serverIpValue.setText(CfgService.get(CfgKey.SERVER_IP))
         serverLayout.addWidget(self.serverIpValue)
@@ -71,10 +85,10 @@ class PageConfig(Page):
             #WIFI
         wifiTitle = QLabel(textValue[TextKey.PAGE_CONFIG_WIFI_TITLE])
         wifiTitle.setFont(titleFont)
-        vbox.addWidget(wifiTitle)
+        mainContentLabel.addWidget(wifiTitle)
 
         serverLayout = QHBoxLayout()
-        vbox.addLayout(serverLayout)
+        mainContentLabel.addLayout(serverLayout)
         self.wifiSSIDValue = QLineEdit()
         self.wifiSSIDValue.setText(CfgService.get(CfgKey.WIFI_SSID))
         serverLayout.addWidget(self.wifiSSIDValue)
@@ -90,12 +104,38 @@ class PageConfig(Page):
         wifiPicture = QPushButton(textValue[TextKey.PAGE_CONFIG_WIFI_PICTURE_BUTTON])
         wifiPicture.clicked.connect(self.saveWifiPicture)
         self.setContentButtonStyle(wifiPicture)
-        vbox.addWidget(wifiPicture)
+        mainContentLabel.addWidget(wifiPicture)
 
-        vbox.addStretch()
-        #Navigation
+            # Drucker
+        printerTitle = QLabel(textValue[TextKey.PAGE_CONFIG_PRINTER_TITLE])
+        printerTitle.setFont(titleFont)
+        mainContentLabel.addWidget(printerTitle)
+
+        printerDisabledLayout = QHBoxLayout()
+        mainContentLabel.addLayout(printerDisabledLayout)
+
+        self.printerDisabledLabel = QLabel()
+        self.printerDisabledLabel.setText(textValue[TextKey.PAGE_CONFIG_SERVICE_STATUS])
+        printerDisabledLayout.addWidget(self.printerDisabledLabel)
+
+        self.printerDisabledButton = QPushButton()
+        self.printerDisabledButton.setCheckable(True)
+        isPrinterActivate = CfgService.get(CfgKey.PRINTER_IS_ACTIVE)
+        self.printerDisabledButton.setChecked(isPrinterActivate)
+        if CfgService.get(CfgKey.PRINTER_IS_ACTIVE):
+            self.printerDisabledButton.setText(textValue[TextKey.PAGE_CONFIG_AKTIVATE])
+        else:
+            self.printerDisabledButton.setText(textValue[TextKey.PAGE_CONFIG_INAKTIVATE])
+        self.printerDisabledButton.clicked.connect(self.activatePrinter)
+        printerDisabledLayout.addWidget(self.printerDisabledButton)
+
+
+
+
+        mainContentLabel.addStretch()
+        #Navigation   ##################################################################################################
         navigationLayout = QHBoxLayout()
-        vbox.addLayout(navigationLayout)
+        mainLayout.addLayout(navigationLayout)
 
         backButton = QPushButton(textValue[TextKey.PAGE_CONFIG_BACKBUTTON])
         backButton.clicked.connect(self.backPageEvent)
@@ -130,3 +170,13 @@ class PageConfig(Page):
         qrCodeValue = 'WIFI:S:{};T:{};P:{};;'.format(self.wifiSSIDValue.text(),self.wifiProtocolValue.text(),self.wifiPasswordValue.text())
         img = qrcode.make(qrCodeValue)
         img.save(self.mainSaveDirLabel.text()+"/"+CfgService.get(CfgKey.WIFI_PICTURE_NAME))
+
+    def activatePrinter(self):
+        if self.printerDisabledButton.isChecked():
+            CfgService.set(CfgKey.PRINTER_IS_ACTIVE,True)
+            self.printerDisabledButton.setText(textValue[TextKey.PAGE_CONFIG_AKTIVATE])
+            self.printerDisabledButton.setChecked(CfgService.get(CfgKey.PRINTER_IS_ACTIVE))
+        else:
+            CfgService.set(CfgKey.PRINTER_IS_ACTIVE,False)
+            self.printerDisabledButton.setText(textValue[TextKey.PAGE_CONFIG_INAKTIVATE])
+            self.printerDisabledButton.setChecked(CfgService.get(CfgKey.PRINTER_IS_ACTIVE))

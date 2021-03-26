@@ -11,7 +11,8 @@ class PropertiesService():
     def set(self, key:CfgKey, value):
         keyValuePairs = {}
         if FileFolderService.existFile(self.propertiesPath):
-            keyValuePairs = self._getPropertiesAsDict()
+            fileLines = FileFolderService.readFile(self.propertiesPath)
+            keyValuePairs = self._getPropertiesAsDict(fileLines)
         self._saveProperty(keyValuePairs, key, value)
 
     def find(self, key:CfgKey):
@@ -29,7 +30,7 @@ class PropertiesService():
             if(len(lineSplitted)>1):
                 key = lineSplitted[0].strip()
                 value = lineSplitted[1].strip()
-                if(len(key) > 0 and len(value)):
+                if(len(key) > 0 and len(value) > 0):
                     keyValuePairs[key] = value
         return keyValuePairs
 

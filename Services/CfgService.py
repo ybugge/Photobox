@@ -12,7 +12,7 @@ class CfgService():
             return cfgValue[key]
         else:
             cfgValue[key] = CfgService._convertString(propertiesValue, key)
-            return propertiesValue
+            return cfgValue[key]
 
     @staticmethod
     def set(key:CfgKey,value):
@@ -24,7 +24,13 @@ class CfgService():
     @staticmethod
     def _convertString(value:str, key:CfgKey):
         try:
-            return cfgValue[key].__class__(value)
+            if cfgValue[key].__class__ == bool:
+                if value == "True":
+                    return True
+                else:
+                    return False
+            else:
+                return cfgValue[key].__class__(value)
         except Exception as e:
             print(key._name_+" konnte nicht in '"+cfgValue[key].__class__+"' umgewandelt werden!")
             return value

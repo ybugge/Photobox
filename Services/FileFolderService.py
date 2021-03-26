@@ -89,11 +89,11 @@ class FileFolderService():
     def writeLinesInFile(append:bool,fileDir:str,lines:list):
         if os.path.exists(fileDir) and append:
             with open(fileDir, "a") as file:
-                file.writelines(lines)
+                file.write("\n".join(lines))
             file.close()
         else:
             with open(fileDir,'w') as file:
-                file.writelines(lines)
+                file.write("\n".join(lines))
             file.close()
 
     @staticmethod
