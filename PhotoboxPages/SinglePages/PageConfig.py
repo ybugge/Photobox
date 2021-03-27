@@ -214,7 +214,7 @@ class PageConfig(Page):
         if selectedPrinterAsString == None and len(printers) > 0:
             self.setDefaultPrinter()
         elif selectedPrinterAsString != None and len(printers) > 0:
-            selectedPrinterAsKey = self.findPrinterByIndex(printers, selectedPrinterAsString)
+            selectedPrinterAsKey = self.findPrinterIndexByString(printers, selectedPrinterAsString)
             if selectedPrinterAsKey == None:
                 self.setDefaultPrinter()
             else:
@@ -226,7 +226,7 @@ class PageConfig(Page):
         CfgService.set(CfgKey.PRINTER_SELECTED,str(firstPrinter))
         self.printerSelectedComboBox.setCurrentIndex(0)
 
-    def findPrinterByIndex(self, printers, keyAsString:str):
+    def findPrinterIndexByString(self, printers, keyAsString:str):
         counter = 0
         for printerKey in printers:
             if keyAsString == str(printerKey):

@@ -99,6 +99,8 @@ class CfgKey(enum.Enum):
     PAGE_PICTUREEDIT_DOWNLOAD_BUTTON_ICON_DIR = 603
     PAGE_PICTUREEDIT_SPACE_AUTO_FORWARD_WAIT_TIME = 604
 
+    #PagePrint.py
+    PAGE_PRINT_STATUS_UPDATE_PERIOD = 701
 
 cfgValue = {}
 
@@ -201,7 +203,10 @@ cfgValue[CfgKey.PAGE_PICTUREEDIT_PRINT_BUTTON_ICON_DIR] = "Resources/PagePicture
 cfgValue[CfgKey.PAGE_PICTUREEDIT_PRINT_BUTTON_DISABLED_ICON_DIR] = "Resources/PagePictureEdit/Icon/print_icon_disable.png"
 cfgValue[CfgKey.PAGE_PICTUREEDIT_DOWNLOAD_BUTTON_ICON_DIR] = "Resources/PagePictureEdit/Icon/download_icon.png"
 # 300000 = 5 minutes
-cfgValue[CfgKey.PAGE_PICTUREEDIT_SPACE_AUTO_FORWARD_WAIT_TIME] = 300000
+cfgValue[CfgKey.PAGE_PICTUREEDIT_SPACE_AUTO_FORWARD_WAIT_TIME] = 10*60000
+
+#PagePrint.py
+cfgValue[CfgKey.PAGE_PRINT_STATUS_UPDATE_PERIOD] = 1000
 
 ###########################################################
 class TextKey(enum.Enum):
@@ -258,6 +263,10 @@ class TextKey(enum.Enum):
     #PagePrint.py
     PAGE_PRINT_TITLE = 150
     PAGE_PRINT_BACKBUTTON=151
+    PAGE_PRINT_PRINTBUTTON=152
+    PAGE_PRINT_PRINTBUTTON_DISABLED=153
+    PAGE_PRINT_HINT_PRINT=154
+    PAGE_PRINT_HINT_IN_PRINT=155
 
 textValue={}
 
@@ -313,3 +322,7 @@ textValue[TextKey.PAGE_DOWNLOADPICTURE_BACKBUTTON] = "Zurück"
 #PagePrint.py
 textValue[TextKey.PAGE_PRINT_TITLE] = "Bild Drucken"
 textValue[TextKey.PAGE_PRINT_BACKBUTTON] = "Zurück"
+textValue[TextKey.PAGE_PRINT_PRINTBUTTON] = "Drucken"
+textValue[TextKey.PAGE_PRINT_PRINTBUTTON_DISABLED] = "Wird Gedruckt..."
+textValue[TextKey.PAGE_PRINT_HINT_PRINT] = "Über den Button 'Drucken' kann ein Bild ausgedruckt werden. Erst nach dem Drucken kann ein weiterer Druckprozess gestartet werden. Der Druck sollte innerhalb von 2 Minuten gestartet werden. Wenn der Druck nicht gestartet wurde dann holen Sie einen Verantwortlichen. Sie können auch über den Dowloadbereich, im nachhinein die Bilder ausdrucken."
+textValue[TextKey.PAGE_PRINT_HINT_IN_PRINT] = "Der Druck wurde gestartet! Wenn der Drucker nach 2 Minuten nicht gestartet ist, dann wenden Sie sich bitte an den Verantwortlichen."

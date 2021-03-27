@@ -20,6 +20,14 @@ class FileFolderService():
         shutil.move(sourceFile,targetFile)
 
     @staticmethod
+    def copyFile(sourceFile:str, targetFile:str):
+        if not os.path.exists(sourceFile) or not os.path.isfile(sourceFile):
+            print("Quellfoto wurde nicht gefunden!")
+            return
+        FileFolderService.creatFolderByFileIfNotExist(targetFile)
+        shutil.copy2(sourceFile,targetFile)
+
+    @staticmethod
     def existFile(filePath:str):
         return os.path.exists(filePath) and os.path.isfile(filePath)
 

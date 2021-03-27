@@ -120,7 +120,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pages.addPage(pageDownloadPicture)
 
         #Seite 6.2 Print
-        pagePrint = PagePrint(self.pages, self.windowsize,self.globalVariable)
+        pagePrint = PagePrint(self.pages, self.windowsize,self.globalVariable, self.printerService)
         pagePrint.activateAutoForward(PageTitlePicture,CfgKey.PAGE_PICTUREEDIT_SPACE_AUTO_FORWARD_WAIT_TIME)
         pagePrint.setBackPage(PagePictureEdit)
         self.pages.addPage(pagePrint)
