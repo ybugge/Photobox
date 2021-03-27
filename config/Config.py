@@ -144,9 +144,9 @@ cfgValue[CfgKey.APPLICATION_CURSOR_HINT] = False    #Changeable -> True when Ras
 cfgValue[CfgKey.USED_CAMERA_INDEX] = 0
 #https://picamera.readthedocs.io/en/release-1.10/fov.html
 #(1296,730) / (640,480) / (1920,1080), (1280, 720)
-cfgValue[CfgKey.PI_CAMERA_VIDEO_RESOLUTION] = (1296,730)
+cfgValue[CfgKey.PI_CAMERA_VIDEO_RESOLUTION] = (1280,720)
 cfgValue[CfgKey.PI_CAMERA_VIDEO_FPS] = 25
-cfgValue[CfgKey.PI_CAMERA_PHOTO_RESOLUTION] = (1920,1080)
+cfgValue[CfgKey.PI_CAMERA_PHOTO_RESOLUTION] = (1280,720)
 cfgValue[CfgKey.PROPERTIES_PATH] = "Resources/config.properties"
 
 cfgValue[CfgKey.MAIN_SAVE_DIR] = "FotoboxData/"
