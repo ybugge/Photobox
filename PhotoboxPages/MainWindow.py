@@ -16,17 +16,20 @@ from PhotoboxPages.SinglePages.PageStartServer import PageStartServer
 from PhotoboxPages.SinglePages.PageSystemPictureManager import PageSystemPictureManager
 from PhotoboxPages.SinglePages.PageTitlePicture import PageTitlePicture
 from Services.GlobalPagesVariableService import GlobalPagesVariableService
+from Services.PrinterService import PrinterService
 from Services.WebServerExecThread import WebServerExecThread
 from config.Config import cfgValue, CfgKey
 
 
 #Ist das Hauptfenster
+
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, windowsize:QSize):
         super().__init__()
         self.windowsize = windowsize
         self.globalVariable = GlobalPagesVariableService()
         self.server=WebServerExecThread()
+        self.printerService = PrinterService()
 
         #Background-color on Pi not work: https://stackoverflow.com/questions/57637541/pyqt5-on-raspbian-background-color-of-qwidgets-is-not-displayed
         #https://raspberrypi.stackexchange.com/questions/93900/opengl-desktop-driver
@@ -70,7 +73,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pages.addPage(pagePictureManager)
 
         #Seite 2 Configuration
-        pageConfig = PageConfig(self.pages, self.windowsize)
+        pageConfig = PageConfig(self.pages, self.windowsize, self.printerService)
         pageConfig.setBackPage(PageHints)
         pageConfig.setNextPage(PageStartServer)
         pageConfig.setCameraCalibrationEventPage(PageCameraCalibrationView)

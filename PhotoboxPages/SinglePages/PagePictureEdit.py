@@ -8,6 +8,7 @@ from PhotoboxPages.Page import Page
 from Services.CfgService import CfgService
 from Services.GlobalPagesVariableService import GlobalPagesVariableService
 from Services.PageDbService import PageDbSevice
+from Services.PrinterService import PrinterService
 from Services.ShottedPictureService import ShottedPictureService
 from config.Config import CfgKey
 
@@ -34,12 +35,12 @@ class PagePictureEdit(Page):
         navigationLayout=QHBoxLayout()
         mainLayout.addLayout(navigationLayout)
 
-        printButton = QPushButton()
-        printButton.clicked.connect(self.printPageEvent)
-        printButton.setStyleSheet("qproperty-icon: url(" + CfgService.get(CfgKey.PAGE_PICTUREEDIT_PRINT_BUTTON_ICON_DIR) + ");")
-        printButton.setIconSize(self.getButtonSize())
-        printButton.setFixedSize(self.getButtonSize())
-        navigationLayout.addWidget(printButton)
+        self.printButton = QPushButton()
+        self.printButton.clicked.connect(self.printPageEvent)
+        self.printButton.setStyleSheet("qproperty-icon: url(" + CfgService.get(CfgKey.PAGE_PICTUREEDIT_PRINT_BUTTON_ICON_DIR) + ");")
+        self.printButton.setIconSize(self.getButtonSize())
+        self.printButton.setFixedSize(self.getButtonSize())
+        navigationLayout.addWidget(self.printButton)
 
         downloadButton = QPushButton()
         downloadButton.clicked.connect(self.downloadPageEvent)
@@ -65,9 +66,16 @@ class PagePictureEdit(Page):
         navigationLayout.addWidget(finishedButton)
 
     def executeBefore(self):
+        self.showPrinterButtonIfActivated()
         self.globalVariable.updatePictureName()
         PageDbSevice.setInitialPicture(self.globalVariable)
         self.updatePicture()
+
+    def showPrinterButtonIfActivated(self):
+        printerIsActiv = CfgService.get(CfgKey.PRINTER_IS_ACTIVE)
+        if not printerIsActiv:
+            self.printButton.setDisabled(True)
+            self.printButton.setStyleSheet("qproperty-icon: url(" + CfgService.get(CfgKey.PAGE_PICTUREEDIT_PRINT_BUTTON_DISABLED_ICON_DIR) + ");")
 
     def updatePicture(self):
         picturePixelMap = QPixmap(ShottedPictureService.getTempPicturePath())

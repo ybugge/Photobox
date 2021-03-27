@@ -24,6 +24,7 @@ class CfgKey(enum.Enum):
 
     #Printer #########################################################################################
     PRINTER_IS_ACTIVE = 6000
+    PRINTER_SELECTED = 6001
 
     #DIASHOW CLIENT ##################################################################################
     DIASHOW_CLIENT_PICTURE_MAIN_FOLDER = 5000
@@ -94,6 +95,7 @@ class CfgKey(enum.Enum):
     PAGE_PICTUREEDIT_FINISHED_BUTTON_ICON_DIR = 600
     PAGE_PICTUREEDIT_NEWPICTURE_BUTTON_ICON_DIR = 601
     PAGE_PICTUREEDIT_PRINT_BUTTON_ICON_DIR = 602
+    PAGE_PICTUREEDIT_PRINT_BUTTON_DISABLED_ICON_DIR = 605
     PAGE_PICTUREEDIT_DOWNLOAD_BUTTON_ICON_DIR = 603
     PAGE_PICTUREEDIT_SPACE_AUTO_FORWARD_WAIT_TIME = 604
 
@@ -122,6 +124,7 @@ cfgValue[CfgKey.SERVER_GETPICTUREURLIDS_THRASHOLD] = 3
 
 #Printer #########################################################################################
 cfgValue[CfgKey.PRINTER_IS_ACTIVE] = True
+cfgValue[CfgKey.PRINTER_SELECTED] = None
 
 #DIASHOW CLIENT #################################################################
 cfgValue[CfgKey.DIASHOW_CLIENT_PICTURE_MAIN_FOLDER] = "Diashow/"
@@ -195,6 +198,7 @@ cfgValue[CfgKey.PAGE_CAPTUREPHOTO_TIMER_CAPTUREPHOTO_VALUE] = 4
 cfgValue[CfgKey.PAGE_PICTUREEDIT_FINISHED_BUTTON_ICON_DIR] = "Resources/PagePictureEdit/Icon/finish_icon.png"
 cfgValue[CfgKey.PAGE_PICTUREEDIT_NEWPICTURE_BUTTON_ICON_DIR] = "Resources/PagePictureEdit/Icon/newPhoto_icon.png"
 cfgValue[CfgKey.PAGE_PICTUREEDIT_PRINT_BUTTON_ICON_DIR] = "Resources/PagePictureEdit/Icon/print_icon.png"
+cfgValue[CfgKey.PAGE_PICTUREEDIT_PRINT_BUTTON_DISABLED_ICON_DIR] = "Resources/PagePictureEdit/Icon/print_icon_disable.png"
 cfgValue[CfgKey.PAGE_PICTUREEDIT_DOWNLOAD_BUTTON_ICON_DIR] = "Resources/PagePictureEdit/Icon/download_icon.png"
 # 300000 = 5 minutes
 cfgValue[CfgKey.PAGE_PICTUREEDIT_SPACE_AUTO_FORWARD_WAIT_TIME] = 300000
@@ -238,6 +242,7 @@ class TextKey(enum.Enum):
     PAGE_CONFIG_SERVICE_STATUS=1030
     PAGE_CONFIG_AKTIVATE=1031
     PAGE_CONFIG_INAKTIVATE=1032
+    PAGE_CONFIG_PRINTER_SELECT_LABEL=1035
 
     #PageCloseConfirm.py
     PAGE_CLOSECONFIRM_TITLE = 30
@@ -292,6 +297,7 @@ textValue[TextKey.PAGE_CONFIG_PRINTER_TITLE] = "Drucker"
 textValue[TextKey.PAGE_CONFIG_SERVICE_STATUS] = "Aktiviert: "
 textValue[TextKey.PAGE_CONFIG_AKTIVATE] = "Ja"
 textValue[TextKey.PAGE_CONFIG_INAKTIVATE] = "Nein"
+textValue[TextKey.PAGE_CONFIG_PRINTER_SELECT_LABEL] = "Verwendeter Drucker:"
 
 #PageCloseConfirm
 textValue[TextKey.PAGE_CLOSECONFIRM_TITLE] = "Anwendung schließen?"

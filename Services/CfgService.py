@@ -24,7 +24,9 @@ class CfgService():
     @staticmethod
     def _convertString(value:str, key:CfgKey):
         try:
-            if cfgValue[key].__class__ == bool:
+            if cfgValue[key] == None:
+                return value
+            elif cfgValue[key].__class__ == bool:
                 if value == "True":
                     return True
                 else:

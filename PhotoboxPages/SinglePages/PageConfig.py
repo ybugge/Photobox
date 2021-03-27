@@ -2,18 +2,20 @@ import qrcode
 from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QLabel, QHBoxLayout, QFileDialog, QGridLayout, QLineEdit, QWidget, \
-    QScrollArea
+    QScrollArea, QComboBox
 
 from PhotoboxPages.AllPages import AllPages
 from PhotoboxPages.Page import Page
 from Services.CfgService import CfgService
+from Services.PrinterService import PrinterService
 from config.Config import textValue, TextKey, CfgKey
 
 
 class PageConfig(Page):
-    def __init__(self, pages : AllPages, windowSize:QSize):
+    def __init__(self, pages : AllPages, windowSize:QSize, printerService:PrinterService):
         super().__init__(pages,windowSize)
         mainLayout = QVBoxLayout()
+        self.printerService = printerService
         self.setLayout(mainLayout)
 
         #Titel
@@ -106,11 +108,12 @@ class PageConfig(Page):
         self.setContentButtonStyle(wifiPicture)
         mainContentLabel.addWidget(wifiPicture)
 
-            # Drucker
+        # Printer -------------------------------------------------------------------------------
         printerTitle = QLabel(textValue[TextKey.PAGE_CONFIG_PRINTER_TITLE])
         printerTitle.setFont(titleFont)
         mainContentLabel.addWidget(printerTitle)
 
+        # Printer enabled?
         printerDisabledLayout = QHBoxLayout()
         mainContentLabel.addLayout(printerDisabledLayout)
 
@@ -129,6 +132,19 @@ class PageConfig(Page):
         self.printerDisabledButton.clicked.connect(self.activatePrinter)
         printerDisabledLayout.addWidget(self.printerDisabledButton)
 
+            # Selected Printer
+        printerSelectedLayout = QHBoxLayout()
+        mainContentLabel.addLayout(printerSelectedLayout)
+
+        printerSelectLabel = QLabel()
+        printerSelectLabel.setText(textValue[TextKey.PAGE_CONFIG_PRINTER_SELECT_LABEL])
+        printerSelectedLayout.addWidget(printerSelectLabel)
+
+        self.printerSelectedComboBox = QComboBox()
+        for printer in printerService.getPrinters():
+            self.printerSelectedComboBox.addItem(str(printer))
+        self.printerSelectedComboBox.currentIndexChanged.connect(self.selectionchangePrinter)
+        printerSelectedLayout.addWidget(self.printerSelectedComboBox)
 
 
 
@@ -146,6 +162,10 @@ class PageConfig(Page):
         nextButton.clicked.connect(self.nextPageEvent)
         self.setNavigationbuttonStyle(nextButton)
         navigationLayout.addWidget(nextButton)
+
+    def executeBefore(self):
+        self.setPrinterFromProperties()
+
 
     def executeAfter(self):
         CfgService.set(CfgKey.MAIN_SAVE_DIR, self.mainSaveDirLabel.text())
@@ -180,3 +200,36 @@ class PageConfig(Page):
             CfgService.set(CfgKey.PRINTER_IS_ACTIVE,False)
             self.printerDisabledButton.setText(textValue[TextKey.PAGE_CONFIG_INAKTIVATE])
             self.printerDisabledButton.setChecked(CfgService.get(CfgKey.PRINTER_IS_ACTIVE))
+
+    def selectionchangePrinter(self,index):
+        printers = self.printerService.getPrinters()
+        if len(printers) > index:
+            CfgService.set(CfgKey.PRINTER_SELECTED,str(list(printers)[index]))
+        else:
+            self.setDefaultPrinter(printers)
+
+    def setPrinterFromProperties(self):
+        selectedPrinterAsString = CfgService.get(CfgKey.PRINTER_SELECTED)
+        printers = self.printerService.getPrinters()
+        if selectedPrinterAsString == None and len(printers) > 0:
+            self.setDefaultPrinter()
+        elif selectedPrinterAsString != None and len(printers) > 0:
+            selectedPrinterAsKey = self.findPrinterByIndex(printers, selectedPrinterAsString)
+            if selectedPrinterAsKey == None:
+                self.setDefaultPrinter()
+            else:
+                self.printerSelectedComboBox.setCurrentIndex(selectedPrinterAsKey)
+
+
+    def setDefaultPrinter(self,printers):
+        firstPrinter = list(printers)[0]
+        CfgService.set(CfgKey.PRINTER_SELECTED,str(firstPrinter))
+        self.printerSelectedComboBox.setCurrentIndex(0)
+
+    def findPrinterByIndex(self, printers, keyAsString:str):
+        counter = 0
+        for printerKey in printers:
+            if keyAsString == str(printerKey):
+                return counter
+            counter +=1
+        return None

@@ -1,4 +1,7 @@
 # Fotobox
+Die Software wurde für den Raspberry PI entwickelt. Getestet wurde es auf dem Raspberry Pi 3 Model B+.
+Entwickelt wurde es mit PyCharm in LinuxMint. Unter Windows funktioniert die Software nicht, da CUPS nicht von 
+Windows unterstützt wird.
 
 ## Hardware
 - Raspberry Pi 3 Model B+ -> https://www.raspberrypi.org/products/raspberry-pi-3-model-b-plus/
