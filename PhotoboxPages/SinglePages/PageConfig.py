@@ -212,11 +212,11 @@ class PageConfig(Page):
         selectedPrinterAsString = CfgService.get(CfgKey.PRINTER_SELECTED)
         printers = self.printerService.getPrinters()
         if selectedPrinterAsString == None and len(printers) > 0:
-            self.setDefaultPrinter()
+            self.setDefaultPrinter(printers)
         elif selectedPrinterAsString != None and len(printers) > 0:
             selectedPrinterAsKey = self.findPrinterIndexByString(printers, selectedPrinterAsString)
             if selectedPrinterAsKey == None:
-                self.setDefaultPrinter()
+                self.setDefaultPrinter(printers)
             else:
                 self.printerSelectedComboBox.setCurrentIndex(selectedPrinterAsKey)
 
