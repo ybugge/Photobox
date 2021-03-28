@@ -56,6 +56,7 @@ class PagePrint(Page):
         self.globalVariable.unlockPictureName()
 
     def print(self):
+        self.printButton.setDisabled(True)
         self.printerService.printLokal(self.globalVariable)
         self.printerStatusUpdateTimer.start(CfgService.get(CfgKey.PAGE_PRINT_STATUS_UPDATE_PERIOD))
 
