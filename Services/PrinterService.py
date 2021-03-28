@@ -54,9 +54,9 @@ class PrinterService():
             # Save data to a temporary file
             output = mktemp(prefix='jpg')
             im.save(output, format='jpeg')
-            # Send the picture to the printer
+            # Send the picture to the printer | Options: https://www.cups.org/doc/options.html#OPTIONS
             #print_id = self.conn.printFile(printer, output, "Photo Booth", {'fit-to-page':'True'})
-            print_id = self.conn.printFile(printer, output, "Photo Booth", {})
+            print_id = self.conn.printFile(printer, output, "Photo Booth", {'scaling':'110'})
             # Wait until the job finishes
             unlink(output)
             print("Bild wurde dem Drucker gesenden: ")
