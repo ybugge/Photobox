@@ -1,3 +1,5 @@
+import math
+
 from Services.CfgService import CfgService
 from Services.GlobalPagesVariableService import GlobalPagesVariableService
 from Services.ShottedPictureService import ShottedPictureService
@@ -48,22 +50,44 @@ class PrinterService():
     def _print(self,picturePath:str):
         printer = self._findPrinterByString(CfgService.get(CfgKey.PRINTER_SELECTED))
         if CfgService.get(CfgKey.PRINTER_IS_ACTIVE) and printer != None:
-            size = [1280,720]
-            im = Image.new('RGB', (size[0], size[1]))
-            im.paste(Image.open(picturePath).resize((size[0], size[1])), ( 0, 0, size[0], size[1]))
+            pictureWithNewSizw = self.getPrintablePicture(picturePath)
             # Save data to a temporary file
             output = mktemp(prefix='jpg')
-            im.save(output, format='jpeg')
+            pictureWithNewSizw.save(output, format='jpeg')
             # Send the picture to the printer | Options: https://www.cups.org/doc/options.html#OPTIONS
             #print_id = self.conn.printFile(printer, output, "Photo Booth", {'fit-to-page':'True'})
-            print_id = self.conn.printFile(printer, output, "Photo Booth", {})
-            # Wait until the job finishes
+            print_id = self.conn.printFile(printer, output, "Photo Booth", {"fit-to-page":""})
+
             unlink(output)
             print("Bild wurde dem Drucker gesenden: ")
             return print_id
         else:
             print("Drucker nicht gefunden oder nicht aktiviert!")
             return None
+
+
+
+    def getPrintablePicture(self,picturePath:str):
+        originalPicture = Image.open(picturePath)
+        originalPicture.load()
+        originalPictureSize = originalPicture.size
+        newPictureSize = self.getPaperResolution(originalPictureSize)
+        top = 0
+        bottom = newPictureSize[1]
+        left = (originalPictureSize[0] - newPictureSize[0])/2
+        right = left+newPictureSize[0]
+        oldRGBPicture = Image.new("RGB", originalPictureSize, (255, 255, 255))
+        oldRGBPicture.paste(originalPicture)
+        newRGBPicture = oldRGBPicture.crop((left, top, right, bottom))
+        return newRGBPicture
+
+    def getPaperResolution(self,originalPictureSize):
+        paperSize = CfgService.get(CfgKey.PRINTER_PAPER_SIZE)
+        height = originalPictureSize[1]
+        width = math.ceil((height*paperSize[0])/paperSize[1])
+        return (width,height)
+
+
 
     def _findPrinterByString(self,printerAsString):
         for printerKey in self.getPrinters():

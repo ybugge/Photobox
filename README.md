@@ -105,7 +105,7 @@ Browser->Pi: localhost:631
 - Color Mode: Color
 - Media Size: Postcard.Fullbleed
 - MediaType: Any
-- Standardeinstellungen festlegen  
+- Standardeinstellungen festlegen 
 
 
 # Diashow Client

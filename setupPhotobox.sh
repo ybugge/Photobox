@@ -17,6 +17,10 @@ pip3 install pysqlite3
 pip3 install image
 pip3 install pycups
 
+#printer
+sudo usermod -a -G lpadmin pi
+sudo systemctl restart cups
+
 #https://webnist.de/autostart-eines-python-programm-auf-dem-raspberry-pi/
 echo "Start Configuration"
 AUTOSTART_DIR="/home/pi/.config/autostart"

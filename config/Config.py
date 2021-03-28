@@ -25,6 +25,7 @@ class CfgKey(enum.Enum):
     #Printer #########################################################################################
     PRINTER_IS_ACTIVE = 6000
     PRINTER_SELECTED = 6001
+    PRINTER_PAPER_SIZE = 6002
 
     #DIASHOW CLIENT ##################################################################################
     DIASHOW_CLIENT_PICTURE_MAIN_FOLDER = 5000
@@ -127,6 +128,7 @@ cfgValue[CfgKey.SERVER_GETPICTUREURLIDS_THRASHOLD] = 3
 #Printer #########################################################################################
 cfgValue[CfgKey.PRINTER_IS_ACTIVE] = True
 cfgValue[CfgKey.PRINTER_SELECTED] = None
+cfgValue[CfgKey.PRINTER_PAPER_SIZE] = (148,100)
 
 #DIASHOW CLIENT #################################################################
 cfgValue[CfgKey.DIASHOW_CLIENT_PICTURE_MAIN_FOLDER] = "Diashow/"
