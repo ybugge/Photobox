@@ -5,6 +5,7 @@ from flask import Flask, render_template, send_file, abort
 
 from Services.CfgService import CfgService
 from Services.FileFolderService import FileFolderService
+from Services.PrinterService import PrinterService
 from Services.ServerDbService import ServerDbSevice
 from config.Config import CfgKey
 
@@ -33,10 +34,23 @@ def downloadPicturePage(pictureName):
     if not ids:
         abort(404)
     else:
-        pictureUrls = []
+        printerService = PrinterService()
+        pictureData = []
         for id in ids:
-            pictureUrls.append(CfgService.get(CfgKey.SERVER_DOWNLOAD_PICTURE)+"/"+id)
-        return render_template('picture/download.html',name=pictureName, len = len(pictureUrls), pictureUrls = pictureUrls)
+            printUrl = CfgService.get(CfgKey.SERVER_PRINT_PICTURE_PAGE)+"/"+pictureName+"/"+id
+            pictureData.append([CfgService.get(CfgKey.SERVER_DOWNLOAD_PICTURE)+"/"+id,printUrl,printerService.printingPosible()])
+        return render_template('picture/download.html',name=pictureName, len = len(pictureData), pictureData = pictureData)
+
+@app.route(CfgService.get(CfgKey.SERVER_PRINT_PICTURE_PAGE)+"/<pictureName>/<pictureId>")
+def printPicturePage(pictureName,pictureId):
+    ids = ServerDbSevice.getPictureUrlIds(pictureName)
+    if (not ids) or (not pictureId in ids):
+        abort(404)
+    else:
+        printerService = PrinterService()
+        printerStatus = printerService.getPrinterStatus()
+        backUrl = CfgService.get(CfgKey.SERVER_DOWNLOAD_PICTURE_PAGE)+"/"+pictureName
+        return render_template('picture/print.html',backUrl=backUrl,printerStatus=printerStatus)
 
 
 @app.route(CfgService.get(CfgKey.SERVER_DOWNLOAD_PICTURE)+"/<urlId>")

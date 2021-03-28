@@ -21,6 +21,7 @@ class CfgKey(enum.Enum):
     SERVER_PORT=2005
     SERVER_GETPICTUREURLIDS_NUMBER = 2006
     SERVER_GETPICTUREURLIDS_THRASHOLD = 2007
+    SERVER_PRINT_PICTURE_PAGE = 1010
 
     #Printer #########################################################################################
     PRINTER_IS_ACTIVE = 6000
@@ -116,10 +117,11 @@ cfgValue[CfgKey.DB_NAME] = "fotobox.db"
 
 #SERVER #########################################################################
 cfgValue[CfgKey.SERVER_INDEX_PAGE] = "/"
-cfgValue[CfgKey.SERVER_INDEX_PAGE_SHOW_ALL_PICTURES] = False
+cfgValue[CfgKey.SERVER_INDEX_PAGE_SHOW_ALL_PICTURES] = True
 cfgValue[CfgKey.SERVER_DOWNLOAD_PICTURE_PAGE] = "/downloadpage"
 cfgValue[CfgKey.SERVER_DOWNLOAD_PICTURE] = "/downloadimage"
 cfgValue[CfgKey.SERVER_RANDOM_URLIDS] = "/pictureuris"
+cfgValue[CfgKey.SERVER_PRINT_PICTURE_PAGE] = "/print"
 cfgValue[CfgKey.SERVER_IP] = "photobox.fritz.box"
 cfgValue[CfgKey.SERVER_PORT] = "5000"
 cfgValue[CfgKey.SERVER_GETPICTUREURLIDS_NUMBER] = 20

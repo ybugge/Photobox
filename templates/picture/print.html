@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <title>Drucken - Fotobox</title>
+</head>
+<body>
+<div class="main">
+
+    <h1>Dein Bild - Drucken</h1>
+    <p>
+        Dein Bild wird gedruckt. Solange dein Bild gedruckt wird, kannst du kein weiteres Bild drucken.
+        Die Seite aktualisiert den Status nicht automatisch.
+    </p>
+    <p>
+        Druckerstatus: {{printerStatus}}</p>
+    <p>
+        <a href="{{ backUrl }}">Zurück</a>
+    </p>
+
+</div>
+</body>
+</html>

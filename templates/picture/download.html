@@ -12,13 +12,21 @@
 
             {%for i in range(0, len)%}
                 <div>
-                    <a class="picture" href="{{ pictureUrls[i] }}" download>
-                        <img src="{{ pictureUrls[i] }}">
+                    <a class="picture" href="{{ pictureData[i][0] }}" download>
+                        <img src="{{ pictureData[i][0] }}">
                     </a>
                 </div>
                 <div>
-                    <a href="{{ pictureUrls[i] }}" download>Download</a>
+                    <a href="{{ pictureData[i][0] }}" download>Download</a>
                 </div>
+                <p>
+
+                </p>
+                {% if pictureData[i][2] %}
+                    <div>
+                        <a href="{{ pictureData[i][1] }}">Drucken</a>
+                    </div>
+                {% endif %}
             {%endfor%}
 
     </div>
