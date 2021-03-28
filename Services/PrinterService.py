@@ -47,7 +47,8 @@ class PrinterService():
     def _print(self,picturePath:str):
         printer = self._findPrinterByString(CfgService.get(CfgKey.PRINTER_SELECTED))
         if CfgService.get(CfgKey.PRINTER_IS_ACTIVE) and printer != None:
-            size = [1280,720]
+            #size = [1280,720]
+            size = [1066,720]
             im = Image.new('RGB', (size[0], size[1]))
             im.paste(Image.open(picturePath).resize((size[0], size[1])), ( 0, 0, size[0], size[1]))
             # Save data to a temporary file
