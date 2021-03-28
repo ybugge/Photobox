@@ -54,7 +54,8 @@ class PrinterService():
             output = mktemp(prefix='jpg')
             im.save(output, format='jpeg')
             # Send the picture to the printer
-            print_id = self.conn.printFile(printer, output, "Photo Booth", {'fit-to-page':'True'})
+            #print_id = self.conn.printFile(printer, output, "Photo Booth", {'fit-to-page':'True'})
+            print_id = self.conn.printFile(printer, output, "Photo Booth", {})
             # Wait until the job finishes
             unlink(output)
             print("Bild wurde dem Drucker gesenden: ")
