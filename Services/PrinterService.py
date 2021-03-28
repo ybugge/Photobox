@@ -47,16 +47,14 @@ class PrinterService():
     def _print(self,picturePath:str):
         printer = self._findPrinterByString(CfgService.get(CfgKey.PRINTER_SELECTED))
         if CfgService.get(CfgKey.PRINTER_IS_ACTIVE) and printer != None:
-            #size = [1280,720]
-            size = [1066,720]
+            size = [1280,720]
             im = Image.new('RGB', (size[0], size[1]))
             im.paste(Image.open(picturePath).resize((size[0], size[1])), ( 0, 0, size[0], size[1]))
             # Save data to a temporary file
             output = mktemp(prefix='jpg')
             im.save(output, format='jpeg')
             # Send the picture to the printer | Options: https://www.cups.org/doc/options.html#OPTIONS
-            #print_id = self.conn.printFile(printer, output, "Photo Booth", {'fit-to-page':'True'})
-            print_id = self.conn.printFile(printer, output, "Photo Booth", {'scaling':'110'})
+            print_id = self.conn.printFile(printer, output, "Photo Booth", {'fit-to-page':'True'})
             # Wait until the job finishes
             unlink(output)
             print("Bild wurde dem Drucker gesenden: ")
