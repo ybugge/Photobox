@@ -99,6 +99,9 @@ Browser->Pi: localhost:631
 - Photobox/PrinterPPD/Canon_SELPHY_CP1300.ppd
 - Öffnen
 - Drucker hinzufügen
+- Color Mode: Color
+- Media Size: Postcard
+- MediaType: Photo
 - Standardeinstellungen festlegen  
 
 
