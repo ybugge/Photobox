@@ -29,6 +29,9 @@ class PrinterService():
 
         self.jobs = {}
 
+    def printingPosible(self):
+        return len(self.printers) > 0
+
     def getPrinters(self):
         return self.printers.keys()
 

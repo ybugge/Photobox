@@ -167,7 +167,15 @@ class PageConfig(Page):
         navigationLayout.addWidget(nextButton)
 
     def executeBefore(self):
+        self.updateUiPrintingPossible()
         self.setPrinterFromProperties()
+
+    def updateUiPrintingPossible(self):
+        if not self.printerService.printingPosible():
+            CfgService.set(CfgKey.PRINTER_IS_ACTIVE,False)
+            self.printerDisabledButton.setText(textValue[TextKey.PAGE_CONFIG_INAKTIVATE])
+            self.printerDisabledButton.setChecked(CfgService.get(CfgKey.PRINTER_IS_ACTIVE))
+            self.printerDisabledButton.setDisabled(True)
 
 
     def executeAfter(self):
