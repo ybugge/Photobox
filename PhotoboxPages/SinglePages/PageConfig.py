@@ -146,6 +146,9 @@ class PageConfig(Page):
         self.printerSelectedComboBox.currentIndexChanged.connect(self.selectionchangePrinter)
         printerSelectedLayout.addWidget(self.printerSelectedComboBox)
 
+        printerHintLabel = QLabel()
+        printerHintLabel.setText(textValue[TextKey.PAGE_CONFIG_PRINTER_POWER_ON_HINT])
+        mainContentLabel.addWidget(printerHintLabel)
 
 
         mainContentLabel.addStretch()

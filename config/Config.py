@@ -248,6 +248,7 @@ class TextKey(enum.Enum):
     PAGE_CONFIG_AKTIVATE=1031
     PAGE_CONFIG_INAKTIVATE=1032
     PAGE_CONFIG_PRINTER_SELECT_LABEL=1035
+    PAGE_CONFIG_PRINTER_POWER_ON_HINT=1036
 
     #PageCloseConfirm.py
     PAGE_CLOSECONFIRM_TITLE = 30
@@ -307,6 +308,7 @@ textValue[TextKey.PAGE_CONFIG_SERVICE_STATUS] = "Aktiviert: "
 textValue[TextKey.PAGE_CONFIG_AKTIVATE] = "Ja"
 textValue[TextKey.PAGE_CONFIG_INAKTIVATE] = "Nein"
 textValue[TextKey.PAGE_CONFIG_PRINTER_SELECT_LABEL] = "Verwendeter Drucker:"
+textValue[TextKey.PAGE_CONFIG_PRINTER_POWER_ON_HINT] = "Hinweis: Bitte schalten sie den Drucker ein!"
 
 #PageCloseConfirm
 textValue[TextKey.PAGE_CLOSECONFIRM_TITLE] = "Anwendung schließen?"
