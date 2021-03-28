@@ -7,12 +7,14 @@ from PhotoboxPages.Page import Page
 from Services.Camera.CameraService import CameraService
 from Services.CfgService import CfgService
 from Services.FileFolderService import FileFolderService
+from Services.PrinterService import PrinterService
 from config.Config import textValue, TextKey, CfgKey, cfgValue
 
 
 class PageHints(Page):
-    def __init__(self, pages : AllPages,windowSize:QSize):
+    def __init__(self, pages : AllPages,windowSize:QSize,printerService:PrinterService):
         super().__init__(pages,windowSize)
+        self.printerService = printerService
         vbox = QVBoxLayout()
         self.setLayout(vbox)
 
@@ -91,6 +93,9 @@ class PageHints(Page):
             self.textArea.append(warn)
             self.textArea.append("")
 
+        #Printer hint
+        self.textArea.append(textValue[TextKey.PAGE_HINTS_PRINTER_STATUS_LABEL]+self.printerService.getPrinterStatus())
+
 
 
     def hasPageTitlePicturePictures(self):
@@ -101,4 +106,5 @@ class PageHints(Page):
 
     def hasPageCapturePhotoLoadungGifs(self):
         return FileFolderService.hasFolderContent(CfgService.get(CfgKey.PAGE_CAPTUREPHOTO_LOADING_GIF_FOLDER))
+
 

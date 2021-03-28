@@ -62,7 +62,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pages.addPage(pageCloseConfirm)
 
         #Seite 1 Hinweise
-        pageHints = PageHints(self.pages, self.windowsize)
+        pageHints = PageHints(self.pages, self.windowsize, self.printerService)
         pageHints.setBackPage(PageSystemPictureManager)
         pageHints.setNextPage(PageConfig)
         self.pages.addPage(pageHints)

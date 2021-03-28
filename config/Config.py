@@ -234,6 +234,7 @@ class TextKey(enum.Enum):
     PAGE_HINTS_NO_PICTURES_FOUND_WARN=46
     PAGE_HINTS_NEXTBUTTON = 43
     PAGE_HINTS_PICTURE_MANAGER_BUTTON = 50
+    PAGE_HINTS_PRINTER_STATUS_LABEL=52
 
     #PageConfig.py
     PAGE_CONFIG_TITLE=1020
@@ -301,7 +302,9 @@ textValue[TextKey.PAGE_HINTS_NO_CAMERA_WARN] = "- Fehler: Es wurde keine Kamera 
 textValue[TextKey.PAGE_HINTS_NO_SELECTED_CAMERA_WARN] = "- Fehler: Die ausgewählte Kamera ist nicht verfügbar. Schließen Sie bitte die Kammera an oder korrigieren Sie den Index in Config.py->"+CfgKey.USED_CAMERA_INDEX.name+". Bitte schließen Sie die Software!"
 textValue[TextKey.PAGE_HINTS_SELECTED_CAMERA_HINT] = "- Die Kamera kann über den Index 0-n in Config.py->"+CfgKey.USED_CAMERA_INDEX.name+" ausgewählt werden. Folgende Kamera wird verwendet: Index=%s | Name=%s | Beschreibung=%s."
 textValue[TextKey.PAGE_HINTS_SELECTED_PICAMERA_HINT] = "- Verwendet wird die Kamera: Pi-Camera"
-textValue[TextKey.PAGE_HINTS_NO_PICTURES_FOUND_WARN]= "- Fehler: Bitte erstellen sie folgenden Ordner und hinterlegen Sie mindestens ein Bild: '%s' ! Bitte schließen Sie die Software oder laden sie die Bilder über den Button '"+textValue[TextKey.PAGE_HINTS_PICTURE_MANAGER_BUTTON]+"' herunter!"
+textValue[TextKey.PAGE_HINTS_NO_PICTURES_FOUND_WARN] = "- Fehler: Bitte erstellen sie folgenden Ordner und hinterlegen Sie mindestens ein Bild: '%s' ! Bitte schließen Sie die Software oder laden sie die Bilder über den Button '"+textValue[TextKey.PAGE_HINTS_PICTURE_MANAGER_BUTTON]+"' herunter!"
+textValue[TextKey.PAGE_HINTS_PRINTER_STATUS_LABEL] = "- Druckerstatus: "
+
 
 #PageConfig
 textValue[TextKey.PAGE_CONFIG_TITLE] = "Konfigurationen"
