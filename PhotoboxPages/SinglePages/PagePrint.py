@@ -66,8 +66,13 @@ class PagePrint(Page):
             self.printButton.setDisabled(True)
             self.printButton.setText(textValue[TextKey.PAGE_PRINT_PRINTBUTTON_DISABLED])
             self.textArea.setText(textValue[TextKey.PAGE_PRINT_HINT_IN_PRINT])
+            self.textArea.append(self.getPrinterStatus())
         else:
             self.printButton.setDisabled(False)
             self.printButton.setText(textValue[TextKey.PAGE_PRINT_PRINTBUTTON])
             self.textArea.setText(textValue[TextKey.PAGE_PRINT_HINT_PRINT])
+            self.textArea.append(self.getPrinterStatus())
             self.printerStatusUpdateTimer.stop()
+
+    def getPrinterStatus(self):
+        return textValue[TextKey.PAGE_PRINT_HINT_STATUS_LABEL]+self.printerService.getPrinterStatus()

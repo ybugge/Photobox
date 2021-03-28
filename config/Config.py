@@ -270,6 +270,14 @@ class TextKey(enum.Enum):
     PAGE_PRINT_PRINTBUTTON_DISABLED=153
     PAGE_PRINT_HINT_PRINT=154
     PAGE_PRINT_HINT_IN_PRINT=155
+    PAGE_PRINT_HINT_STATUS_LABEL=156
+
+    #PrintService
+    PRINT_SERVICE_EMPTY_INK=200
+    PRINT_SERVICE_EMPTY_PAPER=201
+    PRINT_SERVICE_PRINTER_READY=203
+    PRINT_SERVICE_PRINTER_NOT_EXIST=204
+    PRINT_SERVICE_ERROR=205
 
 textValue={}
 
@@ -328,5 +336,13 @@ textValue[TextKey.PAGE_PRINT_TITLE] = "Bild Drucken"
 textValue[TextKey.PAGE_PRINT_BACKBUTTON] = "Zurück"
 textValue[TextKey.PAGE_PRINT_PRINTBUTTON] = "Drucken"
 textValue[TextKey.PAGE_PRINT_PRINTBUTTON_DISABLED] = "Wird Gedruckt..."
-textValue[TextKey.PAGE_PRINT_HINT_PRINT] = "Über den Button 'Drucken' kann ein Bild ausgedruckt werden. Erst nach dem Drucken kann ein weiterer Druckprozess gestartet werden. Der Druck sollte innerhalb von 2 Minuten gestartet werden. Wenn der Druck nicht gestartet wurde dann holen Sie einen Verantwortlichen. Sie können auch über den Dowloadbereich, im nachhinein die Bilder ausdrucken."
-textValue[TextKey.PAGE_PRINT_HINT_IN_PRINT] = "Der Druck wurde gestartet! Wenn der Drucker nach 2 Minuten nicht gestartet ist, dann wenden Sie sich bitte an den Verantwortlichen."
+textValue[TextKey.PAGE_PRINT_HINT_PRINT] = "- Über den Button 'Drucken' kann ein Bild ausgedruckt werden. Erst nach dem Drucken kann ein weiterer Druckprozess gestartet werden. Der Druck sollte innerhalb von 2 Minuten gestartet werden. Wenn der Druck nicht gestartet wurde dann holen Sie einen Verantwortlichen.\n- Sie können auch über den Dowloadbereich, im nachhinein die Bilder ausdrucken."
+textValue[TextKey.PAGE_PRINT_HINT_IN_PRINT] = "- Der Druck wurde gestartet! Wenn der Drucker nach 2 Minuten nicht gestartet ist, dann wenden Sie sich bitte an den Verantwortlichen."
+textValue[TextKey.PAGE_PRINT_HINT_STATUS_LABEL] = "- Druckerstatus: "
+
+#PrintService
+textValue[TextKey.PRINT_SERVICE_EMPTY_INK]= "Tinte ist alle!"
+textValue[TextKey.PRINT_SERVICE_EMPTY_PAPER]= "Papier ist alle!"
+textValue[TextKey.PRINT_SERVICE_ERROR]= "Unbekannter Fehler!"
+textValue[TextKey.PRINT_SERVICE_PRINTER_READY]= "Bereit"
+textValue[TextKey.PRINT_SERVICE_PRINTER_NOT_EXIST]= "nicht vorhanden!"

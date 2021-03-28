@@ -3,7 +3,7 @@ import math
 from Services.CfgService import CfgService
 from Services.GlobalPagesVariableService import GlobalPagesVariableService
 from Services.ShottedPictureService import ShottedPictureService
-from config.Config import CfgKey
+from config.Config import CfgKey, textValue, TextKey
 from PIL import Image
 from tempfile import mktemp
 from os import unlink
@@ -15,7 +15,6 @@ try:
 except ImportError:
     print("Cups ist nicht installiert! Druckfunktion wird deaktiviert!")
 
-#https://github.com/sebmueller/Photobooth/blob/master/photobooth.py
 class PrinterService():
     def __init__(self):
 
@@ -95,3 +94,21 @@ class PrinterService():
                 return printerKey
         return None
 
+    #https://github.com/sebmueller/Photobooth/blob/master/photobooth.py
+    def getPrinterStatus(self):
+        printer = self._findPrinterByString(CfgService.get(CfgKey.PRINTER_SELECTED))
+        if CfgService.get(CfgKey.PRINTER_IS_ACTIVE) and printer != None:
+            printerstate = self.conn.getPrinterAttributes(printer, requested_attributes=["printer-state-message"])
+            if str(printerstate).find("error:") > 0:
+                if str(printerstate).find("06") > 0:
+                    return textValue[TextKey.PRINT_SERVICE_EMPTY_INK]
+                if str(printerstate).find("03") > 0:
+                    return textValue[TextKey.PRINT_SERVICE_EMPTY_PAPER]
+                if str(printerstate).find("02") > 0:
+                    return textValue[TextKey.PRINT_SERVICE_EMPTY_PAPER]
+                else:
+                    return textValue[TextKey.PRINT_SERVICE_ERROR]
+
+            return textValue[TextKey.PRINT_SERVICE_PRINTER_READY]
+        else:
+            return textValue[TextKey.PRINT_SERVICE_PRINTER_NOT_EXIST]
