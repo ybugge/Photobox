@@ -56,7 +56,7 @@ class PrinterService():
             pictureWithNewSizw.save(output, format='jpeg')
             # Send the picture to the printer | Options: https://www.cups.org/doc/options.html#OPTIONS
             #print_id = self.conn.printFile(printer, output, "Photo Booth", {'fit-to-page':'True'})
-            print_id = self.conn.printFile(printer, output, "Photo Booth", {"fit-to-page":""})
+            print_id = self.conn.printFile(printer, output, "Photo Booth", {"fit-to-page":"True"})
 
             unlink(output)
             print("Bild wurde dem Drucker gesenden: ")
