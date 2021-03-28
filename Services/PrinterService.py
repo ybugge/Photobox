@@ -36,10 +36,10 @@ class PrinterService():
         return self.printers.keys()
 
     def printLokal(self,globalVariable:GlobalPagesVariableService):
-        self.printWeb(globalVariable.getPictureSubName())
+        self.printWeb(globalVariable.getPictureSubName(),ShottedPictureService.getTempPicturePath())
 
     def isStatusInPrintLokal(self, globalVariable:GlobalPagesVariableService):
-        return self.isStatusInPrintWeb(globalVariable.getPictureSubName(),ShottedPictureService.getTempPicturePath())
+        return self.isStatusInPrintWeb(globalVariable.getPictureSubName())
 
     def printWeb(self,pictureName:str,picturePath:str):
         if not self.isStatusInPrintWeb(pictureName):
