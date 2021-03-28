@@ -13,6 +13,7 @@ try:
 except ImportError:
     print("Cups ist nicht installiert! Druckfunktion wird deaktiviert!")
 
+#https://github.com/sebmueller/Photobooth/blob/master/photobooth.py
 class PrinterService():
     def __init__(self):
 
@@ -54,7 +55,8 @@ class PrinterService():
             output = mktemp(prefix='jpg')
             im.save(output, format='jpeg')
             # Send the picture to the printer | Options: https://www.cups.org/doc/options.html#OPTIONS
-            print_id = self.conn.printFile(printer, output, "Photo Booth", {'fit-to-page':'True'})
+            #print_id = self.conn.printFile(printer, output, "Photo Booth", {'fit-to-page':'True'})
+            print_id = self.conn.printFile(printer, output, "Photo Booth", {})
             # Wait until the job finishes
             unlink(output)
             print("Bild wurde dem Drucker gesenden: ")
@@ -68,3 +70,4 @@ class PrinterService():
             if printerAsString == str(printerKey):
                 return printerKey
         return None
+

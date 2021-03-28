@@ -85,7 +85,10 @@ STR+X -> J -> ENTER
 Quelle: 
 - https://raspberrytips.com/install-printer-raspberry-pi/
 - https://youtu.be/Gd0RKYRNJmo?t=570
-- PPT-Datei: https://cloud.voss.earth/index.php/s/SAi2M2na5KtR3gm
+
+PPD-Profile:
+- 1.) https://cloud.voss.earth/index.php/s/SAi2M2na5KtR3gm -> https://www.voss.earth/2018/08/31/kurztipp-canon-selphy-wlan-drucker-cp910-oder-cp1300-unter-linux-cups-verwenden/
+- 2.) https://www.objektiv-guide.de/icc-profil-canon-selphy/ -> Forum: https://www.dslr-forum.de/showthread.php?s=c6704e889a4db8e35e09f900192a341d&t=1865472&page=4
 
 Browser->Pi: localhost:631
 
@@ -100,8 +103,8 @@ Browser->Pi: localhost:631
 - Öffnen
 - Drucker hinzufügen
 - Color Mode: Color
-- Media Size: Postcard
-- MediaType: Photo
+- Media Size: Postcard.Fullbleed
+- MediaType: Any
 - Standardeinstellungen festlegen  
 
 
