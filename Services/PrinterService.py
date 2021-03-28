@@ -2,6 +2,7 @@ import math
 
 from Services.CfgService import CfgService
 from Services.GlobalPagesVariableService import GlobalPagesVariableService
+from Services.PrinterDBService import PrinterDBService
 from Services.ShottedPictureService import ShottedPictureService
 from config.Config import CfgKey, textValue, TextKey
 from PIL import Image
@@ -27,7 +28,6 @@ class PrinterService():
             self.printers = {}
             CfgService.set(CfgKey.PRINTER_IS_ACTIVE,False)
 
-        self.jobs = {}
 
     def printingPosible(self):
         return len(self.printers) > 0
@@ -36,17 +36,39 @@ class PrinterService():
         return self.printers.keys()
 
     def printLokal(self,globalVariable:GlobalPagesVariableService):
-        name = globalVariable.getPictureSubName()
-        if not self.isStatusInPrintLokal(globalVariable):
-            printId = self._print(ShottedPictureService.getTempPicturePath())
-            if printId != None:
-                self.jobs.update({name:printId})
+        self.printWeb(globalVariable.getPictureSubName())
 
     def isStatusInPrintLokal(self, globalVariable:GlobalPagesVariableService):
-        name = globalVariable.getPictureSubName()
-        if name in self.jobs:
-            return self.conn.getJobs().get(self.jobs[name], None) != None
-        return False
+        return self.isStatusInPrintWeb(globalVariable.getPictureSubName(),ShottedPictureService.getTempPicturePath())
+
+    def printWeb(self,pictureName:str,picturePath:str):
+        if not self.isStatusInPrintWeb(pictureName):
+            printId = self._print(picturePath)
+            if printId != None:
+                printerService = PrinterDBService()
+                printerService.addRungingJob(pictureName,printId)
+                printerService.close()
+
+    def isStatusInPrintWeb(self, pictureName:str):
+        printerService = PrinterDBService()
+        jobId = printerService.getFirstJob(pictureName)
+        if jobId != None and self.conn.getJobs().get(jobId, None) != None:
+            status = True
+        else:
+            status = False
+            if jobId != None:
+                printerService.setJobFinished(pictureName)
+        printerService.printAllDEBUG()
+        printerService.close()
+        self._cleanDB()
+        return status
+
+    def _cleanDB(self):
+        printerService = PrinterDBService()
+        for job in printerService.getAllJobs():
+            if self.conn.getJobs().get(job[0], None) == None:
+                printerService.setJobFinished(job[1])
+        printerService.close()
 
     #https://stackoverflow.com/questions/39117196/raspberry-pi-photobooth-printing
     def _print(self,picturePath:str):

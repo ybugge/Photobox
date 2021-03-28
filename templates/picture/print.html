@@ -9,12 +9,19 @@
 <div class="main">
 
     <h1>Dein Bild - Drucken</h1>
+    <h2>Druckstatus:</h2>
+    <p>
+        {{print_status_hint}}
+    </p>
+    <h2>Druckerstatus:</h2>
+    <p>
+         {{printerStatus}}
+    </p>
+    <h2>Allgemeine Informationen:</h2>
     <p>
         Dein Bild wird gedruckt. Solange dein Bild gedruckt wird, kannst du kein weiteres Bild drucken.
         Die Seite aktualisiert den Status nicht automatisch.
     </p>
-    <p>
-        Druckerstatus: {{printerStatus}}</p>
     <p>
         <a href="{{ backUrl }}">Zurück</a>
     </p>

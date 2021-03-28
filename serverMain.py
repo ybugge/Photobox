@@ -44,13 +44,20 @@ def downloadPicturePage(pictureName):
 @app.route(CfgService.get(CfgKey.SERVER_PRINT_PICTURE_PAGE)+"/<pictureName>/<pictureId>")
 def printPicturePage(pictureName,pictureId):
     ids = ServerDbSevice.getPictureUrlIds(pictureName)
-    if (not ids) or (not pictureId in ids):
+    picturePathAndName = ServerDbSevice.getPicturePathAndName(pictureId)
+    if (not ids) or (not pictureId in ids) or (not picturePathAndName):
         abort(404)
     else:
         printerService = PrinterService()
+
+        if not printerService.isStatusInPrintWeb(pictureName):
+            printerService.printWeb(pictureName,picturePathAndName[1])
+            print_status_hint = "Druckauftrag gestartet"
+        else:
+            print_status_hint = "Druckauftrag wurde nicht gestartet. Es wird bereits ein Bild gedruckt. Bitte warten."
         printerStatus = printerService.getPrinterStatus()
         backUrl = CfgService.get(CfgKey.SERVER_DOWNLOAD_PICTURE_PAGE)+"/"+pictureName
-        return render_template('picture/print.html',backUrl=backUrl,printerStatus=printerStatus)
+        return render_template('picture/print.html',backUrl=backUrl,printerStatus=printerStatus,print_status_hint=print_status_hint)
 
 
 @app.route(CfgService.get(CfgKey.SERVER_DOWNLOAD_PICTURE)+"/<urlId>")
