@@ -2,7 +2,7 @@ import math
 
 from Services.CfgService import CfgService
 from Services.GlobalPagesVariableService import GlobalPagesVariableService
-from Services.PrinterDBService import PrinterDBService
+from Services.PrinterDbService import PrinterDbService
 from Services.ShottedPictureService import ShottedPictureService
 from config.Config import CfgKey, textValue, TextKey
 from PIL import Image
@@ -45,12 +45,12 @@ class PrinterService():
         if not self.isStatusInPrintWeb(pictureName):
             printId = self._print(picturePath)
             if printId != None:
-                printerService = PrinterDBService()
+                printerService = PrinterDbService()
                 printerService.addRungingJob(pictureName,printId)
                 printerService.close()
 
     def isStatusInPrintWeb(self, pictureName:str):
-        printerService = PrinterDBService()
+        printerService = PrinterDbService()
         jobId = printerService.getFirstJob(pictureName)
         if jobId != None and self.conn.getJobs().get(jobId, None) != None:
             status = True
@@ -64,7 +64,7 @@ class PrinterService():
         return status
 
     def _cleanDB(self):
-        printerService = PrinterDBService()
+        printerService = PrinterDbService()
         for job in printerService.getAllJobs():
             if self.conn.getJobs().get(job[0], None) == None:
                 printerService.setJobFinished(job[1])

@@ -6,7 +6,7 @@ from Services.FileFolderService import FileFolderService
 from config.Config import CfgKey
 
 
-class PrinterDBService():
+class PrinterDbService():
 
     def __init__(self):
         self.dbConnection = None
