@@ -6,7 +6,7 @@ from Services.FileFolderService import FileFolderService
 from config.Config import CfgKey
 
 
-class DbService():
+class PictureDbService():
 
     def __init__(self):
         self.dbConnection = None

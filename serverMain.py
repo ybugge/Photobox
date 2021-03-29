@@ -7,7 +7,7 @@ from Services.CfgService import CfgService
 from Services.FileFolderService import FileFolderService
 from Services.PrinterService import PrinterService
 from Services.ServerDbService import ServerDbSevice
-from config.Config import CfgKey
+from config.Config import CfgKey, textValue, TextKey
 
 app = Flask(__name__)
 
@@ -57,10 +57,9 @@ def printPicturePage(pictureName,pictureId):
             return redirect(CfgService.get(CfgKey.SERVER_DOWNLOAD_PICTURE_PAGE)+"/"+pictureName)
 
         if not printerService.isStatusInPrintWeb(pictureName):
-            #printerService.printWeb(pictureName,picturePathAndName[1])
-            print_status_hint = "Druckauftrag gestartet"
+            print_status_hint = textValue[TextKey.WEB_PRINT_STATUS_SUCCESS]
         else:
-            print_status_hint = "Druckauftrag wurde nicht gestartet. Es wird bereits ein Bild gedruckt. Bitte warten."
+            print_status_hint = textValue[TextKey.WEB_PRINT_STATUS_FAILED]
         printerStatus = printerService.getPrinterStatus()
         backUrl = CfgService.get(CfgKey.SERVER_DOWNLOAD_PICTURE_PAGE)+"/"+pictureName
         return render_template('picture/print.html',backUrl=backUrl,printerStatus=printerStatus,print_status_hint=print_status_hint)

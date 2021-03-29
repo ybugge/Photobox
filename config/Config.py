@@ -217,6 +217,10 @@ cfgValue[CfgKey.PAGE_PRINT_STATUS_UPDATE_PERIOD] = 1000
 ###########################################################
 class TextKey(enum.Enum):
 
+    #Webserver
+    WEB_PRINT_STATUS_SUCCESS = 3000
+    WEB_PRINT_STATUS_FAILED = 3001
+
     #PageSystemPictureManager.py
     PAGE_SYSTEMPICTUREMANAGER_TITLE = 60
     PAGE_SYSTEMPICTUREMANAGER_NEXTBUTTON = 61
@@ -290,6 +294,10 @@ class TextKey(enum.Enum):
     PRINT_SERVICE_ERROR=205
 
 textValue={}
+
+#Webserver
+textValue[TextKey.WEB_PRINT_STATUS_SUCCESS] = "Druckauftrag gestartet"
+textValue[TextKey.WEB_PRINT_STATUS_FAILED] = "Druckauftrag wurde nicht gestartet. Es wird bereits ein Bild gedruckt. Bitte warten."
 
 #PageSystemPictureManager.py
 textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_TITLE] = "Systembilder Bearbeiten"
