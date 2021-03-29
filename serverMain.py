@@ -1,7 +1,7 @@
 import base64
 import io
 
-from flask import Flask, render_template, send_file, abort
+from flask import Flask, render_template, send_file, abort,redirect
 
 from Services.CfgService import CfgService
 from Services.FileFolderService import FileFolderService
@@ -36,8 +36,8 @@ def downloadPicturePage(pictureName):
     else:
         printerService = PrinterService()
         pictureData = []
+        allowedPrinting = printerService.printingPosible() and  CfgService.get(CfgKey.PRINTER_IS_ACTIVE)
         for id in ids:
-            allowedPrinting = printerService.printingPosible() and  CfgService.get(CfgKey.PRINTER_IS_ACTIVE)
             printUrl = CfgService.get(CfgKey.SERVER_PRINT_PICTURE_PAGE)+"/"+pictureName+"/"+id
             pictureData.append([CfgService.get(CfgKey.SERVER_DOWNLOAD_PICTURE)+"/"+id,printUrl,allowedPrinting])
         return render_template('picture/download.html',name=pictureName, len = len(pictureData), pictureData = pictureData)
@@ -46,13 +46,18 @@ def downloadPicturePage(pictureName):
 def printPicturePage(pictureName,pictureId):
     ids = ServerDbSevice.getPictureUrlIds(pictureName)
     picturePathAndName = ServerDbSevice.getPicturePathAndName(pictureId)
+
     if (not ids) or (not pictureId in ids) or (not picturePathAndName):
         abort(404)
     else:
         printerService = PrinterService()
+        allowedPrinting = printerService.printingPosible() and  CfgService.get(CfgKey.PRINTER_IS_ACTIVE)
+
+        if not allowedPrinting:
+            return redirect(CfgService.get(CfgKey.SERVER_DOWNLOAD_PICTURE_PAGE)+"/"+pictureName)
 
         if not printerService.isStatusInPrintWeb(pictureName):
-            printerService.printWeb(pictureName,picturePathAndName[1])
+            #printerService.printWeb(pictureName,picturePathAndName[1])
             print_status_hint = "Druckauftrag gestartet"
         else:
             print_status_hint = "Druckauftrag wurde nicht gestartet. Es wird bereits ein Bild gedruckt. Bitte warten."
