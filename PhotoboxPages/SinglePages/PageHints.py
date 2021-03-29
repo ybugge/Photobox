@@ -61,6 +61,8 @@ class PageHints(Page):
         self.textArea.clear()
         self.textArea.append(textValue[TextKey.PAGE_HINTS_ESCAPE_HINT])
         self.textArea.append("")
+        self.textArea.append(textValue[TextKey.PAGE_HINTS_RECONFIG_HINT])
+        self.textArea.append("")
 
         if not CameraService.existCameras() and not CameraService.existPiCamera():
             self.textArea.append(textValue[TextKey.PAGE_HINTS_NO_CAMERA_WARN])
@@ -95,8 +97,6 @@ class PageHints(Page):
 
         #Printer hint
         self.textArea.append(textValue[TextKey.PAGE_HINTS_PRINTER_STATUS_LABEL]+self.printerService.getPrinterStatus())
-
-
 
     def hasPageTitlePicturePictures(self):
         return FileFolderService.hasFolderContent(CfgService.get(CfgKey.PAGE_TITLEPICTURE_BUTTON_IMAGE_FOLDER))

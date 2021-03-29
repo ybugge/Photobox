@@ -237,6 +237,7 @@ class TextKey(enum.Enum):
     #PageHints.py
     PAGE_HINTS_TITLE=40
     PAGE_HINTS_ESCAPE_HINT=41
+    PAGE_HINTS_RECONFIG_HINT=53
     PAGE_HINTS_NO_CAMERA_WARN=42
     PAGE_HINTS_NO_SELECTED_CAMERA_WARN=44
     PAGE_HINTS_SELECTED_CAMERA_HINT=45
@@ -318,6 +319,7 @@ textValue[TextKey.PAGE_HINTS_NEXTBUTTON] = "Weiter"
 textValue[TextKey.PAGE_HINTS_PICTURE_MANAGER_BUTTON] = "Systembilder bearbeiten"
 textValue[TextKey.PAGE_HINTS_TITLE] = "Hinweise:"
 textValue[TextKey.PAGE_HINTS_ESCAPE_HINT] = "- Um das Programm verlassen zu können, muss ESC gedrückt werden."
+textValue[TextKey.PAGE_HINTS_RECONFIG_HINT] = "- Um im Betrieb den Drucker zu deaktivieren, muss auf der Titelseite (die mit dem Mund) die Taste '1' gedrückt werden. Von dort aus gelangt man auf eine weitere Konfigurationsseite."
 textValue[TextKey.PAGE_HINTS_NO_CAMERA_WARN] = "- Fehler: Es wurde keine Kamera gefunden! Bitte schließen sie eine Kamera an und starten Sie die Anwendung neu!"
 textValue[TextKey.PAGE_HINTS_NO_SELECTED_CAMERA_WARN] = "- Fehler: Die ausgewählte Kamera ist nicht verfügbar. Schließen Sie bitte die Kammera an oder korrigieren Sie den Index in Config.py->"+CfgKey.USED_CAMERA_INDEX.name+". Bitte schließen Sie die Software!"
 textValue[TextKey.PAGE_HINTS_SELECTED_CAMERA_HINT] = "- Die Kamera kann über den Index 0-n in Config.py->"+CfgKey.USED_CAMERA_INDEX.name+" ausgewählt werden. Folgende Kamera wird verwendet: Index=%s | Name=%s | Beschreibung=%s."
