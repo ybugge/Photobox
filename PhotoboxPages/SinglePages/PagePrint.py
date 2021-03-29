@@ -62,7 +62,12 @@ class PagePrint(Page):
 
     def changeUiIfInPrint(self):
         isInPrint = self.printerService.isStatusInPrintLokal(self.globalVariable)
-        if isInPrint:
+        if self.printerService.hasTooManyPrintingOrderLokal(self.globalVariable) and (not isInPrint):
+            self.printButton.setDisabled(True)
+            self.printButton.setText(textValue[TextKey.PAGE_PRINT_PRINTBUTTON])
+            self.textArea.setText(textValue[TextKey.PAGE_PRINT_HINT_TOO_MANY_ORDER])
+            self.printerStatusUpdateTimer.stop()
+        elif isInPrint:
             self.printButton.setDisabled(True)
             self.printButton.setText(textValue[TextKey.PAGE_PRINT_PRINTBUTTON_DISABLED])
             self.textArea.setText(textValue[TextKey.PAGE_PRINT_HINT_IN_PRINT])

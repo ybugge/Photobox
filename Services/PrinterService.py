@@ -3,6 +3,7 @@ import math
 from Services.CfgService import CfgService
 from Services.GlobalPagesVariableService import GlobalPagesVariableService
 from Services.PrinterDbService import PrinterDbService
+from Services.PrintingLimitationDbService import PrintingLimitationDbService
 from Services.ShottedPictureService import ShottedPictureService
 from config.Config import CfgKey, textValue, TextKey
 from PIL import Image
@@ -42,12 +43,19 @@ class PrinterService():
         return self.isStatusInPrintWeb(globalVariable.getPictureSubName())
 
     def printWeb(self,pictureName:str,picturePath:str):
+
+        if self.hasTooManyPrintingOrderWeb(pictureName):
+            print("Das maximale orderlimit des Bildes wurde erreicht! Bild wird nicht ausgedruckt. Picture")
+            return
+
         if not self.isStatusInPrintWeb(pictureName):
             printId = self._print(picturePath)
             if printId != None:
+                self.updateOrderNumber(pictureName)
                 printerService = PrinterDbService()
                 printerService.addRungingJob(pictureName,printId)
                 printerService.close()
+
 
     def isStatusInPrintWeb(self, pictureName:str):
         printerService = PrinterDbService()
@@ -58,7 +66,6 @@ class PrinterService():
             status = False
             if jobId != None:
                 printerService.setJobFinished(pictureName)
-        printerService.printAllDEBUG()
         printerService.close()
         self._cleanDB()
         return status
@@ -83,7 +90,7 @@ class PrinterService():
             print_id = self.conn.printFile(printer, output, "", {"landscape":"True","media":paperFormat})
 
             unlink(output)
-            print("Bild wurde dem Drucker gesenden: ")
+            print("Bild wurde dem Drucker gesendet!")
             return print_id
         else:
             print("Drucker nicht gefunden oder nicht aktiviert!")
@@ -137,3 +144,18 @@ class PrinterService():
             return textValue[TextKey.PRINT_SERVICE_PRINTER_READY]
         else:
             return textValue[TextKey.PRINT_SERVICE_PRINTER_NOT_EXIST]
+
+    def hasTooManyPrintingOrderLokal(self,globalVariable:GlobalPagesVariableService):
+        return self.hasTooManyPrintingOrderWeb(globalVariable.getPictureSubName())
+
+    def hasTooManyPrintingOrderWeb(self, pictureName:str):
+        printingLimitationDbService = PrintingLimitationDbService()
+        tooManyPrintingOrder = not printingLimitationDbService.allowToPrint(pictureName)
+        printingLimitationDbService.close()
+        return tooManyPrintingOrder
+
+    def updateOrderNumber(self,pictureName):
+        printingLimitationDbService = PrintingLimitationDbService()
+        printingLimitationDbService.setNewPrintOrder(pictureName)
+        printingLimitationDbService.close()
+

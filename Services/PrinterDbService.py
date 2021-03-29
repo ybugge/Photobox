@@ -39,7 +39,7 @@ class PrinterDbService():
         cursor = self.dbConnection.execute(SELECT)
         result = []
         for row in cursor:
-           result.append(str(row[1]))
+           result.append(str(row[0]))
         return len(result) > 0
 
     def getFirstJob(self,pictureName:str):
