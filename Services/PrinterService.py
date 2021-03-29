@@ -78,9 +78,9 @@ class PrinterService():
             # Save data to a temporary file
             output = mktemp(prefix='jpg')
             pictureWithNewSizw.save(output, format='jpeg')
-            # Send the picture to the printer | Options: https://www.cups.org/doc/options.html#OPTIONS
-            #print_id = self.conn.printFile(printer, output, "Photo Booth", {'fit-to-page':'True'})
-            print_id = self.conn.printFile(printer, output, "Photo Booth", {"fit-to-page":"True"})
+            # Send the picture to the printer | Options: https://www.cups.org/doc/options.html#OPTIONS / https://stuff.mit.edu/afs/athena/astaff/project/opssrc/cups/cups-1.4.4/doc/help/options.html
+            paperFormat = CfgService.get(CfgKey.PRINTER_PAPER_FORMAT)
+            print_id = self.conn.printFile(printer, output, "", {"landscape":"True","media":paperFormat})
 
             unlink(output)
             print("Bild wurde dem Drucker gesenden: ")

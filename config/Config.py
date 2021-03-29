@@ -27,6 +27,7 @@ class CfgKey(enum.Enum):
     PRINTER_IS_ACTIVE = 6000
     PRINTER_SELECTED = 6001
     PRINTER_PAPER_SIZE = 6002
+    PRINTER_PAPER_FORMAT = 6003
 
     #DIASHOW CLIENT ##################################################################################
     DIASHOW_CLIENT_PICTURE_MAIN_FOLDER = 5000
@@ -131,6 +132,7 @@ cfgValue[CfgKey.SERVER_GETPICTUREURLIDS_THRASHOLD] = 3
 cfgValue[CfgKey.PRINTER_IS_ACTIVE] = True
 cfgValue[CfgKey.PRINTER_SELECTED] = None
 cfgValue[CfgKey.PRINTER_PAPER_SIZE] = (148,100)
+cfgValue[CfgKey.PRINTER_PAPER_FORMAT] = "Postcard.Fullbleed"
 
 #DIASHOW CLIENT #################################################################
 cfgValue[CfgKey.DIASHOW_CLIENT_PICTURE_MAIN_FOLDER] = "Diashow/"
@@ -207,7 +209,7 @@ cfgValue[CfgKey.PAGE_PICTUREEDIT_PRINT_BUTTON_ICON_DIR] = "Resources/PagePicture
 cfgValue[CfgKey.PAGE_PICTUREEDIT_PRINT_BUTTON_DISABLED_ICON_DIR] = "Resources/PagePictureEdit/Icon/print_icon_disable.png"
 cfgValue[CfgKey.PAGE_PICTUREEDIT_DOWNLOAD_BUTTON_ICON_DIR] = "Resources/PagePictureEdit/Icon/download_icon.png"
 # 300000 = 5 minutes
-cfgValue[CfgKey.PAGE_PICTUREEDIT_SPACE_AUTO_FORWARD_WAIT_TIME] = 10*60000
+cfgValue[CfgKey.PAGE_PICTUREEDIT_SPACE_AUTO_FORWARD_WAIT_TIME] = 5*60000
 
 #PagePrint.py
 cfgValue[CfgKey.PAGE_PRINT_STATUS_UPDATE_PERIOD] = 1000
@@ -254,6 +256,7 @@ class TextKey(enum.Enum):
     PAGE_CONFIG_INAKTIVATE=1032
     PAGE_CONFIG_PRINTER_SELECT_LABEL=1035
     PAGE_CONFIG_PRINTER_POWER_ON_HINT=1036
+    PAGE_CONFIG_PRINTER_PAPER_FORMAT_LABEL=1037
 
     #PageCloseConfirm.py
     PAGE_CLOSECONFIRM_TITLE = 30
@@ -324,6 +327,7 @@ textValue[TextKey.PAGE_CONFIG_AKTIVATE] = "Ja"
 textValue[TextKey.PAGE_CONFIG_INAKTIVATE] = "Nein"
 textValue[TextKey.PAGE_CONFIG_PRINTER_SELECT_LABEL] = "Verwendeter Drucker:"
 textValue[TextKey.PAGE_CONFIG_PRINTER_POWER_ON_HINT] = "Hinweis: Bitte schalten sie den Drucker ein!"
+textValue[TextKey.PAGE_CONFIG_PRINTER_PAPER_FORMAT_LABEL] = "Papierformat: "
 
 #PageCloseConfirm
 textValue[TextKey.PAGE_CLOSECONFIRM_TITLE] = "Anwendung schließen?"

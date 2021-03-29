@@ -146,9 +146,25 @@ class PageConfig(Page):
         self.printerSelectedComboBox.currentIndexChanged.connect(self.selectionchangePrinter)
         printerSelectedLayout.addWidget(self.printerSelectedComboBox)
 
+            #Paper format
+        printerPapaerFormatLayout = QHBoxLayout()
+        mainContentLabel.addLayout(printerPapaerFormatLayout)
+
+        printerPaperFormatLabel = QLabel()
+        printerPaperFormatLabel.setText(textValue[TextKey.PAGE_CONFIG_PRINTER_PAPER_FORMAT_LABEL])
+        printerPapaerFormatLayout.addWidget(printerPaperFormatLabel)
+
+        printerPaperFormatValue = QLineEdit()
+        printerPaperFormatValue.setText(CfgService.get(CfgKey.PRINTER_PAPER_FORMAT))
+        printerPaperFormatValue.setReadOnly(True)
+        printerPapaerFormatLayout.addWidget(printerPaperFormatValue)
+
+            #Printer hint -> startup the printer!
         printerHintLabel = QLabel()
         printerHintLabel.setText(textValue[TextKey.PAGE_CONFIG_PRINTER_POWER_ON_HINT])
         mainContentLabel.addWidget(printerHintLabel)
+
+
 
 
         mainContentLabel.addStretch()
