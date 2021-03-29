@@ -12,6 +12,7 @@ from PhotoboxPages.SinglePages.PageDownloadPicture import PageDownloadPicture
 from PhotoboxPages.SinglePages.PageHints import PageHints
 from PhotoboxPages.SinglePages.PagePictureEdit import PagePictureEdit
 from PhotoboxPages.SinglePages.PagePrint import PagePrint
+from PhotoboxPages.SinglePages.PageReconfig import PageReconfig
 from PhotoboxPages.SinglePages.PageStartServer import PageStartServer
 from PhotoboxPages.SinglePages.PageSystemPictureManager import PageSystemPictureManager
 from PhotoboxPages.SinglePages.PageTitlePicture import PageTitlePicture
@@ -60,6 +61,11 @@ class MainWindow(QtWidgets.QMainWindow):
         pageCloseConfirm = PageCloseConfirm(self.pages,self.windowsize, self, self.server)
         pageCloseConfirm.setNextPage(PageConfig)
         self.pages.addPage(pageCloseConfirm)
+
+        #Revonfigure
+        pageReconfig = PageReconfig(self.pages,self.windowsize)
+        pageReconfig.setBackPage(PageTitlePicture)
+        self.pages.addPage(pageReconfig)
 
         #Seite 1 Hinweise
         pageHints = PageHints(self.pages, self.windowsize, self.printerService)
@@ -145,6 +151,11 @@ class MainWindow(QtWidgets.QMainWindow):
             pageCloseConfirmInstance = self.pages.getPageInstance(PageCloseConfirm)
             pageCloseConfirmInstance.setNextPage(currentPage.__class__)
             self.pages.showPage(PageCloseConfirm)
+        elif event.key() == QtCore.Qt.Key_1:
+            currentPage = self.pages.getCurrentPage()
+            if currentPage.__class__ == PageTitlePicture:
+                self.pages.showPage(PageReconfig)
+
         event.accept()
 
     #Schliest die Anwendung

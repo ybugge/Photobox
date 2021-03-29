@@ -37,8 +37,9 @@ def downloadPicturePage(pictureName):
         printerService = PrinterService()
         pictureData = []
         for id in ids:
+            allowedPrinting = printerService.printingPosible() and  CfgService.get(CfgKey.PRINTER_IS_ACTIVE)
             printUrl = CfgService.get(CfgKey.SERVER_PRINT_PICTURE_PAGE)+"/"+pictureName+"/"+id
-            pictureData.append([CfgService.get(CfgKey.SERVER_DOWNLOAD_PICTURE)+"/"+id,printUrl,printerService.printingPosible()])
+            pictureData.append([CfgService.get(CfgKey.SERVER_DOWNLOAD_PICTURE)+"/"+id,printUrl,allowedPrinting])
         return render_template('picture/download.html',name=pictureName, len = len(pictureData), pictureData = pictureData)
 
 @app.route(CfgService.get(CfgKey.SERVER_PRINT_PICTURE_PAGE)+"/<pictureName>/<pictureId>")

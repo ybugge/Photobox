@@ -258,6 +258,10 @@ class TextKey(enum.Enum):
     PAGE_CONFIG_PRINTER_POWER_ON_HINT=1036
     PAGE_CONFIG_PRINTER_PAPER_FORMAT_LABEL=1037
 
+    #PageReconfig.py
+    PAGE_RECONFIG_TITLE=2020
+    PAGE_RECONFIG_BACKBUTTON=2021
+
     #PageCloseConfirm.py
     PAGE_CLOSECONFIRM_TITLE = 30
     PAGE_CLOSECONFIRM_TEXT = 31
@@ -328,6 +332,10 @@ textValue[TextKey.PAGE_CONFIG_INAKTIVATE] = "Nein"
 textValue[TextKey.PAGE_CONFIG_PRINTER_SELECT_LABEL] = "Verwendeter Drucker:"
 textValue[TextKey.PAGE_CONFIG_PRINTER_POWER_ON_HINT] = "Hinweis: Bitte schalten sie den Drucker ein!"
 textValue[TextKey.PAGE_CONFIG_PRINTER_PAPER_FORMAT_LABEL] = "Papierformat: "
+
+#PageReconfig.py
+textValue[TextKey.PAGE_RECONFIG_TITLE] = "Konfiguration"
+textValue[TextKey.PAGE_RECONFIG_BACKBUTTON] = "Zurück"
 
 #PageCloseConfirm
 textValue[TextKey.PAGE_CLOSECONFIRM_TITLE] = "Anwendung schließen?"
