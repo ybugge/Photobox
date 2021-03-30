@@ -10,12 +10,15 @@ from PhotoboxPages.AllPages import AllPages
 from PhotoboxPages.Page import Page
 from Services.Camera.CameraService import CameraService
 from Services.CfgService import CfgService
+from Services.GlobalPagesVariableService import GlobalPagesVariableService
+from Services.PageDbService import PageDbSevice
 from config.Config import CfgKey
 
 
 class PageCapturePhoto(Page):
-    def __init__(self, pages : AllPages, windowsize:QSize):
+    def __init__(self, pages : AllPages, windowsize:QSize,globalVariable:GlobalPagesVariableService):
         super().__init__(pages,windowsize)
+        self.globalVariable = globalVariable
         self.windowsize = windowsize
         mainLayout = QVBoxLayout()
         mainLayout.setContentsMargins(0, 0, 0, 0)
@@ -53,6 +56,8 @@ class PageCapturePhoto(Page):
     def executeAfter(self):
         self.timer.stop()
         print("Foto Finished: "+str(datetime.datetime.now()))
+        self.globalVariable.updatePictureName()
+        PageDbSevice.setInitialPicture(self.globalVariable)
 
     def timerUpdate(self):
         if self.countdown == CfgService.get(CfgKey.PAGE_CAPTUREPHOTO_TIMER_CAPTUREPHOTO_VALUE):

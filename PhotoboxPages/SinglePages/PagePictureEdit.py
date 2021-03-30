@@ -8,16 +8,14 @@ from PhotoboxPages.Page import Page
 from Services.CfgService import CfgService
 from Services.GlobalPagesVariableService import GlobalPagesVariableService
 from Services.PageDbService import PageDbSevice
-from Services.PrinterService import PrinterService
 from Services.ShottedPictureService import ShottedPictureService
 from config.Config import CfgKey
 
 
 class PagePictureEdit(Page):
-    def __init__(self, pages : AllPages, windowsize:QSize, globalVariable:GlobalPagesVariableService):
+    def __init__(self, pages : AllPages, windowsize:QSize):
         super().__init__(pages,windowsize)
         self.windowsize = windowsize
-        self.globalVariable = globalVariable
         self.heightDevider = 8
         self.resetPictureIdUsed()
 
@@ -67,8 +65,6 @@ class PagePictureEdit(Page):
 
     def executeBefore(self):
         self.showPrinterButtonIfActivated()
-        self.globalVariable.updatePictureName()
-        PageDbSevice.setInitialPicture(self.globalVariable)
         self.updatePicture()
 
     def showPrinterButtonIfActivated(self):
@@ -91,14 +87,12 @@ class PagePictureEdit(Page):
         self.finishedPage=page
 
     def finishedPageEvent(self):
-        self.savePicture()
         self.setPageEvent(self.finishedPage)
 
     def setNewPicturePage(self,page):
         self.newPicturePage = page
 
     def newPicturePageEvent(self):
-        self.savePicture()
         self.setPageEvent(self.newPicturePage)
 
     def setPrinterPage(self,page):
@@ -120,19 +114,3 @@ class PagePictureEdit(Page):
 
     def resetPictureIdUsed(self):
         self.pictureIsUsed=False
-
-    def executeInAutoForwardTimerEvent(self):
-        self.savePicture()
-
-    def savePicture(self):
-
-        isUsed = False
-        if self.pictureIsUsed:
-            pictureTargetPath = ShottedPictureService.saveUsedPicture(self.globalVariable.getPictureSubName())
-            isUsed=True
-        else:
-            pictureTargetPath = ShottedPictureService.saveUnusedPicture(self.globalVariable.getPictureSubName())
-
-        PageDbSevice.updatePicture(self.globalVariable,pictureTargetPath,isUsed)
-        self.globalVariable.unlockPictureName()
-        self.resetPictureIdUsed()

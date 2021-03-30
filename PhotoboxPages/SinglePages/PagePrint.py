@@ -51,9 +51,7 @@ class PagePrint(Page):
         self.changeUiIfInPrint()
 
     def executeInAutoForwardTimerEvent(self):
-        pictureTargetPath = ShottedPictureService.saveUsedPicture(self.globalVariable.getPictureSubName())
-        PageDbSevice.updatePicture(self.globalVariable,pictureTargetPath,True)
-        self.globalVariable.unlockPictureName()
+        self.globalVariable.setPictureUsed(True)
 
     def print(self):
         self.printButton.setDisabled(True)

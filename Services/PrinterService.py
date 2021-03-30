@@ -96,8 +96,6 @@ class PrinterService():
             print("Drucker nicht gefunden oder nicht aktiviert!")
             return None
 
-
-
     def getPrintablePicture(self,picturePath:str):
         originalPicture = Image.open(picturePath)
         originalPicture.load()

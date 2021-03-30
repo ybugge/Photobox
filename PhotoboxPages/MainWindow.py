@@ -10,6 +10,9 @@ from PhotoboxPages.SinglePages.PageConfig import PageConfig
 from PhotoboxPages.SinglePages.PageCountdown import PageCameraPreview
 from PhotoboxPages.SinglePages.PageDownloadPicture import PageDownloadPicture
 from PhotoboxPages.SinglePages.PageHints import PageHints
+from PhotoboxPages.SinglePages.PageMovePictureFromTemp_RedirectOne import PageMovePictureFromTemp_RedirectOne
+from PhotoboxPages.SinglePages.abstract.PageMovePictureFromTemp import PageMovePictureFromTemp
+from PhotoboxPages.SinglePages.PageMovePictureFromTemp_RedirectTwo import PageMovePictureFromTemp_RedirectTwo
 from PhotoboxPages.SinglePages.PagePictureEdit import PagePictureEdit
 from PhotoboxPages.SinglePages.PagePrint import PagePrint
 from PhotoboxPages.SinglePages.PageReconfig import PageReconfig
@@ -106,30 +109,39 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pages.addPage(pageCameraPreview)
 
         #Seite 5 Capture Photo
-        pageCapturePhoto = PageCapturePhoto(self.pages, self.windowsize)
+        pageCapturePhoto = PageCapturePhoto(self.pages, self.windowsize,self.globalVariable)
         pageCapturePhoto.setNextPage(PagePictureEdit)
         self.pages.addPage(pageCapturePhoto)
 
         #Seite 6 Picture Edit
-        pagePictureEdit = PagePictureEdit(self.pages, self.windowsize, self.globalVariable)
-        pagePictureEdit.activateAutoForward(PageTitlePicture,CfgKey.PAGE_PICTUREEDIT_SPACE_AUTO_FORWARD_WAIT_TIME)
+        pagePictureEdit = PagePictureEdit(self.pages, self.windowsize)
+        pagePictureEdit.activateAutoForward(PageMovePictureFromTemp_RedirectOne, CfgKey.PAGE_PICTUREEDIT_SPACE_AUTO_FORWARD_WAIT_TIME)
         pagePictureEdit.setPrinterPage(PagePrint)
         pagePictureEdit.setDownloadPage(PageDownloadPicture)
-        pagePictureEdit.setNewPicturePage(PageCameraPreview)
-        pagePictureEdit.setFinishedPage(PageTitlePicture)
+        pagePictureEdit.setNewPicturePage(PageMovePictureFromTemp_RedirectTwo)
+        pagePictureEdit.setFinishedPage(PageMovePictureFromTemp_RedirectOne)
         self.pages.addPage(pagePictureEdit)
 
         #Seite 6.1 Download Picture
         pageDownloadPicture = PageDownloadPicture(self.pages, self.windowsize,self.globalVariable)
-        pageDownloadPicture.activateAutoForward(PageTitlePicture,CfgKey.PAGE_PICTUREEDIT_SPACE_AUTO_FORWARD_WAIT_TIME)
+        pageDownloadPicture.activateAutoForward(PageMovePictureFromTemp_RedirectOne, CfgKey.PAGE_PICTUREEDIT_SPACE_AUTO_FORWARD_WAIT_TIME)
         pageDownloadPicture.setBackPage(PagePictureEdit)
         self.pages.addPage(pageDownloadPicture)
 
         #Seite 6.2 Print
         pagePrint = PagePrint(self.pages, self.windowsize,self.globalVariable, self.printerService)
-        pagePrint.activateAutoForward(PageTitlePicture,CfgKey.PAGE_PICTUREEDIT_SPACE_AUTO_FORWARD_WAIT_TIME)
+        pagePrint.activateAutoForward(PageMovePictureFromTemp_RedirectOne, CfgKey.PAGE_PICTUREEDIT_SPACE_AUTO_FORWARD_WAIT_TIME)
         pagePrint.setBackPage(PagePictureEdit)
         self.pages.addPage(pagePrint)
+
+        #Intermediate Page: Move Picture from raw to used or unused folder
+        pageMovePictureFromTemp_RedirectOne = PageMovePictureFromTemp_RedirectOne(self.pages, self.windowsize, self.globalVariable)
+        pageMovePictureFromTemp_RedirectOne.setNextPage(PageTitlePicture)
+        self.pages.addPage(pageMovePictureFromTemp_RedirectOne)
+
+        pageMovePictureFromTemp_RedirectTwo =  PageMovePictureFromTemp_RedirectTwo(self.pages, self.windowsize, self.globalVariable)
+        pageMovePictureFromTemp_RedirectTwo.setNextPage(PageCameraPreview)
+        self.pages.addPage(pageMovePictureFromTemp_RedirectTwo)
 
         #Set first visible Page
         self.pages.showPage(PageHints)
