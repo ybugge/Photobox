@@ -293,9 +293,11 @@ class TextKey(enum.Enum):
     #PrintService
     PRINT_SERVICE_EMPTY_INK=200
     PRINT_SERVICE_EMPTY_PAPER=201
+    PRINT_SERVICE_MISSING_PAPER_CONTAINER=206
     PRINT_SERVICE_PRINTER_READY=203
     PRINT_SERVICE_PRINTER_NOT_EXIST=204
     PRINT_SERVICE_ERROR=205
+    PRINT_SERVICE_ERROR_INSTRUCTION=207
 
 textValue={}
 
@@ -372,8 +374,10 @@ textValue[TextKey.PAGE_PRINT_HINT_STATUS_LABEL] = "- Druckerstatus: "
 textValue[TextKey.PAGE_PRINT_HINT_TOO_MANY_ORDER] = "- Die maximale Anzahl an Ausdrucken wurde erreicht. Dieses Bild darf kein weiteres mal ausgedruckt werden!"
 
 #PrintService
-textValue[TextKey.PRINT_SERVICE_EMPTY_INK]= "Tinte ist alle!"
-textValue[TextKey.PRINT_SERVICE_EMPTY_PAPER]= "Papier ist alle!"
-textValue[TextKey.PRINT_SERVICE_ERROR]= "Unbekannter Fehler!"
 textValue[TextKey.PRINT_SERVICE_PRINTER_READY]= "Bereit"
-textValue[TextKey.PRINT_SERVICE_PRINTER_NOT_EXIST]= "nicht vorhanden!"
+textValue[TextKey.PRINT_SERVICE_ERROR]= "Unbekannter Fehler!"
+textValue[TextKey.PRINT_SERVICE_PRINTER_NOT_EXIST]= "Drucker konnte nicht gefunden werden!"
+textValue[TextKey.PRINT_SERVICE_EMPTY_INK]="Farbe ist alle!"
+textValue[TextKey.PRINT_SERVICE_EMPTY_PAPER]="Kein Papier mehr vorhanden!"
+textValue[TextKey.PRINT_SERVICE_MISSING_PAPER_CONTAINER]="Der Papierbehälter ist nicht eingesteckt!"
+textValue[TextKey.PRINT_SERVICE_ERROR_INSTRUCTION] = "Bitte holen Sie einen Verantwortlichen."

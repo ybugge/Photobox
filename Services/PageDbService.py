@@ -1,8 +1,6 @@
-from Services.CfgService import CfgService
 from Services.PictureDbService import PictureDbService
 from Services.GlobalPagesVariableService import GlobalPagesVariableService
 from Services.ShottedPictureService import ShottedPictureService
-from config.Config import CfgKey
 
 
 class PageDbSevice():

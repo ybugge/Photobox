@@ -127,21 +127,29 @@ class PrinterService():
     #https://github.com/sebmueller/Photobooth/blob/master/photobooth.py
     def getPrinterStatus(self):
         printer = self._findPrinterByString(CfgService.get(CfgKey.PRINTER_SELECTED))
+        # Toner alle: marker-supply-empty-error
+        # Fach vergessen einzufügen: input-tray-missing
+        # Papier fehlt: media-empty-error
         if CfgService.get(CfgKey.PRINTER_IS_ACTIVE) and printer != None:
-            printerstate = self.conn.getPrinterAttributes(printer, requested_attributes=["printer-state-message"])
-            if str(printerstate).find("error:") > 0:
-                if str(printerstate).find("06") > 0:
-                    return textValue[TextKey.PRINT_SERVICE_EMPTY_INK]
-                if str(printerstate).find("03") > 0:
-                    return textValue[TextKey.PRINT_SERVICE_EMPTY_PAPER]
-                if str(printerstate).find("02") > 0:
-                    return textValue[TextKey.PRINT_SERVICE_EMPTY_PAPER]
-                else:
-                    return textValue[TextKey.PRINT_SERVICE_ERROR]
+            printerStates = self.conn.getPrinterAttributes(printer)["printer-state-reasons"]
+            errorMessages = []
+            for printerState in printerStates:
+                if str(printerState).find("input-tray-missing") >= 0:
+                    errorMessages.append(textValue[TextKey.PRINT_SERVICE_MISSING_PAPER_CONTAINER])
+                elif str(printerState).find("media-empty-error") >= 0:
+                    errorMessages.append(textValue[TextKey.PRINT_SERVICE_EMPTY_PAPER])
+                elif str(printerState).find("marker-supply-empty-error") >= 0:
+                    errorMessages.append(textValue[TextKey.PRINT_SERVICE_EMPTY_INK])
+                elif str(printerState).find("error") >= 0:
+                    errorMessages.append(textValue[TextKey.PRINT_SERVICE_ERROR])
 
-            return textValue[TextKey.PRINT_SERVICE_PRINTER_READY]
+            if len(errorMessages) > 0:
+                errorMessages.append(textValue[TextKey.PRINT_SERVICE_ERROR_INSTRUCTION])
+                return " | ".join(errorMessages)
+            else:
+                return textValue[TextKey.PRINT_SERVICE_PRINTER_READY]
         else:
-            return textValue[TextKey.PRINT_SERVICE_PRINTER_NOT_EXIST]
+            return textValue[TextKey.PRINT_SERVICE_PRINTER_NOT_EXIST]+" | "+textValue[TextKey.PRINT_SERVICE_ERROR_INSTRUCTION]
 
     def hasTooManyPrintingOrderLokal(self,globalVariable:GlobalPagesVariableService):
         return self.hasTooManyPrintingOrderWeb(globalVariable.getPictureSubName())

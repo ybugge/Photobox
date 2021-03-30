@@ -56,7 +56,9 @@ def printPicturePage(pictureName,pictureId):
         if not allowedPrinting:
             return redirect(CfgService.get(CfgKey.SERVER_DOWNLOAD_PICTURE_PAGE)+"/"+pictureName)
 
-        if not printerService.isStatusInPrintWeb(pictureName):
+        printerService.printWeb(pictureName,picturePathAndName[1])
+
+        if printerService.isStatusInPrintWeb(pictureName):
             print_status_hint = textValue[TextKey.WEB_PRINT_STATUS_SUCCESS]
         else:
             print_status_hint = textValue[TextKey.WEB_PRINT_STATUS_FAILED]

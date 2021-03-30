@@ -48,7 +48,11 @@ class PagePrint(Page):
         self.printerStatusUpdateTimer.timeout.connect(self.changeUiIfInPrint)
 
     def executeBefore(self):
+        self.printerStatusUpdateTimer.start(CfgService.get(CfgKey.PAGE_PRINT_STATUS_UPDATE_PERIOD))
         self.changeUiIfInPrint()
+
+    def executeAfter(self):
+        self.printerStatusUpdateTimer.stop()
 
     def executeInAutoForwardTimerEvent(self):
         self.globalVariable.setPictureUsed(True)
@@ -56,7 +60,6 @@ class PagePrint(Page):
     def print(self):
         self.printButton.setDisabled(True)
         self.printerService.printLokal(self.globalVariable)
-        self.printerStatusUpdateTimer.start(CfgService.get(CfgKey.PAGE_PRINT_STATUS_UPDATE_PERIOD))
 
     def changeUiIfInPrint(self):
         isInPrint = self.printerService.isStatusInPrintLokal(self.globalVariable)
@@ -64,7 +67,6 @@ class PagePrint(Page):
             self.printButton.setDisabled(True)
             self.printButton.setText(textValue[TextKey.PAGE_PRINT_PRINTBUTTON])
             self.textArea.setText(textValue[TextKey.PAGE_PRINT_HINT_TOO_MANY_ORDER])
-            self.printerStatusUpdateTimer.stop()
         elif isInPrint:
             self.printButton.setDisabled(True)
             self.printButton.setText(textValue[TextKey.PAGE_PRINT_PRINTBUTTON_DISABLED])
@@ -75,7 +77,6 @@ class PagePrint(Page):
             self.printButton.setText(textValue[TextKey.PAGE_PRINT_PRINTBUTTON])
             self.textArea.setText(textValue[TextKey.PAGE_PRINT_HINT_PRINT])
             self.textArea.append(self.getPrinterStatus())
-            self.printerStatusUpdateTimer.stop()
 
     def getPrinterStatus(self):
         return textValue[TextKey.PAGE_PRINT_HINT_STATUS_LABEL]+self.printerService.getPrinterStatus()
