@@ -29,3 +29,6 @@ mkdir -p -- "$AUTOSTART_DIR"
 AUTOSTART_FILE_SOURCE="/home/pi/Photobox/ShellScripts/autostartPhotobox.desktop"
 AUTOSTART_FILE_DESTINI="/home/pi/.config/autostart/autostartPhotobox.desktop"
 mv -vn $AUTOSTART_FILE_SOURCE $AUTOSTART_FILE_DESTINI
+
+DESKTOP_FILE_DESTINI="/home/pi/Desktop/Photobox.desktop"
+mv -vn $AUTOSTART_FILE_SOURCE $DESKTOP_FILE_DESTINI
