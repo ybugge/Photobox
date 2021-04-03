@@ -68,7 +68,7 @@ class FileFolderService():
     @staticmethod
     def getFileType(file:str):
         _, file_extension = os.path.splitext(file)
-        return file_extension
+        return file_extension.replace("\"","")
 
     @staticmethod
     def creatFolderByFileIfNotExist(file:str):

@@ -25,17 +25,21 @@ class PictureDownloadThread(QThread):
                 self.setProgress(index,numberUrls)
                 continue
 
-            self.savePicture(request, self.getContentFileType(request),index,self.targetFolder)
+            self.savePicture(request, self.getContentFileType(request,url),index,self.targetFolder)
             self.setProgress(index,numberUrls)
             if self.downloadSuccessFile != None:
                 FileFolderService.writeLineInFile(True,self.downloadSuccessFile,url)
 
         self.setProgress(numberUrls,numberUrls)
 
-    def getContentFileType(self,request):
-        d = request.headers['content-disposition']
-        fileName = re.findall("filename=(.+)", d)[0]
-        return FileFolderService.getFileType(fileName)
+    def getContentFileType(self,request,url):
+        contentDisposition = 'content-disposition'
+        if contentDisposition in request.headers:
+            d = request.headers[contentDisposition]
+            fileName = re.findall("filename=(.+)", d)[0]
+            return FileFolderService.getFileType(fileName)
+        else:
+            return FileFolderService.getFileType(url)
 
     def getRequest(self,url:str):
         try:
