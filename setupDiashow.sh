@@ -13,7 +13,7 @@ mkdir -p -- "$AUTOSTART_DIR"
 
 AUTOSTART_FILE_SOURCE="/home/pi/Photobox/ShellScripts/autostartDiashow.desktop"
 AUTOSTART_FILE_DESTINI="/home/pi/.config/autostart/autostartDiashow.desktop"
-mv -vn $AUTOSTART_FILE_SOURCE $AUTOSTART_FILE_DESTINI
+cp -vn $AUTOSTART_FILE_SOURCE $AUTOSTART_FILE_DESTINI
 
 DESKTOP_FILE_DESTINI="/home/pi/Desktop/PhotoboxDiashow.desktop"
-mv -vn $AUTOSTART_FILE_SOURCE $DESKTOP_FILE_DESTINI
+cp -vn $AUTOSTART_FILE_SOURCE $DESKTOP_FILE_DESTINI
