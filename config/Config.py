@@ -30,6 +30,9 @@ class CfgKey(enum.Enum):
     PRINTER_PAPER_FORMAT = 6003
     PRINTER_MAX_PRINTING_ORDER = 6004
 
+    #GREENSCREEN #########################################################################################
+    GREENSCREEN_IS_ACTIVE = 7000
+
     #DIASHOW CLIENT ##################################################################################
     DIASHOW_CLIENT_PICTURE_MAIN_FOLDER = 5000
     DIASHOW_CLIENT_PICTURE_CONFIG_FILE = 5001
@@ -135,6 +138,9 @@ cfgValue[CfgKey.PRINTER_SELECTED] = None
 cfgValue[CfgKey.PRINTER_PAPER_SIZE] = (148,100)
 cfgValue[CfgKey.PRINTER_PAPER_FORMAT] = "Postcard.Fullbleed"
 cfgValue[CfgKey.PRINTER_MAX_PRINTING_ORDER] = 5
+
+#GREENSCREEN #########################################################################################
+cfgValue[CfgKey.GREENSCREEN_IS_ACTIVE] = False
 
 #DIASHOW CLIENT #################################################################
 cfgValue[CfgKey.DIASHOW_CLIENT_PICTURE_MAIN_FOLDER] = "Diashow/"
@@ -264,6 +270,7 @@ class TextKey(enum.Enum):
     PAGE_CONFIG_PRINTER_SELECT_LABEL=1035
     PAGE_CONFIG_PRINTER_POWER_ON_HINT=1036
     PAGE_CONFIG_PRINTER_PAPER_FORMAT_LABEL=1037
+    PAGE_CONFIG_GREENSCREEN_TITLE=1040
 
     #PageReconfig.py
     PAGE_RECONFIG_TITLE=2020
@@ -347,6 +354,7 @@ textValue[TextKey.PAGE_CONFIG_INAKTIVATE] = "Nein"
 textValue[TextKey.PAGE_CONFIG_PRINTER_SELECT_LABEL] = "Verwendeter Drucker:"
 textValue[TextKey.PAGE_CONFIG_PRINTER_POWER_ON_HINT] = "Hinweis: Bitte schalten sie den Drucker ein!"
 textValue[TextKey.PAGE_CONFIG_PRINTER_PAPER_FORMAT_LABEL] = "Papierformat: "
+textValue[TextKey.PAGE_CONFIG_GREENSCREEN_TITLE] = "Greenscreen: "
 
 #PageReconfig.py
 textValue[TextKey.PAGE_RECONFIG_TITLE] = "Konfiguration"

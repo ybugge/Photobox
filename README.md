@@ -290,7 +290,15 @@ $ pulseaudio -k
 $ pulseaudio --start
 $ sudo reboot
 ````
+Weiterer Adons:
+- https://mopidy.com/ext/tunein/
+- https://mopidy.com/ext/spotify/ 
 
 #TODO:
 ## Fehler:
-- Setup: Desktopdatei wird nicht kopiert
+- Seite Downloaden: Auf Handy übertragen 
+## Aufgaben:
+Greenscreen:
+- Config Seiten anlegen
+  - Farbe des Hintergrunds bestimmen
+  - Toleranz einstellen

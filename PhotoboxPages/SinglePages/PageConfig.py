@@ -125,7 +125,7 @@ class PageConfig(Page):
         self.printerDisabledButton.setCheckable(True)
         isPrinterActivate = CfgService.get(CfgKey.PRINTER_IS_ACTIVE)
         self.printerDisabledButton.setChecked(isPrinterActivate)
-        if CfgService.get(CfgKey.PRINTER_IS_ACTIVE):
+        if isPrinterActivate:
             self.printerDisabledButton.setText(textValue[TextKey.PAGE_CONFIG_AKTIVATE])
         else:
             self.printerDisabledButton.setText(textValue[TextKey.PAGE_CONFIG_INAKTIVATE])
@@ -163,6 +163,31 @@ class PageConfig(Page):
         printerHintLabel = QLabel()
         printerHintLabel.setText(textValue[TextKey.PAGE_CONFIG_PRINTER_POWER_ON_HINT])
         mainContentLabel.addWidget(printerHintLabel)
+
+        # Greenscreen -------------------------------------------------------------------------------
+        greenscreenTitle = QLabel(textValue[TextKey.PAGE_CONFIG_GREENSCREEN_TITLE])
+        greenscreenTitle.setFont(titleFont)
+        mainContentLabel.addWidget(greenscreenTitle)
+
+        # Greenscreen enabled?
+        greenscreenDisabledLayout = QHBoxLayout()
+        mainContentLabel.addLayout(greenscreenDisabledLayout)
+
+        self.greenscreenDisabledLabel = QLabel()
+        self.greenscreenDisabledLabel.setText(textValue[TextKey.PAGE_CONFIG_SERVICE_STATUS])
+        greenscreenDisabledLayout.addWidget(self.greenscreenDisabledLabel)
+
+        self.greenscreenDisabledButton = QPushButton()
+        self.greenscreenDisabledButton.setCheckable(True)
+        isGreenscreenActivate = CfgService.get(CfgKey.GREENSCREEN_IS_ACTIVE)
+        self.greenscreenDisabledButton.setChecked(isGreenscreenActivate)
+        if isGreenscreenActivate:
+            self.greenscreenDisabledButton.setText(textValue[TextKey.PAGE_CONFIG_AKTIVATE])
+        else:
+            self.greenscreenDisabledButton.setText(textValue[TextKey.PAGE_CONFIG_INAKTIVATE])
+        self.greenscreenDisabledButton.clicked.connect(self.activatePrinter)
+        greenscreenDisabledLayout.addWidget(self.greenscreenDisabledButton)
+
 
         mainContentLabel.addStretch()
         #Navigation   ##################################################################################################

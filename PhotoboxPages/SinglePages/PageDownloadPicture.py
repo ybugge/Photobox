@@ -62,8 +62,6 @@ class PageDownloadPicture(Page):
 
     def executeBefore(self):
         self.updateQrCodePicture()
-
-    def executeInAutoForwardTimerEvent(self):
         self.globalVariable.setPictureUsed(True)
 
     def updateQrCodePicture(self):

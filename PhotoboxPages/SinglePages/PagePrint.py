@@ -48,14 +48,12 @@ class PagePrint(Page):
         self.printerStatusUpdateTimer.timeout.connect(self.changeUiIfInPrint)
 
     def executeBefore(self):
+        self.globalVariable.setPictureUsed(True)
         self.printerStatusUpdateTimer.start(CfgService.get(CfgKey.PAGE_PRINT_STATUS_UPDATE_PERIOD))
         self.changeUiIfInPrint()
 
     def executeAfter(self):
         self.printerStatusUpdateTimer.stop()
-
-    def executeInAutoForwardTimerEvent(self):
-        self.globalVariable.setPictureUsed(True)
 
     def print(self):
         self.printButton.setDisabled(True)

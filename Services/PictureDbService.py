@@ -124,10 +124,10 @@ class PictureDbService():
 
 
     def printAllDEBUG(self):
-        GET_ALL = '''SELECT {},  {}, {} from {}'''.format(self.TABLE_COLUMN_ID,self.TABLE_COLUMN_NAME,self.TABLE_COLUMN_PATH,self.TABLE_NAME)
+        GET_ALL = '''SELECT {},  {}, {}, {} from {}'''.format(self.TABLE_COLUMN_ID,self.TABLE_COLUMN_NAME,self.TABLE_COLUMN_PATH, self.TABLE_COLUMN_ISUSED,self.TABLE_NAME)
         cursor = self.dbConnection.execute(GET_ALL)
         for row in cursor:
-            print("ID= "+str(row[0])+" |NAME = "+str(row[1])+ " |PATH = "+ str(row[2]))
+            print("ID= "+str(row[0])+" |NAME = "+str(row[1])+ " |PATH = "+ str(row[2])+" |IsUsed = "+ str(row[3]))
 
     def close(self):
         self.dbConnection.close()
