@@ -71,14 +71,14 @@ $ yes | sudo apt upgrade
 $ yes | sudo apt install git
 $ git clone https://github.com/ybugge/Photobox.git
 $ cd Photobox
-$ ./setupFotobox.sh
+$ ./setupPhotobox.sh
 ````
 
-Auf Netzwerk neu starten:
+Netzwerk nach einer Minute neu starten:
 ````
 $ sudo crontab -e
 @reboot /bin/sleep 60; /home/pi/Photobox/ShellScripts/restartNetwork.sh
-STR+X -> J -> ENTER 
+STR+X -> Y -> ENTER 
 ````
 
 ##Drucker einrichten: Canon SELPHY CP1300 (W-LAN)
@@ -106,7 +106,6 @@ Browser->Pi: localhost:631
 - Media Size: Postcard.Fullbleed
 - MediaType: Any
 - Standardeinstellungen festlegen 
-
 
 # Diashow Client
 
@@ -168,5 +167,130 @@ $ ./setupDiashow.sh
 -> Auflösung: 1280x720
 # Zusätzliche Hinweise:
 
-## Bluetoothe Geräte verbinden
-https://raspberrydiy.com/connect-raspberry-pi-bluetooth-speaker/
+# Musikserver:
+## Bluetoothe Geräte verbinden (Allgemein)
+Quellen:
+- https://raspberrydiy.com/connect-raspberry-pi-bluetooth-speaker/
+
+Auf dem Raspberry Pi (Oberfläche):
+- Bluetooth-Symbol klicken
+- Add Device
+- Bluetoothgerät auswählen 
+- Auf dem Lautspächer-Symbol rechtsklick
+- Bluetoothgerät auswählen
+
+
+##Mopidy
+Quellen: 
+- https://www.pcwelt.de/a/musikserver-mopidy-auf-raspberry-pi,3447697
+- https://braspi.de/blogs/braspi-blog/raspberry-pi-als-musik-server-mit-mopidy
+- https://magpi.raspberrypi.org/articles/make-a-raspberry-pi-audio-player-with-mopidy-music
+- https://wiretuts.com/installing-mopidy-music-server-on-raspberry-pi
+- https://docs.mopidy.com/en/latest/installation/raspberrypi/#how-to-for-raspbian
+- Mopidy Local: https://pypi.org/project/Mopidy-Local/
+- Permission denied: https://discourse.mopidy.com/t/mopidy-scan-usb-not-successful/4722/5
+- https://discourse.mopidy.com/t/iris-and-mopidy-mobile-are-empty-when-music-is-on-usb-drive/4280/4
+- Mopidy Error: https://discourse.mopidy.com/t/problem-scanning-local-flac-files/4823/3
+
+###Wichtige Befehle:
+- Konfiguration anzeigen:
+````
+$ sudo mopidyctl config
+````
+- Konfiguration anpassen:
+````
+$ sudo nano /etc/mopidy/mopidy.conf
+````
+- Serverstatus anzeigen
+````
+$ sudo systemctl status mopidy
+````
+- Starten/ Stoppen / Restart Server
+````
+$ sudo systemctl start/stop/restart mopidy
+````
+- Lokale Konfiguration anzeigen: (Template)
+````
+$ sudo nano /home/pi/.config/mopidy/mopidy.conf
+````
+
+### Instalation
+Auf dem Raspberry Pi (SSH-Terminal):
+
+````
+$ sudo apt update
+$ yes | sudo apt upgrade
+USB-Stick, auf die die Musik vorhanden ist, einstecken. (Format: Fat32)
+$ ls -l /dev/disk/by-label/
+$ ls -l /dev/disk/by-uuid/
+- UUID von Musikstick raus suchen: Bsp: FA43-EF95
+$ sudo nano /etc/fstab
+UUID=FA43-EF95 /media/usbMusic vfat auto,nofail,umask=000,noatime,users,rw,uid=mopidy,gid=audio 0 0
+$ sudo reboot
+
+$ wget -q -O - https://apt.mopidy.com/mopidy.gpg | sudo apt-key add -
+$ sudo wget -q -O /etc/apt/sources.list.d/mopidy.list https://apt.mopidy.com/buster.list
+$ sudo apt update
+$ sudo apt install mopidy python3-pip libspotify-dev
+$ sudo python3 -m pip install Mopidy-Youtube Mopidy-Local Mopidy-Youtube
+$ sudo adduser mopidy video
+$ sudo nano /etc/mopidy/mopidy.conf
+
+[http]
+enabled = true
+hostname = photobox.fritz.box
+port = 6680
+
+[audio]
+#output = pulsesink server=127.0.0.1
+
+[file]
+enabled = true
+media_dirs = /media/usbMusic|Home
+
+[youtube]
+enabled = false
+
+[local]
+enabled = true
+media_dir = /media/usbMusic
+
+[musicbox_webclient]
+enabled = true
+#musicbox = false
+
+$ sudo mopidyctl config
+$ sudo systemctl enable mopidy
+$ sudo systemctl start mopidy
+$ sudo systemctl status mopidy
+- No Errors
+$ mopidy local scan
+````
+
+Im Browser: http://photobox.fritz.box:6680/mopidy/
+Mit BluetoothBox:
+
+Quelle: 
+- https://wiretuts.com/connecting-bluetooth-audio-device-to-raspberry-pi
+- https://www.wiretuts.com/connect-mopidy-to-bluetooth-speaker-on-raspberry-pi
+````
+Bluetooth gerät wir oben beschrieben mit Pi verbinden
+$ sudo apt-get install pulseaudio*
+$ sudo usermod -a -G lp pi
+$ sudo reboot
+$ sudo nano /etc/pulse/default.pa
+- native-protocol-tcp -> Zwischenablage (Strg+C)
+- Strg+W -> Strg+Umschalt+V 
+- ersetzen mit -> load-module module-native-protocol-tcp auth-ip-acl=127.0.0.1
+- Strg+X -> Y -> ENTER
+$ sudo nano /etc/mopidy/mopidy.conf
+[audio]
+output = pulsesink server=127.0.0.1
+$ pulseaudio -k
+$ pulseaudio --start
+$ sudo reboot
+````
+
+#TODO:
+## Fehler:
+- Setup: Desktopdatei wird nicht kopiert
