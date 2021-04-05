@@ -271,6 +271,11 @@ class TextKey(enum.Enum):
     PAGE_CONFIG_PRINTER_POWER_ON_HINT=1036
     PAGE_CONFIG_PRINTER_PAPER_FORMAT_LABEL=1037
     PAGE_CONFIG_GREENSCREEN_TITLE=1040
+    PAGE_CONFIG_GREENSCREEN_COLOR_PICER_BUTTON=1041
+
+    #PageConfig.py
+    PAGE_GREENSCREEN_COLOR_PICKER_TITLE=4000
+    PAGE_GREENSCREEN_COLOR_PICKER_CAPTURE_PHOTO_BUTTON = 4001
 
     #PageReconfig.py
     PAGE_RECONFIG_TITLE=2020
@@ -355,6 +360,11 @@ textValue[TextKey.PAGE_CONFIG_PRINTER_SELECT_LABEL] = "Verwendeter Drucker:"
 textValue[TextKey.PAGE_CONFIG_PRINTER_POWER_ON_HINT] = "Hinweis: Bitte schalten sie den Drucker ein!"
 textValue[TextKey.PAGE_CONFIG_PRINTER_PAPER_FORMAT_LABEL] = "Papierformat: "
 textValue[TextKey.PAGE_CONFIG_GREENSCREEN_TITLE] = "Greenscreen: "
+textValue[TextKey.PAGE_CONFIG_GREENSCREEN_COLOR_PICER_BUTTON] = "Setze Greenscreenfarbe"
+
+#PageConfig.py
+textValue[TextKey.PAGE_GREENSCREEN_COLOR_PICKER_TITLE]= "Farben des Greenscreens kalibrieren"
+textValue[TextKey.PAGE_GREENSCREEN_COLOR_PICKER_CAPTURE_PHOTO_BUTTON] = "Neues Foto"
 
 #PageReconfig.py
 textValue[TextKey.PAGE_RECONFIG_TITLE] = "Konfiguration"

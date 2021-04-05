@@ -188,6 +188,11 @@ class PageConfig(Page):
         self.greenscreenDisabledButton.clicked.connect(self.activatePrinter)
         greenscreenDisabledLayout.addWidget(self.greenscreenDisabledButton)
 
+        greenscreenColorPickerButton = QPushButton()
+        greenscreenColorPickerButton.setText(textValue[TextKey.PAGE_CONFIG_GREENSCREEN_COLOR_PICER_BUTTON])
+        greenscreenColorPickerButton.clicked.connect(self.greenscreenColorPickerEvent)
+        mainContentLabel.addWidget(greenscreenColorPickerButton)
+
 
         mainContentLabel.addStretch()
         #Navigation   ##################################################################################################
@@ -282,3 +287,10 @@ class PageConfig(Page):
                 return counter
             counter +=1
         return None
+
+    #greenscreen
+    def setGreenscreenColorPickerEventPage(self,page):
+        self.greenscreenColorPickerPage = page
+
+    def greenscreenColorPickerEvent(self):
+        self.setPageEvent(self.greenscreenColorPickerPage)

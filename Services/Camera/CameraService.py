@@ -2,7 +2,9 @@ from PyQt5.QtCore import QSize
 from PyQt5.QtMultimedia import QCameraInfo
 
 from Services.Camera.CV2CapturePhotoThread import CV2CapturePhotoThread
+from Services.Camera.CV2GreenscreenCalibrationService import CV2GreenscreenCalibrationService
 from Services.Camera.CV2VideoThread import CV2VideoThread
+from Services.Camera.PiCamGreenscreenCalibrationService import PiCamGreenscreenCalibrationService
 from Services.Camera.PiCamPhotoThread import PiCamPhotoThread
 from Services.Camera.PiCamVideoThread import PiCamVideoThread
 from Services.CfgService import CfgService
@@ -77,3 +79,10 @@ class CameraService():
             return PiCamPhotoThread(windowSize)
         else:
             return CV2CapturePhotoThread(windowSize)
+
+    @staticmethod
+    def initGreenscreenCalibrationCam(pictureSize:QSize):
+        if CameraService.existPiCamera():
+            return PiCamGreenscreenCalibrationService(pictureSize)
+        else:
+            return CV2GreenscreenCalibrationService(pictureSize)

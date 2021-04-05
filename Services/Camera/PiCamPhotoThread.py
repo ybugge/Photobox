@@ -30,6 +30,7 @@ class PiCamPhotoThread(QThread):
         #self.plainPiCam()
         self.returnValue = False
 
+    # not used
     def plainPiCam(self):
         resolution = CfgService.get(CfgKey.PI_CAMERA_PHOTO_RESOLUTION)
         camera = PiCamera()
@@ -42,6 +43,7 @@ class PiCamPhotoThread(QThread):
         print("After capture: "+str(datetime.datetime.now()))
         camera.close()
 
+    # not used
     def piCamWithCv2(self):
         resolution = CfgService.get(CfgKey.PI_CAMERA_PHOTO_RESOLUTION)
         camera = PiCamera()
@@ -55,6 +57,7 @@ class PiCamPhotoThread(QThread):
         camera.close()
         cv2.destroyAllWindows()
 
+    #https://picamera.readthedocs.io/en/release-1.10/recipes1.html
     def piCamWithCv2_test(self):
         resolution = CfgService.get(CfgKey.PI_CAMERA_PHOTO_RESOLUTION)
         stream = io.BytesIO()
@@ -63,11 +66,7 @@ class PiCamPhotoThread(QThread):
             camera.capture(stream, format='jpeg')
         # Construct a numpy array from the stream
         data = np.fromstring(stream.getvalue(), dtype=np.uint8)
-        # "Decode" the image from the array, preserving colour
         image = cv2.imdecode(data, 1)
-        # OpenCV returns an array with data in BGR order. If you want RGB instead
-        # use the following...
-        #image = image[:, :, ::-1]
         cv2.imwrite(ShottedPictureService.getTempPicturePath(), image)
         cv2.destroyAllWindows()
 

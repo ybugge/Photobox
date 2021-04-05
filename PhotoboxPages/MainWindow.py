@@ -9,6 +9,7 @@ from PhotoboxPages.SinglePages.PageCloseConfirm import PageCloseConfirm
 from PhotoboxPages.SinglePages.PageConfig import PageConfig
 from PhotoboxPages.SinglePages.PageCountdown import PageCameraPreview
 from PhotoboxPages.SinglePages.PageDownloadPicture import PageDownloadPicture
+from PhotoboxPages.SinglePages.PageGreenscreenColorPicker import PageGreenscreenColorPicker
 from PhotoboxPages.SinglePages.PageHints import PageHints
 from PhotoboxPages.SinglePages.PageMovePictureFromTemp_RedirectOne import PageMovePictureFromTemp_RedirectOne
 from PhotoboxPages.SinglePages.abstract.PageMovePictureFromTemp import PageMovePictureFromTemp
@@ -86,12 +87,18 @@ class MainWindow(QtWidgets.QMainWindow):
         pageConfig.setBackPage(PageHints)
         pageConfig.setNextPage(PageStartServer)
         pageConfig.setCameraCalibrationEventPage(PageCameraCalibrationView)
+        pageConfig.setGreenscreenColorPickerEventPage(PageGreenscreenColorPicker)
         self.pages.addPage(pageConfig)
 
         #Seite 2-2 Camera configuration view
         pageCameraConfig = PageCameraCalibrationView(self.pages, self.windowsize)
         pageCameraConfig.setBackPage(PageConfig)
         self.pages.addPage(pageCameraConfig)
+
+        #Seite 2-3 Greenscreen Read Collor
+        pageGreenscreenColorPicker = PageGreenscreenColorPicker(self.pages, self.windowsize)
+        pageGreenscreenColorPicker.setBackPage(PageConfig)
+        self.pages.addPage(pageGreenscreenColorPicker)
 
         # Intermediate page:  Start Server
         pageStartServer = PageStartServer(self.pages,self.windowsize,  self.server)
