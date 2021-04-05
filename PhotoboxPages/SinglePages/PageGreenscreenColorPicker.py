@@ -113,7 +113,7 @@ class PageGreenscreenColorPicker(Page):
 
     def _updateMonitoringLabel(self,label:QLabel, color:QColor, additionalText:str):
         label.setStyleSheet("background-color:rgb("+str(color.getRgb()[0])+","+str(color.getRgb()[1])+","+str(color.getRgb()[2])+")")
-        label.setText(additionalText+" "+str(color.getHsv()))
+        label.setText(additionalText+" ("+str(color.getHsv()[0])+","+str(color.getHsv()[1])+","+str(color.getHsv()[2])+")")
 
     def _updateMinColor(self,minColor,rgbColor,index):
         if(minColor[index] > rgbColor[index]):

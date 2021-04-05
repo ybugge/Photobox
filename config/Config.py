@@ -363,7 +363,7 @@ textValue[TextKey.PAGE_CONFIG_GREENSCREEN_TITLE] = "Greenscreen: "
 textValue[TextKey.PAGE_CONFIG_GREENSCREEN_COLOR_PICER_BUTTON] = "Setze Greenscreenfarbe"
 
 #PageConfig.py
-textValue[TextKey.PAGE_GREENSCREEN_COLOR_PICKER_TITLE]= "Farben des Greenscreens kalibrieren"
+textValue[TextKey.PAGE_GREENSCREEN_COLOR_PICKER_TITLE]= "Farben des Greenscreens kalibrieren (HSV)"
 textValue[TextKey.PAGE_GREENSCREEN_COLOR_PICKER_CAPTURE_PHOTO_BUTTON] = "Neues Foto"
 
 #PageReconfig.py
