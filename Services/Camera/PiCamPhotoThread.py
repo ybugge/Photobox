@@ -1,7 +1,9 @@
 import datetime
+import io
 import time
 
 import cv2
+import numpy as np
 from PyQt5.QtCore import QThread, QSize
 
 from Services.CfgService import CfgService
@@ -54,17 +56,20 @@ class PiCamPhotoThread(QThread):
         cv2.destroyAllWindows()
 
     def piCamWithCv2_test(self):
-        resolution = CfgService.get(CfgKey.PI_CAMERA_PHOTO_RESOLUTION)
-        camera = PiCamera()
-        #camera.resolution = resolution
-        #camera.framerate = 15
-        rawCapture = PiRGBArray(camera)
-        #time.sleep(2)
-        camera.capture(rawCapture, format="bgr")
-        image = rawCapture.array[:, :, ::-1]
+        stream = io.BytesIO()
+        with PiCamera() as camera:
+            #camera.start_preview()
+            #time.sleep(2)
+            camera.capture(stream, format='jpeg')
+        # Construct a numpy array from the stream
+        data = np.fromstring(stream.getvalue(), dtype=np.uint8)
+        # "Decode" the image from the array, preserving colour
+        image = cv2.imdecode(data, 1)
+        # OpenCV returns an array with data in BGR order. If you want RGB instead
+        # use the following...
+        image = image[:, :, ::-1]
         cv2.imwrite(ShottedPictureService.getTempPicturePath(), image)
         cv2.destroyAllWindows()
-        camera.close()
 
     def shootPicture(self):
         self.shoot = True
