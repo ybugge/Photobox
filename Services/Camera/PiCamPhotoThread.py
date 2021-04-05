@@ -58,8 +58,8 @@ class PiCamPhotoThread(QThread):
     def piCamWithCv2_test(self):
         stream = io.BytesIO()
         with PiCamera() as camera:
-            #camera.start_preview()
-            #time.sleep(2)
+            camera.start_preview()
+            time.sleep(2)
             camera.capture(stream, format='jpeg')
         # Construct a numpy array from the stream
         data = np.fromstring(stream.getvalue(), dtype=np.uint8)
