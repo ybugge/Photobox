@@ -23,7 +23,8 @@ class PiCamPhotoThread(QThread):
         self.shoot = False
 
     def run(self):
-        self.plainPiCam()
+        self.piCamWithCv2_test()
+        #self.plainPiCam()
         self.returnValue = False
 
     def plainPiCam(self):
@@ -48,10 +49,20 @@ class PiCamPhotoThread(QThread):
         camera.capture(rawCapture, format="rgb")
         image = rawCapture.array
         cv2.imwrite(ShottedPictureService.getTempPicturePath(), image)
-
         camera.close()
         cv2.destroyAllWindows()
 
+    def piCamWithCv2_test(self):
+        resolution = CfgService.get(CfgKey.PI_CAMERA_PHOTO_RESOLUTION)
+        camera = PiCamera()
+        camera.resolution = resolution
+        camera.framerate = 30
+        rawCapture = PiRGBArray(camera)
+        camera.capture(rawCapture, format="bgr")
+        camera.close()
+        image = rawCapture.array[:, :, ::-1]
+        cv2.imwrite(ShottedPictureService.getTempPicturePath(), image)
+        cv2.destroyAllWindows()
 
     def shootPicture(self):
         self.shoot = True
