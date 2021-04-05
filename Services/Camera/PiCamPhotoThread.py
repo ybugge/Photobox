@@ -56,10 +56,10 @@ class PiCamPhotoThread(QThread):
     def piCamWithCv2_test(self):
         resolution = CfgService.get(CfgKey.PI_CAMERA_PHOTO_RESOLUTION)
         camera = PiCamera()
-        camera.resolution = resolution
+        #camera.resolution = resolution
         #camera.framerate = 15
         rawCapture = PiRGBArray(camera)
-        time.sleep(2)
+        #time.sleep(2)
         camera.capture(rawCapture, format="bgr")
         image = rawCapture.array[:, :, ::-1]
         cv2.imwrite(ShottedPictureService.getTempPicturePath(), image)
