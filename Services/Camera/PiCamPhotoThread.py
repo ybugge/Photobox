@@ -59,7 +59,7 @@ class PiCamPhotoThread(QThread):
         camera.resolution = resolution
         #camera.framerate = 15
         rawCapture = PiRGBArray(camera)
-        time.sleep(0.1)
+        time.sleep(2)
         camera.capture(rawCapture, format="bgr")
         image = rawCapture.array[:, :, ::-1]
         cv2.imwrite(ShottedPictureService.getTempPicturePath(), image)
