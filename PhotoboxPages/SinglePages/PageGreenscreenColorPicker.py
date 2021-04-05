@@ -106,14 +106,14 @@ class PageGreenscreenColorPicker(Page):
         minMaxQColor = QColor.fromHsv(round((minColor[0]+maxColor[0])/2),round((minColor[1]+maxColor[1])/2),round((minColor[2]+maxColor[2])/2),255)
 
 
-        self._updateMonitoringLabel(self.averageColorLabel,averageQColor)
-        self._updateMonitoringLabel(self.minColorLabel,minQColor)
-        self._updateMonitoringLabel(self.maxColorLabel,maxQColor)
-        self._updateMonitoringLabel(self.averageFromMinMaxColorLabel,minMaxQColor)
+        self._updateMonitoringLabel(self.averageColorLabel,averageQColor,"Ø:")
+        self._updateMonitoringLabel(self.minColorLabel,minQColor,"Min:")
+        self._updateMonitoringLabel(self.maxColorLabel,maxQColor,"Max:")
+        self._updateMonitoringLabel(self.averageFromMinMaxColorLabel,minMaxQColor,"X̅:")
 
-    def _updateMonitoringLabel(self,label:QLabel, color:QColor):
+    def _updateMonitoringLabel(self,label:QLabel, color:QColor, additionalText:str):
         label.setStyleSheet("background-color:rgb("+str(color.getRgb()[0])+","+str(color.getRgb()[1])+","+str(color.getRgb()[2])+")")
-        label.setText(str(color.getHsv()))
+        label.setText(additionalText+" "+str(color.getHsv()))
 
     def _updateMinColor(self,minColor,rgbColor,index):
         if(minColor[index] > rgbColor[index]):
