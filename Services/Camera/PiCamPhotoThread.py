@@ -67,7 +67,7 @@ class PiCamPhotoThread(QThread):
         image = cv2.imdecode(data, 1)
         # OpenCV returns an array with data in BGR order. If you want RGB instead
         # use the following...
-        image = image[:, :, ::-1]
+        #image = image[:, :, ::-1]
         cv2.imwrite(ShottedPictureService.getTempPicturePath(), image)
         cv2.destroyAllWindows()
 
