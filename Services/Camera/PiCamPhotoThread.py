@@ -1,4 +1,5 @@
 import datetime
+import time
 
 import cv2
 from PyQt5.QtCore import QThread, QSize
@@ -56,8 +57,9 @@ class PiCamPhotoThread(QThread):
         resolution = CfgService.get(CfgKey.PI_CAMERA_PHOTO_RESOLUTION)
         camera = PiCamera()
         camera.resolution = resolution
-        camera.framerate = 30
+        camera.framerate = 15
         rawCapture = PiRGBArray(camera)
+        time.sleep(0.1)
         camera.capture(rawCapture, format="bgr")
         image = rawCapture.array[:, :, ::-1]
         cv2.imwrite(ShottedPictureService.getTempPicturePath(), image)
