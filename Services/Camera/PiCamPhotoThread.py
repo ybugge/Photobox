@@ -56,10 +56,10 @@ class PiCamPhotoThread(QThread):
         cv2.destroyAllWindows()
 
     def piCamWithCv2_test(self):
+        resolution = CfgService.get(CfgKey.PI_CAMERA_PHOTO_RESOLUTION)
         stream = io.BytesIO()
         with PiCamera() as camera:
-            camera.start_preview()
-            time.sleep(2)
+            camera.resolution = resolution
             camera.capture(stream, format='jpeg')
         # Construct a numpy array from the stream
         data = np.fromstring(stream.getvalue(), dtype=np.uint8)
