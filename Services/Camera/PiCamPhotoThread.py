@@ -57,13 +57,12 @@ class PiCamPhotoThread(QThread):
         camera = PiCamera()
         camera.resolution = resolution
         camera.framerate = 30
-        camera.start_preview()
         rawCapture = PiRGBArray(camera)
         camera.capture(rawCapture, format="bgr")
-        camera.close()
         image = rawCapture.array[:, :, ::-1]
         cv2.imwrite(ShottedPictureService.getTempPicturePath(), image)
         cv2.destroyAllWindows()
+        camera.close()
 
     def shootPicture(self):
         self.shoot = True
