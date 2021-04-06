@@ -1,3 +1,5 @@
+import time
+
 from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QPixmap, QImage, QColor
 from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QLineEdit, QPushButton, QLabel
@@ -5,7 +7,8 @@ from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QLineEdit, QPushButton, QL
 from PhotoboxPages.AllPages import AllPages
 from PhotoboxPages.Page import Page
 from Services.Camera.CameraService import CameraService
-from config.Config import textValue, TextKey
+from Services.CfgService import CfgService
+from config.Config import textValue, TextKey, CfgKey
 
 
 class PageGreenscreenColorPicker(Page):
@@ -36,6 +39,9 @@ class PageGreenscreenColorPicker(Page):
         self.averageFromMinMaxColorLabel = QLineEdit()
         colorLayout.addWidget(self.averageFromMinMaxColorLabel)
 
+        #Hinweis:
+        self.hintLabel = QLabel()
+        mainLayout.addWidget(self.hintLabel)
 
         #Picture
         self.picture = QLabel()
@@ -44,6 +50,7 @@ class PageGreenscreenColorPicker(Page):
 
 
         #Navigation   ##################################################################################################
+        mainLayout.addStretch()
         navigationLayout = QHBoxLayout()
         mainLayout.addLayout(navigationLayout)
 
@@ -53,11 +60,15 @@ class PageGreenscreenColorPicker(Page):
         navigationLayout.addWidget(backButton)
 
         capturePhotoButton = QPushButton(textValue[TextKey.PAGE_GREENSCREEN_COLOR_PICKER_CAPTURE_PHOTO_BUTTON])
-        capturePhotoButton.clicked.connect(self._capturePhoto)
+        capturePhotoButton.clicked.connect(self._capturePhotoEvent)
         self.setNavigationbuttonStyle(capturePhotoButton)
         navigationLayout.addWidget(capturePhotoButton)
 
     def executeBefore(self):
+        self._capturePhoto()
+
+    def _capturePhotoEvent(self):
+        time.sleep(2)
         self._capturePhoto()
 
     def _capturePhoto(self):
@@ -110,6 +121,8 @@ class PageGreenscreenColorPicker(Page):
         self._updateMonitoringLabel(self.minColorLabel,minQColor,"Min:")
         self._updateMonitoringLabel(self.maxColorLabel,maxQColor,"Max:")
         self._updateMonitoringLabel(self.averageFromMinMaxColorLabel,minMaxQColor,"X̅:")
+        self._setHint(maxColor[0] - minColor[0] > CfgService.get(CfgKey.GREENSCREEN_MAX_COLOR_RANGE_HINT))
+
 
     def _updateMonitoringLabel(self,label:QLabel, color:QColor, additionalText:str):
         label.setStyleSheet("background-color:rgb("+str(color.getRgb()[0])+","+str(color.getRgb()[1])+","+str(color.getRgb()[2])+")")
@@ -122,3 +135,11 @@ class PageGreenscreenColorPicker(Page):
     def _updateMaxColor(self,maxColor,rgbColor,index):
         if(maxColor[index] < rgbColor[index]):
             maxColor[index] = rgbColor[index]
+
+    def _setHint(self,colorRangeToBig:bool):
+        if colorRangeToBig:
+            self.hintLabel.setText(textValue[TextKey.PAGE_GREENSCREEN_COLOR_PICKER_HINT_FAILED])
+            self.hintLabel.setStyleSheet("color:red")
+        else:
+            self.hintLabel.setText(textValue[TextKey.PAGE_GREENSCREEN_COLOR_PICKER_HINT_OK])
+            self.hintLabel.setStyleSheet("color:green")

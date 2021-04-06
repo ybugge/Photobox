@@ -32,6 +32,7 @@ class CfgKey(enum.Enum):
 
     #GREENSCREEN #########################################################################################
     GREENSCREEN_IS_ACTIVE = 7000
+    GREENSCREEN_MAX_COLOR_RANGE_HINT = 7001
 
     #DIASHOW CLIENT ##################################################################################
     DIASHOW_CLIENT_PICTURE_MAIN_FOLDER = 5000
@@ -141,6 +142,7 @@ cfgValue[CfgKey.PRINTER_MAX_PRINTING_ORDER] = 5
 
 #GREENSCREEN #########################################################################################
 cfgValue[CfgKey.GREENSCREEN_IS_ACTIVE] = False
+cfgValue[CfgKey.GREENSCREEN_MAX_COLOR_RANGE_HINT] = 20
 
 #DIASHOW CLIENT #################################################################
 cfgValue[CfgKey.DIASHOW_CLIENT_PICTURE_MAIN_FOLDER] = "Diashow/"
@@ -276,6 +278,8 @@ class TextKey(enum.Enum):
     #PageConfig.py
     PAGE_GREENSCREEN_COLOR_PICKER_TITLE=4000
     PAGE_GREENSCREEN_COLOR_PICKER_CAPTURE_PHOTO_BUTTON = 4001
+    PAGE_GREENSCREEN_COLOR_PICKER_HINT_OK=4002
+    PAGE_GREENSCREEN_COLOR_PICKER_HINT_FAILED=4003
 
     #PageReconfig.py
     PAGE_RECONFIG_TITLE=2020
@@ -362,9 +366,11 @@ textValue[TextKey.PAGE_CONFIG_PRINTER_PAPER_FORMAT_LABEL] = "Papierformat: "
 textValue[TextKey.PAGE_CONFIG_GREENSCREEN_TITLE] = "Greenscreen: "
 textValue[TextKey.PAGE_CONFIG_GREENSCREEN_COLOR_PICER_BUTTON] = "Setze Greenscreenfarbe"
 
-#PageConfig.py
+#GreenscreenColorPicker.py
 textValue[TextKey.PAGE_GREENSCREEN_COLOR_PICKER_TITLE]= "Farben des Greenscreens kalibrieren (HSV)"
 textValue[TextKey.PAGE_GREENSCREEN_COLOR_PICKER_CAPTURE_PHOTO_BUTTON] = "Neues Foto"
+textValue[TextKey.PAGE_GREENSCREEN_COLOR_PICKER_HINT_OK]= "Der Hintergrund ist OK."
+textValue[TextKey.PAGE_GREENSCREEN_COLOR_PICKER_HINT_FAILED]= "Der Hintergrund ist nicht einheitlich genug!"
 
 #PageReconfig.py
 textValue[TextKey.PAGE_RECONFIG_TITLE] = "Konfiguration"
