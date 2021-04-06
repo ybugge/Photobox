@@ -30,6 +30,26 @@ class CfgService():
             cfgValue[key] = valueAsString
             propertiesService = PropertiesService()
             propertiesService.set(key, valueAsString)
+    @staticmethod
+    def setIntList(key:CfgKey,valueAsIntList:list):
+        valueAsString = ";".join(list(map(str,valueAsIntList)))
+        if cfgValue[key] != valueAsString:
+            cfgValue[key] = valueAsString
+            propertiesService = PropertiesService()
+            propertiesService.set(key, valueAsString)
+
+    @staticmethod
+    def getIntList(key:CfgKey):
+        propertiesService = PropertiesService()
+        propertiesValue = propertiesService.find(key)
+
+        if propertiesValue == None:
+            strCfgValue =  cfgValue[key]
+        else:
+            strCfgValue = propertiesValue
+
+        strCfgValues = strCfgValue.split(";")
+        return list(map(int,strCfgValues))
 
     @staticmethod
     def getColor(key:CfgKey):

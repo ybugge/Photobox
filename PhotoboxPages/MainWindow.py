@@ -10,6 +10,7 @@ from PhotoboxPages.SinglePages.PageConfig import PageConfig
 from PhotoboxPages.SinglePages.PageCountdown import PageCameraPreview
 from PhotoboxPages.SinglePages.PageDownloadPicture import PageDownloadPicture
 from PhotoboxPages.SinglePages.PageGreenscreenColorPicker import PageGreenscreenColorPicker
+from PhotoboxPages.SinglePages.PageGreenscreenToleranceConfig import PageGreenscreenToleranceConfig
 from PhotoboxPages.SinglePages.PageHints import PageHints
 from PhotoboxPages.SinglePages.PageMovePictureFromTemp_RedirectOne import PageMovePictureFromTemp_RedirectOne
 from PhotoboxPages.SinglePages.abstract.PageMovePictureFromTemp import PageMovePictureFromTemp
@@ -98,7 +99,13 @@ class MainWindow(QtWidgets.QMainWindow):
         #Seite 2-3 Greenscreen Read Collor
         pageGreenscreenColorPicker = PageGreenscreenColorPicker(self.pages, self.windowsize)
         pageGreenscreenColorPicker.setBackPage(PageConfig)
+        pageGreenscreenColorPicker.setTolerancePage(PageGreenscreenToleranceConfig)
         self.pages.addPage(pageGreenscreenColorPicker)
+
+        #Seite 2-4 PageGreenscreenToleranceConfig
+        pageGreenscreenToleranceConfig = PageGreenscreenToleranceConfig(self.pages, self.windowsize)
+        pageGreenscreenToleranceConfig.setBackPage(PageGreenscreenColorPicker)
+        self.pages.addPage(pageGreenscreenToleranceConfig)
 
         # Intermediate page:  Start Server
         pageStartServer = PageStartServer(self.pages,self.windowsize,  self.server)
@@ -157,7 +164,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.showFullScreen()
 
     def exitNotAllowedInThisPages(self):
-        return [PageCameraPreview, PageCapturePhoto, PageSystemPictureManager]
+        return [PageCameraPreview, PageCapturePhoto, PageSystemPictureManager,PageCloseConfirm]
 
     #Alle Keyevents
     def keyPressEvent(self, event):

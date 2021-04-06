@@ -205,8 +205,9 @@ class PageConfig(Page):
         self.averageColorLabel.setReadOnly(True)
         greenscreenAverageColorLayout.addWidget(self.averageColorLabel)
 
-        mainContentLabel.addStretch()
+
         #Navigation   ##################################################################################################
+        mainContentLabel.addStretch()
         navigationLayout = QHBoxLayout()
         mainLayout.addLayout(navigationLayout)
 
