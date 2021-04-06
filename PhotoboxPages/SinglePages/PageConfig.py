@@ -1,6 +1,6 @@
 import qrcode
 from PyQt5.QtCore import QSize, Qt
-from PyQt5.QtGui import QFont
+from PyQt5.QtGui import QFont, QColor
 from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QLabel, QHBoxLayout, QFileDialog, QGridLayout, QLineEdit, QWidget, \
     QScrollArea, QComboBox
 
@@ -188,11 +188,22 @@ class PageConfig(Page):
         self.greenscreenDisabledButton.clicked.connect(self.activatePrinter)
         greenscreenDisabledLayout.addWidget(self.greenscreenDisabledButton)
 
+        #Greenscreen ColorPicker
         greenscreenColorPickerButton = QPushButton()
         greenscreenColorPickerButton.setText(textValue[TextKey.PAGE_CONFIG_GREENSCREEN_COLOR_PICER_BUTTON])
         greenscreenColorPickerButton.clicked.connect(self.greenscreenColorPickerEvent)
         mainContentLabel.addWidget(greenscreenColorPickerButton)
 
+        greenscreenAverageColorLayout = QHBoxLayout()
+        mainContentLabel.addLayout(greenscreenAverageColorLayout)
+
+        greenscreenAverageColorLabel = QLabel()
+        greenscreenAverageColorLabel.setText(textValue[TextKey.PAGE_CONFIG_GREENSCREEN_AVERAGE_COLOR_LABEL])
+        greenscreenAverageColorLayout.addWidget(greenscreenAverageColorLabel)
+
+        self.averageColorLabel = QLineEdit()
+        self.averageColorLabel.setReadOnly(True)
+        greenscreenAverageColorLayout.addWidget(self.averageColorLabel)
 
         mainContentLabel.addStretch()
         #Navigation   ##################################################################################################
@@ -212,6 +223,13 @@ class PageConfig(Page):
     def executeBefore(self):
         self.updateUiPrintingPossible()
         self.setPrinterFromProperties()
+        self.updateGreenscreenColor()
+
+    def updateGreenscreenColor(self):
+        averageGreenscreenQColor = CfgService.getColor(CfgKey.GREENSCREEN_AVERAGE_HSV_COLOR_WITHOUT_TOLERANCE)
+        self.averageColorLabel.setText(str(averageGreenscreenQColor.getHsv()))
+        self.averageColorLabel.setStyleSheet("background-color:rgb("+str(averageGreenscreenQColor.getRgb()[0])+","+str(averageGreenscreenQColor.getRgb()[1])+","+str(averageGreenscreenQColor.getRgb()[2])+")")
+
 
     def updateUiPrintingPossible(self):
         if not self.printerService.printingPosible():

@@ -28,15 +28,19 @@ class PageGreenscreenColorPicker(Page):
         mainLayout.addLayout(colorLayout)
 
         self.averageColorLabel = QLineEdit()
+        self.averageColorLabel.setReadOnly(True)
         colorLayout.addWidget(self.averageColorLabel)
 
         self.minColorLabel = QLineEdit()
+        self.minColorLabel.setReadOnly(True)
         colorLayout.addWidget(self.minColorLabel)
 
         self.maxColorLabel = QLineEdit()
+        self.maxColorLabel.setReadOnly(True)
         colorLayout.addWidget(self.maxColorLabel)
 
         self.averageFromMinMaxColorLabel = QLineEdit()
+        self.averageFromMinMaxColorLabel.setReadOnly(True)
         colorLayout.addWidget(self.averageFromMinMaxColorLabel)
 
         #Hinweis:
@@ -44,25 +48,42 @@ class PageGreenscreenColorPicker(Page):
         mainLayout.addWidget(self.hintLabel)
 
         #Picture
+        mainLayout.addStretch()
         self.picture = QLabel()
         self.picture.setAlignment(Qt.AlignCenter)
         mainLayout.addWidget(self.picture)
 
 
-        #Navigation   ##################################################################################################
+        #Buttons   ##################################################################################################
         mainLayout.addStretch()
-        navigationLayout = QHBoxLayout()
-        mainLayout.addLayout(navigationLayout)
+        navigationTopLayout = QHBoxLayout()
+        mainLayout.addLayout(navigationTopLayout)
 
-        backButton = QPushButton(textValue[TextKey.PAGE_CONFIG_BACKBUTTON])
-        backButton.clicked.connect(self.backPageEvent)
-        self.setNavigationbuttonStyle(backButton)
-        navigationLayout.addWidget(backButton)
+        toleranceButton = QPushButton(textValue[TextKey.PAGE_GREENSCREEN_COLOR_PICKER_TOLERANCE_BUTTON])
+        toleranceButton.clicked.connect(self._toleranceButtonEvent)
+        self.setNavigationbuttonStyle(toleranceButton)
+        navigationTopLayout.addWidget(toleranceButton)
 
         capturePhotoButton = QPushButton(textValue[TextKey.PAGE_GREENSCREEN_COLOR_PICKER_CAPTURE_PHOTO_BUTTON])
         capturePhotoButton.clicked.connect(self._capturePhotoEvent)
         self.setNavigationbuttonStyle(capturePhotoButton)
-        navigationLayout.addWidget(capturePhotoButton)
+        navigationTopLayout.addWidget(capturePhotoButton)
+
+        #Bottom ------------------------------------------------
+        navigationBottomLayout = QHBoxLayout()
+        mainLayout.addLayout(navigationBottomLayout)
+
+        backButton = QPushButton(textValue[TextKey.PAGE_CONFIG_BACKBUTTON])
+        backButton.clicked.connect(self.backPageEvent)
+        self.setNavigationbuttonStyle(backButton)
+        navigationBottomLayout.addWidget(backButton)
+
+        self.saveButton = QPushButton(textValue[TextKey.PAGE_GREENSCREEN_COLOR_PICKER_SAVE_BUTTON])
+        self.saveButton.clicked.connect(self._saveEvent)
+        self.setNavigationbuttonStyle(self.saveButton)
+        navigationBottomLayout.addWidget(self.saveButton)
+
+
 
     def executeBefore(self):
         self._capturePhoto()
@@ -75,6 +96,8 @@ class PageGreenscreenColorPicker(Page):
         rawAndPreviewPicture = self.camera.getImage()
         self._updatePreviewPicture(rawAndPreviewPicture[1])
         self._scannImage(rawAndPreviewPicture[1])
+        self.saveButton.setText(textValue[TextKey.PAGE_GREENSCREEN_COLOR_PICKER_SAVE_BUTTON])
+        self.saveButton.setDisabled(False)
 
     def _updatePreviewPicture(self,preview:QImage):
         self.picture.setPixmap(QPixmap.fromImage(preview))
@@ -111,15 +134,14 @@ class PageGreenscreenColorPicker(Page):
         averageColor[1] /= imageSize.width()
         averageColor[2] /= imageSize.width()
 
-        averageQColor = QColor.fromHsv(round(averageColor[0]),round(averageColor[1]),round(averageColor[2]),255)
-        minQColor = QColor.fromHsv(round(minColor[0]),round(minColor[1]),round(minColor[2]),255)
-        maxQColor = QColor.fromHsv(round(maxColor[0]),round(maxColor[1]),round(maxColor[2]),255)
+        self.averageQColor = QColor.fromHsv(round(averageColor[0]),round(averageColor[1]),round(averageColor[2]),255)
+        self.minQColor = QColor.fromHsv(round(minColor[0]),round(minColor[1]),round(minColor[2]),255)
+        self.maxQColor = QColor.fromHsv(round(maxColor[0]),round(maxColor[1]),round(maxColor[2]),255)
         minMaxQColor = QColor.fromHsv(round((minColor[0]+maxColor[0])/2),round((minColor[1]+maxColor[1])/2),round((minColor[2]+maxColor[2])/2),255)
 
-
-        self._updateMonitoringLabel(self.averageColorLabel,averageQColor,"Ø:")
-        self._updateMonitoringLabel(self.minColorLabel,minQColor,"Min:")
-        self._updateMonitoringLabel(self.maxColorLabel,maxQColor,"Max:")
+        self._updateMonitoringLabel(self.averageColorLabel,self.averageQColor,"Ø:")
+        self._updateMonitoringLabel(self.minColorLabel,self.minQColor,"Min:")
+        self._updateMonitoringLabel(self.maxColorLabel,self.maxQColor,"Max:")
         self._updateMonitoringLabel(self.averageFromMinMaxColorLabel,minMaxQColor,"X̅:")
         self._setHint(maxColor[0] - minColor[0] > CfgService.get(CfgKey.GREENSCREEN_MAX_COLOR_RANGE_HINT))
 
@@ -143,3 +165,16 @@ class PageGreenscreenColorPicker(Page):
         else:
             self.hintLabel.setText(textValue[TextKey.PAGE_GREENSCREEN_COLOR_PICKER_HINT_OK])
             self.hintLabel.setStyleSheet("color:green")
+
+    def _saveEvent(self):
+        CfgService.setColor(CfgKey.GREENSCREEN_MIN_HSV_COLOR_WITHOUT_TOLERANCE,self.minQColor)
+        CfgService.setColor(CfgKey.GREENSCREEN_MAX_HSV_COLOR_WITHOUT_TOLERANCE,self.maxQColor)
+        CfgService.setColor(CfgKey.GREENSCREEN_AVERAGE_HSV_COLOR_WITHOUT_TOLERANCE,self.averageQColor)
+        self.saveButton.setText(textValue[TextKey.PAGE_GREENSCREEN_COLOR_PICKER_SAVE_SUCCESS_BUTTON])
+        self.saveButton.setDisabled(True)
+
+    def setTolerancePage(self,tolerancePage):
+        self.tolerancePage = tolerancePage
+
+    def _toleranceButtonEvent(self):
+        self.setPageEvent(self.tolerancePage)
