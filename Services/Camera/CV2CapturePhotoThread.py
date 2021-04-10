@@ -27,8 +27,11 @@ class CV2CapturePhotoThread(QThread):
         while self.returnValue:
             ret, frame = cap.read()
             if ret:
-                newFrame = greenscreenService.replaceBackgroundPhoto(frame)
-                cv2.imwrite(ShottedPictureService.getTempPicturePath(), newFrame)
+                if CfgService.get(CfgKey.GREENSCREEN_IS_ACTIVE):
+                    newFrame = greenscreenService.replaceBackgroundPhoto(frame)
+                    cv2.imwrite(ShottedPictureService.getTempPicturePath(), newFrame)
+                else:
+                    cv2.imwrite(ShottedPictureService.getTempPicturePath(), frame)
                 self.returnValue = False
 
         cap.release()

@@ -70,8 +70,11 @@ class PiCamPhotoThread(QThread):
         # Construct a numpy array from the stream
         data = np.fromstring(stream.getvalue(), dtype=np.uint8)
         image = cv2.imdecode(data, 1)
-        newImage = greenscreenService.replaceBackgroundPhoto(image)
-        cv2.imwrite(ShottedPictureService.getTempPicturePath(), newImage)
+        if CfgService.get(CfgKey.GREENSCREEN_IS_ACTIVE):
+            newImage = greenscreenService.replaceBackgroundPhoto(image)
+            cv2.imwrite(ShottedPictureService.getTempPicturePath(), newImage)
+        else:
+            cv2.imwrite(ShottedPictureService.getTempPicturePath(), image)
         cv2.destroyAllWindows()
 
     def shootPicture(self):
