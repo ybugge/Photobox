@@ -10,6 +10,7 @@ from PhotoboxPages.SinglePages.PageConfig import PageConfig
 from PhotoboxPages.SinglePages.PageCountdown import PageCameraPreview
 from PhotoboxPages.SinglePages.PageDownloadPicture import PageDownloadPicture
 from PhotoboxPages.SinglePages.PageGreenscreenColorPicker import PageGreenscreenColorPicker
+from PhotoboxPages.SinglePages.PageGreenscreenSelectBackround import PageGreenscreenSelectBackround
 from PhotoboxPages.SinglePages.PageGreenscreenToleranceConfig import PageGreenscreenToleranceConfig
 from PhotoboxPages.SinglePages.PageHints import PageHints
 from PhotoboxPages.SinglePages.PageMovePictureFromTemp_RedirectOne import PageMovePictureFromTemp_RedirectOne
@@ -68,8 +69,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pages.addPage(pageCloseConfirm)
 
         #Revonfigure
-        pageReconfig = PageReconfig(self.pages,self.windowsize)
+        pageReconfig = PageReconfig(self.pages,self.windowsize, self.printerService)
         pageReconfig.setBackPage(PageTitlePicture)
+        pageReconfig.setGreenscreenColorPickerEventPage(PageGreenscreenColorPicker)
         self.pages.addPage(pageReconfig)
 
         #Seite 1 Hinweise
@@ -97,8 +99,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pages.addPage(pageCameraConfig)
 
         #Seite 2-3 Greenscreen Read Collor
-        pageGreenscreenColorPicker = PageGreenscreenColorPicker(self.pages, self.windowsize)
+        pageGreenscreenColorPicker = PageGreenscreenColorPicker(self.pages, self.windowsize, self.globalVariable)
         pageGreenscreenColorPicker.setBackPage(PageConfig)
+        pageGreenscreenColorPicker.setBackPageIsInUserMode(PageReconfig)
         pageGreenscreenColorPicker.setTolerancePage(PageGreenscreenToleranceConfig)
         self.pages.addPage(pageGreenscreenColorPicker)
 
@@ -108,14 +111,21 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pages.addPage(pageGreenscreenToleranceConfig)
 
         # Intermediate page:  Start Server
-        pageStartServer = PageStartServer(self.pages,self.windowsize,  self.server)
+        pageStartServer = PageStartServer(self.pages,self.windowsize, self.server, self.globalVariable)
         pageStartServer.setNextPage(PageTitlePicture)
         self.pages.addPage(pageStartServer)
 
         #Seite 3 Title
         pageTitlePicture = PageTitlePicture(self.pages, self.windowsize)
-        pageTitlePicture.setNextPage(PageCameraPreview)
+        pageTitlePicture.setNextPage(PageGreenscreenSelectBackround)
         self.pages.addPage(pageTitlePicture)
+
+        #Seite Opt 3.1 Greenscreen Background
+        pageGreenscreenSelectBackround = PageGreenscreenSelectBackround(self.pages, self.windowsize,self.globalVariable)
+        pageGreenscreenSelectBackround.setNextPage(PageCameraPreview)
+        pageGreenscreenSelectBackround.setBackPage(PageTitlePicture)
+        pageGreenscreenSelectBackround.setOwnBackgroundPage(PageCameraPreview) # Muss noch geändert werden
+        self.pages.addPage(pageGreenscreenSelectBackround)
 
         #Seite 4 Camera Preview
         pageCameraPreview = PageCameraPreview(self.pages,self.windowsize)

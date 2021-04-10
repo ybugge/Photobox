@@ -16,6 +16,7 @@ class PageHints(Page):
         super().__init__(pages,windowSize)
         self.printerService = printerService
         vbox = QVBoxLayout()
+        vbox.setContentsMargins(0, 0, 0, 0)
         self.setLayout(vbox)
 
         #Titel

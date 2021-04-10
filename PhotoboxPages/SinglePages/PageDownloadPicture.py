@@ -21,6 +21,7 @@ class PageDownloadPicture(Page):
         self.switch = False
 
         mainLayout = QVBoxLayout()
+        mainLayout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(mainLayout)
 
         #Titel

@@ -7,6 +7,7 @@ import numpy as np
 from PyQt5.QtCore import QThread, QSize
 
 from Services.CfgService import CfgService
+from Services.GlobalPagesVariableService import GlobalPagesVariableService
 from Services.ShottedPictureService import ShottedPictureService
 from config.Config import cfgValue, CfgKey
 
@@ -19,9 +20,9 @@ except ImportError:
 
 class PiCamPhotoThread(QThread):
 
-    def __init__(self,img_dimensions : QSize):
+    def __init__(self,globalVariable:GlobalPagesVariableService):
         super().__init__()
-        self.img_dimensions = img_dimensions
+        self.globalVariable = globalVariable
         self.returnValue = True
         self.shoot = False
 

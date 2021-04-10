@@ -43,7 +43,7 @@ class PageCapturePhoto(Page):
     def executeBefore(self):
         randomPicture = self.getRandomPicture()
         randomPicture.scaledToHeight(self.windowsize.height())
-        self.capturePhotoThread= CameraService.initialPhoto(self.windowsize)
+        self.capturePhotoThread= CameraService.initialPhoto(self.globalVariable)
         self.capturePhotoThread.start()
         self.counterLabel.setPixmap(randomPicture.scaledToHeight(self.windowsize.height()))
         self.countdown = CfgService.get(CfgKey.PAGE_CAPTUREPHOTO_TIMER_START_VALUE)

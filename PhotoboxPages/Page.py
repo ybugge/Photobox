@@ -94,25 +94,25 @@ class Page(QtWidgets.QWidget):
     def __getTitleStyle(self):
         return  ("background-color:" + CfgService.get(CfgKey.TITLE_BACKGROUND_COLOR) + ";"\
             "color:" + CfgService.get(CfgKey.TITLE_COLOR) +";"\
-            "font-size: " + str(self.__getTitelAndNavigationButtonTextSize()) +"px ;"\
-            "font-family: " + CfgService.get(CfgKey.TITLE_FONT) +", serif;")
+            "font-size: " + str(self.getTitelAndNavigationButtonTextSize()) + "px ;"\
+            "font-family: " + CfgService.get(CfgKey.TITLE_FONT) + ", serif;")
 
     def setNavigationbuttonStyle(self, button:QPushButton):
         button.setFixedHeight(self.__getTitleAndNavigationButtonHeight())
-        button.setStyleSheet("font-size: " + str(self.__getTitelAndNavigationButtonTextSize()) +"px ;" \
+        button.setStyleSheet("font-size: " + str(self.getTitelAndNavigationButtonTextSize()) + "px ;" \
                             "font-family: " + CfgService.get(CfgKey.MAIN_WINDOW_TEXT_FONT) +", serif;")
 
     def setContentButtonStyle(self,button:QPushButton):
         button.setFixedHeight(int(self.__getTitleAndNavigationButtonHeight()*(1/3)))
 
-    def __getTitelAndNavigationButtonTextSize(self):
+    def getTitelAndNavigationButtonTextSize(self):
         return int(self.__getTitleAndNavigationButtonHeight()*(2/4))
 
     def __getContentHeightWithNavigationButton(self):
         return (self.__getTitleAndNavigationButtonHeight())*(self.windowComponentHeightDevider-1)
 
-    def __getContentHeightWithNavigationButtonAndTitle(self):
-        return (self.__getTitleAndNavigationButtonHeight())*(self.windowComponentHeightDevider-2)
+    def getContentHeightWithNavigationButtonAndTitle(self):
+        return self.windowSize.height() - 2*(self.__getTitleAndNavigationButtonHeight())
 
     def __getTitleAndNavigationButtonHeight(self):
         return self.windowSize.height()/self.windowComponentHeightDevider

@@ -38,6 +38,8 @@ class CfgKey(enum.Enum):
     GREENSCREEN_AVERAGE_HSV_COLOR_WITHOUT_TOLERANCE = 7004
     GREENSCREEN_COLOR_TOLERANCE_POS = 7005
     GREENSCREEN_COLOR_TOLERANCE_NEG = 7006
+    GREENSCREEN_DEFAULT_BACKGROUND_FOLDER = 7007
+    GREENSCREEN_CUSTOM_BACKGROUND_FOLDER = 7008
 
 
     #DIASHOW CLIENT ##################################################################################
@@ -154,6 +156,8 @@ cfgValue[CfgKey.GREENSCREEN_MAX_HSV_COLOR_WITHOUT_TOLERANCE] = "0;0;0"
 cfgValue[CfgKey.GREENSCREEN_AVERAGE_HSV_COLOR_WITHOUT_TOLERANCE] = "0;0;0"
 cfgValue[CfgKey.GREENSCREEN_COLOR_TOLERANCE_POS] = "0;0;0"
 cfgValue[CfgKey.GREENSCREEN_COLOR_TOLERANCE_NEG] = "0;0;0"
+cfgValue[CfgKey.GREENSCREEN_DEFAULT_BACKGROUND_FOLDER] = "greenscreenBackground/"
+cfgValue[CfgKey.GREENSCREEN_CUSTOM_BACKGROUND_FOLDER] = "greenscreenTemp/"
 
 #DIASHOW CLIENT #################################################################
 cfgValue[CfgKey.DIASHOW_CLIENT_PICTURE_MAIN_FOLDER] = "Diashow/"
@@ -302,6 +306,11 @@ class TextKey(enum.Enum):
     PAGE_GREENSCREEN_TOLERANCE_CONFIG_POS_LABEL = 4502
     PAGE_GREENSCREEN_TOLERANCE_CONFIG_NEG_LABEL = 4503
 
+    #PageGreenscreenSelectBackround.py
+    PAGE_GREENSCREEN_SELECT_BACKGROUND_TITLE = 6000
+    PAGE_GREENSCREEN_SELECT_BACKGROUND_OWN_BACKGROUND_BUTTON = 6001
+    PAGE_GREENSCREEN_SELECT_BACKGROUND_BACK_BUTTON = 6002
+
 
     #PageReconfig.py
     PAGE_RECONFIG_TITLE=2020
@@ -403,6 +412,12 @@ textValue[TextKey.PAGE_GREENSCREEN_TOLERANCE_CONFIG_TITLE] = "Greenscreen Tolera
 textValue[TextKey.PAGE_GREENSCREEN_TOLERANCE_CONFIG_BACK_BUTTON] = "Übernehmen und Zurück"
 textValue[TextKey.PAGE_GREENSCREEN_TOLERANCE_CONFIG_POS_LABEL] = "HSV Toleranz im posetiven Bereich: Farbe (H) | Settigung (S) | Helligkeit (V)"
 textValue[TextKey.PAGE_GREENSCREEN_TOLERANCE_CONFIG_NEG_LABEL] = "HSV Toleranz im negativen Bereich: Farbe (H) | Settigung (S) | Helligkeit (V)"
+
+
+#PageGreenscreenSelectBackround.py
+textValue[TextKey.PAGE_GREENSCREEN_SELECT_BACKGROUND_TITLE] = "Hintergrund auswählen"
+textValue[TextKey.PAGE_GREENSCREEN_SELECT_BACKGROUND_OWN_BACKGROUND_BUTTON] = "Eigenen Hintergrund"
+textValue[TextKey.PAGE_GREENSCREEN_SELECT_BACKGROUND_BACK_BUTTON] = "Zurück"
 
 #PageReconfig.py
 textValue[TextKey.PAGE_RECONFIG_TITLE] = "Konfiguration"

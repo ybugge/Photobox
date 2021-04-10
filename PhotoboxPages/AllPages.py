@@ -24,6 +24,7 @@ class AllPages():
     def showPage(self,type):
         foundedPage = self.getPageInstance(type)
         if foundedPage != None:
+            foundedPage.executeBefore()
             index = self.getPages().index(foundedPage)
             self.setCurrentIndex(index)
 

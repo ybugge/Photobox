@@ -17,6 +17,7 @@ class PageSystemPictureManager(Page):
         super().__init__(pages,windowSize)
 
         mainLayout = QVBoxLayout()
+        mainLayout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(mainLayout)
 
         #Titel

@@ -16,6 +16,7 @@ class PageCloseConfirm(Page):
         self.mainWindow = mainWindow
 
         vbox = QVBoxLayout()
+        vbox.setContentsMargins(0, 0, 0, 0)
         vbox.addWidget(self.getTitleAsQLabel(TextKey.PAGE_CLOSECONFIRM_TITLE))
         vbox.addStretch()
 

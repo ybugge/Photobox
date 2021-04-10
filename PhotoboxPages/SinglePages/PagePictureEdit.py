@@ -21,6 +21,7 @@ class PagePictureEdit(Page):
 
 
         mainLayout = QVBoxLayout()
+        mainLayout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(mainLayout)
 
         #Picture

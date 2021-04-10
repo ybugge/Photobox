@@ -8,12 +8,14 @@ from PhotoboxPages.AllPages import AllPages
 from PhotoboxPages.Page import Page
 from Services.Camera.CameraService import CameraService
 from Services.CfgService import CfgService
+from Services.GlobalPagesVariableService import GlobalPagesVariableService
 from config.Config import textValue, TextKey, CfgKey
 
 
 class PageGreenscreenColorPicker(Page):
-    def __init__(self, pages : AllPages, windowsize:QSize):
+    def __init__(self, pages : AllPages, windowsize:QSize, globalPagesVariable:GlobalPagesVariableService):
         super().__init__(pages,windowsize)
+        self.globalPagesVariable = globalPagesVariable
 
         self.camera = CameraService.initGreenscreenCalibrationCam(QSize(windowsize.width()/2,windowsize.height()/2))
         mainLayout = QVBoxLayout()
@@ -74,7 +76,7 @@ class PageGreenscreenColorPicker(Page):
         mainLayout.addLayout(navigationBottomLayout)
 
         backButton = QPushButton(textValue[TextKey.PAGE_CONFIG_BACKBUTTON])
-        backButton.clicked.connect(self.backPageEvent)
+        backButton.clicked.connect(self._backPageSelectEvent)
         self.setNavigationbuttonStyle(backButton)
         navigationBottomLayout.addWidget(backButton)
 
@@ -178,3 +180,15 @@ class PageGreenscreenColorPicker(Page):
 
     def _toleranceButtonEvent(self):
         self.setPageEvent(self.tolerancePage)
+
+    def _backPageSelectEvent(self):
+        if self.globalPagesVariable.getUserMode():
+            self._backPageIsInUserModeEvent()
+        else:
+            self.backPageEvent()
+
+    def setBackPageIsInUserMode(self,backPageIsInUserMode):
+        self.backPageIsInUserMode = backPageIsInUserMode
+
+    def _backPageIsInUserModeEvent(self):
+        self.setPageEvent(self.backPageIsInUserMode)

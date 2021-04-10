@@ -15,6 +15,7 @@ class PageConfig(Page):
     def __init__(self, pages : AllPages, windowSize:QSize, printerService:PrinterService):
         super().__init__(pages,windowSize)
         mainLayout = QVBoxLayout()
+        mainLayout.setContentsMargins(0, 0, 0, 0)
         self.printerService = printerService
         self.setLayout(mainLayout)
 
@@ -169,7 +170,7 @@ class PageConfig(Page):
         greenscreenTitle.setFont(titleFont)
         mainContentLabel.addWidget(greenscreenTitle)
 
-        # Greenscreen enabled?
+            # Greenscreen enabled?
         greenscreenDisabledLayout = QHBoxLayout()
         mainContentLabel.addLayout(greenscreenDisabledLayout)
 
@@ -179,16 +180,10 @@ class PageConfig(Page):
 
         self.greenscreenDisabledButton = QPushButton()
         self.greenscreenDisabledButton.setCheckable(True)
-        isGreenscreenActivate = CfgService.get(CfgKey.GREENSCREEN_IS_ACTIVE)
-        self.greenscreenDisabledButton.setChecked(isGreenscreenActivate)
-        if isGreenscreenActivate:
-            self.greenscreenDisabledButton.setText(textValue[TextKey.PAGE_CONFIG_AKTIVATE])
-        else:
-            self.greenscreenDisabledButton.setText(textValue[TextKey.PAGE_CONFIG_INAKTIVATE])
-        self.greenscreenDisabledButton.clicked.connect(self.activatePrinter)
+        self.greenscreenDisabledButton.clicked.connect(self.activateGreenscreen)
         greenscreenDisabledLayout.addWidget(self.greenscreenDisabledButton)
 
-        #Greenscreen ColorPicker
+            #Greenscreen ColorPicker
         greenscreenColorPickerButton = QPushButton()
         greenscreenColorPickerButton.setText(textValue[TextKey.PAGE_CONFIG_GREENSCREEN_COLOR_PICER_BUTTON])
         greenscreenColorPickerButton.clicked.connect(self.greenscreenColorPickerEvent)
@@ -204,7 +199,6 @@ class PageConfig(Page):
         self.averageColorLabel = QLineEdit()
         self.averageColorLabel.setReadOnly(True)
         greenscreenAverageColorLayout.addWidget(self.averageColorLabel)
-
 
         #Navigation   ##################################################################################################
         mainContentLabel.addStretch()
@@ -225,6 +219,15 @@ class PageConfig(Page):
         self.updateUiPrintingPossible()
         self.setPrinterFromProperties()
         self.updateGreenscreenColor()
+        self.updateGreenscreenActive()
+
+    def updateGreenscreenActive(self):
+        isGreenscreenActivate = CfgService.get(CfgKey.GREENSCREEN_IS_ACTIVE)
+        self.greenscreenDisabledButton.setChecked(isGreenscreenActivate)
+        if isGreenscreenActivate:
+            self.greenscreenDisabledButton.setText(textValue[TextKey.PAGE_CONFIG_AKTIVATE])
+        else:
+            self.greenscreenDisabledButton.setText(textValue[TextKey.PAGE_CONFIG_INAKTIVATE])
 
     def updateGreenscreenColor(self):
         averageGreenscreenQColor = CfgService.getColor(CfgKey.GREENSCREEN_AVERAGE_HSV_COLOR_WITHOUT_TOLERANCE)
@@ -313,3 +316,13 @@ class PageConfig(Page):
 
     def greenscreenColorPickerEvent(self):
         self.setPageEvent(self.greenscreenColorPickerPage)
+
+    def activateGreenscreen(self):
+        if self.greenscreenDisabledButton.isChecked():
+            CfgService.set(CfgKey.GREENSCREEN_IS_ACTIVE,True)
+            self.greenscreenDisabledButton.setText(textValue[TextKey.PAGE_CONFIG_AKTIVATE])
+            self.greenscreenDisabledButton.setChecked(CfgService.get(CfgKey.GREENSCREEN_IS_ACTIVE))
+        else:
+            CfgService.set(CfgKey.GREENSCREEN_IS_ACTIVE,False)
+            self.greenscreenDisabledButton.setText(textValue[TextKey.PAGE_CONFIG_INAKTIVATE])
+            self.greenscreenDisabledButton.setChecked(CfgService.get(CfgKey.GREENSCREEN_IS_ACTIVE))

@@ -8,6 +8,7 @@ from Services.Camera.PiCamGreenscreenCalibrationService import PiCamGreenscreenC
 from Services.Camera.PiCamPhotoThread import PiCamPhotoThread
 from Services.Camera.PiCamVideoThread import PiCamVideoThread
 from Services.CfgService import CfgService
+from Services.GlobalPagesVariableService import GlobalPagesVariableService
 from config.Config import cfgValue, CfgKey
 
 try:
@@ -74,11 +75,11 @@ class CameraService():
             return t_videoThread
 
     @staticmethod
-    def initialPhoto(windowSize:QSize):
+    def initialPhoto(globalVariable:GlobalPagesVariableService):
         if CameraService.existPiCamera():
-            return PiCamPhotoThread(windowSize)
+            return PiCamPhotoThread(globalVariable)
         else:
-            return CV2CapturePhotoThread(windowSize)
+            return CV2CapturePhotoThread(globalVariable)
 
     @staticmethod
     def initGreenscreenCalibrationCam(pictureSize:QSize):

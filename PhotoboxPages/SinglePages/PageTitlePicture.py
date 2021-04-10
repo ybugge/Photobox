@@ -15,6 +15,7 @@ class PageTitlePicture(Page):
     def __init__(self, pages : AllPages,windowSize:QSize):
         super().__init__(pages,windowSize)
         vbox = QVBoxLayout()
+        vbox.setContentsMargins(0, 0, 0, 0)
         self.setLayout(vbox)
         if CfgService.get(CfgKey.PAGE_TITLEPICTURE_BACKGROUND_IMAGE) != None:
             self.setStyleSheet("background-image: url('"+CfgService.get(CfgKey.PAGE_TITLEPICTURE_BACKGROUND_IMAGE)+"');")

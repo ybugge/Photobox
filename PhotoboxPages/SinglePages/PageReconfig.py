@@ -5,14 +5,16 @@ from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QPushButton, QLabel
 from PhotoboxPages.AllPages import AllPages
 from PhotoboxPages.Page import Page
 from Services.CfgService import CfgService
+from Services.PrinterService import PrinterService
 from config.Config import TextKey, textValue, CfgKey
 
 
 class PageReconfig(Page):
-    def __init__(self, pages : AllPages, windowSize:QSize):
+    def __init__(self, pages : AllPages, windowSize:QSize, printerService:PrinterService):
         super().__init__(pages,windowSize)
-
+        self.printerService = printerService
         mainLayout = QVBoxLayout()
+        mainLayout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(mainLayout)
 
         #Titel
@@ -46,6 +48,29 @@ class PageReconfig(Page):
         printerDisabledLayout.addWidget(self.printerDisabledButton)
 
 
+        # Greenscreen -------------------------------------------------------------------------------
+        greenscreenTitle = QLabel(textValue[TextKey.PAGE_CONFIG_GREENSCREEN_TITLE])
+        greenscreenTitle.setFont(titleFont)
+        mainLayout.addWidget(greenscreenTitle)
+
+        # Greenscreen enabled?
+        greenscreenDisabledLayout = QHBoxLayout()
+        mainLayout.addLayout(greenscreenDisabledLayout)
+
+        self.greenscreenDisabledLabel = QLabel()
+        self.greenscreenDisabledLabel.setText(textValue[TextKey.PAGE_CONFIG_SERVICE_STATUS])
+        greenscreenDisabledLayout.addWidget(self.greenscreenDisabledLabel)
+
+        self.greenscreenDisabledButton = QPushButton()
+        self.greenscreenDisabledButton.setCheckable(True)
+        self.greenscreenDisabledButton.clicked.connect(self.activateGreenscreen)
+        greenscreenDisabledLayout.addWidget(self.greenscreenDisabledButton)
+
+        #Greenscreen ColorPicker
+        greenscreenColorPickerButton = QPushButton()
+        greenscreenColorPickerButton.setText(textValue[TextKey.PAGE_CONFIG_GREENSCREEN_COLOR_PICER_BUTTON])
+        greenscreenColorPickerButton.clicked.connect(self.greenscreenColorPickerEvent)
+        mainLayout.addWidget(greenscreenColorPickerButton)
 
         #Navigation   ##################################################################################################
         mainLayout.addStretch()
@@ -59,6 +84,15 @@ class PageReconfig(Page):
 
     def executeBefore(self):
         self.updateUiPrintingPossible()
+        self.updateGreenscreenActive()
+
+    def updateGreenscreenActive(self):
+        isGreenscreenActivate = CfgService.get(CfgKey.GREENSCREEN_IS_ACTIVE)
+        self.greenscreenDisabledButton.setChecked(isGreenscreenActivate)
+        if isGreenscreenActivate:
+            self.greenscreenDisabledButton.setText(textValue[TextKey.PAGE_CONFIG_AKTIVATE])
+        else:
+            self.greenscreenDisabledButton.setText(textValue[TextKey.PAGE_CONFIG_INAKTIVATE])
 
     def updateUiPrintingPossible(self):
         if not self.printerService.printingPosible():
@@ -76,3 +110,19 @@ class PageReconfig(Page):
             CfgService.set(CfgKey.PRINTER_IS_ACTIVE,False)
             self.printerDisabledButton.setText(textValue[TextKey.PAGE_CONFIG_INAKTIVATE])
             self.printerDisabledButton.setChecked(CfgService.get(CfgKey.PRINTER_IS_ACTIVE))
+
+    def activateGreenscreen(self):
+        if self.greenscreenDisabledButton.isChecked():
+            CfgService.set(CfgKey.GREENSCREEN_IS_ACTIVE,True)
+            self.greenscreenDisabledButton.setText(textValue[TextKey.PAGE_CONFIG_AKTIVATE])
+            self.greenscreenDisabledButton.setChecked(CfgService.get(CfgKey.GREENSCREEN_IS_ACTIVE))
+        else:
+            CfgService.set(CfgKey.GREENSCREEN_IS_ACTIVE,False)
+            self.greenscreenDisabledButton.setText(textValue[TextKey.PAGE_CONFIG_INAKTIVATE])
+            self.greenscreenDisabledButton.setChecked(CfgService.get(CfgKey.GREENSCREEN_IS_ACTIVE))
+
+    def setGreenscreenColorPickerEventPage(self,page):
+        self.greenscreenColorPickerPage = page
+
+    def greenscreenColorPickerEvent(self):
+        self.setPageEvent(self.greenscreenColorPickerPage)

@@ -17,6 +17,7 @@ class PagePrint(Page):
         self.globalVariable = globalVariable
         self.printerService = printerService
         mainLayout = QVBoxLayout()
+        mainLayout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(mainLayout)
 
         #Titel
