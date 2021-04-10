@@ -5,9 +5,7 @@ import os
 import cv2
 import numpy as np
 from PIL import Image
-from PIL.ImageQt import ImageQt
 from PyQt5.QtCore import QSize
-from PyQt5.QtGui import QPixmap
 
 from Services.CfgService import CfgService
 from Services.FileFolderService import FileFolderService
@@ -82,26 +80,19 @@ class GreenscreenBackgroundService():
         return self._replaceBackgroud(frame,self.PICTURE_KEY,CfgService.get(CfgKey.PI_CAMERA_PHOTO_RESOLUTION))
 
     def _replaceBackgroud(self,frame,backroundKey:str,resolution):
-        start = datetime.datetime.now()
-        print("Greenscreen Start: "+str(start))
         background = self._getUsedBackground(backroundKey,resolution)
-        resultFrame = np.zeros((background.height,background.width,3), np.uint8)
-        resizeFrameRGB = self._getCurrentFrameRGB(background,frame)
-        resizeFrameHSV = cv2.cvtColor(resizeFrameRGB,cv2.COLOR_BGR2HSV)
+        backgroundHSV = cv2.cvtColor(np.array(background),cv2.COLOR_BGR2HSV)
+        resizeFrameRGB = self._getCurrentFrameRGB(resolution,frame)
+        resizeFrameHSV = cv2.cvtColor(resizeFrameRGB,cv2.COLOR_RGB2HSV)
         hsvMinMaxRange = self._getHsvRange()
-        preperation = datetime.datetime.now()
-        print("Vorbereitung:"+str(preperation)+" "+str(preperation-start))
 
-        for x  in range((background.width)):
-            for y in range((background.height)):
-                pixelColorHSV = resizeFrameHSV[y,x]
-                if self._isColorInRange(hsvMinMaxRange,pixelColorHSV):
-                    color = background.getpixel((x,y))
-                    resultFrame[y,x] = np.array((color[2],color[1],color[0]))
-                else:
-                    resultFrame[y,x] = resizeFrameRGB[y,x]
-        end = datetime.datetime.now()
-        print("Finished:"+str(end)+" "+str(preperation-end))
+        for x  in range(resolution[0]):
+             for y in range(resolution[1]):
+                 pixelColorHSV = resizeFrameHSV[y,x]
+                 if self._isColorInRange(hsvMinMaxRange,pixelColorHSV):
+                     backgroundHSV[y,x] = pixelColorHSV
+
+        resultFrame = cv2.cvtColor(backgroundHSV,cv2.COLOR_HSV2RGB)
         return resultFrame
 
 
@@ -109,9 +100,9 @@ class GreenscreenBackgroundService():
         index = self.getIndex()
         return self.globalVariable.getDefaultBackground()[index][backroundKey].resize((resolution[0],resolution[1]))
 
-    def _getCurrentFrameRGB(self,background,frame):
-        if background.height != len(frame) or background.width != len(frame[0]):
-            resizeFrameRGB = cv2.resize(frame, (background.width, background.height))
+    def _getCurrentFrameRGB(self,resolution,frame):
+        if resolution[1] != len(frame) or resolution[0] != len(frame[0]):
+            resizeFrameRGB = cv2.resize(frame, (resolution[0], resolution[1]))
         else:
             resizeFrameRGB = frame
         return resizeFrameRGB
