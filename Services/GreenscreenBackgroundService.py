@@ -26,9 +26,7 @@ class GreenscreenBackgroundService():
         folderPath = self._getDefultBackgroundPathCreateFolderIfNotExtist()
         picturePaths = FileFolderService.getFolderContentPictures(folderPath)
         backgrounds = []
-        print(folderPath)
         for picturePath in picturePaths:
-            print(picturePath)
             backgrounds.append(self._loadBackgroundImages(picturePath))
         self.globalVariable.setDefaultBackground(backgrounds)
 
@@ -46,6 +44,10 @@ class GreenscreenBackgroundService():
             return None
         else:
             image = self._getBackgrounds()[index][self.PICTURE_KEY]
+            print(size.width())
+            print(size.height())
+            print(size.width()-10)
+            print(size.height()-10)
             return QPixmap.fromImage(ImageQt(image.resize((size.width()-10,size.height()-10))))
 
     def _cutPicture(self,picturePath,targetResolution):
