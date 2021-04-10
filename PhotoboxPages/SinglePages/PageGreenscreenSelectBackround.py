@@ -113,6 +113,7 @@ class PageGreenscreenSelectBackround(Page):
             self.backgroundButton.setIcon(QIcon())
         else:
             self.backgroundButton.setText("")
+            self.backgroundButton.setMinimumSize(size)
             #self.backgroundButton.setIcon(QIcon(image))
             #self.backgroundButton.setIconSize(size)
 
