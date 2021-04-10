@@ -80,11 +80,15 @@ class GreenscreenBackgroundService():
         return self._replaceBackgroud(frame,self.PICTURE_KEY,CfgService.get(CfgKey.PI_CAMERA_PHOTO_RESOLUTION))
 
     def _replaceBackgroud(self,frame,backroundKey:str,resolution):
+        start = datetime.datetime.now()
+        print("Greenscreen Start: "+str(start))
         background = self._getUsedBackground(backroundKey,resolution)
         backgroundHSV = cv2.cvtColor(np.array(background),cv2.COLOR_BGR2HSV)
         resizeFrameRGB = self._getCurrentFrameRGB(resolution,frame)
         resizeFrameHSV = cv2.cvtColor(resizeFrameRGB,cv2.COLOR_RGB2HSV)
         hsvMinMaxRange = self._getHsvRange()
+        preperation = datetime.datetime.now()
+        print("Vorbereitung:"+str(preperation)+" "+str(preperation-start))
 
         for x  in range(resolution[0]):
              for y in range(resolution[1]):
@@ -93,6 +97,8 @@ class GreenscreenBackgroundService():
                      backgroundHSV[y,x] = pixelColorHSV
 
         resultFrame = cv2.cvtColor(backgroundHSV,cv2.COLOR_HSV2RGB)
+        end = datetime.datetime.now()
+        print("Finished:"+str(end)+" "+str(preperation-end))
         return resultFrame
 
 
