@@ -26,7 +26,9 @@ class GreenscreenBackgroundService():
         folderPath = self._getDefultBackgroundPathCreateFolderIfNotExtist()
         picturePaths = FileFolderService.getFolderContentPictures(folderPath)
         backgrounds = []
+        print(folderPath)
         for picturePath in picturePaths:
+            print(picturePath)
             backgrounds.append(self._loadBackgroundImages(picturePath))
         self.globalVariable.setDefaultBackground(backgrounds)
 
