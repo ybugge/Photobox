@@ -1,4 +1,4 @@
 #!/bin/bash
 cd /home/pi/Photobox/
 git pull
-python3 photoboxMain.py
+OPENBLAS_MAIN_FREE=1 python3 photoboxMain.py
