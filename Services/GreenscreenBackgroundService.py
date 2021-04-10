@@ -1,3 +1,4 @@
+import datetime
 import math
 import os
 
@@ -45,8 +46,6 @@ class GreenscreenBackgroundService():
             return None
         else:
             return self._getBackgrounds()[index][self.PICTURE_PATH_KEY]
-            #image = self._getBackgrounds()[index][self.PICTURE_KEY]
-            #return QPixmap.fromImage(ImageQt(image.resize((size.width()-10,size.height()-10))))
 
     def _cutPicture(self,picturePath,targetResolution):
         picture = Image.open(picturePath)
@@ -83,12 +82,15 @@ class GreenscreenBackgroundService():
         return self._replaceBackgroud(frame,self.PICTURE_KEY,CfgService.get(CfgKey.PI_CAMERA_PHOTO_RESOLUTION))
 
     def _replaceBackgroud(self,frame,backroundKey:str,resolution):
+        start = datetime.datetime.now()
+        print("Greenscreen Start: "+str(start))
         background = self._getUsedBackground(backroundKey,resolution)
         resultFrame = np.zeros((background.height,background.width,3), np.uint8)
         resizeFrameRGB = self._getCurrentFrameRGB(background,frame)
         resizeFrameHSV = cv2.cvtColor(resizeFrameRGB,cv2.COLOR_BGR2HSV)
         hsvMinMaxRange = self._getHsvRange()
-
+        preperation = datetime.datetime.now()
+        print("Vorbereitung:"+str(preperation)+" "+str(preperation-start))
 
         for x  in range((background.width)):
             for y in range((background.height)):
@@ -98,6 +100,8 @@ class GreenscreenBackgroundService():
                     resultFrame[y,x] = np.array((color[2],color[1],color[0]))
                 else:
                     resultFrame[y,x] = resizeFrameRGB[y,x]
+        end = datetime.datetime.now()
+        print("Finished:"+str(end)+" "+str(preperation-end))
         return resultFrame
 
 
