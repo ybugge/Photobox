@@ -117,7 +117,7 @@ class GreenscreenBackgroundService():
         return resizeFrameRGB
 
     def _isColorInRange(self,hsvRange,color):
-        for id in range(3):
+        for id in range(1):
             if hsvRange[0][id] > color[id] and color[id] > hsvRange[1][id]:
                 return False
         return True
