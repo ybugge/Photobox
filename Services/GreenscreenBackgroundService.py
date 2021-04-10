@@ -117,9 +117,8 @@ class GreenscreenBackgroundService():
         return resizeFrameRGB
 
     def _isColorInRange(self,hsvRange,color):
-        for id in range(1):
-            if hsvRange[0][id] > color[id] and color[id] > hsvRange[1][id]:
-                return False
+        if hsvRange[0] > self._convertHsvToInt(color) > hsvRange[1]:
+            return False
         return True
 
 
@@ -133,8 +132,10 @@ class GreenscreenBackgroundService():
 
         for id, amount in enumerate(addToMin):
             minHsv[id] += amount
-        return [minHsv,maxHsv]
+        return [self._convertHsvToInt(minHsv),self._convertHsvToInt(maxHsv)]
 
+    def _convertHsvToInt(self,hsv):
+        return hsv[0]*1000000+hsv[1]*1000+hsv[2]
 
     def _getBackgrounds(self):
         return self.globalVariable.getDefaultBackground()
