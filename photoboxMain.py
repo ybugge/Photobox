@@ -8,8 +8,6 @@ from config.Config import cfgValue, CfgKey
 import os
 
 if __name__ == '__main__':
-    os.system("taskset -p 0xff %d" % os.getpid())
-    os.sched_setaffinity(0,range(1000))
     cfgValue[CfgKey.IS_PI] = False
     #Check: OS = RasPi
     if(os.uname()[4].startswith("arm")):

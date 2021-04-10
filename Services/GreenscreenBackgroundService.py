@@ -20,6 +20,7 @@ class GreenscreenBackgroundService():
         self.globalVariable = globalVariable
         self.PICTURE_KEY = "picture"
         self.VIDEO_KEY = "video"
+        self.PICTURE_PATH_KEY = "path"
 
     def loadDefaultBackgrounds(self):
         # Bilder aus Ordner laden
@@ -43,12 +44,9 @@ class GreenscreenBackgroundService():
         if index >= self.getBackgroundSize():
             return None
         else:
-            image = self._getBackgrounds()[index][self.PICTURE_KEY]
-            print(size.width())
-            print(size.height())
-            print(size.width()-10)
-            print(size.height()-10)
-            return QPixmap.fromImage(ImageQt(image.resize((size.width()-10,size.height()-10))))
+            return self._getBackgrounds()[index][self.PICTURE_PATH_KEY]
+            #image = self._getBackgrounds()[index][self.PICTURE_KEY]
+            #return QPixmap.fromImage(ImageQt(image.resize((size.width()-10,size.height()-10))))
 
     def _cutPicture(self,picturePath,targetResolution):
         picture = Image.open(picturePath)
@@ -140,4 +138,4 @@ class GreenscreenBackgroundService():
     def _loadBackgroundImages(self,picturePath):
         videoBackground = self._cutPicture(picturePath,CfgService.get(CfgKey.PI_CAMERA_VIDEO_RESOLUTION))
         pictureBackground = self._cutPicture(picturePath,CfgService.get(CfgKey.PI_CAMERA_PHOTO_RESOLUTION))
-        return {self.VIDEO_KEY:videoBackground,self.PICTURE_KEY:pictureBackground}
+        return {self.PICTURE_PATH_KEY:picturePath,self.VIDEO_KEY:videoBackground,self.PICTURE_KEY:pictureBackground}
