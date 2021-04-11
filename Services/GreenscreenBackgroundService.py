@@ -1,6 +1,7 @@
 import datetime
 import math
 import os
+import time
 
 import cv2
 import numpy as np
@@ -11,7 +12,6 @@ from Services.CfgService import CfgService
 from Services.FileFolderService import FileFolderService
 from Services.GlobalPagesVariableService import GlobalPagesVariableService
 from config.Config import CfgKey
-
 
 class GreenscreenBackgroundService():
 
@@ -81,26 +81,36 @@ class GreenscreenBackgroundService():
 
     def _replaceBackgroud(self,frame,backroundKey:str,resolution):
         start = datetime.datetime.now()
+        start_time = time.time()
         print("Greenscreen Start: "+str(start))
         background = self._getUsedBackground(backroundKey,resolution)
         backgroundHSV = cv2.cvtColor(np.array(background),cv2.COLOR_BGR2HSV)
         resizeFrameRGB = self._getCurrentFrameRGB(resolution,frame)
         resizeFrameHSV = cv2.cvtColor(resizeFrameRGB,cv2.COLOR_RGB2HSV)
-        hsvMinMaxRange = self._getHsvRange()
+        (hsvMinRange,hsvMaxRange) = self._getHsvRange()
         preperation = datetime.datetime.now()
-        print("Vorbereitung:"+str(preperation)+" "+str(preperation-start))
+        preperation_time = time.time()
+        print("Vorbereitung:"+str(preperation)+" "+str(preperation_time-start_time))
 
-        for x  in range(resolution[0]):
-             for y in range(resolution[1]):
-                 pixelColorHSV = resizeFrameHSV[y,x]
-                 if self._isColorInRange(hsvMinMaxRange,pixelColorHSV):
-                     backgroundHSV[y,x] = pixelColorHSV
+        # for x  in range(resolution[0]):
+        #      for y in range(resolution[1]):
+        #          pixelColorHSV = resizeFrameHSV[y,x]
+        #          pixelColorHSVAsInt = pixelColorHSV[0]*1000000+pixelColorHSV[1]*1000+pixelColorHSV[2]
+        #          if not (hsvMinRange > pixelColorHSVAsInt > hsvMaxRange):
+        #              backgroundHSV[y,x] = pixelColorHSV
+        #resultFrame = cv2.cvtColor(backgroundHSV,cv2.COLOR_HSV2RGB)
+        mask = cv2.inRange(resizeFrameHSV, hsvMinRange, hsvMaxRange)
+        res = cv2.bitwise_and(resizeFrameHSV,resizeFrameHSV,mask=mask)
+        resultHsvFrame = resizeFrameHSV - res
+        resultHsvFrame = np.where(resultHsvFrame == 0, backgroundHSV, resultHsvFrame)
 
-        resultFrame = cv2.cvtColor(backgroundHSV,cv2.COLOR_HSV2RGB)
+
+
+        resultFrame = cv2.cvtColor(resultHsvFrame,cv2.COLOR_HSV2RGB)
         end = datetime.datetime.now()
-        print("Finished:"+str(end)+" "+str(preperation-end))
+        end_time = time.time()
+        print("Finished:"+str(end)+" "+str(end_time-start_time))
         return resultFrame
-
 
     def _getUsedBackground(self,backroundKey:str,resolution):
         index = self.getIndex()
@@ -113,11 +123,6 @@ class GreenscreenBackgroundService():
             resizeFrameRGB = frame
         return resizeFrameRGB
 
-    def _isColorInRange(self,hsvRange,color):
-        if hsvRange[0] > self._convertHsvToInt(color) > hsvRange[1]:
-            return False
-        return True
-
 
     def _getHsvRange(self):
         maxHsv = CfgService.getIntList(CfgKey.GREENSCREEN_MAX_HSV_COLOR_WITHOUT_TOLERANCE)
@@ -129,10 +134,10 @@ class GreenscreenBackgroundService():
 
         for id, amount in enumerate(addToMin):
             minHsv[id] += amount
-        return [self._convertHsvToInt(minHsv),self._convertHsvToInt(maxHsv)]
+        return [(minHsv[0],minHsv[1],minHsv[2]),(maxHsv[0],maxHsv[1],maxHsv[2])]
 
-    def _convertHsvToInt(self,hsv):
-        return hsv[0]*1000000+hsv[1]*1000+hsv[2]
+    # def _convertHsvToInt(self,hsv):
+    #     return hsv[0]*1000000+hsv[1]*1000+hsv[2]
 
     def _getBackgrounds(self):
         return self.globalVariable.getDefaultBackground()
