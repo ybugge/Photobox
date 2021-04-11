@@ -106,6 +106,8 @@ class GreenscreenBackgroundService():
         print("max")
         print(hsvMaxRange)
         print((97,205,178))
+        print("Farbe Mitte HSV")
+        print(resizeFrameHSV[math.floor(resolution[1]/2),math.floor(resolution[0]/2)])
         mask = cv2.inRange(resizeFrameHSV, hsvMinRange, hsvMaxRange)
         res = cv2.bitwise_and(resizeFrameHSV,resizeFrameHSV,mask=mask)
         resultHsvFrame = resizeFrameHSV - res
