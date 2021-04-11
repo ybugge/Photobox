@@ -100,12 +100,12 @@ class GreenscreenBackgroundService():
         #          if not (hsvMinRange > pixelColorHSVAsInt > hsvMaxRange):
         #              backgroundHSV[y,x] = pixelColorHSV
         #resultFrame = cv2.cvtColor(backgroundHSV,cv2.COLOR_HSV2RGB)
-        # print("min")
-        # print(hsvMinRange)
-        # print((37,65,43))
-        # print("max")
-        # print(hsvMaxRange)
-        # print((97,205,178))
+        print("min")
+        print(hsvMinRange)
+        print((37,65,43))
+        print("max")
+        print(hsvMaxRange)
+        print((97,205,178))
         mask = cv2.inRange(resizeFrameHSV, hsvMinRange, hsvMaxRange)
         res = cv2.bitwise_and(resizeFrameHSV,resizeFrameHSV,mask=mask)
         resultHsvFrame = resizeFrameHSV - res
@@ -139,10 +139,28 @@ class GreenscreenBackgroundService():
 
         for id, amount in enumerate(addToMin):
             minHsv[id] += amount
-        return [(math.floor(minHsv[0]/2),minHsv[1],minHsv[2]),(math.ceil(maxHsv[0]/2),maxHsv[1],maxHsv[2])]
+        return [GreenscreenBackgroundService._addHsvAndConvertToCv2(minHsv,addToMin),
+                GreenscreenBackgroundService._addHsvAndConvertToCv2(maxHsv,addToMax)]
 
-    # def _convertHsvToInt(self,hsv):
-    #     return hsv[0]*1000000+hsv[1]*1000+hsv[2]
+    @staticmethod
+    def _addHsvAndConvertToCv2(value,value2):
+        h = (value[0] + value2[0])/2
+        if h < 0:
+            h = 0
+        elif h > 179:
+            h = 179
+        s = (value[1] + value2[1])
+        if s < 0:
+            s = 0
+        elif s > 255:
+            s = 255
+        v = (value[2] + value2[2])
+        if s < 0:
+            s = 0
+        elif s > 255:
+            s = 255
+        return (h,s,v)
+
 
     def _getBackgrounds(self):
         return self.globalVariable.getDefaultBackground()
