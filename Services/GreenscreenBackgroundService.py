@@ -7,6 +7,7 @@ import cv2
 import numpy as np
 from PIL import Image
 from PyQt5.QtCore import QSize
+from PyQt5.QtGui import QColor
 
 from Services.CfgService import CfgService
 from Services.FileFolderService import FileFolderService
@@ -161,7 +162,11 @@ class GreenscreenBackgroundService():
             s = 0
         elif s > 255:
             s = 255
-        return (h,s,v)
+        qColorRGB = QColor.fromHsv(h,s,v,255).getRgb()
+
+        blank_image = np.zeros((1,1,3), np.uint8)
+        blank_image[0][0] = (qColorRGB[0],qColorRGB[1],qColorRGB[2])
+        return cv2.cvtColor(blank_image,cv2.COLOR_RGB2HSV)[0][0]
 
 
     def _getBackgrounds(self):

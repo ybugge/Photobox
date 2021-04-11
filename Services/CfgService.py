@@ -30,6 +30,24 @@ class CfgService():
             cfgValue[key] = valueAsString
             propertiesService = PropertiesService()
             propertiesService.set(key, valueAsString)
+
+    @staticmethod
+    def getColor(key:CfgKey):
+        propertiesService = PropertiesService()
+        propertiesValue = propertiesService.find(key)
+
+        if propertiesValue == None:
+            colorCfgValue =  cfgValue[key]
+        else:
+            colorCfgValue = propertiesValue
+
+        colorCfgValueHsvParts = colorCfgValue.split(";")
+        if len(colorCfgValueHsvParts) != 3:
+            print("Die Properties mit dem Key '"+key._name_+"' hat das falsche Format!")
+            return QColor.fromHsv(0,0,0)
+        else:
+            return QColor.fromHsv(int(colorCfgValueHsvParts[0]),int(colorCfgValueHsvParts[1]),int(colorCfgValueHsvParts[2]))
+
     @staticmethod
     def setIntList(key:CfgKey,valueAsIntList:list):
         valueAsString = ";".join(list(map(str,valueAsIntList)))
@@ -50,23 +68,6 @@ class CfgService():
 
         strCfgValues = strCfgValue.split(";")
         return list(map(int,strCfgValues))
-
-    @staticmethod
-    def getColor(key:CfgKey):
-        propertiesService = PropertiesService()
-        propertiesValue = propertiesService.find(key)
-
-        if propertiesValue == None:
-            colorCfgValue =  cfgValue[key]
-        else:
-            colorCfgValue = propertiesValue
-
-        colorCfgValueHsvParts = colorCfgValue.split(";")
-        if len(colorCfgValueHsvParts) != 3:
-            print("Die Properties mit dem Key '"+key._name_+"' hat das falsche Format!")
-            return QColor.fromHsv(0,0,0)
-        else:
-            return QColor.fromHsv(int(colorCfgValueHsvParts[0]),int(colorCfgValueHsvParts[1]),int(colorCfgValueHsvParts[2]))
 
     @staticmethod
     def _convertString(value:str, key:CfgKey):

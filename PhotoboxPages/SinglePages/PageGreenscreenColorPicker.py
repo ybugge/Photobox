@@ -66,10 +66,10 @@ class PageGreenscreenColorPicker(Page):
         self.setNavigationbuttonStyle(toleranceButton)
         navigationTopLayout.addWidget(toleranceButton)
 
-        capturePhotoButton = QPushButton(textValue[TextKey.PAGE_GREENSCREEN_COLOR_PICKER_CAPTURE_PHOTO_BUTTON])
-        capturePhotoButton.clicked.connect(self._capturePhotoEvent)
-        self.setNavigationbuttonStyle(capturePhotoButton)
-        navigationTopLayout.addWidget(capturePhotoButton)
+        self.capturePhotoButton = QPushButton(textValue[TextKey.PAGE_GREENSCREEN_COLOR_PICKER_CAPTURE_PHOTO_BUTTON])
+        self.capturePhotoButton.clicked.connect(self._capturePhotoEvent)
+        self.setNavigationbuttonStyle(self.capturePhotoButton)
+        navigationTopLayout.addWidget(self.capturePhotoButton)
 
         #Bottom ------------------------------------------------
         navigationBottomLayout = QHBoxLayout()
@@ -91,8 +91,10 @@ class PageGreenscreenColorPicker(Page):
         self._capturePhoto()
 
     def _capturePhotoEvent(self):
+        self.capturePhotoButton.setDisabled(True)
         time.sleep(2)
         self._capturePhoto()
+        self.capturePhotoButton.setDisabled(False)
 
     def _capturePhoto(self):
         rawAndPreviewPicture = self.camera.getImage()
@@ -108,7 +110,7 @@ class PageGreenscreenColorPicker(Page):
         imageSize = image.size()
 
         averageColor = [0,0,0]
-        minColor = [255,255,255]
+        minColor = [360,255,255]
         maxColor = [0,0,0]
         for x in range(imageSize.width()):
             averageColumnColor = [0,0,0]
@@ -169,9 +171,9 @@ class PageGreenscreenColorPicker(Page):
             self.hintLabel.setStyleSheet("color:green")
 
     def _saveEvent(self):
-        CfgService.setColor(CfgKey.GREENSCREEN_MIN_HSV_COLOR_WITHOUT_TOLERANCE,self.minQColor)
-        CfgService.setColor(CfgKey.GREENSCREEN_MAX_HSV_COLOR_WITHOUT_TOLERANCE,self.maxQColor)
-        CfgService.setColor(CfgKey.GREENSCREEN_AVERAGE_HSV_COLOR_WITHOUT_TOLERANCE,self.averageQColor)
+        CfgService.setColor(CfgKey.GREENSCREEN_MIN_HSV_COLOR_WITHOUT_TOLERANCE, self.minQColor)
+        CfgService.setColor(CfgKey.GREENSCREEN_MAX_HSV_COLOR_WITHOUT_TOLERANCE, self.maxQColor)
+        CfgService.setColor(CfgKey.GREENSCREEN_AVERAGE_HSV_COLOR_WITHOUT_TOLERANCE, self.averageQColor)
         self.saveButton.setText(textValue[TextKey.PAGE_GREENSCREEN_COLOR_PICKER_SAVE_SUCCESS_BUTTON])
         self.saveButton.setDisabled(True)
 
