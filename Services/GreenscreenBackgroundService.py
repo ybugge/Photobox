@@ -102,6 +102,10 @@ class GreenscreenBackgroundService():
         #              backgroundHSV[y,x] = pixelColorHSV
         #resultFrame = cv2.cvtColor(backgroundHSV,cv2.COLOR_HSV2RGB)
         print("min")
+        hsvMinRange[1] = 0
+        hsvMinRange[2] = 0
+        hsvMaxRange[1] = 255
+        hsvMaxRange[2] = 255
         print(hsvMinRange)
         print((37,65,43))
         print("max")
