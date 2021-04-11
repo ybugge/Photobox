@@ -1,5 +1,6 @@
 import time
 
+import numpy as np
 from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QPixmap, QImage, QColor
 from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QLineEdit, QPushButton, QLabel
@@ -41,10 +42,6 @@ class PageGreenscreenColorPicker(Page):
         self.maxColorLabel.setReadOnly(True)
         colorLayout.addWidget(self.maxColorLabel)
 
-        self.averageFromMinMaxColorLabel = QLineEdit()
-        self.averageFromMinMaxColorLabel.setReadOnly(True)
-        colorLayout.addWidget(self.averageFromMinMaxColorLabel)
-
         #Hinweis:
         self.hintLabel = QLabel()
         mainLayout.addWidget(self.hintLabel)
@@ -85,8 +82,6 @@ class PageGreenscreenColorPicker(Page):
         self.setNavigationbuttonStyle(self.saveButton)
         navigationBottomLayout.addWidget(self.saveButton)
 
-
-
     def executeBefore(self):
         self._capturePhoto()
 
@@ -97,16 +92,29 @@ class PageGreenscreenColorPicker(Page):
         self.capturePhotoButton.setDisabled(False)
 
     def _capturePhoto(self):
-        rawAndPreviewPicture = self.camera.getImage()
-        self._updatePreviewPicture(rawAndPreviewPicture[1])
-        self._scannImage(rawAndPreviewPicture[1])
+        cv2HsvImage, preview = self.camera.getImage()
+        self._updatePreviewPicture(preview)
+        self._scannImageForProperties(cv2HsvImage)
+        self._scannImageForPreview(preview)
         self.saveButton.setText(textValue[TextKey.PAGE_GREENSCREEN_COLOR_PICKER_SAVE_BUTTON])
         self.saveButton.setDisabled(False)
 
     def _updatePreviewPicture(self,preview:QImage):
         self.picture.setPixmap(QPixmap.fromImage(preview))
 
-    def _scannImage(self,image:QImage):
+    def _scannImageForProperties(self, image):
+        self.minCV2 = image.min(axis=(0, 1)).astype(int)
+        self.maxCV2 = image.max(axis=(0, 1)).astype(int)
+        self.averageCV2 = np.average(image,axis=(0, 1)).astype(int)
+
+        self._setColorLabelText(self.minColorLabel,self.minCV2,"Min:")
+        self._setColorLabelText(self.maxColorLabel,self.maxCV2,"Max:")
+        self._setColorLabelText(self.averageColorLabel,self.averageCV2,"Ø:")
+
+    def _setColorLabelText(self,label:QLabel, color, additionalText:str):
+        label.setText(additionalText+" ("+str(color[0])+","+str(color[1])+","+str(color[2])+")")
+
+    def _scannImageForPreview(self, image:QImage):
         imageSize = image.size()
 
         averageColor = [0,0,0]
@@ -141,18 +149,15 @@ class PageGreenscreenColorPicker(Page):
         self.averageQColor = QColor.fromHsv(round(averageColor[0]),round(averageColor[1]),round(averageColor[2]),255)
         self.minQColor = QColor.fromHsv(round(minColor[0]),round(minColor[1]),round(minColor[2]),255)
         self.maxQColor = QColor.fromHsv(round(maxColor[0]),round(maxColor[1]),round(maxColor[2]),255)
-        minMaxQColor = QColor.fromHsv(round((minColor[0]+maxColor[0])/2),round((minColor[1]+maxColor[1])/2),round((minColor[2]+maxColor[2])/2),255)
 
-        self._updateMonitoringLabel(self.averageColorLabel,self.averageQColor,"Ø:")
-        self._updateMonitoringLabel(self.minColorLabel,self.minQColor,"Min:")
-        self._updateMonitoringLabel(self.maxColorLabel,self.maxQColor,"Max:")
-        self._updateMonitoringLabel(self.averageFromMinMaxColorLabel,minMaxQColor,"X̅:")
+        self._updateMonitoringLabel(self.averageColorLabel,self.averageQColor)
+        self._updateMonitoringLabel(self.minColorLabel,self.minQColor)
+        self._updateMonitoringLabel(self.maxColorLabel,self.maxQColor)
         self._setHint(maxColor[0] - minColor[0] > CfgService.get(CfgKey.GREENSCREEN_MAX_COLOR_RANGE_HINT))
 
 
-    def _updateMonitoringLabel(self,label:QLabel, color:QColor, additionalText:str):
+    def _updateMonitoringLabel(self,label:QLabel, color:QColor):
         label.setStyleSheet("background-color:rgb("+str(color.getRgb()[0])+","+str(color.getRgb()[1])+","+str(color.getRgb()[2])+")")
-        label.setText(additionalText+" ("+str(color.getHsv()[0])+","+str(color.getHsv()[1])+","+str(color.getHsv()[2])+")")
 
     def _updateMinColor(self,minColor,rgbColor,index):
         if(minColor[index] > rgbColor[index]):
@@ -171,9 +176,12 @@ class PageGreenscreenColorPicker(Page):
             self.hintLabel.setStyleSheet("color:green")
 
     def _saveEvent(self):
-        CfgService.setColor(CfgKey.GREENSCREEN_MIN_HSV_COLOR_WITHOUT_TOLERANCE, self.minQColor)
-        CfgService.setColor(CfgKey.GREENSCREEN_MAX_HSV_COLOR_WITHOUT_TOLERANCE, self.maxQColor)
-        CfgService.setColor(CfgKey.GREENSCREEN_AVERAGE_HSV_COLOR_WITHOUT_TOLERANCE, self.averageQColor)
+        CfgService.setColor(CfgKey.GREENSCREEN_MIN_HSV_GUI_COLOR, self.minQColor)
+        CfgService.setColor(CfgKey.GREENSCREEN_MAX_HSV_GUI_COLOR, self.maxQColor)
+        CfgService.setColor(CfgKey.GREENSCREEN_AVERAGE_HSV_GUI_COLOR, self.averageQColor)
+        CfgService.setIntList(CfgKey.GREENSCREEN_MIN_HSV_CV2_COLOR, self.minCV2)
+        CfgService.setIntList(CfgKey.GREENSCREEN_MAX_HSV_CV2_COLOR, self.maxCV2)
+        CfgService.setIntList(CfgKey.GREENSCREEN_AVERAGE_HSV_CV2_COLOR, self.averageCV2)
         self.saveButton.setText(textValue[TextKey.PAGE_GREENSCREEN_COLOR_PICKER_SAVE_SUCCESS_BUTTON])
         self.saveButton.setDisabled(True)
 

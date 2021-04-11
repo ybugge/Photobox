@@ -23,6 +23,7 @@ class CV2GreenscreenCalibrationService():
             ret, frame = cap.read()
             if ret:
                 rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                hsvImage = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
                 h, w, ch = rgbImage.shape
                 bytesPerLine = ch * w
                 origImageRGB = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
@@ -30,4 +31,4 @@ class CV2GreenscreenCalibrationService():
                 finished = False
         cap.release()
         cv2.destroyAllWindows()
-        return (origImageRGB,prewiewImage)
+        return (hsvImage,prewiewImage)

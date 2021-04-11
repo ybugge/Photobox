@@ -230,8 +230,9 @@ class PageConfig(Page):
             self.greenscreenDisabledButton.setText(textValue[TextKey.PAGE_CONFIG_INAKTIVATE])
 
     def updateGreenscreenColor(self):
-        averageGreenscreenQColor = CfgService.getColor(CfgKey.GREENSCREEN_AVERAGE_HSV_COLOR_WITHOUT_TOLERANCE)
-        self.averageColorLabel.setText(str(averageGreenscreenQColor.getHsv()))
+        averageGreenscreenQColor = CfgService.getColor(CfgKey.GREENSCREEN_AVERAGE_HSV_GUI_COLOR)
+        averageGreenscreenCv2ColorText = CfgService.getIntList(CfgKey.GREENSCREEN_AVERAGE_HSV_CV2_COLOR)
+        self.averageColorLabel.setText(str(averageGreenscreenCv2ColorText))
         self.averageColorLabel.setStyleSheet("background-color:rgb("+str(averageGreenscreenQColor.getRgb()[0])+","+str(averageGreenscreenQColor.getRgb()[1])+","+str(averageGreenscreenQColor.getRgb()[2])+")")
 
 

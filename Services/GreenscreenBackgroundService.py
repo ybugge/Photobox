@@ -94,18 +94,7 @@ class GreenscreenBackgroundService():
         preperation_time = time.time()
         print("Vorbereitung:"+str(preperation)+" "+str(preperation_time-start_time))
 
-        # for x  in range(resolution[0]):
-        #      for y in range(resolution[1]):
-        #          pixelColorHSV = resizeFrameHSV[y,x]
-        #          pixelColorHSVAsInt = pixelColorHSV[0]*1000000+pixelColorHSV[1]*1000+pixelColorHSV[2]
-        #          if not (hsvMinRange > pixelColorHSVAsInt > hsvMaxRange):
-        #              backgroundHSV[y,x] = pixelColorHSV
-        #resultFrame = cv2.cvtColor(backgroundHSV,cv2.COLOR_HSV2RGB)
         print("min")
-        hsvMinRange[1] = 0
-        hsvMinRange[2] = 0
-        hsvMaxRange[1] = 255
-        hsvMaxRange[2] = 255
         print(hsvMinRange)
         print((37,65,43))
         print("max")
@@ -135,42 +124,33 @@ class GreenscreenBackgroundService():
             resizeFrameRGB = frame
         return resizeFrameRGB
 
-
     def _getHsvRange(self):
-        maxHsv = CfgService.getIntList(CfgKey.GREENSCREEN_MAX_HSV_COLOR_WITHOUT_TOLERANCE)
-        minHsv = CfgService.getIntList(CfgKey.GREENSCREEN_MIN_HSV_COLOR_WITHOUT_TOLERANCE)
+        maxHsv = CfgService.getIntList(CfgKey.GREENSCREEN_MAX_HSV_CV2_COLOR)
+        minHsv = CfgService.getIntList(CfgKey.GREENSCREEN_MIN_HSV_CV2_COLOR)
         addToMax = CfgService.getIntList(CfgKey.GREENSCREEN_COLOR_TOLERANCE_POS)
         addToMin = CfgService.getIntList(CfgKey.GREENSCREEN_COLOR_TOLERANCE_NEG)
-        for id, amount in enumerate(addToMax):
-            maxHsv[id] += amount
 
-        for id, amount in enumerate(addToMin):
-            minHsv[id] += amount
-        return [GreenscreenBackgroundService._addHsvAndConvertToCv2(minHsv,addToMin),
-                GreenscreenBackgroundService._addHsvAndConvertToCv2(maxHsv,addToMax)]
+        return [GreenscreenBackgroundService._addHsv(minHsv,addToMin),
+                GreenscreenBackgroundService._addHsv(maxHsv,addToMax)]
 
     @staticmethod
-    def _addHsvAndConvertToCv2(value,value2):
+    def _addHsv(value,value2):
         h = (value[0] + value2[0])
         if h < 0:
             h = 0
-        elif h > 359:
-            h = 359
+        elif h > 179:
+            h = 179
         s = (value[1] + value2[1])
         if s < 0:
             s = 0
         elif s > 255:
             s = 255
         v = (value[2] + value2[2])
-        if s < 0:
-            s = 0
-        elif s > 255:
-            s = 255
-        qColorRGB = QColor.fromHsv(h,s,v,255).getRgb()
-
-        blank_image = np.zeros((1,1,3), np.uint8)
-        blank_image[0][0] = (qColorRGB[0],qColorRGB[1],qColorRGB[2])
-        return cv2.cvtColor(blank_image,cv2.COLOR_RGB2HSV)[0][0]
+        if v < 0:
+            v = 0
+        elif v > 255:
+            v = 255
+        return (h,s,v)
 
 
     def _getBackgrounds(self):
