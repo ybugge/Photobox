@@ -79,6 +79,7 @@ class GreenscreenBackgroundService():
     def replaceBackgroundPhoto(self,frame):
         return self._replaceBackgroud(frame,self.PICTURE_KEY,CfgService.get(CfgKey.PI_CAMERA_PHOTO_RESOLUTION))
 
+    #https://www.geeksforgeeks.org/replace-green-screen-using-opencv-python/
     def _replaceBackgroud(self,frame,backroundKey:str,resolution):
         start = datetime.datetime.now()
         start_time = time.time()
@@ -99,12 +100,16 @@ class GreenscreenBackgroundService():
         #          if not (hsvMinRange > pixelColorHSVAsInt > hsvMaxRange):
         #              backgroundHSV[y,x] = pixelColorHSV
         #resultFrame = cv2.cvtColor(backgroundHSV,cv2.COLOR_HSV2RGB)
+        # print("min")
+        # print(hsvMinRange)
+        # print((37,65,43))
+        # print("max")
+        # print(hsvMaxRange)
+        # print((97,205,178))
         mask = cv2.inRange(resizeFrameHSV, hsvMinRange, hsvMaxRange)
         res = cv2.bitwise_and(resizeFrameHSV,resizeFrameHSV,mask=mask)
         resultHsvFrame = resizeFrameHSV - res
         resultHsvFrame = np.where(resultHsvFrame == 0, backgroundHSV, resultHsvFrame)
-
-
 
         resultFrame = cv2.cvtColor(resultHsvFrame,cv2.COLOR_HSV2RGB)
         end = datetime.datetime.now()
@@ -134,7 +139,7 @@ class GreenscreenBackgroundService():
 
         for id, amount in enumerate(addToMin):
             minHsv[id] += amount
-        return [(minHsv[0],minHsv[1],minHsv[2]),(maxHsv[0],maxHsv[1],maxHsv[2])]
+        return [(math.floor(minHsv[0]/2),minHsv[1],minHsv[2]),(math.ceil(maxHsv[0]/2),maxHsv[1],maxHsv[2])]
 
     # def _convertHsvToInt(self,hsv):
     #     return hsv[0]*1000000+hsv[1]*1000+hsv[2]
