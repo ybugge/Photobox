@@ -147,11 +147,11 @@ class GreenscreenBackgroundService():
 
     @staticmethod
     def _addHsvAndConvertToCv2(value,value2):
-        h = (value[0] + value2[0])/2
+        h = (value[0] + value2[0])
         if h < 0:
             h = 0
-        elif h > 179:
-            h = 179
+        elif h > 359:
+            h = 359
         s = (value[1] + value2[1])
         if s < 0:
             s = 0

@@ -65,6 +65,7 @@ class CfgService():
             strCfgValue =  cfgValue[key]
         else:
             strCfgValue = propertiesValue
+            cfgValue[key] = strCfgValue
 
         strCfgValues = strCfgValue.split(";")
         return list(map(int,strCfgValues))
