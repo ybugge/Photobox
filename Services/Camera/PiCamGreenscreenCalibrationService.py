@@ -29,12 +29,12 @@ class PiCamGreenscreenCalibrationService():
         # Construct a numpy array from the stream
         data = np.fromstring(stream.getvalue(), dtype=np.uint8)
         frame = cv2.imdecode(data, 1)
+
         rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        hsvImage = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
         h, w, ch = rgbImage.shape
         bytesPerLine = ch * w
         origImageRGB = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
         prewiewImage = origImageRGB.scaled(self.img_dimensions.width(), self.img_dimensions.height(), Qt.KeepAspectRatio)
         cv2.destroyAllWindows()
-        return (hsvImage,prewiewImage)
+        return (frame,prewiewImage)
 

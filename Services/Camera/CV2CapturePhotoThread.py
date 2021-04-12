@@ -1,9 +1,9 @@
 import cv2
-from PyQt5.QtCore import QThread, QSize
+from PyQt5.QtCore import QThread
 
 from Services.CfgService import CfgService
 from Services.GlobalPagesVariableService import GlobalPagesVariableService
-from Services.GreenscreenBackgroundService import GreenscreenBackgroundService
+from Services.Greenscreen.GreenscreenReplaceBackgroundService import GreenscreenReplaceBackgroundService
 from Services.ShottedPictureService import ShottedPictureService
 from config.Config import CfgKey
 
@@ -17,7 +17,6 @@ class CV2CapturePhotoThread(QThread):
         self.shoot = False
 
     def run(self):
-        greenscreenService = GreenscreenBackgroundService(self.globalVariable)
         cap = cv2.VideoCapture(CfgService.get(CfgKey.USED_CAMERA_INDEX))
         cap.set(cv2.CAP_PROP_FRAME_WIDTH, CfgService.get(CfgKey.PI_CAMERA_PHOTO_RESOLUTION)[0])
         cap.set(cv2.CAP_PROP_FRAME_HEIGHT, CfgService.get(CfgKey.PI_CAMERA_PHOTO_RESOLUTION)[1])
@@ -28,10 +27,9 @@ class CV2CapturePhotoThread(QThread):
             ret, frame = cap.read()
             if ret:
                 if CfgService.get(CfgKey.GREENSCREEN_IS_ACTIVE):
-                    newFrame = greenscreenService.replaceBackgroundPhoto(frame)
-                    cv2.imwrite(ShottedPictureService.getTempPicturePath(), newFrame)
-                else:
-                    cv2.imwrite(ShottedPictureService.getTempPicturePath(), frame)
+                    frame = GreenscreenReplaceBackgroundService(self.globalVariable).replaceBackground(frame)
+
+                cv2.imwrite(ShottedPictureService.getTempPicturePath(), frame)
                 self.returnValue = False
 
         cap.release()

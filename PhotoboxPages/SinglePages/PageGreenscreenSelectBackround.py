@@ -6,7 +6,7 @@ from PhotoboxPages.AllPages import AllPages
 from PhotoboxPages.Page import Page
 from Services.CfgService import CfgService
 from Services.GlobalPagesVariableService import GlobalPagesVariableService
-from Services.GreenscreenBackgroundService import GreenscreenBackgroundService
+from Services.Greenscreen.GreenscreenBackgroundService import GreenscreenBackgroundService
 from config.Config import CfgKey, TextKey, textValue
 
 

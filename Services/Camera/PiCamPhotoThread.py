@@ -1,14 +1,14 @@
 import datetime
 import io
-import time
 
 import cv2
 import numpy as np
-from PyQt5.QtCore import QThread, QSize
+from PyQt5.QtCore import QThread
 
 from Services.CfgService import CfgService
 from Services.GlobalPagesVariableService import GlobalPagesVariableService
-from Services.GreenscreenBackgroundService import GreenscreenBackgroundService
+from Services.Greenscreen.GreenscreenBackgroundService import GreenscreenBackgroundService
+from Services.Greenscreen.GreenscreenReplaceBackgroundService import GreenscreenReplaceBackgroundService
 from Services.ShottedPictureService import ShottedPictureService
 from config.Config import cfgValue, CfgKey
 
@@ -61,7 +61,6 @@ class PiCamPhotoThread(QThread):
 
     #https://picamera.readthedocs.io/en/release-1.10/recipes1.html
     def piCamWithCv2_test(self):
-        greenscreenService = GreenscreenBackgroundService(self.globalVariable)
         resolution = CfgService.get(CfgKey.PI_CAMERA_PHOTO_RESOLUTION)
         stream = io.BytesIO()
         with PiCamera() as camera:
@@ -69,12 +68,11 @@ class PiCamPhotoThread(QThread):
             camera.capture(stream, format='jpeg')
         # Construct a numpy array from the stream
         data = np.fromstring(stream.getvalue(), dtype=np.uint8)
-        image = cv2.imdecode(data, 1)
+        frame = cv2.imdecode(data, 1)
         if CfgService.get(CfgKey.GREENSCREEN_IS_ACTIVE):
-            newImage = greenscreenService.replaceBackgroundPhoto(image)
-            cv2.imwrite(ShottedPictureService.getTempPicturePath(), newImage)
-        else:
-            cv2.imwrite(ShottedPictureService.getTempPicturePath(), image)
+            frame = GreenscreenReplaceBackgroundService(self.globalVariable).replaceBackground(frame)
+
+        cv2.imwrite(ShottedPictureService.getTempPicturePath(), frame)
         cv2.destroyAllWindows()
 
     def shootPicture(self):

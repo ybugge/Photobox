@@ -10,6 +10,7 @@ from PhotoboxPages.Page import Page
 from Services.Camera.CameraService import CameraService
 from Services.CfgService import CfgService
 from Services.GlobalPagesVariableService import GlobalPagesVariableService
+from Services.Greenscreen.GreenscreenColorRangeService import GreenscreenColorRangeService
 from config.Config import textValue, TextKey, CfgKey
 
 
@@ -17,7 +18,7 @@ class PageGreenscreenColorPicker(Page):
     def __init__(self, pages : AllPages, windowsize:QSize, globalPagesVariable:GlobalPagesVariableService):
         super().__init__(pages,windowsize)
         self.globalPagesVariable = globalPagesVariable
-
+        self.greenscreenColorRangeService = GreenscreenColorRangeService()
         self.camera = CameraService.initGreenscreenCalibrationCam(QSize(windowsize.width()/2,windowsize.height()/2))
         mainLayout = QVBoxLayout()
         mainLayout.setContentsMargins(0, 0, 0, 0)
@@ -92,10 +93,9 @@ class PageGreenscreenColorPicker(Page):
         self.capturePhotoButton.setDisabled(False)
 
     def _capturePhoto(self):
-        cv2HsvImage, preview = self.camera.getImage()
+        frame, preview = self.camera.getImage()
         self._updatePreviewPicture(preview)
-        self._scannImageForProperties(cv2HsvImage)
-        self._scannImageForPreview(preview)
+        self._scannImageForProperties(frame)
         self.saveButton.setText(textValue[TextKey.PAGE_GREENSCREEN_COLOR_PICKER_SAVE_BUTTON])
         self.saveButton.setDisabled(False)
 
@@ -103,69 +103,19 @@ class PageGreenscreenColorPicker(Page):
         self.picture.setPixmap(QPixmap.fromImage(preview))
 
     def _scannImageForProperties(self, image):
-        self.minCV2 = image.min(axis=(0, 1)).astype(int)
-        self.maxCV2 = image.max(axis=(0, 1)).astype(int)
-        self.averageCV2 = np.average(image,axis=(0, 1)).astype(int)
+        self.greenscreenColorRangeService.scanImage(image)
 
-        self._setColorLabelText(self.minColorLabel,self.minCV2,"Min:")
-        self._setColorLabelText(self.maxColorLabel,self.maxCV2,"Max:")
-        self._setColorLabelText(self.averageColorLabel,self.averageCV2,"Ø:")
+        hueDiverence = self.greenscreenColorRangeService.getMaxHSV()[0] - self.greenscreenColorRangeService.getMinHSV()[0]
+        self._setHint(hueDiverence > CfgService.get(CfgKey.GREENSCREEN_MAX_COLOR_RANGE_HINT))
 
-    def _setColorLabelText(self,label:QLabel, color, additionalText:str):
-        label.setText(additionalText+" ("+str(color[0])+","+str(color[1])+","+str(color[2])+")")
+        self._setColorLabelText(self.minColorLabel,self.greenscreenColorRangeService.getMinHSV(),"Min:")
+        self._updateMonitoringLabel(self.minColorLabel,self.greenscreenColorRangeService.getMinQColor())
 
-    def _scannImageForPreview(self, image:QImage):
-        imageSize = image.size()
+        self._setColorLabelText(self.maxColorLabel,self.greenscreenColorRangeService.getMaxHSV(), "Max:")
+        self._updateMonitoringLabel(self.maxColorLabel,self.greenscreenColorRangeService.getMaxQColor())
 
-        averageColor = [0,0,0]
-        minColor = [360,255,255]
-        maxColor = [0,0,0]
-        for x in range(imageSize.width()):
-            averageColumnColor = [0,0,0]
-            for y in range(imageSize.height()):
-                color = image.pixelColor(x,y)
-                hsvColor = color.getHsv()
-                averageColumnColor[0] += hsvColor[0]
-                averageColumnColor[1] += hsvColor[1]
-                averageColumnColor[2] += hsvColor[2]
-
-                self._updateMinColor(minColor,hsvColor,0)
-                self._updateMinColor(minColor,hsvColor,1)
-                self._updateMinColor(minColor,hsvColor,2)
-                self._updateMaxColor(maxColor,hsvColor,0)
-                self._updateMaxColor(maxColor,hsvColor,1)
-                self._updateMaxColor(maxColor,hsvColor,2)
-
-            averageColumnColor[0] /= imageSize.height()
-            averageColumnColor[1] /= imageSize.height()
-            averageColumnColor[2] /= imageSize.height()
-            averageColor[0] += averageColumnColor[0]
-            averageColor[1] += averageColumnColor[1]
-            averageColor[2] += averageColumnColor[2]
-        averageColor[0] /= imageSize.width()
-        averageColor[1] /= imageSize.width()
-        averageColor[2] /= imageSize.width()
-
-        self.averageQColor = QColor.fromHsv(round(averageColor[0]),round(averageColor[1]),round(averageColor[2]),255)
-        self.minQColor = QColor.fromHsv(round(minColor[0]),round(minColor[1]),round(minColor[2]),255)
-        self.maxQColor = QColor.fromHsv(round(maxColor[0]),round(maxColor[1]),round(maxColor[2]),255)
-
-        self._updateMonitoringLabel(self.averageColorLabel,self.averageQColor)
-        self._updateMonitoringLabel(self.minColorLabel,self.minQColor)
-        self._updateMonitoringLabel(self.maxColorLabel,self.maxQColor)
-        self._setHint(maxColor[0] - minColor[0] > CfgService.get(CfgKey.GREENSCREEN_MAX_COLOR_RANGE_HINT))
-
-
-    def _updateMonitoringLabel(self,label:QLabel, color:QColor):
-        label.setStyleSheet("background-color:rgb("+str(color.getRgb()[0])+","+str(color.getRgb()[1])+","+str(color.getRgb()[2])+")")
-
-    def _updateMinColor(self,minColor,rgbColor,index):
-        if(minColor[index] > rgbColor[index]):
-            minColor[index] = rgbColor[index]
-
-    def _updateMaxColor(self,maxColor,rgbColor,index):
-        if(maxColor[index] < rgbColor[index]):
-            maxColor[index] = rgbColor[index]
+        self._setColorLabelText(self.averageColorLabel,self.greenscreenColorRangeService.getAverageHSV(),"Ø:")
+        self._updateMonitoringLabel(self.averageColorLabel,self.greenscreenColorRangeService.getAverageQColor())
 
     def _setHint(self,colorRangeToBig:bool):
         if colorRangeToBig:
@@ -175,13 +125,19 @@ class PageGreenscreenColorPicker(Page):
             self.hintLabel.setText(textValue[TextKey.PAGE_GREENSCREEN_COLOR_PICKER_HINT_OK])
             self.hintLabel.setStyleSheet("color:green")
 
+    def _setColorLabelText(self,label:QLineEdit, color, additionalText:str):
+        label.setText(additionalText+" "+str(color))
+
+    def _updateMonitoringLabel(self,label:QLineEdit, color:QColor):
+        label.setStyleSheet("background-color:rgb("+str(color.getRgb()[0])+","+str(color.getRgb()[1])+","+str(color.getRgb()[2])+")")
+
     def _saveEvent(self):
-        CfgService.setColor(CfgKey.GREENSCREEN_MIN_HSV_GUI_COLOR, self.minQColor)
-        CfgService.setColor(CfgKey.GREENSCREEN_MAX_HSV_GUI_COLOR, self.maxQColor)
-        CfgService.setColor(CfgKey.GREENSCREEN_AVERAGE_HSV_GUI_COLOR, self.averageQColor)
-        CfgService.setIntList(CfgKey.GREENSCREEN_MIN_HSV_CV2_COLOR, self.minCV2)
-        CfgService.setIntList(CfgKey.GREENSCREEN_MAX_HSV_CV2_COLOR, self.maxCV2)
-        CfgService.setIntList(CfgKey.GREENSCREEN_AVERAGE_HSV_CV2_COLOR, self.averageCV2)
+        CfgService.setColor(CfgKey.GREENSCREEN_MIN_HSV_GUI_COLOR, self.greenscreenColorRangeService.getMinQColor())
+        CfgService.setColor(CfgKey.GREENSCREEN_MAX_HSV_GUI_COLOR, self.self.greenscreenColorRangeService.getMaxQColor())
+        CfgService.setColor(CfgKey.GREENSCREEN_AVERAGE_HSV_GUI_COLOR, self.greenscreenColorRangeService.getAverageQColor())
+        CfgService.setIntList(CfgKey.GREENSCREEN_MIN_HSV_CV2_COLOR, self.greenscreenColorRangeService.getMinHSV())
+        CfgService.setIntList(CfgKey.GREENSCREEN_MAX_HSV_CV2_COLOR, self.greenscreenColorRangeService.getMaxHSV())
+        CfgService.setIntList(CfgKey.GREENSCREEN_AVERAGE_HSV_CV2_COLOR, self.greenscreenColorRangeService.getAverageHSV())
         self.saveButton.setText(textValue[TextKey.PAGE_GREENSCREEN_COLOR_PICKER_SAVE_SUCCESS_BUTTON])
         self.saveButton.setDisabled(True)
 
@@ -191,14 +147,14 @@ class PageGreenscreenColorPicker(Page):
     def _toleranceButtonEvent(self):
         self.setPageEvent(self.tolerancePage)
 
+    def setBackPageIsInUserMode(self,backPageIsInUserMode):
+        self.backPageIsInUserMode = backPageIsInUserMode
+
     def _backPageSelectEvent(self):
         if self.globalPagesVariable.getUserMode():
             self._backPageIsInUserModeEvent()
         else:
             self.backPageEvent()
-
-    def setBackPageIsInUserMode(self,backPageIsInUserMode):
-        self.backPageIsInUserMode = backPageIsInUserMode
 
     def _backPageIsInUserModeEvent(self):
         self.setPageEvent(self.backPageIsInUserMode)
