@@ -5,13 +5,18 @@ from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QPushButton, QWidget, QLab
 from PhotoboxPages.AllPages import AllPages
 from PhotoboxPages.Page import Page
 from Services.Camera.CameraService import CameraService
+from Services.CfgService import CfgService
+from Services.GlobalPagesVariableService import GlobalPagesVariableService
+from Services.Greenscreen.GreenscreenBackgroundService import GreenscreenBackgroundService
+from config.Config import CfgKey
 
 
 class PageCameraCalibrationView(Page):
-    def __init__(self, pages : AllPages, windowsize:QSize):
+    def __init__(self, pages : AllPages, windowsize:QSize,globalVariable : GlobalPagesVariableService):
         super().__init__(pages,windowsize)
 
-        self.windowsize = windowsize
+        self.windowsize = globalVariable.getWindowSize()
+        self.globalVariable = globalVariable
         mainLayout = QVBoxLayout()
         mainLayout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(mainLayout)
@@ -37,7 +42,7 @@ class PageCameraCalibrationView(Page):
 
     def executeBefore(self):
         print("Start Video")
-        self.videoThread = CameraService.initialAndStartVideo(self.windowsize,self.setVideoStreamToLabel)
+        self.videoThread = CameraService.initialAndStartVideo(self.globalVariable,self.setVideoStreamToLabel)
 
     def executeAfter(self):
         print("Stop Video")

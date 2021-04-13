@@ -16,8 +16,9 @@ class GreenscreenReplaceBackgroundService():
     def __init__(self,globalVariable:GlobalPagesVariableService):
         self.globalVariable = globalVariable
 
-    def replaceBackground(self, frame):
-        background = GreenscreenBackgroundService(self.globalVariable).getBackgroundAsHsv(GreenscreenBackgroundService.PICTURE_KEY,CfgService.get(CfgKey.PI_CAMERA_PHOTO_RESOLUTION))
+    def replaceBackground(self,frame,background=None):
+        if background is None:
+            background = GreenscreenBackgroundService(self.globalVariable).getBackgroundAsHsv(GreenscreenBackgroundService.PICTURE_KEY,CfgService.get(CfgKey.PI_CAMERA_PHOTO_RESOLUTION))
         return self._replaceBackgroud(frame,background)
 
     #https://www.geeksforgeeks.org/replace-green-screen-using-opencv-python/

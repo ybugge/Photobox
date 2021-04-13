@@ -4,6 +4,8 @@ import time
 import cv2
 
 from Services.CfgService import CfgService
+from Services.GlobalPagesVariableService import GlobalPagesVariableService
+from Services.Greenscreen.GreenscreenReplaceBackgroundService import GreenscreenReplaceBackgroundService
 from config.Config import cfgValue, CfgKey
 
 try:
@@ -16,10 +18,12 @@ except ImportError:
 class PiCamVideoThread(QThread):
     changePixmap = pyqtSignal(QImage)
 
-    def __init__(self,img_dimensions : QSize):
+    def __init__(self,globalVariable : GlobalPagesVariableService, background):
         super().__init__()
         self.run = True
-        self.img_dimensions = img_dimensions
+        self.background = background
+        self.img_dimensions = globalVariable.getWindowSize()
+        self.globalVariable = globalVariable
 
     def run(self):
         resolution = CfgService.get(CfgKey.PI_CAMERA_VIDEO_RESOLUTION)
@@ -32,7 +36,8 @@ class PiCamVideoThread(QThread):
         for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
             if(self.run == False):
                 break
-
+            if not self.background is None:
+                frame = GreenscreenReplaceBackgroundService(self.globalVariable).replaceBackground(frame,self.background)
             rgbImage = cv2.cvtColor(frame.array, cv2.COLOR_BGR2RGB)
             h, w, ch = rgbImage.shape
             bytesPerLine = ch * w

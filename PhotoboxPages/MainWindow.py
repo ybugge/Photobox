@@ -34,7 +34,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, windowsize:QSize):
         super().__init__()
         self.windowsize = windowsize
-        self.globalVariable = GlobalPagesVariableService()
+        self.globalVariable = GlobalPagesVariableService(self.windowsize)
         self.server=WebServerExecThread()
         self.printerService = PrinterService()
 
@@ -94,7 +94,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pages.addPage(pageConfig)
 
         #Seite 2-2 Camera configuration view
-        pageCameraConfig = PageCameraCalibrationView(self.pages, self.windowsize)
+        pageCameraConfig = PageCameraCalibrationView(self.pages, self.windowsize,self.globalVariable)
         pageCameraConfig.setBackPage(PageConfig)
         self.pages.addPage(pageCameraConfig)
 
@@ -128,7 +128,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pages.addPage(pageGreenscreenSelectBackround)
 
         #Seite 4 Camera Preview
-        pageCameraPreview = PageCameraPreview(self.pages,self.windowsize)
+        pageCameraPreview = PageCameraPreview(self.pages,self.windowsize, self.globalVariable)
         pageCameraPreview.setNextPage(PageCapturePhoto)
         self.pages.addPage(pageCameraPreview)
 

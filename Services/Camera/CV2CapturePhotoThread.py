@@ -10,9 +10,10 @@ from config.Config import CfgKey
 
 class CV2CapturePhotoThread(QThread):
 
-    def __init__(self,globalVariable:GlobalPagesVariableService):
+    def __init__(self,globalVariable:GlobalPagesVariableService,background=None):
         super().__init__()
         self.globalVariable = globalVariable
+        self.background = background
         self.returnValue = True
         self.shoot = False
 
@@ -26,8 +27,8 @@ class CV2CapturePhotoThread(QThread):
         while self.returnValue:
             ret, frame = cap.read()
             if ret:
-                if CfgService.get(CfgKey.GREENSCREEN_IS_ACTIVE):
-                    frame = GreenscreenReplaceBackgroundService(self.globalVariable).replaceBackground(frame)
+                if not self.background is None:
+                    frame = GreenscreenReplaceBackgroundService(self.globalVariable).replaceBackground(frame,self.background)
 
                 cv2.imwrite(ShottedPictureService.getTempPicturePath(), frame)
                 self.returnValue = False

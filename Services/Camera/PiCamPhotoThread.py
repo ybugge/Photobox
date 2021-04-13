@@ -7,7 +7,6 @@ from PyQt5.QtCore import QThread
 
 from Services.CfgService import CfgService
 from Services.GlobalPagesVariableService import GlobalPagesVariableService
-from Services.Greenscreen.GreenscreenBackgroundService import GreenscreenBackgroundService
 from Services.Greenscreen.GreenscreenReplaceBackgroundService import GreenscreenReplaceBackgroundService
 from Services.ShottedPictureService import ShottedPictureService
 from config.Config import cfgValue, CfgKey
@@ -21,8 +20,10 @@ except ImportError:
 
 class PiCamPhotoThread(QThread):
 
-    def __init__(self,globalVariable:GlobalPagesVariableService):
+    def __init__(self,globalVariable:GlobalPagesVariableService,background = None):
         super().__init__()
+        self.background = background
+
         self.globalVariable = globalVariable
         self.returnValue = True
         self.shoot = False
@@ -69,8 +70,8 @@ class PiCamPhotoThread(QThread):
         # Construct a numpy array from the stream
         data = np.fromstring(stream.getvalue(), dtype=np.uint8)
         frame = cv2.imdecode(data, 1)
-        if CfgService.get(CfgKey.GREENSCREEN_IS_ACTIVE):
-            frame = GreenscreenReplaceBackgroundService(self.globalVariable).replaceBackground(frame)
+        if not self.background is None:
+            frame = GreenscreenReplaceBackgroundService(self.globalVariable).replaceBackground(frame,self.background)
 
         cv2.imwrite(ShottedPictureService.getTempPicturePath(), frame)
         cv2.destroyAllWindows()

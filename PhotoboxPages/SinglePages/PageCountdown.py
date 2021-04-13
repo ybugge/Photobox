@@ -8,14 +8,18 @@ from PhotoboxPages.AllPages import AllPages
 from PhotoboxPages.Page import Page
 from Services.Camera.CameraService import CameraService
 from Services.CfgService import CfgService
+from Services.GlobalPagesVariableService import GlobalPagesVariableService
+from Services.Greenscreen.GreenscreenBackgroundService import GreenscreenBackgroundService
 from config.Config import CfgKey
 
 
 class PageCameraPreview(Page):
-    def __init__(self, pages : AllPages, windowsize:QSize):
+    def __init__(self, pages : AllPages, windowsize:QSize, globalVariable : GlobalPagesVariableService):
         super().__init__(pages,windowsize)
 
-        self.windowsize = windowsize
+        self.windowsize = globalVariable.getWindowSize()
+        self.globalVariable = globalVariable
+
         mainLayout = QVBoxLayout()
         mainLayout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(mainLayout)
@@ -63,7 +67,12 @@ class PageCameraPreview(Page):
     def executeBefore(self):
         print("Start Video")
         self.videoLabel.setPixmap(QPixmap())
-        self.videoThread = CameraService.initialAndStartVideo(self.windowsize,self.setVideoStreamToLabel)
+        if CfgService.get(CfgKey.GREENSCREEN_IS_ACTIVE):
+            background = GreenscreenBackgroundService(self.globalVariable).getBackgroundAsHsv(GreenscreenBackgroundService.VIDEO_KEY,CfgService.get(CfgKey.PI_CAMERA_VIDEO_RESOLUTION))
+            self.videoThread = CameraService.initialAndStartVideo(self.globalVariable,self.setVideoStreamToLabel,background)
+        else:
+            self.videoThread = CameraService.initialAndStartVideo(self.globalVariable,self.setVideoStreamToLabel)
+
         self.countdown = CfgService.get(CfgKey.PAGE_CAMERAPREVIEW_COUNTER_START_VALUE)
         self.timer.start(CfgService.get(CfgKey.PAGE_CAMERAPREVIEW_COUNTER_PERIOD_LENGTH))
 

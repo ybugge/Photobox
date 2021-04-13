@@ -1,9 +1,12 @@
 from datetime import datetime
 
+from PyQt5.QtCore import QSize
+
 
 class GlobalPagesVariableService():
 
-    def __init__(self):
+    def __init__(self,windowSize:QSize):
+        self.windowSize = windowSize
         self.isInUserMode = False
         self.lockPictureSubName = False
         self.pictureSubName = None
@@ -11,6 +14,8 @@ class GlobalPagesVariableService():
         self.defaultBackgrounds = []
         self.backgroundIndex = 0
 
+    def getWindowSize(self):
+        return self.windowSize
 
     def updatePictureName(self):
         if not self.lockPictureSubName:

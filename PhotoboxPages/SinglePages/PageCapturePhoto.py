@@ -11,6 +11,7 @@ from PhotoboxPages.Page import Page
 from Services.Camera.CameraService import CameraService
 from Services.CfgService import CfgService
 from Services.GlobalPagesVariableService import GlobalPagesVariableService
+from Services.Greenscreen.GreenscreenBackgroundService import GreenscreenBackgroundService
 from Services.PageDbService import PageDbSevice
 from config.Config import CfgKey
 
@@ -43,7 +44,11 @@ class PageCapturePhoto(Page):
     def executeBefore(self):
         randomPicture = self.getRandomPicture()
         randomPicture.scaledToHeight(self.windowsize.height())
-        self.capturePhotoThread= CameraService.initialPhoto(self.globalVariable)
+        if CfgService.get(CfgKey.GREENSCREEN_IS_ACTIVE):
+            background = GreenscreenBackgroundService(self.globalVariable).getBackgroundAsHsv(GreenscreenBackgroundService.PICTURE_KEY,CfgService.get(CfgKey.PI_CAMERA_PHOTO_RESOLUTION))
+            self.capturePhotoThread= CameraService.initialPhoto(self.globalVariable,background)
+        else:
+            self.capturePhotoThread= CameraService.initialPhoto(self.globalVariable)
         self.capturePhotoThread.start()
         self.counterLabel.setPixmap(randomPicture.scaledToHeight(self.windowsize.height()))
         self.countdown = CfgService.get(CfgKey.PAGE_CAPTUREPHOTO_TIMER_START_VALUE)

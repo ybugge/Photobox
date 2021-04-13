@@ -62,24 +62,24 @@ class CameraService():
         return camerasInfos[cameraIndex].description()
 
     @staticmethod
-    def initialAndStartVideo(windowSize:QSize, setVideoStreamToLabel):
+    def initialAndStartVideo(globalPagesVariable : GlobalPagesVariableService, setVideoStreamToLabel, background = None):
         if CameraService.existPiCamera():
-            t_videoThread = PiCamVideoThread(windowSize)
+            t_videoThread = PiCamVideoThread(globalPagesVariable,background)
             t_videoThread.changePixmap.connect(setVideoStreamToLabel)
             t_videoThread.start()
             return t_videoThread
         else:
-            t_videoThread = CV2VideoThread(windowSize)
+            t_videoThread = CV2VideoThread(globalPagesVariable,background)
             t_videoThread.changePixmap.connect(setVideoStreamToLabel)
             t_videoThread.start()
             return t_videoThread
 
     @staticmethod
-    def initialPhoto(globalVariable:GlobalPagesVariableService):
+    def initialPhoto(globalVariable:GlobalPagesVariableService, background = None):
         if CameraService.existPiCamera():
-            return PiCamPhotoThread(globalVariable)
+            return PiCamPhotoThread(globalVariable,background)
         else:
-            return CV2CapturePhotoThread(globalVariable)
+            return CV2CapturePhotoThread(globalVariable,background)
 
     @staticmethod
     def initGreenscreenCalibrationCam(pictureSize:QSize):

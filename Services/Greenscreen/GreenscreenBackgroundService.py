@@ -25,6 +25,9 @@ class GreenscreenBackgroundService():
         background =  self.globalVariable.getDefaultBackground()[index][backroundKey].resize((resolution[0],resolution[1]))
         return cv2.cvtColor(np.array(background),cv2.COLOR_BGR2HSV)
 
+    def getBlackBackgroundAsHsv(self,resolution):
+        blackImage =  np.zeros((resolution[0], resolution[1], 3), dtype = "uint8")
+        return cv2.cvtColor(blackImage,cv2.COLOR_BGR2HSV)
 
     def loadDefaultBackgrounds(self):
         # Bilder aus Ordner laden
