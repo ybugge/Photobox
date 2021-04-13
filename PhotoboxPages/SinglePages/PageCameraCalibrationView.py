@@ -5,10 +5,7 @@ from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QPushButton, QWidget, QLab
 from PhotoboxPages.AllPages import AllPages
 from PhotoboxPages.Page import Page
 from Services.Camera.CameraService import CameraService
-from Services.CfgService import CfgService
 from Services.GlobalPagesVariableService import GlobalPagesVariableService
-from Services.Greenscreen.GreenscreenBackgroundService import GreenscreenBackgroundService
-from config.Config import CfgKey
 
 
 class PageCameraCalibrationView(Page):
@@ -42,7 +39,7 @@ class PageCameraCalibrationView(Page):
 
     def executeBefore(self):
         print("Start Video")
-        self.videoThread = CameraService.initialAndStartVideo(self.globalVariable,self.setVideoStreamToLabel)
+        self.videoThread = CameraService.initialAndStartVideo(self.windowsize,self.globalVariable,self.setVideoStreamToLabel)
 
     def executeAfter(self):
         print("Stop Video")

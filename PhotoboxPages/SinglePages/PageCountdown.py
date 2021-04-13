@@ -69,9 +69,9 @@ class PageCameraPreview(Page):
         self.videoLabel.setPixmap(QPixmap())
         if CfgService.get(CfgKey.GREENSCREEN_IS_ACTIVE):
             background = GreenscreenBackgroundService(self.globalVariable).getBackgroundAsHsv(GreenscreenBackgroundService.VIDEO_KEY,CfgService.get(CfgKey.PI_CAMERA_VIDEO_RESOLUTION))
-            self.videoThread = CameraService.initialAndStartVideo(self.globalVariable,self.setVideoStreamToLabel,background)
+            self.videoThread = CameraService.initialAndStartVideo(self.windowsize,self.globalVariable,self.setVideoStreamToLabel,background)
         else:
-            self.videoThread = CameraService.initialAndStartVideo(self.globalVariable,self.setVideoStreamToLabel)
+            self.videoThread = CameraService.initialAndStartVideo(self.windowsize,self.globalVariable,self.setVideoStreamToLabel)
 
         self.countdown = CfgService.get(CfgKey.PAGE_CAMERAPREVIEW_COUNTER_START_VALUE)
         self.timer.start(CfgService.get(CfgKey.PAGE_CAMERAPREVIEW_COUNTER_PERIOD_LENGTH))

@@ -1,3 +1,5 @@
+import math
+
 import cv2
 from PyQt5.QtCore import QThread, pyqtSignal, Qt, QSize
 from PyQt5.QtGui import QImage
@@ -10,12 +12,13 @@ from config.Config import CfgKey
 
 class CV2VideoThread(QThread):
     changePixmap = pyqtSignal(QImage)
+    pixelHsv = pyqtSignal(list)
 
-    def __init__(self,globalVariable : GlobalPagesVariableService, background):
+    def __init__(self,img_dimensions:QSize,globalVariable : GlobalPagesVariableService, background = None):
         super().__init__()
         self.background = background
         self.run = True
-        self.img_dimensions = globalVariable.getWindowSize()
+        self.img_dimensions = img_dimensions
         self.globalVariable = globalVariable
 
     def run(self):
@@ -25,6 +28,7 @@ class CV2VideoThread(QThread):
         while self.run:
             ret, frame = cap.read()
             if ret:
+                self.updatePixel(frame)
                 if not self.background is None:
                     frame = GreenscreenReplaceBackgroundService(self.globalVariable).replaceBackground(frame,self.background)
                 rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -39,3 +43,9 @@ class CV2VideoThread(QThread):
 
     def stop(self):
         self.run = False
+
+    def updatePixel(self,frame):
+        hsvFrame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+        h,w,_ = hsvFrame.shape
+        hsv = hsvFrame[math.floor(h/2),math.floor(w/2)]
+        self.pixelHsv.emit([hsv[0],hsv[1],hsv[2]])

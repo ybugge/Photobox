@@ -62,14 +62,18 @@ class CameraService():
         return camerasInfos[cameraIndex].description()
 
     @staticmethod
-    def initialAndStartVideo(globalPagesVariable : GlobalPagesVariableService, setVideoStreamToLabel, background = None):
+    def initialAndStartVideo(img_dimensions:QSize,globalPagesVariable : GlobalPagesVariableService, setVideoStreamToLabel, background = None, hsvPixelLabel=None):
         if CameraService.existPiCamera():
-            t_videoThread = PiCamVideoThread(globalPagesVariable,background)
+            t_videoThread = PiCamVideoThread(img_dimensions,globalPagesVariable,background)
+            if not hsvPixelLabel is None:
+                t_videoThread.pixelHsv.connect(hsvPixelLabel)
             t_videoThread.changePixmap.connect(setVideoStreamToLabel)
             t_videoThread.start()
             return t_videoThread
         else:
-            t_videoThread = CV2VideoThread(globalPagesVariable,background)
+            t_videoThread = CV2VideoThread(img_dimensions,globalPagesVariable,background)
+            if not hsvPixelLabel is None:
+                t_videoThread.pixelHsv.connect(hsvPixelLabel)
             t_videoThread.changePixmap.connect(setVideoStreamToLabel)
             t_videoThread.start()
             return t_videoThread

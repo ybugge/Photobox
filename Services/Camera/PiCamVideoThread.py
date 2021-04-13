@@ -1,3 +1,5 @@
+import math
+
 from PyQt5.QtCore import QThread, pyqtSignal, QSize, Qt
 from PyQt5.QtGui import QImage
 import time
@@ -17,12 +19,13 @@ except ImportError:
 
 class PiCamVideoThread(QThread):
     changePixmap = pyqtSignal(QImage)
+    pixelHsv = pyqtSignal(list)
 
-    def __init__(self,globalVariable : GlobalPagesVariableService, background):
+    def __init__(self,img_dimensions:QSize,globalVariable : GlobalPagesVariableService, background):
         super().__init__()
         self.run = True
         self.background = background
-        self.img_dimensions = globalVariable.getWindowSize()
+        self.img_dimensions = img_dimensions
         self.globalVariable = globalVariable
 
     def run(self):
@@ -36,6 +39,7 @@ class PiCamVideoThread(QThread):
         for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
             if(self.run == False):
                 break
+            self.updatePixel(frame)
             if not self.background is None:
                 frame = GreenscreenReplaceBackgroundService(self.globalVariable).replaceBackground(frame,self.background)
             rgbImage = cv2.cvtColor(frame.array, cv2.COLOR_BGR2RGB)
@@ -51,4 +55,9 @@ class PiCamVideoThread(QThread):
     def stop(self):
         self.run = False
 
+    def updatePixel(self,frame):
+        hsvFrame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+        h,w,_ = hsvFrame.shape
+        hsv = hsvFrame[math.floor(h/2),math.floor(w/2)]
+        self.pixelHsv.emit([hsv[0],hsv[1],hsv[2]])
 

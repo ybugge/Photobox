@@ -1,5 +1,3 @@
-import math
-
 import cv2
 import numpy as np
 from PyQt5.QtGui import QColor
@@ -12,13 +10,6 @@ class GreenscreenColorRangeService():
         self.minCV2 = frame.min(axis=(0, 1)).astype(int)
         self.maxCV2 = frame.max(axis=(0, 1)).astype(int)
         self.averageCV2 = np.average(frame,axis=(0, 1)).astype(int)
-
-        h,w,ch = frame.shape
-
-        print("Collor")
-        print(str(self.minCV2))
-        print(frame[math.floor(h/2),math.floor(w/2)])
-        print(str(self.maxCV2))
 
     def getMinHSV(self):
         return self.minCV2
