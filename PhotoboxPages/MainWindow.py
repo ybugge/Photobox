@@ -68,8 +68,8 @@ class MainWindow(QtWidgets.QMainWindow):
         pageCloseConfirm.setNextPage(PageConfig)
         self.pages.addPage(pageCloseConfirm)
 
-        #Revonfigure
-        pageReconfig = PageReconfig(self.pages,self.windowsize, self.printerService)
+        #Reconfigure
+        pageReconfig = PageReconfig(self.pages,self.windowsize, self.printerService,self.globalVariable)
         pageReconfig.setBackPage(PageTitlePicture)
         pageReconfig.setGreenscreenColorPickerEventPage(PageGreenscreenColorPicker)
         self.pages.addPage(pageReconfig)

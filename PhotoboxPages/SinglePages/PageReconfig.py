@@ -5,13 +5,16 @@ from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QPushButton, QLabel
 from PhotoboxPages.AllPages import AllPages
 from PhotoboxPages.Page import Page
 from Services.CfgService import CfgService
+from Services.GlobalPagesVariableService import GlobalPagesVariableService
+from Services.Greenscreen.GreenscreenBackgroundService import GreenscreenBackgroundService
 from Services.PrinterService import PrinterService
 from config.Config import TextKey, textValue, CfgKey
 
 
 class PageReconfig(Page):
-    def __init__(self, pages : AllPages, windowSize:QSize, printerService:PrinterService):
+    def __init__(self, pages : AllPages, windowSize:QSize, printerService:PrinterService,globalPagesVariableService:GlobalPagesVariableService):
         super().__init__(pages,windowSize)
+        self.greenscreenBackgroundService = GreenscreenBackgroundService(globalPagesVariableService)
         self.printerService = printerService
         mainLayout = QVBoxLayout()
         mainLayout.setContentsMargins(0, 0, 0, 0)
@@ -72,6 +75,12 @@ class PageReconfig(Page):
         greenscreenColorPickerButton.clicked.connect(self.greenscreenColorPickerEvent)
         mainLayout.addWidget(greenscreenColorPickerButton)
 
+        #Load Background
+        self.greenscreenLoadBackgroundButton = QPushButton()
+        self.greenscreenLoadBackgroundButton.setText(textValue[TextKey.PAGE_RECONFIG_LOAD_GREENSCREEN_BACKGROUND])
+        self.greenscreenLoadBackgroundButton.clicked.connect(self.loadGreenscreenBackground)
+        mainLayout.addWidget(self.greenscreenLoadBackgroundButton)
+
         #Navigation   ##################################################################################################
         mainLayout.addStretch()
         navigationLayout = QHBoxLayout()
@@ -85,6 +94,8 @@ class PageReconfig(Page):
     def executeBefore(self):
         self.updateUiPrintingPossible()
         self.updateGreenscreenActive()
+        self.greenscreenLoadBackgroundButton.setText(textValue[TextKey.PAGE_RECONFIG_LOAD_GREENSCREEN_BACKGROUND])
+        self.greenscreenLoadBackgroundButton.setDisabled(False)
 
     def updateGreenscreenActive(self):
         isGreenscreenActivate = CfgService.get(CfgKey.GREENSCREEN_IS_ACTIVE)
@@ -93,6 +104,11 @@ class PageReconfig(Page):
             self.greenscreenDisabledButton.setText(textValue[TextKey.PAGE_CONFIG_AKTIVATE])
         else:
             self.greenscreenDisabledButton.setText(textValue[TextKey.PAGE_CONFIG_INAKTIVATE])
+
+    def loadGreenscreenBackground(self):
+        self.greenscreenLoadBackgroundButton.setText(textValue[TextKey.PAGE_RECONFIG_WAS_LOADED_GREENSCREEN_BACKGROUND])
+        self.greenscreenLoadBackgroundButton.setDisabled(True)
+        self.greenscreenBackgroundService.loadDefaultBackgrounds()
 
     def updateUiPrintingPossible(self):
         if not self.printerService.printingPosible():

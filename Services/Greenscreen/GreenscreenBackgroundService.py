@@ -81,9 +81,6 @@ class GreenscreenBackgroundService():
         FileFolderService.createFolderIfNotExist(folder)
         return folder
 
-    def _getBackgroundPath(self):
-        return os.path.join(CfgService.get(CfgKey.MAIN_SAVE_DIR), CfgService.get(CfgKey.PROJECTNAME), CfgService.get(CfgKey.GREENSCREEN_DEFAULT_BACKGROUND_FOLDER))
-
     def _getBackgrounds(self):
         return self.globalVariable.getDefaultBackground()
 
@@ -93,3 +90,9 @@ class GreenscreenBackgroundService():
         return {GreenscreenBackgroundService.PICTURE_PATH_KEY:picturePath,
                 GreenscreenBackgroundService.VIDEO_KEY:videoBackground,
                 GreenscreenBackgroundService.PICTURE_KEY:pictureBackground}
+
+    def _getBackgroundPath(self):
+        return os.path.join(CfgService.get(CfgKey.MAIN_SAVE_DIR), CfgService.get(CfgKey.PROJECTNAME), CfgService.get(CfgKey.GREENSCREEN_FOLDER),CfgService.get(CfgKey.GREENSCREEN_BACKGROUND_FOLDER))
+
+    def _getTempPath(self):
+        return os.path.join(CfgService.get(CfgKey.MAIN_SAVE_DIR), CfgService.get(CfgKey.PROJECTNAME), CfgService.get(CfgKey.GREENSCREEN_FOLDER),CfgService.get(CfgKey.GREENSCREEN_TEMP_FOLDER))

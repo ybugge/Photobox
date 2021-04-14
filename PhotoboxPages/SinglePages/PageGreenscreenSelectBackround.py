@@ -65,7 +65,6 @@ class PageGreenscreenSelectBackround(Page):
         if not CfgService.get(CfgKey.GREENSCREEN_IS_ACTIVE):
             self.nextPageEvent()
         else:
-            self.greenscreenBackgroundService.loadDefaultBackgrounds()
             self.currentBackgroundImageIndex = 0
             self._navigationBackgroundButtonStatus()
             self._setBrackgroundPreview()
