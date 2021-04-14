@@ -106,7 +106,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pages.addPage(pageGreenscreenColorPicker)
 
         #Seite 2-4 PageGreenscreenToleranceConfig
-        pageGreenscreenToleranceConfig = PageGreenscreenToleranceConfig(self.pages, self.windowsize)
+        pageGreenscreenToleranceConfig = PageGreenscreenToleranceConfig(self.pages, self.windowsize,self.globalVariable)
         pageGreenscreenToleranceConfig.setBackPage(PageGreenscreenColorPicker)
         self.pages.addPage(pageGreenscreenToleranceConfig)
 
@@ -174,7 +174,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.showFullScreen()
 
     def exitNotAllowedInThisPages(self):
-        return [PageCameraPreview, PageCapturePhoto, PageSystemPictureManager,PageCloseConfirm]
+        return [PageCameraPreview, PageCapturePhoto, PageSystemPictureManager,PageCloseConfirm,PageGreenscreenToleranceConfig,PageGreenscreenColorPicker,PageCameraCalibrationView]
 
     #Alle Keyevents
     def keyPressEvent(self, event):
