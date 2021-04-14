@@ -71,6 +71,10 @@ class FileFolderService():
         return file_extension.replace("\"","")
 
     @staticmethod
+    def getFileName(filePath:str):
+        return os.path.basename(filePath)
+
+    @staticmethod
     def creatFolderByFileIfNotExist(file:str):
         FileFolderService.createFolderIfNotExist(os.path.dirname(file))
 

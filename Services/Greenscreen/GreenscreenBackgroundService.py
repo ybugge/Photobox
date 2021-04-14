@@ -33,6 +33,8 @@ class GreenscreenBackgroundService():
         # Bilder aus Ordner laden
         folderPath = self._getBackgroundPathCreateFolderIfNotExtist()
         picturePaths = FileFolderService.getFolderContentPictures(folderPath)
+        FileFolderService.removeIfExist(self._getTempPath())
+        FileFolderService.createFolderIfNotExist(self._getTempPath())
         backgrounds = []
         for picturePath in picturePaths:
             backgrounds.append(self._loadBackgroundImages(picturePath))
@@ -87,9 +89,18 @@ class GreenscreenBackgroundService():
     def _loadBackgroundImages(self,picturePath):
         videoBackground = self._cutPicture(picturePath,CfgService.get(CfgKey.PI_CAMERA_VIDEO_RESOLUTION))
         pictureBackground = self._cutPicture(picturePath,CfgService.get(CfgKey.PI_CAMERA_PHOTO_RESOLUTION))
-        return {GreenscreenBackgroundService.PICTURE_PATH_KEY:picturePath,
+        previewPath = self._savePreview(pictureBackground,picturePath)
+        return {GreenscreenBackgroundService.PICTURE_PATH_KEY:previewPath,
                 GreenscreenBackgroundService.VIDEO_KEY:videoBackground,
                 GreenscreenBackgroundService.PICTURE_KEY:pictureBackground}
+
+    def _savePreview(self,image,sourcePath:str):
+        fileName = FileFolderService.getFileName(sourcePath)
+        filePath = os.path.join(self._getTempPath(), fileName)
+        windowSize = self.globalVariable.getWindowSize()
+        preview = image.resize((windowSize.width(),windowSize.height()))
+        preview.save(filePath)
+        return filePath
 
     def _getBackgroundPath(self):
         return os.path.join(CfgService.get(CfgKey.MAIN_SAVE_DIR), CfgService.get(CfgKey.PROJECTNAME), CfgService.get(CfgKey.GREENSCREEN_FOLDER),CfgService.get(CfgKey.GREENSCREEN_BACKGROUND_FOLDER))
