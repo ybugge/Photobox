@@ -133,7 +133,7 @@ class PageGreenscreenColorPicker(Page):
 
     def _saveEvent(self):
         CfgService.setColor(CfgKey.GREENSCREEN_MIN_HSV_GUI_COLOR, self.greenscreenColorRangeService.getMinQColor())
-        CfgService.setColor(CfgKey.GREENSCREEN_MAX_HSV_GUI_COLOR, self.self.greenscreenColorRangeService.getMaxQColor())
+        CfgService.setColor(CfgKey.GREENSCREEN_MAX_HSV_GUI_COLOR, self.greenscreenColorRangeService.getMaxQColor())
         CfgService.setColor(CfgKey.GREENSCREEN_AVERAGE_HSV_GUI_COLOR, self.greenscreenColorRangeService.getAverageQColor())
         CfgService.setIntList(CfgKey.GREENSCREEN_MIN_HSV_CV2_COLOR, self.greenscreenColorRangeService.getMinHSV())
         CfgService.setIntList(CfgKey.GREENSCREEN_MAX_HSV_CV2_COLOR, self.greenscreenColorRangeService.getMaxHSV())
