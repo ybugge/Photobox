@@ -39,10 +39,11 @@ class PiCamVideoThread(QThread):
         for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
             if(self.run == False):
                 break
+            frameArray = frame.array
             self.updatePixel(frame.array)
             if not self.background is None:
-                frame = GreenscreenReplaceBackgroundService(self.globalVariable).replaceBackground(frame.array,self.background)
-            rgbImage = cv2.cvtColor(frame.array, cv2.COLOR_BGR2RGB)
+                frameArray = GreenscreenReplaceBackgroundService(self.globalVariable).replaceBackground(frameArray,self.background)
+            rgbImage = cv2.cvtColor(frameArray, cv2.COLOR_BGR2RGB)
             h, w, ch = rgbImage.shape
             bytesPerLine = ch * w
             convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
