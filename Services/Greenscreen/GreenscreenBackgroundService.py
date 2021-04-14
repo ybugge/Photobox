@@ -23,7 +23,7 @@ class GreenscreenBackgroundService():
     def getBackgroundAsHsv(self,backroundKey:str,resolution):
         index = self.getIndex()
         background =  self.globalVariable.getDefaultBackground()[index][backroundKey].resize((resolution[0],resolution[1]))
-        return cv2.cvtColor(np.array(background),cv2.COLOR_BGR2HSV)
+        return cv2.cvtColor(np.array(background),cv2.COLOR_RGB2HSV)
 
     def getBlackBackgroundAsHsv(self,resolution):
         blackImage =  np.zeros((resolution[1], resolution[0], 3), dtype = "uint8")
