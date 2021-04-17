@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <title>Upload - Fotobox</title>
+</head>
+<body>
+    <div class="main">
+        <h1>Wähle dein Hintergrundbild aus</h1>
+        <p>
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        </p>
+        {% if pictureUrl %}
+        <div>
+            <img src="{{ pictureUrl }}">
+        </div>
+        {% endif %}
+        <form method="post" action="{{url}}" enctype="multipart/form-data">
+            <input type="hidden" name="uuid" value="{{ uuid }}">
+            <dl>
+                <p>
+                    <input type="file" name="file" autocomplete="off" required>
+                </p>
+            </dl>
+            <p>
+                <input type="submit" value="An die Fotobox senden">
+            </p>
+        </form>
+    </div>
+</body>
+</html>

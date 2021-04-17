@@ -12,6 +12,7 @@ from PhotoboxPages.SinglePages.PageDownloadPicture import PageDownloadPicture
 from PhotoboxPages.SinglePages.PageGreenscreenColorPicker import PageGreenscreenColorPicker
 from PhotoboxPages.SinglePages.PageGreenscreenSelectBackround import PageGreenscreenSelectBackround
 from PhotoboxPages.SinglePages.PageGreenscreenToleranceConfig import PageGreenscreenToleranceConfig
+from PhotoboxPages.SinglePages.PageGreenscreenUploadBackground import PageGreenscreenUploadBackground
 from PhotoboxPages.SinglePages.PageHints import PageHints
 from PhotoboxPages.SinglePages.PageMovePictureFromTemp_RedirectOne import PageMovePictureFromTemp_RedirectOne
 from PhotoboxPages.SinglePages.abstract.PageMovePictureFromTemp import PageMovePictureFromTemp
@@ -61,7 +62,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pages = AllPages()
         #Verschiedene inhalten -> Stacked Widget
         self.setCentralWidget(self.pages.getStackedWidgets())
-
 
         #ClosePage
         pageCloseConfirm = PageCloseConfirm(self.pages,self.windowsize, self, self.server)
@@ -124,8 +124,13 @@ class MainWindow(QtWidgets.QMainWindow):
         pageGreenscreenSelectBackround = PageGreenscreenSelectBackround(self.pages, self.windowsize,self.globalVariable)
         pageGreenscreenSelectBackround.setNextPage(PageCameraPreview)
         pageGreenscreenSelectBackround.setBackPage(PageTitlePicture)
-        pageGreenscreenSelectBackround.setOwnBackgroundPage(PageCameraPreview) # Muss noch geändert werden
+        pageGreenscreenSelectBackround.setOwnBackgroundPage(PageGreenscreenUploadBackground)
         self.pages.addPage(pageGreenscreenSelectBackround)
+
+        #Seite Opt 3.2 Greenscreen Upload Background
+        pageGreenscreenUploadBackground = PageGreenscreenUploadBackground(self.pages, self.windowsize,self.globalVariable)
+        pageGreenscreenUploadBackground.setBackPage(PageGreenscreenSelectBackround)
+        self.pages.addPage(pageGreenscreenUploadBackground)
 
         #Seite 4 Camera Preview
         pageCameraPreview = PageCameraPreview(self.pages,self.windowsize, self.globalVariable)

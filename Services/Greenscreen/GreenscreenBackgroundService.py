@@ -11,11 +11,15 @@ from Services.FileFolderService import FileFolderService
 from Services.GlobalPagesVariableService import GlobalPagesVariableService
 from config.Config import CfgKey
 
+#TODO: Löschen der ressourcen
+# Laden des hintergrunds
+# Hochformat wird zu Querformat bei IOS
 class GreenscreenBackgroundService():
 
     PICTURE_KEY = "picture"
     VIDEO_KEY = "video"
     PICTURE_PATH_KEY = "path"
+    IS_CUSTOM = "isCustom"
 
     def __init__(self,globalVariable:GlobalPagesVariableService):
         self.globalVariable = globalVariable
@@ -37,7 +41,7 @@ class GreenscreenBackgroundService():
         FileFolderService.createFolderIfNotExist(self._getTempPath())
         backgrounds = []
         for picturePath in picturePaths:
-            backgrounds.append(self._loadBackgroundImages(picturePath))
+            backgrounds.append(self._loadBackgroundImages(picturePath,False))
         self.globalVariable.setDefaultBackground(backgrounds)
 
     def setIndex(self,index:int):
@@ -86,17 +90,22 @@ class GreenscreenBackgroundService():
     def _getBackgrounds(self):
         return self.globalVariable.getDefaultBackground()
 
-    def _loadBackgroundImages(self,picturePath):
+    def _loadBackgroundImages(self,picturePath,isCustom:bool):
         videoBackground = self._cutPicture(picturePath,CfgService.get(CfgKey.PI_CAMERA_VIDEO_RESOLUTION))
         pictureBackground = self._cutPicture(picturePath,CfgService.get(CfgKey.PI_CAMERA_PHOTO_RESOLUTION))
-        previewPath = self._savePreview(pictureBackground,picturePath)
+        previewPath = self._savePreview(pictureBackground,picturePath,isCustom)
         return {GreenscreenBackgroundService.PICTURE_PATH_KEY:previewPath,
                 GreenscreenBackgroundService.VIDEO_KEY:videoBackground,
-                GreenscreenBackgroundService.PICTURE_KEY:pictureBackground}
+                GreenscreenBackgroundService.PICTURE_KEY:pictureBackground,
+                GreenscreenBackgroundService.IS_CUSTOM:isCustom}
 
-    def _savePreview(self,image,sourcePath:str):
+    def _savePreview(self,image,sourcePath:str,isCustom:bool):
         fileName = FileFolderService.getFileName(sourcePath)
-        filePath = os.path.join(self._getTempPath(), fileName)
+        if isCustom:
+            fileName = CfgService.get(CfgKey.GREENSCREEN_CUSTOM_BACKGROUND_PREVIEW_FILENAME)+fileName
+            filePath = os.path.join(GreenscreenBackgroundService.getCustomBackgroundPath(), fileName)
+        else:
+            filePath = os.path.join(self._getTempPath(), fileName)
         windowSize = self.globalVariable.getWindowSize()
         preview = image.resize((windowSize.width(),windowSize.height()))
         preview.save(filePath)
@@ -107,3 +116,37 @@ class GreenscreenBackgroundService():
 
     def _getTempPath(self):
         return os.path.join(CfgService.get(CfgKey.MAIN_SAVE_DIR), CfgService.get(CfgKey.PROJECTNAME), CfgService.get(CfgKey.GREENSCREEN_FOLDER),CfgService.get(CfgKey.GREENSCREEN_TEMP_FOLDER))
+
+    @staticmethod
+    def getCustomBackgroundPath():
+        return os.path.join(CfgService.get(CfgKey.MAIN_SAVE_DIR), CfgService.get(CfgKey.PROJECTNAME), CfgService.get(CfgKey.GREENSCREEN_FOLDER),CfgService.get(CfgKey.GREENSCREEN_CUSTOM_BACKGROUND_FOLDER))
+
+    def appendCustomBackground(self,customBackgroundFolder:str,uuid:str):
+        filePath = GreenscreenBackgroundService.getCustomFilePathWithName(customBackgroundFolder,uuid)
+        if filePath is None:
+            return
+        self.globalVariable.getDefaultBackground().insert(0,self._loadBackgroundImages(filePath,True))
+
+    def cleanCustomBackground(self):
+        for index, value in enumerate(self.globalVariable.getDefaultBackground()):
+            if value[GreenscreenBackgroundService.IS_CUSTOM]:
+                self.globalVariable.getDefaultBackground().remove(value)
+
+        FileFolderService.removeIfExist(GreenscreenBackgroundService.getCustomBackgroundPath())
+
+
+    @staticmethod
+    def getCustomFilePathWithName(customBackgroundFolder:str,uuid:str, fileName:str = None):
+        FileFolderService.createFolderIfNotExist(customBackgroundFolder)
+        newFileName = uuid
+        if fileName is None:
+            fileUrls = FileFolderService.getFolderContentFiles(customBackgroundFolder)
+            for fileUrl in fileUrls:
+                fileName = FileFolderService.getFileName(fileUrl)
+                if fileName.startswith( newFileName ):
+                    return fileUrl
+
+            return None
+        else:
+            type = FileFolderService.getFileType(fileName)
+            return os.path.join(customBackgroundFolder,newFileName+type)

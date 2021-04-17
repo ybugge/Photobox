@@ -3,7 +3,7 @@ from PyQt5.QtCore import QSize
 from PhotoboxPages.AllPages import AllPages
 from PhotoboxPages.Page import Page
 from Services.GlobalPagesVariableService import GlobalPagesVariableService
-from Services.PageDbService import PageDbSevice
+from Services.Db.PageDbService import PageDbSevice
 from Services.ShottedPictureService import ShottedPictureService
 
 

@@ -6,8 +6,6 @@ from PyQt5.QtWidgets import QVBoxLayout, QPushButton, QHBoxLayout, QLabel
 from PhotoboxPages.AllPages import AllPages
 from PhotoboxPages.Page import Page
 from Services.CfgService import CfgService
-from Services.GlobalPagesVariableService import GlobalPagesVariableService
-from Services.PageDbService import PageDbSevice
 from Services.ShottedPictureService import ShottedPictureService
 from config.Config import CfgKey
 

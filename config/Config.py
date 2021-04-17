@@ -16,6 +16,9 @@ class CfgKey(enum.Enum):
     SERVER_INDEX_PAGE_SHOW_ALL_PICTURES = 1004
     SERVER_DOWNLOAD_PICTURE_PAGE = 1001
     SERVER_DOWNLOAD_PICTURE = 1002
+    SERVER_UPLOAD_PICTURE = 1005
+    SERVER_DISPLAY_UPLOAD_PICTURE = 1011
+    SERVER_UPLOAD_SUCCESS_PICTURE = 1006
     SERVER_RANDOM_URLIDS = 1003
     SERVER_IP=2004
     SERVER_PORT=2005
@@ -43,7 +46,7 @@ class CfgKey(enum.Enum):
     GREENSCREEN_TEMP_FOLDER = 7013
     GREENSCREEN_BACKGROUND_FOLDER = 7007
     GREENSCREEN_CUSTOM_BACKGROUND_FOLDER = 7008
-
+    GREENSCREEN_CUSTOM_BACKGROUND_PREVIEW_FILENAME = 7015
 
     #DIASHOW CLIENT ##################################################################################
     DIASHOW_CLIENT_PICTURE_MAIN_FOLDER = 5000
@@ -139,6 +142,9 @@ cfgValue[CfgKey.SERVER_DOWNLOAD_PICTURE_PAGE] = "/downloadpage"
 cfgValue[CfgKey.SERVER_DOWNLOAD_PICTURE] = "/downloadimage"
 cfgValue[CfgKey.SERVER_RANDOM_URLIDS] = "/pictureuris"
 cfgValue[CfgKey.SERVER_PRINT_PICTURE_PAGE] = "/print"
+cfgValue[CfgKey.SERVER_UPLOAD_PICTURE] = "/upload"
+cfgValue[CfgKey.SERVER_DISPLAY_UPLOAD_PICTURE] = "/display"
+cfgValue[CfgKey.SERVER_UPLOAD_SUCCESS_PICTURE] = "/success"
 cfgValue[CfgKey.SERVER_IP] = "photobox.fritz.box"
 cfgValue[CfgKey.SERVER_PORT] = "5000"
 cfgValue[CfgKey.SERVER_GETPICTUREURLIDS_NUMBER] = 20
@@ -163,7 +169,8 @@ cfgValue[CfgKey.GREENSCREEN_AVERAGE_HSV_CV2_COLOR] = "0;0;0"
 cfgValue[CfgKey.GREENSCREEN_FOLDER] = "greenscreen"
 cfgValue[CfgKey.GREENSCREEN_BACKGROUND_FOLDER] = "backgrounds"
 cfgValue[CfgKey.GREENSCREEN_TEMP_FOLDER] = "temp"
-cfgValue[CfgKey.GREENSCREEN_CUSTOM_BACKGROUND_FOLDER] = "greenscreenTemp/"
+cfgValue[CfgKey.GREENSCREEN_CUSTOM_BACKGROUND_FOLDER] = "custom"
+cfgValue[CfgKey.GREENSCREEN_CUSTOM_BACKGROUND_PREVIEW_FILENAME] = "preview"
 
 #DIASHOW CLIENT #################################################################
 cfgValue[CfgKey.DIASHOW_CLIENT_PICTURE_MAIN_FOLDER] = "Diashow/"
@@ -316,6 +323,10 @@ class TextKey(enum.Enum):
     PAGE_GREENSCREEN_SELECT_BACKGROUND_OWN_BACKGROUND_BUTTON = 6001
     PAGE_GREENSCREEN_SELECT_BACKGROUND_BACK_BUTTON = 6002
 
+    #PageGreenscreenUploadBackground.py
+    PAGE_GREENSCREEN_UPLOAD_BACKGROUND_TITLE = 8000
+    PAGE_GREENSCREEN_UPLOAD_BACKGROUND_BACK_BUTTON = 8001
+    PAGE_GREENSCREEN_UPLOAD_BACKGROUND_WIFI_TITLE = 8002
 
     #PageReconfig.py
     PAGE_RECONFIG_TITLE=2020
@@ -419,11 +430,15 @@ textValue[TextKey.PAGE_GREENSCREEN_TOLERANCE_CONFIG_TITLE] = "Greenscreen Tolera
 textValue[TextKey.PAGE_GREENSCREEN_TOLERANCE_CONFIG_SAVE_AND_BACK_BUTTON] = "Übernehmen"
 textValue[TextKey.PAGE_GREENSCREEN_TOLERANCE_CONFIG_BACK_BUTTON] = "Zurück"
 
-
 #PageGreenscreenSelectBackround.py
 textValue[TextKey.PAGE_GREENSCREEN_SELECT_BACKGROUND_TITLE] = "Hintergrund auswählen"
 textValue[TextKey.PAGE_GREENSCREEN_SELECT_BACKGROUND_OWN_BACKGROUND_BUTTON] = "Eigenen Hintergrund"
 textValue[TextKey.PAGE_GREENSCREEN_SELECT_BACKGROUND_BACK_BUTTON] = "Zurück"
+
+#PageGreenscreenUploadBackground.py
+textValue[TextKey.PAGE_GREENSCREEN_UPLOAD_BACKGROUND_TITLE] = "Hintergund auf Fotobox transferieren"
+textValue[TextKey.PAGE_GREENSCREEN_UPLOAD_BACKGROUND_BACK_BUTTON] = "Zurück"
+textValue[TextKey.PAGE_GREENSCREEN_UPLOAD_BACKGROUND_WIFI_TITLE] = "Mit der Fotobox verbinden (W-LAN)"
 
 #PageReconfig.py
 textValue[TextKey.PAGE_RECONFIG_TITLE] = "Konfiguration"
@@ -438,7 +453,7 @@ textValue[TextKey.PAGE_CLOSECONFIRM_YES] = "Ja"
 textValue[TextKey.PAGE_CLOSECONFIRM_NO] = "Nein"
 
 #PageDownloadPicture.py
-textValue[TextKey.PAGE_DOWNLOADPICTURE_TITLE] = "Bild transferieren"
+textValue[TextKey.PAGE_DOWNLOADPICTURE_TITLE] = "Bild auf Handy transferieren"
 textValue[TextKey.PAGE_DOWNLOADPICTURE_WIFI_TITLE] = "Mit der Fotobox verbinden (W-LAN)"
 textValue[TextKey.PAGE_DOWNLOADPICTURE_BACKBUTTON] = "Zurück"
 

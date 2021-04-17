@@ -18,4 +18,6 @@ class PageStartServer(Page):
 
     def executeAfter(self):
         self.globalPagesVariable.setUserMode(True)
+        greenscreenBackgroundService = GreenscreenBackgroundService(self.globalPagesVariable)
+        greenscreenBackgroundService.loadDefaultBackgrounds()
         self.server.start()

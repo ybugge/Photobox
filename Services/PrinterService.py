@@ -2,8 +2,8 @@ import math
 
 from Services.CfgService import CfgService
 from Services.GlobalPagesVariableService import GlobalPagesVariableService
-from Services.PrinterDbService import PrinterDbService
-from Services.PrintingLimitationDbService import PrintingLimitationDbService
+from Services.Db.PrinterDbService import PrinterDbService
+from Services.Db.PrintingLimitationDbService import PrintingLimitationDbService
 from Services.ShottedPictureService import ShottedPictureService
 from config.Config import CfgKey, textValue, TextKey
 from PIL import Image

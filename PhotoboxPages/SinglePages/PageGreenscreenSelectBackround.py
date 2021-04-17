@@ -20,7 +20,8 @@ class PageGreenscreenSelectBackround(Page):
         self.currentBackgroundImageIndex = 0
 
         #Titel
-        mainLayout.addWidget(self.getTitleAsQLabel(TextKey.PAGE_GREENSCREEN_SELECT_BACKGROUND_TITLE))
+        self.title = self.getTitleAsQLabel(TextKey.PAGE_GREENSCREEN_SELECT_BACKGROUND_TITLE)
+        mainLayout.addWidget(self.title)
         mainLayout.addStretch()
 
         #Background Images
@@ -36,7 +37,7 @@ class PageGreenscreenSelectBackround(Page):
         self.backgroundButton.setContentsMargins(0,0,0,0)
         self.backgroundButton.setAutoFillBackground(True)
         self.backgroundButton.setFlat(True)
-        self.backgroundButton.clicked.connect(self._setOwnBackgroundPageEvent)
+        self.backgroundButton.clicked.connect(self._nextPageEvent)
         backgroundLayout.addWidget(self.backgroundButton)
 
         self.rightBackgroundButton = QPushButton(">")
@@ -55,10 +56,9 @@ class PageGreenscreenSelectBackround(Page):
         navigationLayout.addWidget(backButton)
 
         ownBackgroundButton = QPushButton(textValue[TextKey.PAGE_GREENSCREEN_SELECT_BACKGROUND_OWN_BACKGROUND_BUTTON])
-        #ownBackgroundButton.clicked.connect(self._setOwnBackgroundPageEvent)
-        #ownBackgroundButton.clicked.connect(self._updateBackgroundImages)
+        ownBackgroundButton.clicked.connect(self._setOwnBackgroundPageEvent)
         self.setNavigationbuttonStyle(ownBackgroundButton)
-        #navigationLayout.addWidget(ownBackgroundButton)
+        navigationLayout.addWidget(ownBackgroundButton)
 
 
     def executeBefore(self):
@@ -68,6 +68,13 @@ class PageGreenscreenSelectBackround(Page):
             self.currentBackgroundImageIndex = 0
             self._navigationBackgroundButtonStatus()
             self._setBrackgroundPreview()
+            self._updateTitle()
+
+    def executeAfter(self):
+        self.greenscreenBackgroundService.cleanCustomBackground()
+
+    def _updateTitle(self):
+        self.title.setText(textValue[TextKey.PAGE_GREENSCREEN_SELECT_BACKGROUND_TITLE]+" ("+str(self.currentBackgroundImageIndex+1)+"/"+str(self.greenscreenBackgroundService.getBackgroundSize())+")")
 
     def _backgroundBackEvent(self):
         self.currentBackgroundImageIndex -= 1
@@ -75,6 +82,7 @@ class PageGreenscreenSelectBackround(Page):
             self.currentBackgroundImageIndex = 0
         self._navigationBackgroundButtonStatus()
         self._setBrackgroundPreview()
+        self._updateTitle()
 
     def _backgroundNextEvent(self):
         self.currentBackgroundImageIndex += 1
@@ -82,12 +90,7 @@ class PageGreenscreenSelectBackround(Page):
             self.currentBackgroundImageIndex = self.greenscreenBackgroundService.getBackgroundSize() - 1
         self._navigationBackgroundButtonStatus()
         self._setBrackgroundPreview()
-
-    def _updateBackgroundImages(self):
-        self.greenscreenBackgroundService.loadDefaultBackgrounds()
-        self.currentBackgroundImageIndex = 0
-        self._navigationBackgroundButtonStatus()
-        self._setBrackgroundPreview()
+        self._updateTitle()
 
     def _navigationBackgroundButtonStatus(self):
         if self.greenscreenBackgroundService.getBackgroundSize() <= 0:
@@ -121,8 +124,11 @@ class PageGreenscreenSelectBackround(Page):
         self.ownBackgroundPage = ownBackgroundPage
 
     def _setOwnBackgroundPageEvent(self):
-        self.greenscreenBackgroundService.setIndex(self.currentBackgroundImageIndex)
         self.setPageEvent(self.ownBackgroundPage)
+
+    def _nextPageEvent(self):
+        self.greenscreenBackgroundService.setIndex(self.currentBackgroundImageIndex)
+        self.nextPageEvent()
 
     def setPictureNavigationbuttonStyle(self, button:QPushButton):
         button.setFixedHeight(self.getContentHeightWithNavigationButtonAndTitle())

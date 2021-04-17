@@ -1,8 +1,7 @@
 import random
 
-from Services.CfgService import CfgService
-from Services.PictureDbService import PictureDbService
-from config.Config import CfgKey
+from Services.Db.BackgroundUploadDbService import BackgroundUploadDbService
+from Services.Db.PictureDbService import PictureDbService
 
 
 class ServerDbSevice():
@@ -42,6 +41,13 @@ class ServerDbSevice():
     def getNumberUsedPictures():
         db = PictureDbService()
         result = db.getNumberUsedPicture()
+        db.close()
+        return result
+
+    @staticmethod
+    def getBackgroundUploadAuthorization(uuid:str):
+        db = BackgroundUploadDbService()
+        result = db.getUploadAuthorization(uuid)
         db.close()
         return result
 
