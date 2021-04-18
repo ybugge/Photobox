@@ -85,6 +85,9 @@ def downloadPicture(urlId):
 
 @app.route(CfgService.get(CfgKey.SERVER_RANDOM_URLIDS))
 def getRandomPictureUris():
+    if not CfgService.get(CfgKey.DIASHOW_CLIENT_IS_ACTIVE):
+        return base64.b64encode("".encode('utf-8'))
+
     numberOfPictures = ServerDbSevice.getNumberUsedPictures()
     if numberOfPictures <= CfgService.get(CfgKey.SERVER_GETPICTUREURLIDS_THRASHOLD):
         return base64.b64encode("".encode('utf-8'))

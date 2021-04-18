@@ -49,6 +49,7 @@ class CfgKey(enum.Enum):
     GREENSCREEN_CUSTOM_BACKGROUND_PREVIEW_FILENAME = 7015
 
     #DIASHOW CLIENT ##################################################################################
+    DIASHOW_CLIENT_IS_ACTIVE = 5006
     DIASHOW_CLIENT_PICTURE_MAIN_FOLDER = 5000
     DIASHOW_CLIENT_PICTURE_CONFIG_FILE = 5001
     DIASHOW_CLIENT_PICTURE_SOURCE_FOLDER = 5002
@@ -173,6 +174,7 @@ cfgValue[CfgKey.GREENSCREEN_CUSTOM_BACKGROUND_FOLDER] = "custom"
 cfgValue[CfgKey.GREENSCREEN_CUSTOM_BACKGROUND_PREVIEW_FILENAME] = "preview"
 
 #DIASHOW CLIENT #################################################################
+cfgValue[CfgKey.DIASHOW_CLIENT_IS_ACTIVE] = True
 cfgValue[CfgKey.DIASHOW_CLIENT_PICTURE_MAIN_FOLDER] = "Diashow/"
 cfgValue[CfgKey.DIASHOW_CLIENT_PICTURE_CONFIG_FILE] = "config.txt"
 cfgValue[CfgKey.DIASHOW_CLIENT_PICTURE_SOURCE_FOLDER] = "pictures/"
