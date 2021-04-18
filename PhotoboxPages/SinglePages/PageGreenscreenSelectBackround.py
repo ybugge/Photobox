@@ -51,7 +51,7 @@ class PageGreenscreenSelectBackround(Page):
         mainLayout.addLayout(navigationLayout)
 
         backButton = QPushButton(textValue[TextKey.PAGE_GREENSCREEN_SELECT_BACKGROUND_BACK_BUTTON])
-        backButton.clicked.connect(self.backPageEvent)
+        backButton.clicked.connect(self._backPageEvent)
         self.setNavigationbuttonStyle(backButton)
         navigationLayout.addWidget(backButton)
 
@@ -70,8 +70,9 @@ class PageGreenscreenSelectBackround(Page):
             self._setBrackgroundPreview()
             self._updateTitle()
 
-    def executeAfter(self):
+    def _backPageEvent(self):
         self.greenscreenBackgroundService.cleanCustomBackground()
+        self.backPageEvent()
 
     def _updateTitle(self):
         self.title.setText(textValue[TextKey.PAGE_GREENSCREEN_SELECT_BACKGROUND_TITLE]+" ("+str(self.currentBackgroundImageIndex+1)+"/"+str(self.greenscreenBackgroundService.getBackgroundSize())+")")

@@ -258,6 +258,11 @@ class TextKey(enum.Enum):
     #Webserver
     WEB_PRINT_STATUS_SUCCESS = 3000
     WEB_PRINT_STATUS_FAILED = 3001
+    WEB_UPLOAD_BACKGROUND_ERROR_NO_PICTURE_SELECTED = 3002
+    WEB_UPLOAD_BACKGROUND_ERROR_WRONG_TYPE = 3003
+    WEB_UPLOAD_BACKGROUND_SUCCESS = 3004
+    WEB_UPLOAD_BACKGROUND_SUCCESS_HINT_CUSTOMBACKGROUND = 3005
+    WEB_UPLOAD_BACKGROUND_SUCCESS_HINT_DEFAULTBACKGROUND = 3006
 
     #PageSystemPictureManager.py
     PAGE_SYSTEMPICTUREMANAGER_TITLE = 60
@@ -369,6 +374,11 @@ textValue={}
 #Webserver
 textValue[TextKey.WEB_PRINT_STATUS_SUCCESS] = "Druckauftrag gestartet"
 textValue[TextKey.WEB_PRINT_STATUS_FAILED] = "Druckauftrag wurde nicht gestartet. Es wird bereits ein Bild gedruckt. Bitte warten."
+textValue[TextKey.WEB_UPLOAD_BACKGROUND_ERROR_NO_PICTURE_SELECTED] = "Es wurde kein Bild ausgewählt!"
+textValue[TextKey.WEB_UPLOAD_BACKGROUND_ERROR_WRONG_TYPE] = "Nur folgende Dateien sind erlaubt -> png, jpg, jpeg"
+textValue[TextKey.WEB_UPLOAD_BACKGROUND_SUCCESS] = "Der Hintergrund wurde erfolgreich geladen."
+textValue[TextKey.WEB_UPLOAD_BACKGROUND_SUCCESS_HINT_CUSTOMBACKGROUND] = "Bitte drücken sie auf der Fotobox auf 'Übernehmen'"
+textValue[TextKey.WEB_UPLOAD_BACKGROUND_SUCCESS_HINT_DEFAULTBACKGROUND] = "Sie können weitere Bilder hochladen. Einfach ein weiteres Bild auswählen und über 'An die Fotobox senden' hochladen."
 
 #PageSystemPictureManager.py
 textValue[TextKey.PAGE_SYSTEMPICTUREMANAGER_TITLE] = "Systembilder Bearbeiten"
@@ -437,7 +447,7 @@ textValue[TextKey.PAGE_GREENSCREEN_SELECT_BACKGROUND_BACK_BUTTON] = "Zurück"
 
 #PageGreenscreenUploadBackground.py
 textValue[TextKey.PAGE_GREENSCREEN_UPLOAD_BACKGROUND_TITLE] = "Hintergund auf Fotobox transferieren"
-textValue[TextKey.PAGE_GREENSCREEN_UPLOAD_BACKGROUND_BACK_BUTTON] = "Zurück"
+textValue[TextKey.PAGE_GREENSCREEN_UPLOAD_BACKGROUND_BACK_BUTTON] = "Übernehmen"
 textValue[TextKey.PAGE_GREENSCREEN_UPLOAD_BACKGROUND_WIFI_TITLE] = "Mit der Fotobox verbinden (W-LAN)"
 
 #PageReconfig.py

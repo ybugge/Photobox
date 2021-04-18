@@ -11,9 +11,6 @@ from Services.FileFolderService import FileFolderService
 from Services.GlobalPagesVariableService import GlobalPagesVariableService
 from config.Config import CfgKey
 
-#TODO: Löschen der ressourcen
-# Laden des hintergrunds
-# Hochformat wird zu Querformat bei IOS
 class GreenscreenBackgroundService():
 
     PICTURE_KEY = "picture"

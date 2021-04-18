@@ -99,7 +99,7 @@ def getRandomPictureUris():
 
 ## upload Background:-------------------------------------------
 # https://roytuts.com/upload-and-display-image-using-python-flask/
-ALLOWED_BACKGROND_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
+ALLOWED_BACKGROND_EXTENSIONS = set(['png', 'jpg', 'jpeg']) # wenn das geändert wird: auch in textValue[TextKey.WEB_UPLOAD_BACKGROUND_ERROR_WRONG_TYPE] und upload.html beachten
 UPLOAD_BACKGROUND_HTML_PATH = 'background/upload.html'
 
 @app.route(CfgService.get(CfgKey.SERVER_UPLOAD_PICTURE)+"/<uuid>")
@@ -119,21 +119,25 @@ def uploadBackground_image():
     if authorizade is None:
         abort(404)
     if 'file' not in request.files:
-        flash('Es wurde kein Bild ausgewählt!')
+        flash(textValue[TextKey.WEB_UPLOAD_BACKGROUND_ERROR_NO_PICTURE_SELECTED])
         return redirect(request.url+"/"+uuid)
     file = request.files['file']
     if file.filename == '':
-        flash('Es wurde kein Bild ausgewählt!')
+        flash(textValue[TextKey.WEB_UPLOAD_BACKGROUND_ERROR_NO_PICTURE_SELECTED])
         return redirect(request.url+"/"+uuid)
     if file and allowed_background_file(file.filename):
         if authorizade["cleanBefore"]:
             FileFolderService.removeIfExist(authorizade["targetPath"])
         filename = secure_filename(file.filename)
         file.save(GreenscreenBackgroundService.getCustomFilePathWithName(authorizade["targetPath"],uuid, filename))
-        flash('Der Hintergrund wurde erfolgreich geladen.')
+        flash(textValue[TextKey.WEB_UPLOAD_BACKGROUND_SUCCESS])
+        if authorizade["cleanBefore"]:
+            flash(textValue[TextKey.WEB_UPLOAD_BACKGROUND_SUCCESS_HINT_CUSTOMBACKGROUND])
+        else:
+            flash(textValue[TextKey.WEB_UPLOAD_BACKGROUND_SUCCESS_HINT_DEFAULTBACKGROUND])
         return render_template(UPLOAD_BACKGROUND_HTML_PATH,uuid=uuid,url = request.url,pictureUrl=CfgService.get(CfgKey.SERVER_DISPLAY_UPLOAD_PICTURE)+'/'+uuid)
     else:
-        flash('Nur folgende Dateien sind erlaubt -> png, jpg, jpeg')
+        flash(textValue[TextKey.WEB_UPLOAD_BACKGROUND_ERROR_WRONG_TYPE])
         return redirect(request.url+"/"+uuid)
 
 @app.route(CfgService.get(CfgKey.SERVER_DISPLAY_UPLOAD_PICTURE)+'/<uuid>')

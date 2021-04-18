@@ -63,7 +63,6 @@ class PageCapturePhoto(Page):
         print("Foto Finished: "+str(datetime.datetime.now()))
         self.globalVariable.updatePictureName()
         PageDbSevice.setInitialPicture(self.globalVariable)
-        GreenscreenBackgroundService(self.globalVariable).cleanCustomBackground()
 
     def timerUpdate(self):
         if self.countdown == CfgService.get(CfgKey.PAGE_CAPTUREPHOTO_TIMER_CAPTUREPHOTO_VALUE):
