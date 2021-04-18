@@ -129,19 +129,21 @@ def uploadBackground_image():
         if authorizade["cleanBefore"]:
             FileFolderService.removeIfExist(authorizade["targetPath"])
         filename = secure_filename(file.filename)
-        file.save(GreenscreenBackgroundService.getCustomFilePathWithName(authorizade["targetPath"],uuid, filename))
+        filePath = GreenscreenBackgroundService.getCustomFilePathWithName(authorizade["targetPath"],uuid, filename)
+        file.save(filePath)
         flash(textValue[TextKey.WEB_UPLOAD_BACKGROUND_SUCCESS])
         if authorizade["cleanBefore"]:
             flash(textValue[TextKey.WEB_UPLOAD_BACKGROUND_SUCCESS_HINT_CUSTOMBACKGROUND])
         else:
             flash(textValue[TextKey.WEB_UPLOAD_BACKGROUND_SUCCESS_HINT_DEFAULTBACKGROUND])
-        return render_template(UPLOAD_BACKGROUND_HTML_PATH,uuid=uuid,url = request.url,pictureUrl=CfgService.get(CfgKey.SERVER_DISPLAY_UPLOAD_PICTURE)+'/'+uuid)
+        return render_template(UPLOAD_BACKGROUND_HTML_PATH,uuid=uuid,url = request.url,pictureUrl=CfgService.get(CfgKey.SERVER_DISPLAY_UPLOAD_PICTURE)+'/'+uuid+"/"+str(hash(filePath)))
     else:
         flash(textValue[TextKey.WEB_UPLOAD_BACKGROUND_ERROR_WRONG_TYPE])
         return redirect(request.url+"/"+uuid)
 
-@app.route(CfgService.get(CfgKey.SERVER_DISPLAY_UPLOAD_PICTURE)+'/<uuid>')
-def displayBackground_image(uuid):
+@app.route(CfgService.get(CfgKey.SERVER_DISPLAY_UPLOAD_PICTURE)+'/<uuid>/<number>')
+def displayBackground_image(uuid,number):
+    print("PictureHash: "+number)
     if uuid is None:
         abort(404)
     authorizade = ServerDbSevice.getBackgroundUploadAuthorization(uuid)

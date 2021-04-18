@@ -80,7 +80,7 @@ class GreenscreenBackgroundService():
 
 
     def _getBackgroundPathCreateFolderIfNotExtist(self):
-        folder = self._getBackgroundPath()
+        folder = GreenscreenBackgroundService.getDefaultBackgroundPath()
         FileFolderService.createFolderIfNotExist(folder)
         return folder
 
@@ -108,7 +108,8 @@ class GreenscreenBackgroundService():
         preview.save(filePath)
         return filePath
 
-    def _getBackgroundPath(self):
+    @staticmethod
+    def getDefaultBackgroundPath():
         return os.path.join(CfgService.get(CfgKey.MAIN_SAVE_DIR), CfgService.get(CfgKey.PROJECTNAME), CfgService.get(CfgKey.GREENSCREEN_FOLDER),CfgService.get(CfgKey.GREENSCREEN_BACKGROUND_FOLDER))
 
     def _getTempPath(self):
@@ -136,14 +137,23 @@ class GreenscreenBackgroundService():
     def getCustomFilePathWithName(customBackgroundFolder:str,uuid:str, fileName:str = None):
         FileFolderService.createFolderIfNotExist(customBackgroundFolder)
         newFileName = uuid
+
+        existingFileNames = []
+        for fileUrl in FileFolderService.getFolderContentFiles(customBackgroundFolder):
+            existingFileName = FileFolderService.getFileName(fileUrl)
+            if existingFileName.startswith( newFileName ):
+                existingFileNames.append(fileUrl)
+
         if fileName is None:
-            fileUrls = FileFolderService.getFolderContentFiles(customBackgroundFolder)
-            for fileUrl in fileUrls:
-                fileName = FileFolderService.getFileName(fileUrl)
-                if fileName.startswith( newFileName ):
-                    return fileUrl
+            if len(existingFileNames)> 0:
+                newFileNameWithIndex = newFileName+"_"+str(len(existingFileNames))
+                for existingFileUrl in existingFileNames:
+                    existingFileName = FileFolderService.getFileName(existingFileUrl)
+                    if existingFileName.startswith(newFileNameWithIndex):
+                        return existingFileUrl
+
 
             return None
         else:
             type = FileFolderService.getFileType(fileName)
-            return os.path.join(customBackgroundFolder,newFileName+type)
+            return os.path.join(customBackgroundFolder,newFileName+"_"+str(len(existingFileNames)+1)+type)

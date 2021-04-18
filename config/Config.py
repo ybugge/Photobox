@@ -338,6 +338,7 @@ class TextKey(enum.Enum):
     PAGE_RECONFIG_BACKBUTTON=2021
     PAGE_RECONFIG_LOAD_GREENSCREEN_BACKGROUND=2022
     PAGE_RECONFIG_WAS_LOADED_GREENSCREEN_BACKGROUND = 2023
+    PAGE_RECONFIG_UPLOAD_DEFAULT_GREENSCREEN_BACKGROUNDS=2024
 
     #PageCloseConfirm.py
     PAGE_CLOSECONFIRM_TITLE = 30
@@ -455,6 +456,7 @@ textValue[TextKey.PAGE_RECONFIG_TITLE] = "Konfiguration"
 textValue[TextKey.PAGE_RECONFIG_BACKBUTTON] = "Zurück"
 textValue[TextKey.PAGE_RECONFIG_LOAD_GREENSCREEN_BACKGROUND] = "Greenscreenhintergründe laden"
 textValue[TextKey.PAGE_RECONFIG_WAS_LOADED_GREENSCREEN_BACKGROUND] = "Greenscreenhintergründe sind geladen"
+textValue[TextKey.PAGE_RECONFIG_UPLOAD_DEFAULT_GREENSCREEN_BACKGROUNDS] = "Hintergründe hochladen"
 
 #PageCloseConfirm
 textValue[TextKey.PAGE_CLOSECONFIRM_TITLE] = "Anwendung schließen?"

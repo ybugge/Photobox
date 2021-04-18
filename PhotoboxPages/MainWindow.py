@@ -12,10 +12,10 @@ from PhotoboxPages.SinglePages.PageDownloadPicture import PageDownloadPicture
 from PhotoboxPages.SinglePages.PageGreenscreenColorPicker import PageGreenscreenColorPicker
 from PhotoboxPages.SinglePages.PageGreenscreenSelectBackround import PageGreenscreenSelectBackround
 from PhotoboxPages.SinglePages.PageGreenscreenToleranceConfig import PageGreenscreenToleranceConfig
-from PhotoboxPages.SinglePages.PageGreenscreenUploadBackground import PageGreenscreenUploadBackground
+from PhotoboxPages.SinglePages.PageGreenscreenUploadCustomBackground import PageGreenscreenUploadCustomBackground
+from PhotoboxPages.SinglePages.PageGreenscreenUploadDefaultBackground import PageGreenscreenUploadDefaultBackground
 from PhotoboxPages.SinglePages.PageHints import PageHints
 from PhotoboxPages.SinglePages.PageMovePictureFromTemp_RedirectOne import PageMovePictureFromTemp_RedirectOne
-from PhotoboxPages.SinglePages.abstract.PageMovePictureFromTemp import PageMovePictureFromTemp
 from PhotoboxPages.SinglePages.PageMovePictureFromTemp_RedirectTwo import PageMovePictureFromTemp_RedirectTwo
 from PhotoboxPages.SinglePages.PagePictureEdit import PagePictureEdit
 from PhotoboxPages.SinglePages.PagePrint import PagePrint
@@ -72,7 +72,13 @@ class MainWindow(QtWidgets.QMainWindow):
         pageReconfig = PageReconfig(self.pages,self.windowsize, self.printerService,self.globalVariable)
         pageReconfig.setBackPage(PageTitlePicture)
         pageReconfig.setGreenscreenColorPickerEventPage(PageGreenscreenColorPicker)
+        pageReconfig.setUploadDefaultBackgroundEventPage(PageGreenscreenUploadDefaultBackground)
         self.pages.addPage(pageReconfig)
+
+        #Reconfig: Greenscreen Upload Default Background
+        pageGreenscreenUploadDefaultBackground = PageGreenscreenUploadDefaultBackground(self.pages, self.windowsize, self.globalVariable)
+        pageGreenscreenUploadDefaultBackground.setBackPage(PageReconfig)
+        self.pages.addPage(pageGreenscreenUploadDefaultBackground)
 
         #Seite 1 Hinweise
         pageHints = PageHints(self.pages, self.windowsize, self.printerService)
@@ -124,13 +130,13 @@ class MainWindow(QtWidgets.QMainWindow):
         pageGreenscreenSelectBackround = PageGreenscreenSelectBackround(self.pages, self.windowsize,self.globalVariable)
         pageGreenscreenSelectBackround.setNextPage(PageCameraPreview)
         pageGreenscreenSelectBackround.setBackPage(PageTitlePicture)
-        pageGreenscreenSelectBackround.setOwnBackgroundPage(PageGreenscreenUploadBackground)
+        pageGreenscreenSelectBackround.setOwnBackgroundPage(PageGreenscreenUploadCustomBackground)
         self.pages.addPage(pageGreenscreenSelectBackround)
 
         #Seite Opt 3.2 Greenscreen Upload Background
-        pageGreenscreenUploadBackground = PageGreenscreenUploadBackground(self.pages, self.windowsize,self.globalVariable)
-        pageGreenscreenUploadBackground.setBackPage(PageGreenscreenSelectBackround)
-        self.pages.addPage(pageGreenscreenUploadBackground)
+        pageGreenscreenUploadCustomBackground = PageGreenscreenUploadCustomBackground(self.pages, self.windowsize, self.globalVariable)
+        pageGreenscreenUploadCustomBackground.setBackPage(PageGreenscreenSelectBackround)
+        self.pages.addPage(pageGreenscreenUploadCustomBackground)
 
         #Seite 4 Camera Preview
         pageCameraPreview = PageCameraPreview(self.pages,self.windowsize, self.globalVariable)

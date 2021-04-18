@@ -14,7 +14,7 @@ from Services.Greenscreen.GreenscreenBackgroundService import GreenscreenBackgro
 from config.Config import TextKey, textValue, CfgKey
 
 
-class PageGreenscreenUploadBackground(Page):
+class PageGreenscreenUploadBackgroundAbstract(Page):
     def __init__(self, pages : AllPages, windowsize:QSize, globalVariable:GlobalPagesVariableService):
         super().__init__(pages,windowsize)
         self.windowsize = windowsize
@@ -51,15 +51,23 @@ class PageGreenscreenUploadBackground(Page):
         self.setNavigationbuttonStyle(self.switchButton)
         navigationLayout.addWidget(self.switchButton)
 
-    def executeBefore(self):
+    def executeBeforeCustom(self):
         self.uuid = PageDbSevice.setBackgroundUploadAuthorization(True, GreenscreenBackgroundService.getCustomBackgroundPath())
         self._updateQrCodePicture()
 
-    def executeAfter(self):
+    def executeBeforeDefault(self):
+        self.uuid = PageDbSevice.setBackgroundUploadAuthorization(False, GreenscreenBackgroundService.getDefaultBackgroundPath())
+        self._updateQrCodePicture()
+
+    def executeAfterCustom(self):
         greenscreenBackgroundService = GreenscreenBackgroundService(self.globalVariable);
         greenscreenBackgroundService.appendCustomBackground(GreenscreenBackgroundService.getCustomBackgroundPath(),self.uuid)
         PageDbSevice.clearBackgroundUploadAuthorization()
 
+    def executeAfterDefault(self):
+        greenscreenBackgroundService = GreenscreenBackgroundService(self.globalVariable)
+        greenscreenBackgroundService.loadDefaultBackgrounds()
+        PageDbSevice.clearBackgroundUploadAuthorization()
 
     def _switchEvent(self):
         self.switch = not self.switch

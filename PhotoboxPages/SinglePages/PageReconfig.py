@@ -81,6 +81,12 @@ class PageReconfig(Page):
         self.greenscreenLoadBackgroundButton.clicked.connect(self.loadGreenscreenBackground)
         mainLayout.addWidget(self.greenscreenLoadBackgroundButton)
 
+        #Upload Backgrounds
+        self.uploadDefaultBackgroundsButton = QPushButton()
+        self.uploadDefaultBackgroundsButton.setText(textValue[TextKey.PAGE_RECONFIG_UPLOAD_DEFAULT_GREENSCREEN_BACKGROUNDS])
+        self.uploadDefaultBackgroundsButton.clicked.connect(self._uploadDefaultBackgroundEvent)
+        mainLayout.addWidget(self.uploadDefaultBackgroundsButton)
+
         #Navigation   ##################################################################################################
         mainLayout.addStretch()
         navigationLayout = QHBoxLayout()
@@ -142,3 +148,9 @@ class PageReconfig(Page):
 
     def greenscreenColorPickerEvent(self):
         self.setPageEvent(self.greenscreenColorPickerPage)
+
+    def setUploadDefaultBackgroundEventPage(self,page):
+        self.uploadDefaultBackground = page
+
+    def _uploadDefaultBackgroundEvent(self):
+        self.setPageEvent(self.uploadDefaultBackground)
