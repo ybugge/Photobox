@@ -168,17 +168,17 @@ class PageGreenscreenSelectBackround(Page):
         self.nextPageEvent()
 
     def setPictureNavigationButtonStyle(self, button:QPushButton):
-        button.setFixedHeight((self.getContentHeightWithNavigationButtonAndTitle()/4)*3)
+        button.setFixedHeight((self.getContentHeightWithNavigationButtonAndTitle()/5)*4)
         button.setStyleSheet("font-size: " + str(self.getTitelAndNavigationButtonTextSize()) + "px ;" \
                             "font-family: " + CfgService.get(CfgKey.MAIN_WINDOW_TEXT_FONT) +", serif;")
 
     def setPictureRotateButtonStyle(self, button:QPushButton):
-        button.setFixedHeight((self.getContentHeightWithNavigationButtonAndTitle()/4))
+        button.setFixedHeight((self.getContentHeightWithNavigationButtonAndTitle()/5))
         button.setStyleSheet("font-size: " + str(self.getTitelAndNavigationButtonTextSize()) + "px ;" \
                             "font-family: " + CfgService.get(CfgKey.MAIN_WINDOW_TEXT_FONT) +", serif;")
 
     def getRotateIconHight(self):
-        return (self.getContentHeightWithNavigationButtonAndTitle()/4)
+        return (self.getContentHeightWithNavigationButtonAndTitle()/5)
 
     def _getPictureButtonsSize(self):
         piCameraResolution = CfgService.get(CfgKey.PI_CAMERA_PHOTO_RESOLUTION)
