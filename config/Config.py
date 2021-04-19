@@ -125,6 +125,10 @@ class CfgKey(enum.Enum):
     #PagePrint.py
     PAGE_PRINT_STATUS_UPDATE_PERIOD = 701
 
+    #PageGreenscreenSelectBackround
+    PAGE_GREENSCREEN_SELECT_BACKGROUND_ROTATE_LEFT_ICON = 801
+    PAGE_GREENSCREEN_SELECT_BACKGROUND_ROTATE_RIGHT_ICON = 802
+
 cfgValue = {}
 
 #WIFI ##########################################################################################
@@ -253,6 +257,10 @@ cfgValue[CfgKey.PAGE_PICTUREEDIT_SPACE_AUTO_FORWARD_WAIT_TIME] = 5*60000
 
 #PagePrint.py
 cfgValue[CfgKey.PAGE_PRINT_STATUS_UPDATE_PERIOD] = 1000
+
+#PageGreenscreenSelectBackround
+cfgValue[CfgKey.PAGE_GREENSCREEN_SELECT_BACKGROUND_ROTATE_LEFT_ICON] = "Resources/PageGreenscreenSelectBackground/Icon/pictureLeft.png"
+cfgValue[CfgKey.PAGE_GREENSCREEN_SELECT_BACKGROUND_ROTATE_RIGHT_ICON] = "Resources/PageGreenscreenSelectBackground/Icon/pictureRight.png"
 
 ###########################################################
 class TextKey(enum.Enum):

@@ -1,0 +1,1 @@
+pictureLeft.png = https://icon-icons.com/de/symbol/Objekt-drehen-Links/104178

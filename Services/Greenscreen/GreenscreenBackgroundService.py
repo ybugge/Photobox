@@ -15,8 +15,10 @@ class GreenscreenBackgroundService():
 
     PICTURE_KEY = "picture"
     VIDEO_KEY = "video"
-    PICTURE_PATH_KEY = "path"
+    PICTURE_PREVIEW_PATH_KEY = "previewPath"
+    PICTURE_PATH_KEY = "picturePath"
     IS_CUSTOM = "isCustom"
+    ROTATE_ANGLE = "rotate_angle"
 
     def __init__(self,globalVariable:GlobalPagesVariableService):
         self.globalVariable = globalVariable
@@ -54,10 +56,10 @@ class GreenscreenBackgroundService():
         if index >= self.getBackgroundSize():
             return None
         else:
-            return self._getBackgrounds()[index][self.PICTURE_PATH_KEY]
+            return self._getBackgrounds()[index][self.PICTURE_PREVIEW_PATH_KEY]
 
-    def _cutPicture(self,picturePath,targetResolution):
-        picture = Image.open(picturePath)
+    def _cutPicture(self,picturePath,targetResolution,rotateAngle:int):
+        picture = Image.open(picturePath).rotate(rotateAngle, expand=True)
         picture.load()
         pictureSize = picture.size
         newPictureRationSize = self._getNewPictureRatio(pictureSize,targetResolution)
@@ -87,14 +89,24 @@ class GreenscreenBackgroundService():
     def _getBackgrounds(self):
         return self.globalVariable.getDefaultBackground()
 
-    def _loadBackgroundImages(self,picturePath,isCustom:bool):
-        videoBackground = self._cutPicture(picturePath,CfgService.get(CfgKey.PI_CAMERA_VIDEO_RESOLUTION))
-        pictureBackground = self._cutPicture(picturePath,CfgService.get(CfgKey.PI_CAMERA_PHOTO_RESOLUTION))
+    def rotateBackground(self,backgroundId:int,deltaRotateAngle:int):
+        background = self._getBackgrounds()[backgroundId]
+        backgroundPath = background[GreenscreenBackgroundService.PICTURE_PATH_KEY]
+        backgroundIsCustom = background[GreenscreenBackgroundService.IS_CUSTOM]
+        rotateAngle = background[GreenscreenBackgroundService.ROTATE_ANGLE]
+        newRotateAngle = (rotateAngle+deltaRotateAngle)%360
+        self._getBackgrounds()[backgroundId] = self._loadBackgroundImages(backgroundPath,backgroundIsCustom,newRotateAngle)
+
+    def _loadBackgroundImages(self,picturePath,isCustom:bool,rotateAngle:int=0):
+        videoBackground = self._cutPicture(picturePath,CfgService.get(CfgKey.PI_CAMERA_VIDEO_RESOLUTION),rotateAngle)
+        pictureBackground = self._cutPicture(picturePath,CfgService.get(CfgKey.PI_CAMERA_PHOTO_RESOLUTION),rotateAngle)
         previewPath = self._savePreview(pictureBackground,picturePath,isCustom)
-        return {GreenscreenBackgroundService.PICTURE_PATH_KEY:previewPath,
+        return {GreenscreenBackgroundService.PICTURE_PATH_KEY:picturePath,
+                GreenscreenBackgroundService.PICTURE_PREVIEW_PATH_KEY:previewPath,
                 GreenscreenBackgroundService.VIDEO_KEY:videoBackground,
                 GreenscreenBackgroundService.PICTURE_KEY:pictureBackground,
-                GreenscreenBackgroundService.IS_CUSTOM:isCustom}
+                GreenscreenBackgroundService.IS_CUSTOM:isCustom,
+                GreenscreenBackgroundService.ROTATE_ANGLE:rotateAngle}
 
     def _savePreview(self,image,sourcePath:str,isCustom:bool):
         fileName = FileFolderService.getFileName(sourcePath)

@@ -1,5 +1,5 @@
 from PyQt5.QtCore import QSize
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QPushButton
 
 from PhotoboxPages.AllPages import AllPages
@@ -28,10 +28,22 @@ class PageGreenscreenSelectBackround(Page):
         backgroundLayout = QHBoxLayout()
         mainLayout.addLayout(backgroundLayout)
 
+        backgroundLeftNavigationLayout = QVBoxLayout()
+        backgroundLayout.addLayout(backgroundLeftNavigationLayout)
+
+        self.leftRotateBackgroundButton = QPushButton()
+        leftRotateIcon = QPixmap(CfgService.get(CfgKey.PAGE_GREENSCREEN_SELECT_BACKGROUND_ROTATE_LEFT_ICON))
+        leftRotateIcon = leftRotateIcon.scaledToHeight(self.getRotateIconHight())
+        self.leftRotateBackgroundButton.setIcon(QIcon(leftRotateIcon))
+        self.leftRotateBackgroundButton.setIconSize(leftRotateIcon.size())
+        self.leftRotateBackgroundButton.clicked.connect(self._rotateLeft)
+        self.setPictureRotateButtonStyle(self.leftRotateBackgroundButton)
+        backgroundLeftNavigationLayout.addWidget(self.leftRotateBackgroundButton)
+
         self.leftBackgroundButton = QPushButton("<")
         self.leftBackgroundButton.clicked.connect(self._backgroundBackEvent)
-        self.setPictureNavigationbuttonStyle(self.leftBackgroundButton)
-        backgroundLayout.addWidget(self.leftBackgroundButton)
+        self.setPictureNavigationButtonStyle(self.leftBackgroundButton)
+        backgroundLeftNavigationLayout.addWidget(self.leftBackgroundButton)
 
         self.backgroundButton = QPushButton()
         self.backgroundButton.setContentsMargins(0,0,0,0)
@@ -40,10 +52,22 @@ class PageGreenscreenSelectBackround(Page):
         self.backgroundButton.clicked.connect(self._nextPageEvent)
         backgroundLayout.addWidget(self.backgroundButton)
 
+        backgroundRightNavigationLayout = QVBoxLayout()
+        backgroundLayout.addLayout(backgroundRightNavigationLayout)
+
+        self.rightRotateBackgroundButton = QPushButton()
+        rightRotateIcon = QPixmap(CfgService.get(CfgKey.PAGE_GREENSCREEN_SELECT_BACKGROUND_ROTATE_RIGHT_ICON))
+        rightRotateIcon = rightRotateIcon.scaledToHeight(self.getRotateIconHight())
+        self.rightRotateBackgroundButton.setIcon(QIcon(rightRotateIcon))
+        self.rightRotateBackgroundButton.setIconSize(rightRotateIcon.size())
+        self.rightRotateBackgroundButton.clicked.connect(self._rotateRight)
+        self.setPictureRotateButtonStyle(self.rightRotateBackgroundButton)
+        backgroundRightNavigationLayout.addWidget(self.rightRotateBackgroundButton)
+
         self.rightBackgroundButton = QPushButton(">")
         self.rightBackgroundButton.clicked.connect(self._backgroundNextEvent)
-        self.setPictureNavigationbuttonStyle(self.rightBackgroundButton)
-        backgroundLayout.addWidget(self.rightBackgroundButton)
+        self.setPictureNavigationButtonStyle(self.rightBackgroundButton)
+        backgroundRightNavigationLayout.addWidget(self.rightBackgroundButton)
 
         #Navigation   ##################################################################################################
         mainLayout.addStretch()
@@ -93,15 +117,27 @@ class PageGreenscreenSelectBackround(Page):
         self._setBrackgroundPreview()
         self._updateTitle()
 
+    def _rotateLeft(self):
+        self.greenscreenBackgroundService.rotateBackground(self.currentBackgroundImageIndex,90)
+        self._setBrackgroundPreview()
+
+    def _rotateRight(self):
+        self.greenscreenBackgroundService.rotateBackground(self.currentBackgroundImageIndex,-90)
+        self._setBrackgroundPreview()
+
     def _navigationBackgroundButtonStatus(self):
         if self.greenscreenBackgroundService.getBackgroundSize() <= 0:
             self.leftBackgroundButton.setDisabled(True)
             self.backgroundButton.setDisabled(True)
             self.rightBackgroundButton.setDisabled(True)
+            self.rightRotateBackgroundButton.setDisabled(True)
+            self.leftRotateBackgroundButton.setDisabled(True)
         else:
             self.leftBackgroundButton.setDisabled(False)
             self.backgroundButton.setDisabled(False)
             self.rightBackgroundButton.setDisabled(False)
+            self.rightRotateBackgroundButton.setDisabled(False)
+            self.leftRotateBackgroundButton.setDisabled(False)
 
             if 0 == self.currentBackgroundImageIndex:
                 self.leftBackgroundButton.setDisabled(True)
@@ -131,10 +167,18 @@ class PageGreenscreenSelectBackround(Page):
         self.greenscreenBackgroundService.setIndex(self.currentBackgroundImageIndex)
         self.nextPageEvent()
 
-    def setPictureNavigationbuttonStyle(self, button:QPushButton):
-        button.setFixedHeight(self.getContentHeightWithNavigationButtonAndTitle())
+    def setPictureNavigationButtonStyle(self, button:QPushButton):
+        button.setFixedHeight((self.getContentHeightWithNavigationButtonAndTitle()/4)*3)
         button.setStyleSheet("font-size: " + str(self.getTitelAndNavigationButtonTextSize()) + "px ;" \
                             "font-family: " + CfgService.get(CfgKey.MAIN_WINDOW_TEXT_FONT) +", serif;")
+
+    def setPictureRotateButtonStyle(self, button:QPushButton):
+        button.setFixedHeight((self.getContentHeightWithNavigationButtonAndTitle()/4))
+        button.setStyleSheet("font-size: " + str(self.getTitelAndNavigationButtonTextSize()) + "px ;" \
+                            "font-family: " + CfgService.get(CfgKey.MAIN_WINDOW_TEXT_FONT) +", serif;")
+
+    def getRotateIconHight(self):
+        return (self.getContentHeightWithNavigationButtonAndTitle()/4)
 
     def _getPictureButtonsSize(self):
         piCameraResolution = CfgService.get(CfgKey.PI_CAMERA_PHOTO_RESOLUTION)
