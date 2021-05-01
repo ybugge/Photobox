@@ -293,12 +293,11 @@ $ sudo reboot
 Weiterer Adons:
 - https://mopidy.com/ext/tunein/
 - https://mopidy.com/ext/spotify/ 
+- YoutubeAPI:
+  - https://www.youtube.com/watch?v=ozOmQGDVwKQ
 
 #TODO:
 ## Fehler:
-- Seite Downloaden: Auf Handy übertragen 
-## Aufgaben:
-Greenscreen:
-- Config Seiten anlegen
-  - Farbe des Hintergrunds bestimmen
-  - Toleranz einstellen
+- Diashow:
+-- Bildverhältnis passt nicht
+-- Sollen die Bilder wirklich gestretcht werden?
