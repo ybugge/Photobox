@@ -232,7 +232,7 @@ $ wget -q -O - https://apt.mopidy.com/mopidy.gpg | sudo apt-key add -
 $ sudo wget -q -O /etc/apt/sources.list.d/mopidy.list https://apt.mopidy.com/buster.list
 $ sudo apt update
 $ sudo apt install mopidy python3-pip libspotify-dev
-$ sudo python3 -m pip install Mopidy-Youtube Mopidy-Local Mopidy-Youtube
+$ sudo python3 -m pip install Mopidy-Youtube Mopidy-Local Mopidy-MusicBox-Webclient Mopidy-TuneIn
 $ sudo adduser mopidy video
 $ sudo nano /etc/mopidy/mopidy.conf
 
@@ -265,6 +265,7 @@ $ sudo systemctl start mopidy
 $ sudo systemctl status mopidy
 - No Errors
 $ mopidy local scan
+$ sudo reboot
 ````
 
 Im Browser: http://photobox.fritz.box:6680/mopidy/
@@ -290,6 +291,14 @@ $ pulseaudio -k
 $ pulseaudio --start
 $ sudo reboot
 ````
+
+Dienst nach einereinhalb Minute neu starten:
+````
+$ sudo crontab -e
+@reboot /bin/sleep 90; sudo systemctl restart mopidy
+STR+X -> Y -> ENTER 
+````
+
 Weiterer Adons:
 - https://mopidy.com/ext/tunein/
 - https://mopidy.com/ext/spotify/ 
