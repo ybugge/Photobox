@@ -5,8 +5,7 @@ from DiashowClientPages.PicturesConfig import PicturesConfig
 
 class PictureScaleAndMove():
 
-    def __init__(self,windowSize:QSize,configPath:str):
-        pictureConfig = PicturesConfig(configPath)
+    def __init__(self,windowSize:QSize,pictureConfig:PicturesConfig):
         pictureSizeInPercent = pictureConfig.getInPercent(PicturesConfig.PICTURE_SIZE_PERCENT)
         if pictureSizeInPercent == None:
             self.size = windowSize
@@ -20,7 +19,9 @@ class PictureScaleAndMove():
             moveY = pictureConfig.getInPercent(PicturesConfig.PICTURE_MOVE_Y_PERCENT)
             if moveY == None:
                 moveY = 0
-            self.move = QPoint(moveX*(1-pictureSizeInPercent)*windowSize.width(),moveY*(1-pictureSizeInPercent)*windowSize.height())
+            pointX = int((-self.size.width()/2)+moveX*(1-pictureSizeInPercent)*windowSize.width())
+            pointY = int((-self.size.height()/2)+moveY*(1-pictureSizeInPercent)*windowSize.height())
+            self.move = QPoint(pointX,pointY)
 
 
     def getSize(self):
