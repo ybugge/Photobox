@@ -153,7 +153,7 @@ cfgValue[CfgKey.SERVER_DISPLAY_UPLOAD_PICTURE] = "/display"
 cfgValue[CfgKey.SERVER_UPLOAD_SUCCESS_PICTURE] = "/success"
 cfgValue[CfgKey.SERVER_IP] = "photobox"
 cfgValue[CfgKey.SERVER_PORT] = "5000"
-cfgValue[CfgKey.SERVER_GETPICTUREURLIDS_NUMBER] = 20
+cfgValue[CfgKey.SERVER_GETPICTUREURLIDS_NUMBER] = 10
 cfgValue[CfgKey.SERVER_GETPICTUREURLIDS_THRASHOLD] = 3
 
 #Printer #########################################################################################
