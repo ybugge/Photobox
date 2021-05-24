@@ -56,4 +56,3 @@ class ShowRandomPicture():
         self.backgroundPicture.setPixmap(backPicturePixelMap.scaled(backSize)) #, Qt.KeepAspectRatio))
         self.frontPicture.move(frontMove)
         self.backgroundPicture.move(backMove)
-        print(backMove)
