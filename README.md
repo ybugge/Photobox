@@ -21,7 +21,7 @@ Auf LinuxMint:
 ````
 $ sudo apt update
 $ yes | sudo apt install rpi-imager
-$ rpi-image
+$ rpi-imager
 ````
 - Operation Systenm = Raspberry PI OS (32-bit) (Recommanded)
 - SD Card = Die zu verwendete SD-Karte
@@ -63,7 +63,7 @@ Auf der Fritzbox
 Auf LinuxMint:
 - Terminal öffnen 
 ````
-$ ssh pi@photobox.fritz.box
+$ ssh pi@photobox
 $ yes
 $ -> Passwort eingeben 
 $ sudo apt update
@@ -238,7 +238,7 @@ $ sudo nano /etc/mopidy/mopidy.conf
 
 [http]
 enabled = true
-hostname = photobox.fritz.box
+hostname = photobox
 port = 6680
 
 [audio]
@@ -299,14 +299,52 @@ $ sudo crontab -e
 STR+X -> Y -> ENTER 
 ````
 
-Weiterer Adons:
+### Spotify
+
+````
+$ sudo systemctl stop mopidy
+$ sudo python3 -m pip install Mopidy-Spotify
+$ sudo nano /etc/mopidy/mopidy.conf
+-> Folgende Zeilen Hinzufügen:  Kee generieren über -> https://mopidy.com/ext/spotify/
+[spotify]
+username = alice
+password = secret
+client_id = The config value will appear here. (siehe Keepass)
+client_secret = The config value will appear here. (siehe Keepass)
+$ sudo systemctl start mopidy
+````
+
+### Equalizer (Test)
+Quelle: 
+- https://www.addictivetips.com/ubuntu-linux-tips/install-pulseaudio-equalizer-on-linux/
+- https://linuxhint.com/install-pulseaudio-equalizer-linux-mint/
+
+````
+$ sudo apt install pavucontrol
+$ sudo apt install pulseaudio-equalizer
+start equalizer
+$ qpaeq
+$ sudo nano /etc/pulse/default.pa
+- Hinzufügen:
+load-module module-equalizer-sink
+load-module module-dbus-protocol
+$ pulseaudio --kill && pulseaudio --start
+$ qpaeq
+````
+
+### Weiterer Adons:
 - https://mopidy.com/ext/tunein/
 - https://mopidy.com/ext/spotify/ 
 - YoutubeAPI:
   - https://www.youtube.com/watch?v=ozOmQGDVwKQ
 
-#TODO:
-## Fehler:
-- Diashow:
--- Bildverhältnis passt nicht
--- Sollen die Bilder wirklich gestretcht werden?
+## Backup erstellen
+
+Quelle: https://www.bitblokes.de/sd-karte-des-raspberry-pi-sichern-dd-oder-partclone/
+````
+- SD-Karte vom Pi in Rechner stecken
+- Konsole öffnen (Fragezeichen ersetzen)
+$ sudo dd if=/dev/sd???? | gzip > /home/ybugge/Dokumente/photobox-dd.gz
+- neue SD Karte einstecken. Darf aber nicht eingehangen sein.
+$ sudo gzip -dc /home/ybugge/Dokumente/photobox-dd.gz | dd of=/dev/sd???
+````
