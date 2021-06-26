@@ -348,3 +348,10 @@ $ sudo dd if=/dev/sd???? | gzip > /home/ybugge/Dokumente/photobox-dd.gz
 - neue SD Karte einstecken. Darf aber nicht eingehangen sein.
 $ sudo gzip -dc /home/ybugge/Dokumente/photobox-dd.gz | dd of=/dev/sd???
 ````
+
+##TODO
+- Drucker verbessern:
+-- Serielles Drucken Problem: Drucker hat stellenweise nicht funktioniert.
+-- Neues Feature: Paralles Drucken 
+- Schärfe auch nachträglich einstellbar 
+- Greenscreen verbessern / Video verhält sich anders als Foto 
