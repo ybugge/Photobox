@@ -1,6 +1,7 @@
 import io
 
 import qrcode
+from PIL import Image, ImageFont, ImageDraw
 from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QPushButton, QLabel
@@ -71,7 +72,18 @@ class PageDownloadPicture(Page):
             data = "http://"+CfgService.get(CfgKey.SERVER_IP)+":"+CfgService.get(CfgKey.SERVER_PORT)+CfgService.get(CfgKey.SERVER_DOWNLOAD_PICTURE_PAGE)+"/"+self.globalVariable.getPictureSubName()
 
         buf = io.BytesIO()
-        img = qrcode.make(data)
+        qr_code = qrcode.make(data)
+        img = Image.new("RGB", (qr_code.pixel_size,qr_code.pixel_size), "white")
+        img.paste(qr_code,(0,0))
+
+        if self.switch:
+            fontSize = 20
+            myFont = ImageFont.truetype(CfgService.get(CfgKey.WIFI_QR_CODE_FONT), fontSize)
+            title = ImageDraw.Draw(img)
+            title.text((10, 10), textValue[TextKey.QR_CODE_WIFI_NAME]+CfgService.get(CfgKey.WIFI_SSID),font=myFont, fill=(0, 0, 0))
+
+            password = ImageDraw.Draw(img)
+            password.text((10, qr_code.pixel_size-10-fontSize), textValue[TextKey.QR_CODE_WIFI_PASSWORD]+CfgService.get(CfgKey.WIFI_PASSWORD),font=myFont, fill=(0, 0, 0))
         img.save(buf, "PNG")
 
         qt_pixmap = QPixmap()

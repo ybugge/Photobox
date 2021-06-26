@@ -7,6 +7,7 @@ class CfgKey(enum.Enum):
     WIFI_PROTOCOL = 3001
     WIFI_PASSWORD = 3002
     WIFI_PICTURE_NAME = 3003
+    WIFI_QR_CODE_FONT = 3004
 
     #DATABASE #######################################################################################
     DB_NAME = 2001
@@ -138,6 +139,7 @@ cfgValue[CfgKey.WIFI_SSID] = "Phoenix-Photobox"
 cfgValue[CfgKey.WIFI_PROTOCOL] = "WPA/WPA2"
 cfgValue[CfgKey.WIFI_PASSWORD] = "09059528003481556247"
 cfgValue[CfgKey.WIFI_PICTURE_NAME] = "wifi.png"
+cfgValue[CfgKey.WIFI_QR_CODE_FONT] = "FreeMono.ttf"
 
 #DB #############################################################################
 cfgValue[CfgKey.DB_NAME] = "fotobox.db"
@@ -386,6 +388,10 @@ class TextKey(enum.Enum):
     PRINT_SERVICE_ERROR=205
     PRINT_SERVICE_ERROR_INSTRUCTION=207
 
+    #QR-CODE
+    QR_CODE_WIFI_NAME = 3201
+    QR_CODE_WIFI_PASSWORD = 3202
+
 textValue={}
 
 #Webserver
@@ -504,3 +510,7 @@ textValue[TextKey.PRINT_SERVICE_EMPTY_INK]="<span style='color:#ff0000;'>Farbe i
 textValue[TextKey.PRINT_SERVICE_EMPTY_PAPER]="<span style='color:#ff0000;'>Kein Papier mehr vorhanden!</span>"
 textValue[TextKey.PRINT_SERVICE_MISSING_PAPER_CONTAINER]="<span style='color:#ff0000;'>Der Papierbehälter ist nicht eingesteckt!</span>"
 textValue[TextKey.PRINT_SERVICE_ERROR_INSTRUCTION] = "Bitte holen Sie einen Verantwortlichen."
+
+#QR-CODE
+textValue[TextKey.QR_CODE_WIFI_NAME] = "Name: "
+textValue[TextKey.QR_CODE_WIFI_PASSWORD] = "Passwort: "

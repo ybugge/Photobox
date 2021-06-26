@@ -1,4 +1,5 @@
 import qrcode
+from PIL import ImageDraw, Image, ImageFont
 from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QFont, QColor
 from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QLabel, QHBoxLayout, QFileDialog, QGridLayout, QLineEdit, QWidget, \
@@ -284,8 +285,21 @@ class PageConfig(Page):
 
     def saveWifiPicture(self):
         qrCodeValue = 'WIFI:S:{};T:{};P:{};;'.format(self.wifiSSIDValue.text(),self.wifiProtocolValue.text(),self.wifiPasswordValue.text())
-        img = qrcode.make(qrCodeValue)
+        qr_code = qrcode.make(qrCodeValue)
+        img = Image.new("RGB", (qr_code.pixel_size,qr_code.pixel_size), "white")
+        img.paste(qr_code,(0,0))
+
+        fontSize = 20
+        myFont = ImageFont.truetype(CfgService.get(CfgKey.WIFI_QR_CODE_FONT), fontSize)
+
+        title = ImageDraw.Draw(img)
+        title.text((10, 10), textValue[TextKey.QR_CODE_WIFI_NAME]+self.wifiSSIDValue.text(),font=myFont, fill=(0, 0, 0))
+
+        password = ImageDraw.Draw(img)
+        password.text((10, qr_code.pixel_size-10-fontSize), textValue[TextKey.QR_CODE_WIFI_PASSWORD]+self.wifiPasswordValue.text(),font=myFont, fill=(0, 0, 0))
         img.save(self.mainSaveDirLabel.text()+"/"+CfgService.get(CfgKey.WIFI_PICTURE_NAME))
+
+
 
     def activatePrinter(self):
         if self.printerDisabledButton.isChecked():
