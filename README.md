@@ -351,7 +351,4 @@ $ sudo gzip -dc /home/ybugge/Dokumente/photobox-dd.gz | dd of=/dev/sd???
 
 ##TODO
 - Drucker verbessern:
--- Serielles Drucken Problem: Drucker hat stellenweise nicht funktioniert.
 -- Neues Feature: Paralles Drucken 
-- Schärfe auch nachträglich einstellbar 
-- Greenscreen verbessern / Video verhält sich anders als Foto 
