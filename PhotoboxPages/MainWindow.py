@@ -73,6 +73,7 @@ class MainWindow(QtWidgets.QMainWindow):
         pageReconfig.setBackPage(PageTitlePicture)
         pageReconfig.setGreenscreenColorPickerEventPage(PageGreenscreenColorPicker)
         pageReconfig.setUploadDefaultBackgroundEventPage(PageGreenscreenUploadDefaultBackground)
+        pageReconfig.setCameraCalibrationEventPage(PageCameraCalibrationView)
         self.pages.addPage(pageReconfig)
 
         #Reconfig: Greenscreen Upload Default Background
@@ -102,6 +103,7 @@ class MainWindow(QtWidgets.QMainWindow):
         #Seite 2-2 Camera configuration view
         pageCameraConfig = PageCameraCalibrationView(self.pages, self.windowsize,self.globalVariable)
         pageCameraConfig.setBackPage(PageConfig)
+        pageCameraConfig.setBackPageIsInUserMode(PageReconfig)
         self.pages.addPage(pageCameraConfig)
 
         #Seite 2-3 Greenscreen Read Collor

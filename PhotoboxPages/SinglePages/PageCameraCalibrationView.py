@@ -34,7 +34,7 @@ class PageCameraCalibrationView(Page):
         backButton = QPushButton(widget)
         backButton.setStyleSheet("background-color: transparent; border: 0px;")
         backButton.setFixedSize(self.windowsize)
-        backButton.clicked.connect(self.backPageEvent)
+        backButton.clicked.connect(self._backPageSelectEvent)
 
 
     def executeBefore(self):
@@ -44,6 +44,18 @@ class PageCameraCalibrationView(Page):
     def executeAfter(self):
         print("Stop Video")
         self.videoThread.stop()
+
+    def _backPageSelectEvent(self):
+        if self.globalVariable.getUserMode():
+            self._backPageIsInUserModeEvent()
+        else:
+            self.backPageEvent()
+
+    def _backPageIsInUserModeEvent(self):
+        self.setPageEvent(self.backPageIsInUserMode)
+
+    def setBackPageIsInUserMode(self,backPageIsInUserMode):
+        self.backPageIsInUserMode = backPageIsInUserMode
 
     @pyqtSlot(QImage)
     def setVideoStreamToLabel(self, image):

@@ -87,6 +87,13 @@ class PageReconfig(Page):
         self.uploadDefaultBackgroundsButton.clicked.connect(self._uploadDefaultBackgroundEvent)
         mainLayout.addWidget(self.uploadDefaultBackgroundsButton)
 
+        # Camera Calibration -------------------------------------------------------------------------------
+        self.cameraCalibrationButton = QPushButton()
+        self.cameraCalibrationButton.setText(textValue[TextKey.PAGE_CONFIG_CAMERA_CALIBRATION_BUTTON])
+        self.cameraCalibrationButton.clicked.connect(self.cameraCalibrationEvent)
+        mainLayout.addWidget(self.cameraCalibrationButton)
+
+
         #Navigation   ##################################################################################################
         mainLayout.addStretch()
         navigationLayout = QHBoxLayout()
@@ -154,3 +161,9 @@ class PageReconfig(Page):
 
     def _uploadDefaultBackgroundEvent(self):
         self.setPageEvent(self.uploadDefaultBackground)
+
+    def setCameraCalibrationEventPage(self,page):
+        self.cameraCalibrationPage = page
+
+    def cameraCalibrationEvent(self):
+        self.setPageEvent(self.cameraCalibrationPage)
