@@ -28,6 +28,7 @@ class CfgKey(enum.Enum):
 
     #Printer #########################################################################################
     PRINTER_IS_ACTIVE = 6000
+    PRINTER_IS_ACTIVE_WEB = 6005
     PRINTER_SELECTED = 6001
     PRINTER_PAPER_SIZE = 6002
     PRINTER_PAPER_FORMAT = 6003
@@ -158,6 +159,7 @@ cfgValue[CfgKey.SERVER_GETPICTUREURLIDS_THRASHOLD] = 3
 
 #Printer #########################################################################################
 cfgValue[CfgKey.PRINTER_IS_ACTIVE] = True
+cfgValue[CfgKey.PRINTER_IS_ACTIVE_WEB]=False
 cfgValue[CfgKey.PRINTER_SELECTED] = None
 cfgValue[CfgKey.PRINTER_PAPER_SIZE] = (148,100)
 cfgValue[CfgKey.PRINTER_PAPER_FORMAT] = "Postcard.Fullbleed"
@@ -315,6 +317,7 @@ class TextKey(enum.Enum):
     PAGE_CONFIG_SERVICE_STATUS=1030
     PAGE_CONFIG_AKTIVATE=1031
     PAGE_CONFIG_INAKTIVATE=1032
+    PAGE_CONFIG_SERVICE_PRINTER_WEB=1033
     PAGE_CONFIG_PRINTER_SELECT_LABEL=1035
     PAGE_CONFIG_PRINTER_POWER_ON_HINT=1036
     PAGE_CONFIG_PRINTER_PAPER_FORMAT_LABEL=1037
@@ -433,6 +436,7 @@ textValue[TextKey.PAGE_CONFIG_PRINTER_TITLE] = "Drucker"
 textValue[TextKey.PAGE_CONFIG_SERVICE_STATUS] = "Aktiviert: "
 textValue[TextKey.PAGE_CONFIG_AKTIVATE] = "Ja"
 textValue[TextKey.PAGE_CONFIG_INAKTIVATE] = "Nein"
+textValue[TextKey.PAGE_CONFIG_SERVICE_PRINTER_WEB] = "Aktiviert WEB: "
 textValue[TextKey.PAGE_CONFIG_PRINTER_SELECT_LABEL] = "Verwendeter Drucker:"
 textValue[TextKey.PAGE_CONFIG_PRINTER_POWER_ON_HINT] = "Hinweis: Bitte schalten sie den Drucker ein!"
 textValue[TextKey.PAGE_CONFIG_PRINTER_PAPER_FORMAT_LABEL] = "Papierformat: "

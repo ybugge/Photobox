@@ -133,6 +133,25 @@ class PageConfig(Page):
         self.printerDisabledButton.clicked.connect(self.activatePrinter)
         printerDisabledLayout.addWidget(self.printerDisabledButton)
 
+            #Aktiviert Printer Web
+        printerDisabledWebLayout = QHBoxLayout()
+        mainContentLabel.addLayout(printerDisabledWebLayout)
+
+        printerDisabledWebLabel = QLabel()
+        printerDisabledWebLabel.setText(textValue[TextKey.PAGE_CONFIG_SERVICE_PRINTER_WEB])
+        printerDisabledWebLayout.addWidget(printerDisabledWebLabel)
+
+        self.printerDisabledWebButton = QPushButton()
+        self.printerDisabledWebButton.setCheckable(True)
+        isPrinterActivateWeb = CfgService.get(CfgKey.PRINTER_IS_ACTIVE_WEB)
+        self.printerDisabledWebButton.setChecked(isPrinterActivateWeb)
+        if isPrinterActivateWeb:
+            self.printerDisabledWebButton.setText(textValue[TextKey.PAGE_CONFIG_AKTIVATE])
+        else:
+            self.printerDisabledWebButton.setText(textValue[TextKey.PAGE_CONFIG_INAKTIVATE])
+        self.printerDisabledWebButton.clicked.connect(self.activatePrinterWeb)
+        printerDisabledWebLayout.addWidget(self.printerDisabledWebButton)
+
             # Selected Printer
         printerSelectedLayout = QHBoxLayout()
         mainContentLabel.addLayout(printerSelectedLayout)
@@ -277,6 +296,16 @@ class PageConfig(Page):
             CfgService.set(CfgKey.PRINTER_IS_ACTIVE,False)
             self.printerDisabledButton.setText(textValue[TextKey.PAGE_CONFIG_INAKTIVATE])
             self.printerDisabledButton.setChecked(CfgService.get(CfgKey.PRINTER_IS_ACTIVE))
+
+    def activatePrinterWeb(self):
+        if self.printerDisabledWebButton.isChecked():
+            CfgService.set(CfgKey.PRINTER_IS_ACTIVE_WEB,True)
+            self.printerDisabledWebButton.setText(textValue[TextKey.PAGE_CONFIG_AKTIVATE])
+            self.printerDisabledWebButton.setChecked(CfgService.get(CfgKey.PRINTER_IS_ACTIVE_WEB))
+        else:
+            CfgService.set(CfgKey.PRINTER_IS_ACTIVE_WEB,False)
+            self.printerDisabledWebButton.setText(textValue[TextKey.PAGE_CONFIG_INAKTIVATE])
+            self.printerDisabledWebButton.setChecked(CfgService.get(CfgKey.PRINTER_IS_ACTIVE_WEB))
 
     def selectionchangePrinter(self,index):
         printers = self.printerService.getPrinters()

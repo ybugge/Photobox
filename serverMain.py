@@ -40,7 +40,7 @@ def downloadPicturePage(pictureName):
     else:
         printerService = PrinterService()
         pictureData = []
-        allowedPrinting = printerService.printingPosible() and  CfgService.get(CfgKey.PRINTER_IS_ACTIVE) and not printerService.hasTooManyPrintingOrderWeb(pictureName)
+        allowedPrinting = printerService.printingPosible() and  CfgService.get(CfgKey.PRINTER_IS_ACTIVE) and CfgService.get(CfgKey.PRINTER_IS_ACTIVE_WEB) and not printerService.hasTooManyPrintingOrderWeb(pictureName)
         for id in ids:
             printUrl = CfgService.get(CfgKey.SERVER_PRINT_PICTURE_PAGE)+"/"+pictureName+"/"+id
             pictureData.append([CfgService.get(CfgKey.SERVER_DOWNLOAD_PICTURE)+"/"+id,printUrl,allowedPrinting])
