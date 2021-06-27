@@ -14,6 +14,7 @@ from PhotoboxPages.SinglePages.PageGreenscreenSelectBackround import PageGreensc
 from PhotoboxPages.SinglePages.PageGreenscreenToleranceConfig import PageGreenscreenToleranceConfig
 from PhotoboxPages.SinglePages.PageGreenscreenUploadCustomBackground import PageGreenscreenUploadCustomBackground
 from PhotoboxPages.SinglePages.PageGreenscreenUploadDefaultBackground import PageGreenscreenUploadDefaultBackground
+from PhotoboxPages.SinglePages.PageHelp import PageHelp
 from PhotoboxPages.SinglePages.PageHints import PageHints
 from PhotoboxPages.SinglePages.PageMovePictureFromTemp_RedirectOne import PageMovePictureFromTemp_RedirectOne
 from PhotoboxPages.SinglePages.PageMovePictureFromTemp_RedirectTwo import PageMovePictureFromTemp_RedirectTwo
@@ -155,6 +156,7 @@ class MainWindow(QtWidgets.QMainWindow):
         pagePictureEdit.activateAutoForward(PageMovePictureFromTemp_RedirectOne, CfgKey.PAGE_PICTUREEDIT_SPACE_AUTO_FORWARD_WAIT_TIME)
         pagePictureEdit.setPrinterPage(PagePrint)
         pagePictureEdit.setDownloadPage(PageDownloadPicture)
+        pagePictureEdit.setHelpPage(PageHelp)
         pagePictureEdit.setNewPicturePage(PageMovePictureFromTemp_RedirectTwo)
         pagePictureEdit.setFinishedPage(PageMovePictureFromTemp_RedirectOne)
         self.pages.addPage(pagePictureEdit)
@@ -170,6 +172,10 @@ class MainWindow(QtWidgets.QMainWindow):
         pagePrint.activateAutoForward(PageMovePictureFromTemp_RedirectOne, CfgKey.PAGE_PICTUREEDIT_SPACE_AUTO_FORWARD_WAIT_TIME)
         pagePrint.setBackPage(PagePictureEdit)
         self.pages.addPage(pagePrint)
+
+        #Seite 6.3
+        pageHelp = PageHelp(self.pages, self.windowsize)
+        self.pages.addPage(pageHelp)
 
         #Intermediate Page: Move Picture from raw to used or unused folder
         pageMovePictureFromTemp_RedirectOne = PageMovePictureFromTemp_RedirectOne(self.pages, self.windowsize, self.globalVariable)

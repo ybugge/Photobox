@@ -48,6 +48,15 @@ class PagePictureEdit(Page):
 
         navigationLayout.addStretch()
 
+        helpButton = QPushButton()
+        helpButton.clicked.connect(self.helpPageEvent)
+        helpButton.setStyleSheet("qproperty-icon: url(" + CfgService.get(CfgKey.PAGE_PICTUREEDIT_HELP_BUTTON_ICON_DIR) + ");")
+        helpButton.setIconSize(self.getButtonSize())
+        helpButton.setFixedSize(self.getButtonSize())
+        navigationLayout.addWidget(helpButton)
+
+        navigationLayout.addStretch()
+
         nextPictureButton = QPushButton()
         nextPictureButton.clicked.connect(self.newPicturePageEvent)
         nextPictureButton.setStyleSheet("qproperty-icon: url(" + CfgService.get(CfgKey.PAGE_PICTUREEDIT_NEWPICTURE_BUTTON_ICON_DIR) + ");")
@@ -107,6 +116,12 @@ class PagePictureEdit(Page):
     def downloadPageEvent(self):
         self.setPictureIsUsed()
         self.setPageEvent(self.downloadPage)
+
+    def setHelpPage(self,page):
+        self.helpPage = page
+
+    def helpPageEvent(self):
+        self.setPageEvent(self.helpPage)
 
     def setPictureIsUsed(self):
         self.pictureIsUsed=True

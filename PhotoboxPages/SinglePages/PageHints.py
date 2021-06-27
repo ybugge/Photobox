@@ -1,5 +1,4 @@
 from PyQt5.QtCore import QSize
-from PyQt5.QtMultimedia import QCameraInfo
 from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QTextEdit, QHBoxLayout
 
 from PhotoboxPages.AllPages import AllPages

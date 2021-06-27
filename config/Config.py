@@ -123,6 +123,7 @@ class CfgKey(enum.Enum):
     PAGE_PICTUREEDIT_PRINT_BUTTON_ICON_DIR = 602
     PAGE_PICTUREEDIT_PRINT_BUTTON_DISABLED_ICON_DIR = 605
     PAGE_PICTUREEDIT_DOWNLOAD_BUTTON_ICON_DIR = 603
+    PAGE_PICTUREEDIT_HELP_BUTTON_ICON_DIR = 607
     PAGE_PICTUREEDIT_SPACE_AUTO_FORWARD_WAIT_TIME = 604
 
     #PagePrint.py
@@ -259,6 +260,7 @@ cfgValue[CfgKey.PAGE_PICTUREEDIT_NEWPICTURE_BUTTON_ICON_DIR] = "Resources/PagePi
 cfgValue[CfgKey.PAGE_PICTUREEDIT_PRINT_BUTTON_ICON_DIR] = "Resources/PagePictureEdit/Icon/print_icon.png"
 cfgValue[CfgKey.PAGE_PICTUREEDIT_PRINT_BUTTON_DISABLED_ICON_DIR] = "Resources/PagePictureEdit/Icon/print_icon_disable.png"
 cfgValue[CfgKey.PAGE_PICTUREEDIT_DOWNLOAD_BUTTON_ICON_DIR] = "Resources/PagePictureEdit/Icon/download_icon.png"
+cfgValue[CfgKey.PAGE_PICTUREEDIT_HELP_BUTTON_ICON_DIR] = "Resources/PagePictureEdit/Icon/help_icon.png"
 # 300000 = 5 minutes
 cfgValue[CfgKey.PAGE_PICTUREEDIT_SPACE_AUTO_FORWARD_WAIT_TIME] = 5*60000
 
@@ -388,6 +390,9 @@ class TextKey(enum.Enum):
     PRINT_SERVICE_ERROR=205
     PRINT_SERVICE_ERROR_INSTRUCTION=207
 
+    #PageConfig.py
+    PAGE_HELP_TITLE = 10001
+
     #QR-CODE
     QR_CODE_WIFI_NAME = 3201
     QR_CODE_WIFI_PASSWORD = 3202
@@ -510,6 +515,9 @@ textValue[TextKey.PRINT_SERVICE_EMPTY_INK]="<span style='color:#ff0000;'>Farbe i
 textValue[TextKey.PRINT_SERVICE_EMPTY_PAPER]="<span style='color:#ff0000;'>Kein Papier mehr vorhanden!</span>"
 textValue[TextKey.PRINT_SERVICE_MISSING_PAPER_CONTAINER]="<span style='color:#ff0000;'>Der Papierbehälter ist nicht eingesteckt!</span>"
 textValue[TextKey.PRINT_SERVICE_ERROR_INSTRUCTION] = "Bitte holen Sie einen Verantwortlichen."
+
+#PageConfig.py
+textValue[TextKey.PAGE_HELP_TITLE] = "Hilfe"
 
 #QR-CODE
 textValue[TextKey.QR_CODE_WIFI_NAME] = "Name: "
