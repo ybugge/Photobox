@@ -75,15 +75,16 @@ class PageDownloadPicture(Page):
         qr_code = qrcode.make(data)
         img = Image.new("RGB", (qr_code.pixel_size,qr_code.pixel_size), "white")
         img.paste(qr_code,(0,0))
+        img = img.resize((qr_code.pixel_size*2,qr_code.pixel_size*2))
 
         if self.switch:
-            fontSize = 21
+            fontSize = 40
             myFont = ImageFont.truetype(CfgService.get(CfgKey.WIFI_QR_CODE_FONT), fontSize)
             title = ImageDraw.Draw(img)
-            title.text((10, 10), textValue[TextKey.QR_CODE_WIFI_NAME]+CfgService.get(CfgKey.WIFI_SSID),font=myFont, fill=(0, 0, 0))
+            title.text((20, 20), textValue[TextKey.QR_CODE_WIFI_NAME]+CfgService.get(CfgKey.WIFI_SSID),font=myFont, fill=(0, 0, 0))
 
             password = ImageDraw.Draw(img)
-            password.text((10, qr_code.pixel_size-10-fontSize), textValue[TextKey.QR_CODE_WIFI_PASSWORD]+CfgService.get(CfgKey.WIFI_PASSWORD),font=myFont, fill=(0, 0, 0))
+            password.text((20, qr_code.pixel_size*2-20-fontSize), textValue[TextKey.QR_CODE_WIFI_PASSWORD]+CfgService.get(CfgKey.WIFI_PASSWORD),font=myFont, fill=(0, 0, 0))
         img.save(buf, "PNG")
 
         qt_pixmap = QPixmap()
