@@ -524,11 +524,11 @@ textValue[TextKey.PRINT_SERVICE_ERROR_INSTRUCTION] = "Bitte holen Sie einen Vera
 
 #PageConfig.py
 textValue[TextKey.PAGE_HELP_TITLE] = "Hilfe"
-textValue[TextKey.PAGE_HELP_GENERAL_DESCRIPTION] = "Hier wird kurz Beschrieben, was Ihr mit der Fotobox machen könnt.\n- Wenn ihr ein Foto machen wollt, dann achtet bitte darauf, dass das Licht an ist. (weißer Schalter rechts)"
+textValue[TextKey.PAGE_HELP_GENERAL_DESCRIPTION] = "Hier wird kurz Beschrieben, was Ihr mit der Fotobox machen könnt.\n- Wenn ihr ein Foto machen wollt, dann achtet bitte darauf, dass das Licht an ist.\nSiehe weißer Schalter rechts."
 textValue[TextKey.PAGE_HELP_PRINT_DESCRIPTION] = "Über diesen Button können Sie ihr Bild ausdrucken.\nMaximal können Sie dieses Bild %s mal ausdrucken."
 textValue[TextKey.PAGE_HELP_DOWNLOAD_DESCRIPTION] = "Über den Button können Sie das Bild auf Ihr Handy laden.\nVoraussetzung ist, dass sie sich über WLAN mit der Fotobox verbunden haben.\nW-LAN-Zugangsdaten bekommen Sie ebenfalls auf dieser Seite.\nDas Bild kann nicht nachträglich über das Internet herunter geladen werden.\nSie benötigen ein QR-Code Scanner. Bei Modernen Telefonen ist dies in der Kamera-App."
-textValue[TextKey.PAGE_HELP_NEW_PICTURE_DESCRIPTION] = "Falls das Foto nichts geworden ist, können Sie über diesen Button direkt ein neues Bild schießen."
-textValue[TextKey.PAGE_HELP_FINISHED_DESCRIPTION] = "Wenn Sie fertig sind, dann drücken Sie diesen Button, damit die Startseite wieder angezeigt wird."
+textValue[TextKey.PAGE_HELP_NEW_PICTURE_DESCRIPTION] = "Falls das Foto nichts geworden ist, können Sie über diesen Button direkt ein neues\nBild schießen."
+textValue[TextKey.PAGE_HELP_FINISHED_DESCRIPTION] = "Wenn Sie fertig sind, dann drücken Sie diesen Button, damit die Startseite\nwieder angezeigt wird."
 textValue[TextKey.PAGE_HELP_BACKBUTTON] = "Zurück"
 
 #QR-CODE
