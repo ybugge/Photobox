@@ -140,7 +140,7 @@ cfgValue[CfgKey.WIFI_SSID] = "Phoenix-Photobox"
 cfgValue[CfgKey.WIFI_PROTOCOL] = "WPA/WPA2"
 cfgValue[CfgKey.WIFI_PASSWORD] = "09059528003481556247"
 cfgValue[CfgKey.WIFI_PICTURE_NAME] = "wifi.png"
-cfgValue[CfgKey.WIFI_QR_CODE_FONT] = "FreeMono.ttf"
+cfgValue[CfgKey.WIFI_QR_CODE_FONT] = "Verdana.ttf"
 
 #DB #############################################################################
 cfgValue[CfgKey.DB_NAME] = "fotobox.db"

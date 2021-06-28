@@ -77,7 +77,7 @@ class PageDownloadPicture(Page):
         img.paste(qr_code,(0,0))
 
         if self.switch:
-            fontSize = 20
+            fontSize = 21
             myFont = ImageFont.truetype(CfgService.get(CfgKey.WIFI_QR_CODE_FONT), fontSize)
             title = ImageDraw.Draw(img)
             title.text((10, 10), textValue[TextKey.QR_CODE_WIFI_NAME]+CfgService.get(CfgKey.WIFI_SSID),font=myFont, fill=(0, 0, 0))
