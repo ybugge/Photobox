@@ -175,6 +175,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         #Seite 6.3
         pageHelp = PageHelp(self.pages, self.windowsize)
+        pageHelp.setBackPage(PagePictureEdit)
         self.pages.addPage(pageHelp)
 
         #Intermediate Page: Move Picture from raw to used or unused folder
