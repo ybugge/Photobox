@@ -1,7 +1,7 @@
 import base64
 import io
 
-from flask import Flask, render_template, send_file, abort, redirect, request, flash
+from flask import Flask, render_template, send_file, abort, redirect, request, flash, jsonify
 from werkzeug.utils import secure_filename
 
 from Services.CfgService import CfgService
@@ -55,21 +55,69 @@ def printPicturePage(pictureName,pictureId):
         abort(404)
     else:
         printerService = PrinterService()
-        allowedPrinting = printerService.printingPosible() and  CfgService.get(CfgKey.PRINTER_IS_ACTIVE) and not printerService.hasTooManyPrintingOrderWeb(pictureName)
+        allowedPrinting = printerService.printingPosible() and  CfgService.get(CfgKey.PRINTER_IS_ACTIVE)
 
         if not allowedPrinting:
             return redirect(CfgService.get(CfgKey.SERVER_DOWNLOAD_PICTURE_PAGE)+"/"+pictureName)
 
-        printerService.printWeb(pictureName,picturePathAndName[1])
-
-        if printerService.isStatusInPrintWeb(pictureName):
-            print_status_hint = textValue[TextKey.WEB_PRINT_STATUS_SUCCESS]
-        else:
-            print_status_hint = textValue[TextKey.WEB_PRINT_STATUS_FAILED]
+        print_status_hint = getPrintStatusHint(pictureName)
         printerStatus = printerService.getPrinterStatus()
         backUrl = CfgService.get(CfgKey.SERVER_DOWNLOAD_PICTURE_PAGE)+"/"+pictureName
-        return render_template('picture/print.html',backUrl=backUrl,printerStatus=printerStatus,print_status_hint=print_status_hint)
+        informationUrl = CfgService.get(CfgKey.SERVER_PRINT_INFORMATION_REST)+"/"+pictureName+"/"+pictureId
+        printingUrl = CfgService.get(CfgKey.SERVER_PRINT_START_PRINT_REST)+"/"+pictureName+"/"+pictureId
+        return render_template('picture/print.html',backUrl=backUrl,printerStatus=printerStatus,print_status_hint=print_status_hint,information_url=informationUrl,printing_url=printingUrl,
+                               restUpdateIntervall= CfgService.get(CfgKey.SERVER_PRINT_REST_INFORMATION_INTERVALL))
 
+printInformationJsonTemplate = "{\"printingAllowed\":%s,\"isInPrinting\":%s,\"printStatusHint\":\"%s\",\"printerStatus\":\"%s\"}"
+
+@app.route(CfgService.get(CfgKey.SERVER_PRINT_INFORMATION_REST)+"/<pictureName>/<pictureId>")
+def printInformationRest(pictureName,pictureId):
+    ids = ServerDbSevice.getPictureUrlIds(pictureName)
+    picturePathAndName = ServerDbSevice.getPicturePathAndName(pictureId)
+
+    if (not ids) or (not pictureId in ids) or (not picturePathAndName):
+        return jsonify(printInformationJsonTemplate % ('false','false','kein Status','kein Status'))
+    else:
+        printerService = PrinterService()
+        allowedPrinting = printerService.printingPosible() and  CfgService.get(CfgKey.PRINTER_IS_ACTIVE)
+        if not allowedPrinting:
+            return jsonify(printInformationJsonTemplate % ('false','false','kein Status','kein Status'))
+
+        print_status_hint = getPrintStatusHint(pictureName)
+        isInPrinting = "true" if printerService.isStatusInPrintWeb(pictureName) else "false"
+        printerStatus = printerService.getPrinterStatus()
+        return jsonify(printInformationJsonTemplate % ('true',isInPrinting,print_status_hint,printerStatus))
+
+@app.route(CfgService.get(CfgKey.SERVER_PRINT_START_PRINT_REST)+"/<pictureName>/<pictureId>")
+def printStartPrintRest(pictureName,pictureId):
+    ids = ServerDbSevice.getPictureUrlIds(pictureName)
+    picturePathAndName = ServerDbSevice.getPicturePathAndName(pictureId)
+
+    if (not ids) or (not pictureId in ids) or (not picturePathAndName):
+        return jsonify(printInformationJsonTemplate % ('false','false','kein Status','kein Status'))
+    else:
+        printerService = PrinterService()
+        allowedPrinting = printerService.printingPosible() and  CfgService.get(CfgKey.PRINTER_IS_ACTIVE)
+        if not allowedPrinting:
+            return jsonify(printInformationJsonTemplate % ('false','false','kein Status','kein Status'))
+
+        if not printerService.hasTooManyPrintingOrderWeb(pictureName):
+            printerService.printWeb(pictureName,picturePathAndName[1])
+        print_status_hint = getPrintStatusHint(pictureName)
+        isInPrinting = "true" if printerService.isStatusInPrintWeb(pictureName) else "false"
+
+        printerStatus = printerService.getPrinterStatus()
+        return jsonify(printInformationJsonTemplate % ('true',isInPrinting,print_status_hint,printerStatus))
+
+def getPrintStatusHint(pictureName):
+    printerService = PrinterService()
+    if printerService.isStatusInPrintWeb(pictureName):
+        return textValue[TextKey.WEB_PRINT_STATUS_IN_PRINTING]
+    else:
+        if printerService.hasTooManyPrintingOrderWeb(pictureName):
+            return textValue[TextKey.WEB_PRINT_STATUS_NO_MORE_COPY]
+        else:
+            return textValue[TextKey.WEB_PRINT_STATUS_READY] % CfgService.get(CfgKey.PRINTER_MAX_PRINTING_ORDER)
 
 @app.route(CfgService.get(CfgKey.SERVER_DOWNLOAD_PICTURE)+"/<urlId>")
 def downloadPicture(urlId):

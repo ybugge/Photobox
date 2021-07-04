@@ -26,6 +26,9 @@ class CfgKey(enum.Enum):
     SERVER_GETPICTUREURLIDS_NUMBER = 2006
     SERVER_GETPICTUREURLIDS_THRASHOLD = 2007
     SERVER_PRINT_PICTURE_PAGE = 1010
+    SERVER_PRINT_INFORMATION_REST = 1012
+    SERVER_PRINT_START_PRINT_REST = 1013
+    SERVER_PRINT_REST_INFORMATION_INTERVALL = 1014
 
     #Printer #########################################################################################
     PRINTER_IS_ACTIVE = 6000
@@ -152,6 +155,9 @@ cfgValue[CfgKey.SERVER_DOWNLOAD_PICTURE_PAGE] = "/downloadpage"
 cfgValue[CfgKey.SERVER_DOWNLOAD_PICTURE] = "/downloadimage"
 cfgValue[CfgKey.SERVER_RANDOM_URLIDS] = "/pictureuris"
 cfgValue[CfgKey.SERVER_PRINT_PICTURE_PAGE] = "/print"
+cfgValue[CfgKey.SERVER_PRINT_INFORMATION_REST] = "/printinformation"
+cfgValue[CfgKey.SERVER_PRINT_REST_INFORMATION_INTERVALL] = 5000
+cfgValue[CfgKey.SERVER_PRINT_START_PRINT_REST] = "/startprinting"
 cfgValue[CfgKey.SERVER_UPLOAD_PICTURE] = "/upload"
 cfgValue[CfgKey.SERVER_DISPLAY_UPLOAD_PICTURE] = "/display"
 cfgValue[CfgKey.SERVER_UPLOAD_SUCCESS_PICTURE] = "/success"
@@ -275,8 +281,9 @@ cfgValue[CfgKey.PAGE_GREENSCREEN_SELECT_BACKGROUND_ROTATE_RIGHT_ICON] = "Resourc
 class TextKey(enum.Enum):
 
     #Webserver
-    WEB_PRINT_STATUS_SUCCESS = 3000
-    WEB_PRINT_STATUS_FAILED = 3001
+    WEB_PRINT_STATUS_IN_PRINTING = 3000
+    WEB_PRINT_STATUS_NO_MORE_COPY = 3001
+    WEB_PRINT_STATUS_READY = 3007
     WEB_UPLOAD_BACKGROUND_ERROR_NO_PICTURE_SELECTED = 3002
     WEB_UPLOAD_BACKGROUND_ERROR_WRONG_TYPE = 3003
     WEB_UPLOAD_BACKGROUND_SUCCESS = 3004
@@ -406,8 +413,9 @@ class TextKey(enum.Enum):
 textValue={}
 
 #Webserver
-textValue[TextKey.WEB_PRINT_STATUS_SUCCESS] = "Druckauftrag gestartet"
-textValue[TextKey.WEB_PRINT_STATUS_FAILED] = "Druckauftrag wurde nicht gestartet. Es wird bereits ein Bild gedruckt. Bitte warten."
+textValue[TextKey.WEB_PRINT_STATUS_IN_PRINTING] = "Druckauftrag gestartet"
+textValue[TextKey.WEB_PRINT_STATUS_READY] = "Du kannst maximal %s Kopien drucken."
+textValue[TextKey.WEB_PRINT_STATUS_NO_MORE_COPY] = "Leider kannst du keine weiteren Kopien drucken."
 textValue[TextKey.WEB_UPLOAD_BACKGROUND_ERROR_NO_PICTURE_SELECTED] = "Es wurde kein Bild ausgewählt!"
 textValue[TextKey.WEB_UPLOAD_BACKGROUND_ERROR_WRONG_TYPE] = "Nur folgende Dateien sind erlaubt -> png, jpg, jpeg"
 textValue[TextKey.WEB_UPLOAD_BACKGROUND_SUCCESS] = "Der Hintergrund wurde erfolgreich geladen."

@@ -48,6 +48,11 @@ a {
 a:hover {
     background-color:rgb(50,50,50);
 }
+a.disabled {
+    background-color:rgb(80,80,80);
+    color:rgb(200,200,200);
+    pointer-events: none;
+}
 
 img {
     width: 100%;

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <title>Drucken - Fotobox</title>
 </head>
 <body>
@@ -10,22 +11,86 @@
 
     <h1>Dein Bild - Drucken</h1>
     <h2>Druckstatus:</h2>
-    <p>
+    <p id="print_status_hint">
         {{print_status_hint}}
     </p>
     <h2>Druckerstatus:</h2>
-    <p>
+    <p id="printerStatus">
          {{printerStatus}}
     </p>
     <h2>Allgemeine Informationen:</h2>
     <p>
-        Dein Bild wird gedruckt. Solange dein Bild gedruckt wird, kannst du kein weiteres Bild drucken.
-        Die Seite aktualisiert den Status nicht automatisch.
+        Wenn du auf Drucken klickst, wird dein Bild gedruckt. Solange dein Bild gedruckt wird, kannst du kein weiteres Bild drucken.
+        <noscript>
+            Um ein Bild zu drucken wird Javascript benötigt.
+        </noscript>
+    </p>
+    <p>
+        <a id="print" class="disabled" href="#" onclick="print();">Drucken nicht möglich!</a>
     </p>
     <p>
         <a href="{{ backUrl }}">Zurück</a>
     </p>
 
+
 </div>
+
+<script language = "javascript" type = "text/javascript">
+
+    var updatePage = function(){
+        loadJSON('{{ information_url }}');
+    }
+    updatePage();
+    var updateTimer = setInterval(updatePage, {{restUpdateIntervall}});
+    var waitTimer;
+
+    var startUpdateTimer = function(){
+        clearInterval(waitTimer);
+        updateTimer = setInterval(updatePage, {{restUpdateIntervall}});
+    }
+
+    var stopUpdateTimer = function(){
+        clearInterval(updateTimer);
+        waitTimer = setInterval(startUpdateTimer, 10000);
+    }
+
+    var print = function() {
+        stopUpdateTimer();
+        var printingLink = document.getElementById('print');
+        printingLink.setAttribute("class", "disabled");
+        printingLink.innerHTML = "Bild wird gedruckt!";
+        loadJSON('{{ printing_url }}');
+    }
+
+    function loadJSON(url) {
+    fetch(url)
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        const jsonResponse = JSON.parse(data);
+        const printingLink = document.getElementById('print');
+        const printStatusHintP = document.getElementById('print_status_hint');
+        const printerStatusP = document.getElementById('printerStatus');
+        if (jsonResponse.printingAllowed){
+            if(jsonResponse.isInPrinting){
+                printingLink.setAttribute("class", "disabled");
+                printingLink.innerHTML = "Bild wird gedruckt!";
+            }else{
+                printingLink.removeAttribute("class", "disabled");
+                printingLink.innerHTML = "Drucken";
+            }
+
+            printStatusHintP.innerHTML = jsonResponse.printStatusHint;
+            printerStatusP.innerHTML = jsonResponse.printerStatus;
+        } else {
+            printingLink.setAttribute("class", "disabled");
+            printingLink.innerHTML = "Drucken nicht möglich!";
+
+            printStatusHintP.innerHTML = "kein Status";
+            printerStatusP.innerHTML = "kein Status";
+        }
+      });
+  }
+
+</script>
 </body>
 </html>
