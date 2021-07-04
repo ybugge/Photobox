@@ -37,18 +37,30 @@
 
 <script language = "javascript" type = "text/javascript">
 
-    var print = function() {
-        var printingLink = document.getElementById('print');
-        printingLink.setAttribute("class", "disabled");
-        printingLink.innerHTML = "Bild wird gedruckt!";
-        loadJSON('{{ printing_url }}');
-    }
-
     var updatePage = function(){
         loadJSON('{{ information_url }}');
     }
     updatePage();
     var updateTimer = setInterval(updatePage, {{restUpdateIntervall}});
+    var waitTimer;
+
+    var startUpdateTimer = function(){
+        clearInterval(waitTimer);
+        updateTimer = setInterval(updatePage, {{restUpdateIntervall}});
+    }
+
+    var stopUpdateTimer = function(){
+        clearInterval(updateTimer);
+        waitTimer = setInterval(startUpdateTimer, 10000);
+    }
+
+    var print = function() {
+        stopUpdateTimer();
+        var printingLink = document.getElementById('print');
+        printingLink.setAttribute("class", "disabled");
+        printingLink.innerHTML = "Bild wird gedruckt!";
+        loadJSON('{{ printing_url }}');
+    }
 
     function loadJSON(url) {
     fetch(url)
