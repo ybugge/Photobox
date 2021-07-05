@@ -349,6 +349,5 @@ $ sudo dd if=/dev/sd???? | gzip > /home/ybugge/Dokumente/photobox-dd.gz
 $ sudo gzip -dc /home/ybugge/Dokumente/photobox-dd.gz | dd of=/dev/sd???
 ````
 
-##TODO
-- Drucker verbessern:
--- Neues Feature: Paralles Drucken 
+## Verbesserungsvorschläge
+- Titelbild und Rahmen der Diashow über die Fotobox beziehen.
