@@ -11,7 +11,37 @@ Windows unterstützt wird.
 - Mini Wireless Keyboard Remote X8 -> http://www.riitek.com/product/x8.html
 - Fritz!Box 4020 -> https://avm.de/produkte/fritzbox/fritzbox-4020/
 - Canon SELPHY CP1300 -> https://www.canon.de/printers/selphy-cp1300/
+- 2 USB Sticks für Fotos und Musik
 
+Optional:
+- UGREEN Externe USB Soundkarte -> https://www.amazon.de/UGREEN-Externe-Soundkarte-Computer-External/dp/B01N905VOY/ref=sr_1_10
+- Kühlung -> https://www.amazon.de/MakerHawk-R%C3%BCstungskoffer-Himbeer-Pi-Metallgeh%C3%A4use-Doppel-L%C3%BCfter-Aluminiumlegierung-integrierter/dp/B07M7M53LT/ref=sr_1_4
+
+### Gehäuse
+- Holzbox 40x30x24cm -> https://www.amazon.de/LAUBLUST-Gro%C3%9Fe-Holzkiste-Deckel-Geschenk-Verpackung/dp/B016UYX344
+- Kistengriffe -> https://www.amazon.de/ueetek-Edelstahl-schwere-stabile-Toolbox/dp/B079CF95Z9
+- Aufnahme für das Dreibein -> https://www.amazon.de/Stagg-9709-Externer-Boxenflansch-Anschrauben/dp/B000OR5YE6
+- Dreibein -> https://www.amazon.de/gp/product/B07PXQQ6Q1/ref=ppx_yo_dt_b_asin_title_o06_s00
+- Schloss -> https://www.amazon.de/gp/product/B083LKFKQW/ref=ppx_yo_dt_b_asin_title_o07_s00
+- Schnapper (damit der Deckel zu bleibt) -> https://www.amazon.de/gp/product/B07M67WJJR/ref=ppx_yo_dt_b_asin_title_o07_s01
+- Rundstab: 20,5cm x 0,5cm (Essstäbchen)
+- Brillenputztuch 
+- Sperrholz (37,5cm x 19,0cm x 0,4cm)
+- Aufbewahrungsbox (24,5cm x 18cm x 16 cm) (Really Useful Box Aufbewahrungsbox 3C 3 L)-> https://www.ebay.de/itm/362899377740?hash=item547e7d0e4c:g:udIAAOSwOQpftiw6
+
+### Elektrik
+- Verteiler 4fach -> https://www.amazon.de/REV-STECKDOSE-PlanoLuxe-Mehrfachsteckdose-Innenbereich/dp/B00C25WRZW
+- Kabel -> https://www.amazon.de/Bachmann-202275-Eurozuleitung/dp/B001ZT6VP8
+- Hauptschalter mit Sicherung (Trennt Neutralleiter und Last) -> https://www.amazon.de/Hifi-Lab-Einbau-Stecker-Einbau-Buchse-Kaltgeräte-Buchse/dp/B01H5MK3OI
+- Lichtschalter -> https://www.amazon.de/gp/product/B074VCBVKJ/ref=ppx_yo_dt_b_asin_title_o08_s00
+- Lampen (2 Stück) -> https://www.reichelt.de/deckenleuchte-8-w-560-lm-3000-k-oval-vt-1311-p201362.html?&trstct=pos_3&nbc=1
+
+### Optionale Kleinigkeiten
+- Live Soundcard V8 -> https://www.ebay.de/itm/203511744223?hash=item2f623ec6df:g:gg4AAOSwn5lg3nA4
+- Mikrofon
+- Fotostudio (2.6M x 3M) -> https://www.amazon.de/gp/product/B0799BQJWX/ref=ppx_yo_dt_b_asin_title_o00_s00
+- JBL Partybox 300 (2 mal) -> https://de.jbl.com/party-lautsprecher/JBL+PartyBox+300.html
+- LTE Router -> https://www.amazon.de/TP-Link-M7200-Download-kompatibel-europ%C3%A4ischen-schwarz/dp/B079GZNQ2B/ref=sr_1_6
 
 ##Install
 Die nachfolgende Instalation wurde mit LinuxMint durchgeführt.
