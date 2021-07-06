@@ -18,7 +18,7 @@ Optional:
 - Kühlung -> https://www.amazon.de/MakerHawk-R%C3%BCstungskoffer-Himbeer-Pi-Metallgeh%C3%A4use-Doppel-L%C3%BCfter-Aluminiumlegierung-integrierter/dp/B07M7M53LT/ref=sr_1_4
 
 ### Gehäuse
-- Holzbox 40x30x24cm -> https://www.amazon.de/LAUBLUST-Gro%C3%9Fe-Holzkiste-Deckel-Geschenk-Verpackung/dp/B016UYX344
+- Holzbox (außen: 40x30x24cm)(innen:37,5x27,5x21cm) -> https://www.amazon.de/LAUBLUST-Gro%C3%9Fe-Holzkiste-Deckel-Geschenk-Verpackung/dp/B016UYX344
 - Kistengriffe -> https://www.amazon.de/ueetek-Edelstahl-schwere-stabile-Toolbox/dp/B079CF95Z9
 - Aufnahme für das Dreibein -> https://www.amazon.de/Stagg-9709-Externer-Boxenflansch-Anschrauben/dp/B000OR5YE6
 - Dreibein -> https://www.amazon.de/gp/product/B07PXQQ6Q1/ref=ppx_yo_dt_b_asin_title_o06_s00
@@ -136,6 +136,12 @@ Browser->Pi: localhost:631
 - Media Size: Postcard.Fullbleed
 - MediaType: Any
 - Standardeinstellungen festlegen 
+
+Hinweis:
+1. Folgende Einstellung sollte an dem Drucker vorgenommen werden:
+- WLAN-Einstellungen > Verbindungsmethode > Über WLAN-Netzwerk = Mit der Fritzbox verbinden.
+- Setup > Drucker Setup >auto.Abschalten = Aus
+
 
 # Diashow Client
 
