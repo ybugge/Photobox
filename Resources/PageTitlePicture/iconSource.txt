@@ -1,0 +1,1 @@
+touch.png = https://icon-icons.com/de/symbol/gui-Geste-ein-finger-touch/158449
