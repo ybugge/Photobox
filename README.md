@@ -64,7 +64,7 @@ Bildschirm:
 - 105mm (Hoch) x 175mm (Breit)
 - Pos: Unten anliegend mittig 
 
-Kamer:
+Kamera:
 - 50mm (Hoch) x 42mm(Breit)
 - Pos: 62mm (von oben Außen) x mittig
 
@@ -75,10 +75,13 @@ Stromanschluss:
 ##### Position:
 
 Zwischenboden:
-- Pos: 90mm (von unten-Innen)
+- Pos: 90mm (von unten-Innen) (Unterkante des 3D-Objekts)
 
 Steckdose:
 - Pos: 30mm (von vorne-Innen) so hoch wie möglich
+
+Drucker-Grundplatte:
+- Pos: 61mm (von Seite-Innen) so weit hinten wie möglich
    
 ### Elektrik
 - Verteiler 4fach -> https://www.amazon.de/REV-STECKDOSE-PlanoLuxe-Mehrfachsteckdose-Innenbereich/dp/B00C25WRZW
