@@ -29,6 +29,57 @@ Optional:
 - Sperrholz (37,5cm x 19,0cm x 0,4cm)
 - Aufbewahrungsbox (24,5cm x 18cm x 16 cm) (Really Useful Box Aufbewahrungsbox 3C 3 L)-> https://www.ebay.de/itm/362899377740?hash=item547e7d0e4c:g:udIAAOSwOQpftiw6
 
+####Holzbox Maße:
+Ausrichtung: Deckel zu mir gerichtet und wenn er offen ist, liegt er auf dem Boden.
+
+Außen (mit Deckel): 
+- 232mm (Tief)
+- 293mm (Hoch)
+- 395mm (Breit)
+
+Außen (ohne Deckel):
+- 197mm (Tief)
+- 293mm (Hoch)
+- 395mm (Breit)
+
+Innen (mit Deckel):
+- 212mm (Tief)
+- 278mm (Hoch)
+- 378mm (Breit)
+
+Innen (ohne Deckel):
+- 185mm (Tief)
+- 278mm (Hoch)
+- 378mm (Breit)
+
+Wandstärke: ca. 9mm
+
+#####Löcher:
+
+Drucker:
+- 120mm (Tief) x 35mm (Breit)
+- Pos: 21cm (von vorne-Außen) x 15mm (von unten-Außen) 
+
+Bildschirm:
+- 105mm (Hoch) x 175mm (Breit)
+- Pos: Unten anliegend mittig 
+
+Kamer:
+- 50mm (Hoch) x 42mm(Breit)
+- Pos: 62mm (von oben Außen) x mittig
+
+Stromanschluss:
+- 29mm(Breit) x 56 (Hoch)
+- Pos: 20mm (Von der Seite-Außen) 81mm (von Hinten-Außen)
+
+##### Position:
+
+Zwischenboden:
+- Pos: 90mm (von unten-Innen)
+
+Steckdose:
+- Pos: 30mm (von vorne-Innen) so hoch wie möglich
+   
 ### Elektrik
 - Verteiler 4fach -> https://www.amazon.de/REV-STECKDOSE-PlanoLuxe-Mehrfachsteckdose-Innenbereich/dp/B00C25WRZW
 - Kabel -> https://www.amazon.de/Bachmann-202275-Eurozuleitung/dp/B001ZT6VP8
@@ -141,7 +192,6 @@ Hinweis:
 1. Folgende Einstellung sollte an dem Drucker vorgenommen werden:
 - WLAN-Einstellungen > Verbindungsmethode > Über WLAN-Netzwerk = Mit der Fritzbox verbinden.
 - Setup > Drucker Setup >auto.Abschalten = Aus
-
 
 # Diashow Client
 
