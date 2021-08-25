@@ -13,6 +13,7 @@ from config.Config import cfgValue, CfgKey
 try:
     from picamera import PiCamera
     from picamera.array import PiRGBArray
+    from Services.Camera.PiCameraService import PiCameraService
 except ImportError:
     if cfgValue[CfgKey.IS_PI]:
         print("PiCamVideoThread: PiCamera not found")
@@ -32,6 +33,7 @@ class PiCamVideoThread(QThread):
         resolution = CfgService.get(CfgKey.PI_CAMERA_VIDEO_RESOLUTION)
         camera = PiCamera()
         camera.resolution =  resolution
+        PiCameraService.setupCameraStaticBrightness(camera)
         camera.framerate = CfgService.get(CfgKey.PI_CAMERA_VIDEO_FPS)
         rawCapture = PiRGBArray(camera, size=resolution)
         time.sleep(0.1)

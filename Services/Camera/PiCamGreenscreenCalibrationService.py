@@ -11,6 +11,7 @@ from config.Config import CfgKey, cfgValue
 try:
     from picamera import PiCamera
     from picamera.array import PiRGBArray
+    from Services.Camera import PiCameraService
 except ImportError:
     if cfgValue[CfgKey.IS_PI]:
         print("PiCamPhotoThread: PiCamera not found")
@@ -25,6 +26,7 @@ class PiCamGreenscreenCalibrationService():
         stream = io.BytesIO()
         with PiCamera() as camera:
             camera.resolution = resolution
+            PiCameraService.setupCameraStaticBrightness(camera)
             camera.capture(stream, format='jpeg')
         # Construct a numpy array from the stream
         data = np.fromstring(stream.getvalue(), dtype=np.uint8)

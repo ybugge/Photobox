@@ -14,6 +14,7 @@ from config.Config import cfgValue, CfgKey
 try:
     from picamera import PiCamera
     from picamera.array import PiRGBArray
+    from Services.Camera.PiCameraService import PiCameraService
 except ImportError:
     if cfgValue[CfgKey.IS_PI]:
         print("PiCamPhotoThread: PiCamera not found")
@@ -66,6 +67,7 @@ class PiCamPhotoThread(QThread):
         stream = io.BytesIO()
         with PiCamera() as camera:
             camera.resolution = resolution
+            PiCameraService.setupCameraStaticBrightness(camera)
             camera.capture(stream, format='jpeg')
         # Construct a numpy array from the stream
         data = np.fromstring(stream.getvalue(), dtype=np.uint8)

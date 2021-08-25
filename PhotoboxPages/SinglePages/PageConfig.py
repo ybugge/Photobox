@@ -65,11 +65,29 @@ class PageConfig(Page):
         self.projectNameValue.setText(CfgService.get(CfgKey.PROJECTNAME))
         mainContentLabel.addWidget(self.projectNameValue)
 
+        # Camera  -------------------------------------------------------------------------------
+        cameraTitle = QLabel(textValue[TextKey.PAGE_CONFIG_CAMERA_TITLE])
+        cameraTitle.setFont(titleFont)
+        mainContentLabel.addWidget(cameraTitle)
+
             #Camera calibration
         cameraCalibration = QPushButton(textValue[TextKey.PAGE_CONFIG_CAMERA_CALIBRATION_BUTTON])
         cameraCalibration.clicked.connect(self.cameraCalibrationEvent)
         self.setContentButtonStyle(cameraCalibration)
         mainContentLabel.addWidget(cameraCalibration)
+
+            #Camera Brightness
+        cameraAutoBrightnessLayout = QHBoxLayout()
+        mainContentLabel.addLayout(cameraAutoBrightnessLayout)
+
+        self.cameraAutoBrightnessLabel = QLabel()
+        self.cameraAutoBrightnessLabel.setText(textValue[TextKey.PAGE_CONFIG_CAMERA_AUTO_BRIGHTNESS])
+        cameraAutoBrightnessLayout.addWidget(self.cameraAutoBrightnessLabel)
+
+        self.cameraAutoBrightnessButton = QPushButton()
+        self.cameraAutoBrightnessButton.setCheckable(True)
+        self.cameraAutoBrightnessButton.clicked.connect(self.activateCameraAutoBrightness)
+        cameraAutoBrightnessLayout.addWidget(self.cameraAutoBrightnessButton)
 
             #Server
         serverTitle = QLabel(textValue[TextKey.PAGE_CONFIG_SERVER_IPANDPORT_TITLE])
@@ -240,6 +258,7 @@ class PageConfig(Page):
         self.setPrinterFromProperties()
         self.updateGreenscreenColor()
         self.updateGreenscreenActive()
+        self.updateCameraAutoBrightnessActive()
 
     def updateGreenscreenActive(self):
         isGreenscreenActivate = CfgService.get(CfgKey.GREENSCREEN_IS_ACTIVE)
@@ -370,3 +389,22 @@ class PageConfig(Page):
             CfgService.set(CfgKey.GREENSCREEN_IS_ACTIVE,False)
             self.greenscreenDisabledButton.setText(textValue[TextKey.PAGE_CONFIG_INAKTIVATE])
             self.greenscreenDisabledButton.setChecked(CfgService.get(CfgKey.GREENSCREEN_IS_ACTIVE))
+
+    #Camera
+    def updateCameraAutoBrightnessActive(self):
+        isAutoBrightnessActivate = CfgService.get(CfgKey.PI_CAMERA_STATIC_BRIGHTNESS)
+        self.cameraAutoBrightnessButton.setChecked(isAutoBrightnessActivate)
+        if isAutoBrightnessActivate:
+            self.cameraAutoBrightnessButton.setText(textValue[TextKey.PAGE_CONFIG_INAKTIVATE])
+        else:
+            self.cameraAutoBrightnessButton.setText(textValue[TextKey.PAGE_CONFIG_AKTIVATE])
+
+    def activateCameraAutoBrightness(self):
+        if self.cameraAutoBrightnessButton.isChecked():
+            CfgService.set(CfgKey.PI_CAMERA_STATIC_BRIGHTNESS,True)
+            self.cameraAutoBrightnessButton.setText(textValue[TextKey.PAGE_CONFIG_INAKTIVATE])
+            self.cameraAutoBrightnessButton.setChecked(CfgService.get(CfgKey.PI_CAMERA_STATIC_BRIGHTNESS))
+        else:
+            CfgService.set(CfgKey.PI_CAMERA_STATIC_BRIGHTNESS,False)
+            self.cameraAutoBrightnessButton.setText(textValue[TextKey.PAGE_CONFIG_AKTIVATE])
+            self.cameraAutoBrightnessButton.setChecked(CfgService.get(CfgKey.PI_CAMERA_STATIC_BRIGHTNESS))
