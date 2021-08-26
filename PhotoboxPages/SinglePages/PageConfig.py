@@ -1,7 +1,7 @@
 import qrcode
 from PIL import ImageDraw, Image, ImageFont
 from PyQt5.QtCore import QSize, Qt
-from PyQt5.QtGui import QFont, QColor
+from PyQt5.QtGui import QFont, QColor, QDoubleValidator
 from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QLabel, QHBoxLayout, QFileDialog, QGridLayout, QLineEdit, QWidget, \
     QScrollArea, QComboBox
 
@@ -81,13 +81,41 @@ class PageConfig(Page):
         mainContentLabel.addLayout(cameraAutoBrightnessLayout)
 
         self.cameraAutoBrightnessLabel = QLabel()
-        self.cameraAutoBrightnessLabel.setText(textValue[TextKey.PAGE_CONFIG_CAMERA_AUTO_BRIGHTNESS])
+        self.cameraAutoBrightnessLabel.setText(textValue[TextKey.PAGE_CONFIG_CAMERA_STATIC_BRIGHTNESS_TITLE])
         cameraAutoBrightnessLayout.addWidget(self.cameraAutoBrightnessLabel)
 
         self.cameraAutoBrightnessButton = QPushButton()
         self.cameraAutoBrightnessButton.setCheckable(True)
         self.cameraAutoBrightnessButton.clicked.connect(self.activateCameraAutoBrightness)
         cameraAutoBrightnessLayout.addWidget(self.cameraAutoBrightnessButton)
+
+            #Camera Brightness Gains
+        gainValidator = QDoubleValidator(0,8,1)
+                #Red
+        cameraAutoBrightnessGainRedLayout = QHBoxLayout()
+        mainContentLabel.addLayout(cameraAutoBrightnessGainRedLayout)
+
+        self.cameraBrightnessGainRedLabel = QLabel()
+        self.cameraBrightnessGainRedLabel.setText(textValue[TextKey.PAGE_CONFIG_CAMERA_BRIGHTNESS_GAIN_RED])
+        cameraAutoBrightnessGainRedLayout.addWidget(self.cameraBrightnessGainRedLabel)
+
+        self.cameraBrightnessGainRed = QLineEdit()
+        self.cameraBrightnessGainRed.setValidator(gainValidator)
+        self.cameraBrightnessGainRed.setText(str(CfgService.get(CfgKey.PI_CAMERA_STATIC_BRIGHTNESS_AWB_GAIN_RED)))
+        cameraAutoBrightnessGainRedLayout.addWidget(self.cameraBrightnessGainRed)
+
+            #Blue
+        cameraAutoBrightnessGainBlueLayout = QHBoxLayout()
+        mainContentLabel.addLayout(cameraAutoBrightnessGainBlueLayout)
+
+        self.cameraBrightnessGainBlueLabel = QLabel()
+        self.cameraBrightnessGainBlueLabel.setText(textValue[TextKey.PAGE_CONFIG_CAMERA_BRIGHTNESS_GAIN_BLUE])
+        cameraAutoBrightnessGainBlueLayout.addWidget(self.cameraBrightnessGainBlueLabel)
+
+        self.cameraBrightnessGainBlue = QLineEdit()
+        self.cameraBrightnessGainBlue.setValidator(gainValidator)
+        self.cameraBrightnessGainBlue.setText(str(CfgService.get(CfgKey.PI_CAMERA_STATIC_BRIGHTNESS_AWB_GAIN_BLUE)))
+        cameraAutoBrightnessGainBlueLayout.addWidget(self.cameraBrightnessGainBlue)
 
             #Server
         serverTitle = QLabel(textValue[TextKey.PAGE_CONFIG_SERVER_IPANDPORT_TITLE])
@@ -291,6 +319,7 @@ class PageConfig(Page):
         CfgService.set(CfgKey.WIFI_SSID,self.wifiSSIDValue.text())
         CfgService.set(CfgKey.WIFI_PROTOCOL,self.wifiProtocolValue.text())
         CfgService.set(CfgKey.WIFI_PASSWORD,self.wifiPasswordValue.text())
+        self.persistentGain()
 
     def open_file_dialog(self):
         CfgService.set(CfgKey.MAIN_SAVE_DIR, str(QFileDialog.getExistingDirectory()))
@@ -395,16 +424,34 @@ class PageConfig(Page):
         isAutoBrightnessActivate = CfgService.get(CfgKey.PI_CAMERA_STATIC_BRIGHTNESS)
         self.cameraAutoBrightnessButton.setChecked(isAutoBrightnessActivate)
         if isAutoBrightnessActivate:
-            self.cameraAutoBrightnessButton.setText(textValue[TextKey.PAGE_CONFIG_INAKTIVATE])
+            self.cameraAutoBrightnessButton.setText(textValue[TextKey.PAGE_CONFIG_CAMERA_STATIC_BRIGHTNESS_VALUE_STATIC])
         else:
-            self.cameraAutoBrightnessButton.setText(textValue[TextKey.PAGE_CONFIG_AKTIVATE])
+            self.cameraAutoBrightnessButton.setText(textValue[TextKey.PAGE_CONFIG_CAMERA_STATIC_BRIGHTNESS_VALUE_DYNAMIC])
+        self.disableIfBrightnessDynamic();
 
     def activateCameraAutoBrightness(self):
         if self.cameraAutoBrightnessButton.isChecked():
             CfgService.set(CfgKey.PI_CAMERA_STATIC_BRIGHTNESS,True)
-            self.cameraAutoBrightnessButton.setText(textValue[TextKey.PAGE_CONFIG_INAKTIVATE])
+            self.cameraAutoBrightnessButton.setText(textValue[TextKey.PAGE_CONFIG_CAMERA_STATIC_BRIGHTNESS_VALUE_STATIC])
             self.cameraAutoBrightnessButton.setChecked(CfgService.get(CfgKey.PI_CAMERA_STATIC_BRIGHTNESS))
         else:
             CfgService.set(CfgKey.PI_CAMERA_STATIC_BRIGHTNESS,False)
-            self.cameraAutoBrightnessButton.setText(textValue[TextKey.PAGE_CONFIG_AKTIVATE])
+            self.cameraAutoBrightnessButton.setText(textValue[TextKey.PAGE_CONFIG_CAMERA_STATIC_BRIGHTNESS_VALUE_DYNAMIC])
             self.cameraAutoBrightnessButton.setChecked(CfgService.get(CfgKey.PI_CAMERA_STATIC_BRIGHTNESS))
+        self.disableIfBrightnessDynamic();
+
+    def disableIfBrightnessDynamic(self):
+        isDisabled = not CfgService.get(CfgKey.PI_CAMERA_STATIC_BRIGHTNESS)
+        self.cameraBrightnessGainRed.setDisabled(isDisabled)
+        self.cameraBrightnessGainBlue.setDisabled(isDisabled)
+        self.cameraBrightnessGainBlueLabel.setDisabled(isDisabled)
+        self.cameraBrightnessGainRedLabel.setDisabled(isDisabled)
+
+    def persistentGain(self):
+        gainRedInt = float(self.cameraBrightnessGainRed.text())
+        if(gainRedInt >= 0.0 and gainRedInt <= 8.0):
+            CfgService.set(CfgKey.PI_CAMERA_STATIC_BRIGHTNESS_AWB_GAIN_RED, gainRedInt)
+
+        gainBlueInt = float(self.cameraBrightnessGainBlue.text())
+        if(gainBlueInt >= 0.0 and gainBlueInt <= 8.0):
+            CfgService.set(CfgKey.PI_CAMERA_STATIC_BRIGHTNESS_AWB_GAIN_BLUE, gainBlueInt)
