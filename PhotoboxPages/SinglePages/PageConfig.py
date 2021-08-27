@@ -90,10 +90,10 @@ class PageConfig(Page):
         cameraAutoBrightnessLayout.addWidget(self.cameraAutoBrightnessButton)
 
             #Camera Brightness Gains
-                #Brightness
+                #Brightness -> TODO: Fehler -> Die Helligkeit ändert sich dynamisch und bleibt nicht statisch | Deswegen raus genommen
         brightnessValueValidator = QIntValidator(0,100)
         cameraAutoBrightnessStaticValueLayout = QHBoxLayout()
-        mainContentLabel.addLayout(cameraAutoBrightnessStaticValueLayout)
+        #mainContentLabel.addLayout(cameraAutoBrightnessStaticValueLayout)
 
         self.cameraBrightnessStaticValueLabel = QLabel()
         self.cameraBrightnessStaticValueLabel.setText(textValue[TextKey.PAGE_CONFIG_CAMERA_STATIC_BRIGHTNESS_VALUE_TITLE])
