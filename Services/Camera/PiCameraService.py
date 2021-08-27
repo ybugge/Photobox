@@ -24,4 +24,5 @@ class PiCameraService():
             camera.exposure_mode = 'off'
             camera.awb_mode = 'off'
             camera.awb_gains = (CfgService.get(CfgKey.PI_CAMERA_STATIC_BRIGHTNESS_AWB_GAIN_RED),CfgService.get(CfgKey.PI_CAMERA_STATIC_BRIGHTNESS_AWB_GAIN_BLUE))
+            camera.brightness = CfgService.get(CfgKey.PI_CAMERA_STATIC_BRIGHTNESS_STATIC_VALUE)
             sleep(0.1)

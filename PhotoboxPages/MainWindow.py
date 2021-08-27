@@ -55,7 +55,9 @@ class MainWindow(QtWidgets.QMainWindow):
                             "background-color:"+cfgValue[CfgKey.PROGRESSBAR_CHUNK_BACKGROUND_COLOR]+";}" \
                     " QLineEdit {" \
                             "border: 1px solid "+cfgValue[CfgKey.MAIN_WINDOW_LABEL_EDIT_BORDER_COLOR]+";" \
-                            "background-color: "+cfgValue[CfgKey.MAIN_WINDOW_LABEL_EDIT_BACKGROUND_COLOR]+";}"
+                            "background-color: "+cfgValue[CfgKey.MAIN_WINDOW_LABEL_EDIT_BACKGROUND_COLOR]+";}"\
+                    " QLineEdit:disabled { color:grey;}"\
+                    " QLabel:disabled {color:grey;}"
 
         self.setStyleSheet(mainStyle)
 

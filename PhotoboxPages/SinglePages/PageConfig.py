@@ -1,7 +1,7 @@
 import qrcode
 from PIL import ImageDraw, Image, ImageFont
 from PyQt5.QtCore import QSize, Qt
-from PyQt5.QtGui import QFont, QColor, QDoubleValidator
+from PyQt5.QtGui import QFont, QColor, QDoubleValidator, QIntValidator
 from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QLabel, QHBoxLayout, QFileDialog, QGridLayout, QLineEdit, QWidget, \
     QScrollArea, QComboBox
 
@@ -90,6 +90,20 @@ class PageConfig(Page):
         cameraAutoBrightnessLayout.addWidget(self.cameraAutoBrightnessButton)
 
             #Camera Brightness Gains
+                #Brightness
+        brightnessValueValidator = QIntValidator(0,100)
+        cameraAutoBrightnessStaticValueLayout = QHBoxLayout()
+        mainContentLabel.addLayout(cameraAutoBrightnessStaticValueLayout)
+
+        self.cameraBrightnessStaticValueLabel = QLabel()
+        self.cameraBrightnessStaticValueLabel.setText(textValue[TextKey.PAGE_CONFIG_CAMERA_STATIC_BRIGHTNESS_VALUE_TITLE])
+        cameraAutoBrightnessStaticValueLayout.addWidget(self.cameraBrightnessStaticValueLabel)
+
+        self.cameraBrightnessStaticValue = QLineEdit()
+        self.cameraBrightnessStaticValue.setValidator(brightnessValueValidator)
+        self.cameraBrightnessStaticValue.setText(str(CfgService.get(CfgKey.PI_CAMERA_STATIC_BRIGHTNESS_STATIC_VALUE)))
+        cameraAutoBrightnessStaticValueLayout.addWidget(self.cameraBrightnessStaticValue)
+
         gainValidator = QDoubleValidator(0,8,1)
                 #Red
         cameraAutoBrightnessGainRedLayout = QHBoxLayout()
@@ -446,6 +460,8 @@ class PageConfig(Page):
         self.cameraBrightnessGainBlue.setDisabled(isDisabled)
         self.cameraBrightnessGainBlueLabel.setDisabled(isDisabled)
         self.cameraBrightnessGainRedLabel.setDisabled(isDisabled)
+        self.cameraBrightnessStaticValue.setDisabled(isDisabled)
+        self.cameraBrightnessStaticValueLabel.setDisabled(isDisabled)
 
     def persistentGain(self):
         gainRedInt = float(self.cameraBrightnessGainRed.text())
@@ -455,3 +471,7 @@ class PageConfig(Page):
         gainBlueInt = float(self.cameraBrightnessGainBlue.text())
         if(gainBlueInt >= 0.0 and gainBlueInt <= 8.0):
             CfgService.set(CfgKey.PI_CAMERA_STATIC_BRIGHTNESS_AWB_GAIN_BLUE, gainBlueInt)
+
+        brightnessInt = int(self.cameraBrightnessStaticValue.text())
+        if(brightnessInt >= 0 and brightnessInt <= 100):
+            CfgService.set(CfgKey.PI_CAMERA_STATIC_BRIGHTNESS_STATIC_VALUE, brightnessInt)
