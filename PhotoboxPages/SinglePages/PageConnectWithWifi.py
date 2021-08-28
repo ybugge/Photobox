@@ -4,7 +4,7 @@ import qrcode
 from PIL import Image, ImageFont, ImageDraw
 from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QPushButton, QLabel
+from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QPushButton, QLabel, QWidget, QScrollArea
 
 from PhotoboxPages.AllPages import AllPages
 from PhotoboxPages.Page import Page
@@ -26,16 +26,53 @@ class PageConnectWithWifi(Page):
         #Titel
         self.title = self.getTitleAsQLabel(TextKey.PAGE_DOWNLOADPICTURE_WIFI_TITLE)
         mainLayout.addWidget(self.title)
-        mainLayout.addStretch()
+
+
+        #Content #######################################################################################################
+        #Scroll Layout
+        scroll_area_content_widget = QWidget()
+        self.scroll_area = QScrollArea(self)
+        self.scroll_area.setGeometry(0, 0, windowsize.width(), windowsize.height())
+        self.scroll_area.setWidgetResizable(True)
+        self.scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.scroll_area.setWidget(scroll_area_content_widget)
+
+        mainContentLayout = QVBoxLayout()
+        scroll_area_content_widget.setLayout(mainContentLayout)
+        mainLayout.addWidget(self.scroll_area)
+
+        #Requirements
+        requirementDescription = QLabel(textValue[TextKey.PAGE_CONNECT_WITH_WIFI_REQUIREMENT])
+        mainContentLayout.addWidget(requirementDescription)
+
+        #Step1
+        step1Description = QLabel(textValue[TextKey.PAGE_CONNECT_WITH_WIFI_STEP1])
+        mainContentLayout.addWidget(step1Description)
 
         #Picture
         self.qrCodePicture = QLabel()
         self.qrCodePicture.setAlignment(Qt.AlignCenter)
         self.qrCodePicture.setText("")
-        mainLayout.addWidget(self.qrCodePicture)
+        mainContentLayout.addWidget(self.qrCodePicture)
 
-        #Navigation
-        mainLayout.addStretch()
+        #Step2
+        step2Description = QLabel(textValue[TextKey.PAGE_CONNECT_WITH_WIFI_STEP2])
+        mainContentLayout.addWidget(step2Description)
+
+        #Step3
+        step3Description = QLabel(textValue[TextKey.PAGE_CONNECT_WITH_WIFI_STEP3])
+        mainContentLayout.addWidget(step3Description)
+
+        #Step4
+        step4Description = QLabel(textValue[TextKey.PAGE_CONNECT_WITH_WIFI_STEP4])
+        mainContentLayout.addWidget(step4Description)
+
+        #Step5
+        step5Description = QLabel(textValue[TextKey.PAGE_CONNECT_WITH_WIFI_STEP5])
+        mainContentLayout.addWidget(step5Description)
+
+        #Navigation#####################################################################################################
         navigationLayout=QHBoxLayout()
         mainLayout.addLayout(navigationLayout)
 

@@ -388,7 +388,15 @@ class TextKey(enum.Enum):
     #PageDownloadPicture.py
     PAGE_DOWNLOADPICTURE_TITLE = 100
     PAGE_DOWNLOADPICTURE_BACKBUTTON = 101
+
+    #PageConnectWithWifi
     PAGE_DOWNLOADPICTURE_WIFI_TITLE = 102
+    PAGE_CONNECT_WITH_WIFI_REQUIREMENT = 125
+    PAGE_CONNECT_WITH_WIFI_STEP1 = 126
+    PAGE_CONNECT_WITH_WIFI_STEP2 = 127
+    PAGE_CONNECT_WITH_WIFI_STEP3 = 128
+    PAGE_CONNECT_WITH_WIFI_STEP4 = 129
+    PAGE_CONNECT_WITH_WIFI_STEP5 = 130
 
     #PagePrint.py
     PAGE_PRINT_TITLE = 150
@@ -526,8 +534,16 @@ textValue[TextKey.PAGE_CLOSECONFIRM_NO] = "Nein"
 
 #PageDownloadPicture.py
 textValue[TextKey.PAGE_DOWNLOADPICTURE_TITLE] = "Bild auf Handy transferieren"
-textValue[TextKey.PAGE_DOWNLOADPICTURE_WIFI_TITLE] = "Mit der Fotobox verbinden (W-LAN)"
 textValue[TextKey.PAGE_DOWNLOADPICTURE_BACKBUTTON] = "Zurück"
+
+#PageConnectWithWifi
+textValue[TextKey.PAGE_DOWNLOADPICTURE_WIFI_TITLE] = "Was soll ich tun?"
+textValue[TextKey.PAGE_CONNECT_WITH_WIFI_REQUIREMENT] = "Voraussetzung:\n\tVoraussetzung ist ein Smartphone mit QR-Code-Scanner.\n\tModerne Smartphones haben ein Scanner in der Kamera-App."
+textValue[TextKey.PAGE_CONNECT_WITH_WIFI_STEP1] = "Schritt 1:\n\tMit dem W-LAN der Fotobox verbinden. Die Zugangsdaten finden sie im folgeden QR-Code:"
+textValue[TextKey.PAGE_CONNECT_WITH_WIFI_STEP2] = "Schritt 2:\n\tUm Fehler zu vermeiden, sollten die mobilen Daten auf dem Smartphone deaktivert werden.\n\tDie mobilen Daten können wieder aktiviert werden, wenn nicht mehr auf die Fotobox zugegriffen werden soll."
+textValue[TextKey.PAGE_CONNECT_WITH_WIFI_STEP3] = "Schritt 3:\n\tAuf 'Zurück' klicken."
+textValue[TextKey.PAGE_CONNECT_WITH_WIFI_STEP4] = "Schritt 4:\n\tDen QR-Code mit dem QR-Code-Scanner oder Kamera-App abfotografieren.\n\tEs sollte sich der Browser öffnen, in dem dein Bild zu sehen ist."
+textValue[TextKey.PAGE_CONNECT_WITH_WIFI_STEP5] = "Schritt 5:\n\tKlick einfach auf dein Bild, um es herunterzuladen."
 
 #PagePrint.py
 textValue[TextKey.PAGE_PRINT_TITLE] = "Bild Drucken"
