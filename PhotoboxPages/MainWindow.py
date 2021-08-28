@@ -7,6 +7,7 @@ from PhotoboxPages.SinglePages.PageCameraCalibrationView import PageCameraCalibr
 from PhotoboxPages.SinglePages.PageCapturePhoto import PageCapturePhoto
 from PhotoboxPages.SinglePages.PageCloseConfirm import PageCloseConfirm
 from PhotoboxPages.SinglePages.PageConfig import PageConfig
+from PhotoboxPages.SinglePages.PageConnectWithWifi import PageConnectWithWifi
 from PhotoboxPages.SinglePages.PageCountdown import PageCameraPreview
 from PhotoboxPages.SinglePages.PageDownloadPicture import PageDownloadPicture
 from PhotoboxPages.SinglePages.PageGreenscreenColorPicker import PageGreenscreenColorPicker
@@ -167,7 +168,14 @@ class MainWindow(QtWidgets.QMainWindow):
         pageDownloadPicture = PageDownloadPicture(self.pages, self.windowsize,self.globalVariable)
         pageDownloadPicture.activateAutoForward(PageMovePictureFromTemp_RedirectOne, CfgKey.PAGE_PICTUREEDIT_SPACE_AUTO_FORWARD_WAIT_TIME)
         pageDownloadPicture.setBackPage(PagePictureEdit)
+        pageDownloadPicture.setNextPage(PageConnectWithWifi)
         self.pages.addPage(pageDownloadPicture)
+
+        #Seite 6.1.2 Connect with Wifi
+        pageConnectWithWifi = PageConnectWithWifi(self.pages, self.windowsize,self.globalVariable)
+        pageConnectWithWifi.activateAutoForward(PageMovePictureFromTemp_RedirectOne, CfgKey.PAGE_PICTUREEDIT_SPACE_AUTO_FORWARD_WAIT_TIME)
+        pageConnectWithWifi.setBackPage(PageDownloadPicture)
+        self.pages.addPage(pageConnectWithWifi)
 
         #Seite 6.2 Print
         pagePrint = PagePrint(self.pages, self.windowsize,self.globalVariable, self.printerService)
