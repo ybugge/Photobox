@@ -88,11 +88,13 @@ class MainWindow(QtWidgets.QMainWindow):
         pageGreenscreenUploadDefaultBackground = PageGreenscreenUploadDefaultBackground(self.pages, self.windowsize, self.globalVariable)
         pageGreenscreenUploadDefaultBackground.setBackPage(PageReconfig)
         pageGreenscreenUploadDefaultBackground.setNextPage(PageGreenscreenConnectWithWifiDefaultBackground)
+        pageGreenscreenUploadDefaultBackground.disabledAfter(PageGreenscreenConnectWithWifiDefaultBackground)
         self.pages.addPage(pageGreenscreenUploadDefaultBackground)
 
         #Reconfig.1: Greenscreen Connect wifi
         pageGreenscreenConnectWithWifiDefaultBackground = PageGreenscreenConnectWithWifiDefaultBackground(self.pages, self.windowsize, self.globalVariable)
         pageGreenscreenConnectWithWifiDefaultBackground.setBackPage(PageGreenscreenUploadDefaultBackground)
+        pageGreenscreenConnectWithWifiDefaultBackground.disabledBefore(PageGreenscreenUploadDefaultBackground)
         self.pages.addPage(pageGreenscreenConnectWithWifiDefaultBackground)
 
         #Seite 1 Hinweise

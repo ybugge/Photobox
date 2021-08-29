@@ -18,6 +18,8 @@ class Page(QtWidgets.QWidget):
         self.autoForwardActive = False
         self.autoForwardTimer = QTimer()
         self.autoForwardTimer.timeout.connect(self.autoFowardEvent)
+        self._disabledBeforList = []
+        self._disabledAfterList = []
 
     # AUTO FORWARD start
     def activateAutoForward(self,page, waitTime:CfgKey):
@@ -66,11 +68,15 @@ class Page(QtWidgets.QWidget):
 
                 if self.isAutoForwardActive():
                     self.stopAutoForwardTimer()
-                self.allPages.getCurrentPage().executeAfter()
+                currentPage = self.allPages.getCurrentPage()
+                if not (type in currentPage._disabledAfterList):
+                    currentPage.executeAfter()
 
                 index = self.allPages.getPages().index(page)
                 self.allPages.setCurrentIndex(index)
-                page.executeBefore()
+                if not (type in currentPage._disabledBeforList):
+                    page.executeBefore()
+
                 if page.isAutoForwardActive():
                     page.startAutoForwardTimer()
                 isFound = True
@@ -82,6 +88,12 @@ class Page(QtWidgets.QWidget):
 
     def executeAfter(self):
         pass
+
+    def disabledBefore(self,page):
+        self._disabledBeforList.append(page)
+
+    def disabledAfter(self,page):
+        self._disabledAfterList.append(page)
 
     def getTitleAsQLabel(self,text:TextKey):
         title = QLabel()
