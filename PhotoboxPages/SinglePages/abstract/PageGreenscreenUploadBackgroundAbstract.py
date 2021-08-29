@@ -19,7 +19,6 @@ class PageGreenscreenUploadBackgroundAbstract(Page):
         super().__init__(pages,windowsize)
         self.windowsize = windowsize
         self.globalVariable = globalVariable
-        self.switch = False
 
         mainLayout = QVBoxLayout()
         mainLayout.setContentsMargins(0, 0, 0, 0)
@@ -46,10 +45,10 @@ class PageGreenscreenUploadBackgroundAbstract(Page):
         self.setNavigationbuttonStyle(backButton)
         navigationLayout.addWidget(backButton)
 
-        self.switchButton = QPushButton(textValue[TextKey.PAGE_DOWNLOADPICTURE_WIFI_TITLE])
-        self.switchButton.clicked.connect(self._switchEvent)
-        self.setNavigationbuttonStyle(self.switchButton)
-        navigationLayout.addWidget(self.switchButton)
+        nextButton = QPushButton(textValue[TextKey.PAGE_GREENSCREEN_CONNECT_WIFI_TITLE])
+        nextButton.clicked.connect(self.nextPageEvent)
+        self.setNavigationbuttonStyle(nextButton)
+        navigationLayout.addWidget(nextButton)
 
     def executeBeforeCustom(self):
         self.uuid = PageDbSevice.setBackgroundUploadAuthorization(True, GreenscreenBackgroundService.getCustomBackgroundPath())
@@ -69,23 +68,9 @@ class PageGreenscreenUploadBackgroundAbstract(Page):
         greenscreenBackgroundService.loadDefaultBackgrounds()
         PageDbSevice.clearBackgroundUploadAuthorization()
 
-    def _switchEvent(self):
-        self.switch = not self.switch
-        if self.switch:
-            self.switchButton.setText(textValue[TextKey.PAGE_GREENSCREEN_UPLOAD_BACKGROUND_TITLE])
-            self.title.setText(textValue[TextKey.PAGE_GREENSCREEN_UPLOAD_BACKGROUND_WIFI_TITLE])
-            self._updateQrCodePicture()
-        else:
-            self.switchButton.setText(textValue[TextKey.PAGE_GREENSCREEN_UPLOAD_BACKGROUND_WIFI_TITLE])
-            self.title.setText(textValue[TextKey.PAGE_GREENSCREEN_UPLOAD_BACKGROUND_TITLE])
-            self._updateQrCodePicture()
-
     def _updateQrCodePicture(self):
         #QRCode
-        if self.switch:
-            data = 'WIFI:S:{};T:{};P:{};;'.format(CfgService.get(CfgKey.WIFI_SSID),CfgService.get(CfgKey.WIFI_PROTOCOL),CfgService.get(CfgKey.WIFI_PASSWORD))
-        else:
-            data = "http://"+CfgService.get(CfgKey.SERVER_IP)+":"+CfgService.get(CfgKey.SERVER_PORT)+CfgService.get(CfgKey.SERVER_UPLOAD_PICTURE)+"/"+self.uuid
+        data = "http://"+CfgService.get(CfgKey.SERVER_IP)+":"+CfgService.get(CfgKey.SERVER_PORT)+CfgService.get(CfgKey.SERVER_UPLOAD_PICTURE)+"/"+self.uuid
 
         buf = io.BytesIO()
         img = qrcode.make(data)

@@ -11,6 +11,10 @@ from PhotoboxPages.SinglePages.PageConnectWithWifi import PageConnectWithWifi
 from PhotoboxPages.SinglePages.PageCountdown import PageCameraPreview
 from PhotoboxPages.SinglePages.PageDownloadPicture import PageDownloadPicture
 from PhotoboxPages.SinglePages.PageGreenscreenColorPicker import PageGreenscreenColorPicker
+from PhotoboxPages.SinglePages.PageGreenscreenConnectWithWifiCustomBackground import \
+    PageGreenscreenConnectWithWifiCustomBackground
+from PhotoboxPages.SinglePages.PageGreenscreenConnectWithWifiDefaultBackground import \
+    PageGreenscreenConnectWithWifiDefaultBackground
 from PhotoboxPages.SinglePages.PageGreenscreenSelectBackround import PageGreenscreenSelectBackround
 from PhotoboxPages.SinglePages.PageGreenscreenToleranceConfig import PageGreenscreenToleranceConfig
 from PhotoboxPages.SinglePages.PageGreenscreenUploadCustomBackground import PageGreenscreenUploadCustomBackground
@@ -83,7 +87,13 @@ class MainWindow(QtWidgets.QMainWindow):
         #Reconfig: Greenscreen Upload Default Background
         pageGreenscreenUploadDefaultBackground = PageGreenscreenUploadDefaultBackground(self.pages, self.windowsize, self.globalVariable)
         pageGreenscreenUploadDefaultBackground.setBackPage(PageReconfig)
+        pageGreenscreenUploadDefaultBackground.setNextPage(PageGreenscreenConnectWithWifiDefaultBackground)
         self.pages.addPage(pageGreenscreenUploadDefaultBackground)
+
+        #Reconfig.1: Greenscreen Connect wifi
+        pageGreenscreenConnectWithWifiDefaultBackground = PageGreenscreenConnectWithWifiDefaultBackground(self.pages, self.windowsize, self.globalVariable)
+        pageGreenscreenConnectWithWifiDefaultBackground.setBackPage(PageGreenscreenUploadDefaultBackground)
+        self.pages.addPage(pageGreenscreenConnectWithWifiDefaultBackground)
 
         #Seite 1 Hinweise
         pageHints = PageHints(self.pages, self.windowsize, self.printerService)
@@ -142,7 +152,13 @@ class MainWindow(QtWidgets.QMainWindow):
         #Seite Opt 3.2 Greenscreen Upload Background
         pageGreenscreenUploadCustomBackground = PageGreenscreenUploadCustomBackground(self.pages, self.windowsize, self.globalVariable)
         pageGreenscreenUploadCustomBackground.setBackPage(PageGreenscreenSelectBackround)
+        pageGreenscreenUploadCustomBackground.setNextPage(PageGreenscreenConnectWithWifiCustomBackground)
         self.pages.addPage(pageGreenscreenUploadCustomBackground)
+
+        #Seite Opt 3.3 Greenscreen Wifi Connect
+        pageGreenscreenConnectWithWifiCustomBackground = PageGreenscreenConnectWithWifiCustomBackground(self.pages, self.windowsize, self.globalVariable)
+        pageGreenscreenConnectWithWifiCustomBackground.setBackPage(PageGreenscreenUploadCustomBackground)
+        self.pages.addPage(pageGreenscreenConnectWithWifiCustomBackground)
 
         #Seite 4 Camera Preview
         pageCameraPreview = PageCameraPreview(self.pages,self.windowsize, self.globalVariable)

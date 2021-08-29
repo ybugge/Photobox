@@ -375,6 +375,17 @@ class TextKey(enum.Enum):
     PAGE_GREENSCREEN_UPLOAD_BACKGROUND_BACK_BUTTON = 8001
     PAGE_GREENSCREEN_UPLOAD_BACKGROUND_WIFI_TITLE = 8002
 
+    #PageGreenscreenConnectWithWifi
+    PAGE_GREENSCREEN_CONNECT_WIFI_TITLE = 8010
+    PAGE_GREENSCREEN_CONNECT_WIFI_REQUIREMENT = 8011
+    PAGE_GREENSCREEN_CONNECT_WIFI_STEP1 = 8012
+    PAGE_GREENSCREEN_CONNECT_WIFI_STEP2 = 8013
+    PAGE_GREENSCREEN_CONNECT_WIFI_STEP3 = 8014
+    PAGE_GREENSCREEN_CONNECT_WIFI_STEP4 = 8015
+    PAGE_GREENSCREEN_CONNECT_WIFI_STEP5 = 8016
+    PAGE_GREENSCREEN_CONNECT_WIFI_STEP6 = 8018
+    PAGE_GREENSCREEN_CONNECT_WIFI_BACK_BUTTON = 8017
+
     #PageReconfig.py
     PAGE_RECONFIG_TITLE=2020
     PAGE_RECONFIG_BACKBUTTON=2021
@@ -522,6 +533,17 @@ textValue[TextKey.PAGE_GREENSCREEN_SELECT_BACKGROUND_BACK_BUTTON] = "Zurück"
 textValue[TextKey.PAGE_GREENSCREEN_UPLOAD_BACKGROUND_TITLE] = "Hintergund auf Fotobox transferieren"
 textValue[TextKey.PAGE_GREENSCREEN_UPLOAD_BACKGROUND_BACK_BUTTON] = "Übernehmen"
 textValue[TextKey.PAGE_GREENSCREEN_UPLOAD_BACKGROUND_WIFI_TITLE] = "Mit der Fotobox verbinden (W-LAN)"
+
+#PageGreenscreenConnectWithWifi
+textValue[TextKey.PAGE_GREENSCREEN_CONNECT_WIFI_TITLE] = "Was soll ich tun?"
+textValue[TextKey.PAGE_GREENSCREEN_CONNECT_WIFI_REQUIREMENT] = "Voraussetzung:\n\tVoraussetzung ist ein Smartphone mit QR-Code-Scanner.\n\tModerne Smartphones haben ein Scanner in der Kamera-App."
+textValue[TextKey.PAGE_GREENSCREEN_CONNECT_WIFI_STEP1] = "Schritt 1:\n\tMit dem W-LAN der Fotobox verbinden.\n\tDie Zugangsdaten finden sie im folgeden QR-Code:"
+textValue[TextKey.PAGE_GREENSCREEN_CONNECT_WIFI_STEP2] = "Schritt 2:\n\tUm Fehler zu vermeiden, sollten die mobilen Daten auf dem Smartphone\n\tdeaktivert werden. Die mobilen Daten können wieder aktiviert werden,\n\twenn nicht mehr auf die Fotobox zugegriffen werden soll."
+textValue[TextKey.PAGE_GREENSCREEN_CONNECT_WIFI_STEP3] = "Schritt 3:\n\tAuf 'Zurück' klicken."
+textValue[TextKey.PAGE_GREENSCREEN_CONNECT_WIFI_STEP4] = "Schritt 4:\n\tDen QR-Code mit dem QR-Code-Scanner oder Kamera-App abfotografieren.\n\tEs sollte sich der Browser öffnen, in dem der Hintergrund hochgeladen werden kann."
+textValue[TextKey.PAGE_GREENSCREEN_CONNECT_WIFI_STEP5] = "Schritt 5:\n\tAuf 'Datei auswählen' klicken, ein Bild auswählen und danach auf\n\t'An die Fotobox senden' klicken. Dieser Schritt kann beliebig oft wiederholt werden."
+textValue[TextKey.PAGE_GREENSCREEN_CONNECT_WIFI_STEP6] = "Schritt 6:\n\tAuf der Fotobox auf 'Übernehmen' klicken."
+textValue[TextKey.PAGE_GREENSCREEN_CONNECT_WIFI_BACK_BUTTON] = "Zurück"
 
 #PageReconfig.py
 textValue[TextKey.PAGE_RECONFIG_TITLE] = "Konfiguration"
