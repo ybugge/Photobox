@@ -155,11 +155,13 @@ class MainWindow(QtWidgets.QMainWindow):
         pageGreenscreenUploadCustomBackground = PageGreenscreenUploadCustomBackground(self.pages, self.windowsize, self.globalVariable)
         pageGreenscreenUploadCustomBackground.setBackPage(PageGreenscreenSelectBackround)
         pageGreenscreenUploadCustomBackground.setNextPage(PageGreenscreenConnectWithWifiCustomBackground)
+        pageGreenscreenUploadCustomBackground.disabledAfter(PageGreenscreenConnectWithWifiCustomBackground)
         self.pages.addPage(pageGreenscreenUploadCustomBackground)
 
         #Seite Opt 3.3 Greenscreen Wifi Connect
         pageGreenscreenConnectWithWifiCustomBackground = PageGreenscreenConnectWithWifiCustomBackground(self.pages, self.windowsize, self.globalVariable)
         pageGreenscreenConnectWithWifiCustomBackground.setBackPage(PageGreenscreenUploadCustomBackground)
+        pageGreenscreenConnectWithWifiCustomBackground.disabledBefore(PageGreenscreenUploadCustomBackground)
         self.pages.addPage(pageGreenscreenConnectWithWifiCustomBackground)
 
         #Seite 4 Camera Preview
@@ -187,12 +189,14 @@ class MainWindow(QtWidgets.QMainWindow):
         pageDownloadPicture.activateAutoForward(PageMovePictureFromTemp_RedirectOne, CfgKey.PAGE_PICTUREEDIT_SPACE_AUTO_FORWARD_WAIT_TIME)
         pageDownloadPicture.setBackPage(PagePictureEdit)
         pageDownloadPicture.setNextPage(PageConnectWithWifi)
+        pageDownloadPicture.disabledAfter(PageConnectWithWifi)
         self.pages.addPage(pageDownloadPicture)
 
         #Seite 6.1.2 Connect with Wifi
         pageConnectWithWifi = PageConnectWithWifi(self.pages, self.windowsize,self.globalVariable)
         pageConnectWithWifi.activateAutoForward(PageMovePictureFromTemp_RedirectOne, CfgKey.PAGE_PICTUREEDIT_SPACE_AUTO_FORWARD_WAIT_TIME)
         pageConnectWithWifi.setBackPage(PageDownloadPicture)
+        pageConnectWithWifi.disabledBefore(PageDownloadPicture)
         self.pages.addPage(pageConnectWithWifi)
 
         #Seite 6.2 Print
