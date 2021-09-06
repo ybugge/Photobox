@@ -154,7 +154,7 @@ cfgValue[CfgKey.DB_NAME] = "fotobox.db"
 
 #SERVER #########################################################################
 cfgValue[CfgKey.SERVER_INDEX_PAGE] = "/"
-cfgValue[CfgKey.SERVER_INDEX_PAGE_SHOW_ALL_PICTURES] = True
+cfgValue[CfgKey.SERVER_INDEX_PAGE_SHOW_ALL_PICTURES] = False
 cfgValue[CfgKey.SERVER_DOWNLOAD_PICTURE_PAGE] = "/downloadpage"
 cfgValue[CfgKey.SERVER_DOWNLOAD_PICTURE] = "/downloadimage"
 cfgValue[CfgKey.SERVER_RANDOM_URLIDS] = "/pictureuris"
@@ -339,6 +339,8 @@ class TextKey(enum.Enum):
     PAGE_CONFIG_SERVER_IPANDPORT_TITLE=1026
     PAGE_CONFIG_WIFI_TITLE=1027
     PAGE_CONFIG_WIFI_PICTURE_BUTTON=1028
+    PAGE_CONFIG_SERVER_TITLE=1060
+    PAGE_CONFIG_SERVER_SHOW_ALL_PICTURES_ON_INDEX = 1061
     PAGE_CONFIG_PRINTER_TITLE=1029
     PAGE_CONFIG_SERVICE_STATUS=1030
     PAGE_CONFIG_AKTIVATE=1031
@@ -498,6 +500,8 @@ textValue[TextKey.PAGE_CONFIG_CAMERA_BRIGHTNESS_GAIN_BLUE] = "Gain Blau (0.0-8.0
 textValue[TextKey.PAGE_CONFIG_SERVER_IPANDPORT_TITLE] = "Server IP und Port"
 textValue[TextKey.PAGE_CONFIG_WIFI_TITLE] = "WIFI"
 textValue[TextKey.PAGE_CONFIG_WIFI_PICTURE_BUTTON] = "QR-Code speichern"
+textValue[TextKey.PAGE_CONFIG_SERVER_TITLE] = "Web-Server"
+textValue[TextKey.PAGE_CONFIG_SERVER_SHOW_ALL_PICTURES_ON_INDEX] = "Indexseite: Zeige alle Bilder:"
 textValue[TextKey.PAGE_CONFIG_PRINTER_TITLE] = "Drucker"
 textValue[TextKey.PAGE_CONFIG_SERVICE_STATUS] = "Aktiviert: "
 textValue[TextKey.PAGE_CONFIG_AKTIVATE] = "Ja"

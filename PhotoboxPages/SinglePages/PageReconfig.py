@@ -111,6 +111,26 @@ class PageReconfig(Page):
         self.cameraCalibrationButton.clicked.connect(self.cameraCalibrationEvent)
         mainLayout.addWidget(self.cameraCalibrationButton)
 
+        # Server  ------------------------------------------------------------------------------- cfgValue[CfgKey.SERVER_INDEX_PAGE_SHOW_ALL_PICTURES] = True
+        serverTitle = QLabel(textValue[TextKey.PAGE_CONFIG_SERVER_TITLE])
+        serverTitle.setFont(titleFont)
+        mainLayout.addWidget(serverTitle)
+
+        # show all Picture in Index -> enabled?
+        showAllPicturesOnIndexLayout = QHBoxLayout()
+        mainLayout.addLayout(showAllPicturesOnIndexLayout)
+
+        self.showAllPicturesOnIndexLabel = QLabel()
+        self.showAllPicturesOnIndexLabel.setText(textValue[TextKey.PAGE_CONFIG_SERVER_SHOW_ALL_PICTURES_ON_INDEX])
+        showAllPicturesOnIndexLayout.addWidget(self.showAllPicturesOnIndexLabel)
+
+        self.showAllPicturesOnIndexButton = QPushButton()
+        self.showAllPicturesOnIndexButton.setCheckable(True)
+        self.showAllPicturesOnIndexButton.setChecked(True)
+        self.showAllPicturesOnIndexButton.setText(textValue[TextKey.PAGE_CONFIG_AKTIVATE])
+        self.showAllPicturesOnIndexButton.clicked.connect(self.activateShowAllPicturesOnIndex)
+        showAllPicturesOnIndexLayout.addWidget(self.showAllPicturesOnIndexButton)
+
 
         #Navigation   ##################################################################################################
         mainLayout.addStretch()
@@ -127,6 +147,7 @@ class PageReconfig(Page):
         self.updateGreenscreenActive()
         self.greenscreenLoadBackgroundButton.setText(textValue[TextKey.PAGE_RECONFIG_LOAD_GREENSCREEN_BACKGROUND])
         self.greenscreenLoadBackgroundButton.setDisabled(False)
+        self.updateShowAllPicturesOnIndex()
 
     def updateGreenscreenActive(self):
         isGreenscreenActivate = CfgService.get(CfgKey.GREENSCREEN_IS_ACTIVE)
@@ -195,3 +216,22 @@ class PageReconfig(Page):
 
     def cameraCalibrationEvent(self):
         self.setPageEvent(self.cameraCalibrationPage)
+
+    # Server
+    def updateShowAllPicturesOnIndex(self):
+        isActivate = CfgService.get(CfgKey.SERVER_INDEX_PAGE_SHOW_ALL_PICTURES)
+        self.showAllPicturesOnIndexButton.setChecked(isActivate)
+        if isActivate:
+            self.showAllPicturesOnIndexButton.setText(textValue[TextKey.PAGE_CONFIG_AKTIVATE])
+        else:
+            self.showAllPicturesOnIndexButton.setText(textValue[TextKey.PAGE_CONFIG_INAKTIVATE])
+
+    def activateShowAllPicturesOnIndex(self):
+        if self.showAllPicturesOnIndexButton.isChecked():
+            CfgService.set(CfgKey.SERVER_INDEX_PAGE_SHOW_ALL_PICTURES,True)
+            self.showAllPicturesOnIndexButton.setText(textValue[TextKey.PAGE_CONFIG_AKTIVATE])
+            self.showAllPicturesOnIndexButton.setChecked(CfgService.get(CfgKey.SERVER_INDEX_PAGE_SHOW_ALL_PICTURES))
+        else:
+            CfgService.set(CfgKey.SERVER_INDEX_PAGE_SHOW_ALL_PICTURES,False)
+            self.showAllPicturesOnIndexButton.setText(textValue[TextKey.PAGE_CONFIG_INAKTIVATE])
+            self.showAllPicturesOnIndexButton.setChecked(CfgService.get(CfgKey.SERVER_INDEX_PAGE_SHOW_ALL_PICTURES))
