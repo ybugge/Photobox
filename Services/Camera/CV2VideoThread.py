@@ -31,7 +31,7 @@ class CV2VideoThread(QThread):
                 self.updatePixel(frame)
                 if not self.background is None:
                     frame = GreenscreenReplaceBackgroundService(self.globalVariable).replaceBackground(frame,self.background)
-                rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                rgbImage = cv2.flip(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB),1)
                 h, w, ch = rgbImage.shape
                 bytesPerLine = ch * w
                 convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)

@@ -22,7 +22,7 @@ class CV2GreenscreenCalibrationService():
         while finished:
             ret, frame = cap.read()
             if ret:
-                rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                rgbImage = cv2.flip(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB),1)
                 h, w, ch = rgbImage.shape
                 bytesPerLine = ch * w
                 origImageRGB = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)

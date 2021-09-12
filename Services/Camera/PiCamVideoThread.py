@@ -45,7 +45,7 @@ class PiCamVideoThread(QThread):
             self.updatePixel(frame.array)
             if not self.background is None:
                 frameArray = GreenscreenReplaceBackgroundService(self.globalVariable).replaceBackground(frameArray,self.background)
-            rgbImage = cv2.cvtColor(frameArray, cv2.COLOR_BGR2RGB)
+            rgbImage = cv2.flip(cv2.cvtColor(frameArray, cv2.COLOR_BGR2RGB),1)
             h, w, ch = rgbImage.shape
             bytesPerLine = ch * w
             convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
